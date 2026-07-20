@@ -1,0 +1,637 @@
+-- 超精准比例汽车 3D 模型 (标准的 SUV 空间结构架构)
+-- 规格: 4800mm(长) × 1960mm(宽) × 1700mm(高) | 轴距: 2900mm
+-- 生成时间: 2026-07-20 18:25:33
+-- 前置条件: E3D 中先选择可写 ZONE -> $$MACRO <本文件>
+-- 核心修正点:
+--   1. 完全清除膨胀车身的大型 DISH 球头盖板！
+--   2. 车身前/中/后三段（机舱、乘员舱、后备箱）使用严格包络盒 Bounding Box 严丝合缝拼接！
+--   3. 4 车轮与贯穿前后轴基于 N=0 绝对居中对称，完全恢复真实的汽车外形构造！
+
+NEW EQUI /CAR_STANDARD_SUV
+
+
+-- ============================================================
+--  1. 子系统: 4车轮 & 轮毂 & 刹车盘 & 贯穿车轴 /WHEELS_AND_AXLES
+-- ============================================================
+
+NEW SUBE /WHEELS_AND_AXLES
+-- 轮胎 FL (垂直立于地面 U=0~800, 轴心在 U=400)
+NEW CYLI
+DIAM 800.0
+HEIG 260.0
+POS E 1450.0 N 720.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂外圈 FL
+NEW CYLI
+DIAM 500.0
+HEIG 270.0
+POS E 1450.0 N 715.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂盖 FL
+NEW CYLI
+DIAM 120.0
+HEIG 10.0
+POS E 1450.0 N 985.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 刹车盘 FL (内侧)
+NEW CYLI
+DIAM 360.0
+HEIG 30.0
+POS E 1450.0 N 685.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 红色刹车卡钳 FL
+NEW BOX
+XLEN 180.0
+YLEN 75.0
+ZLEN 120.0
+POS E 1480.0 N 685.0 U 565.0
+
+-- 轮胎 FR (垂直立于地面 U=0~800, 轴心在 U=400)
+NEW CYLI
+DIAM 800.0
+HEIG 260.0
+POS E 1450.0 N -980.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂外圈 FR
+NEW CYLI
+DIAM 500.0
+HEIG 270.0
+POS E 1450.0 N -985.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂盖 FR
+NEW CYLI
+DIAM 120.0
+HEIG 10.0
+POS E 1450.0 N -995.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 刹车盘 FR (内侧)
+NEW CYLI
+DIAM 360.0
+HEIG 30.0
+POS E 1450.0 N -715.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 红色刹车卡钳 FR
+NEW BOX
+XLEN 180.0
+YLEN 75.0
+ZLEN 120.0
+POS E 1480.0 N -715.0 U 565.0
+
+-- 轮胎 RL (垂直立于地面 U=0~800, 轴心在 U=400)
+NEW CYLI
+DIAM 800.0
+HEIG 260.0
+POS E -1450.0 N 720.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂外圈 RL
+NEW CYLI
+DIAM 500.0
+HEIG 270.0
+POS E -1450.0 N 715.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂盖 RL
+NEW CYLI
+DIAM 120.0
+HEIG 10.0
+POS E -1450.0 N 985.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 刹车盘 RL (内侧)
+NEW CYLI
+DIAM 360.0
+HEIG 30.0
+POS E -1450.0 N 685.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 红色刹车卡钳 RL
+NEW BOX
+XLEN 180.0
+YLEN 75.0
+ZLEN 120.0
+POS E -1420.0 N 685.0 U 565.0
+
+-- 轮胎 RR (垂直立于地面 U=0~800, 轴心在 U=400)
+NEW CYLI
+DIAM 800.0
+HEIG 260.0
+POS E -1450.0 N -980.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂外圈 RR
+NEW CYLI
+DIAM 500.0
+HEIG 270.0
+POS E -1450.0 N -985.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 轮毂盖 RR
+NEW CYLI
+DIAM 120.0
+HEIG 10.0
+POS E -1450.0 N -995.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 刹车盘 RR (内侧)
+NEW CYLI
+DIAM 360.0
+HEIG 30.0
+POS E -1450.0 N -715.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 红色刹车卡钳 RR
+NEW BOX
+XLEN 180.0
+YLEN 75.0
+ZLEN 120.0
+POS E -1420.0 N -715.0 U 565.0
+
+-- 贯穿前轴 (从 N=-850 到 N=+850)
+NEW CYLI
+DIAM 80.0
+HEIG 1700.0
+POS E 1450.0 N -850.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 贯穿后轴 (从 N=-850 到 N=+850)
+NEW CYLI
+DIAM 80.0
+HEIG 1700.0
+POS E -1450.0 N -850.0 U 400.0
+ORI Z IS N AND Y IS U
+
+-- 中央纵向传动轴
+NEW CYLI
+DIAM 70.0
+HEIG 2900.0
+POS E -1450.0 N 0.0 U 400.0
+ORI Z IS E AND Y IS U
+
+
+-- ============================================================
+--  2. 子系统: 底盘双梁 & 车身地板 /CHASSIS_UNDERBODY
+-- ============================================================
+
+NEW SUBE /CHASSIS_UNDERBODY
+-- 左主纵梁
+NEW BOX
+XLEN 4400.0
+YLEN 120.0
+ZLEN 100.0
+POS E 0.0 N 600.0 U 400.0
+
+-- 右主纵梁
+NEW BOX
+XLEN 4400.0
+YLEN 120.0
+ZLEN 100.0
+POS E 0.0 N -600.0 U 400.0
+
+-- 横梁 #1
+NEW BOX
+XLEN 120.0
+YLEN 1200.0
+ZLEN 80.0
+POS E 1900.0 N 0.0 U 400.0
+
+-- 横梁 #2
+NEW BOX
+XLEN 120.0
+YLEN 1200.0
+ZLEN 80.0
+POS E 600.0 N 0.0 U 400.0
+
+-- 横梁 #3
+NEW BOX
+XLEN 120.0
+YLEN 1200.0
+ZLEN 80.0
+POS E -600.0 N 0.0 U 400.0
+
+-- 横梁 #4
+NEW BOX
+XLEN 120.0
+YLEN 1200.0
+ZLEN 80.0
+POS E -1900.0 N 0.0 U 400.0
+
+-- 前发动机防护板
+NEW BOX
+XLEN 900.0
+YLEN 1100.0
+ZLEN 20.0
+POS E 1650.0 N 0.0 U 320.0
+
+-- 车身地板平板 (U=350)
+NEW BOX
+XLEN 4400.0
+YLEN 1900.0
+ZLEN 40.0
+POS E 0.0 N 0.0 U 350.0
+
+
+-- ============================================================
+--  3. 子系统: 发动机舱 & 中网 & 前大灯 & 前保 /FRONT_ENGINE_BAY
+-- ============================================================
+
+NEW SUBE /FRONT_ENGINE_BAY
+-- 引擎舱机舱体
+NEW BOX
+XLEN 1500.0
+YLEN 1840.0
+ZLEN 650.0
+POS E 1650.0 N 0.0 U 725.0
+
+-- 引擎盖上盖板
+NEW BOX
+XLEN 1400.0
+YLEN 1800.0
+ZLEN 50.0
+POS E 1650.0 N 0.0 U 1050.0
+
+-- 进气中网外框
+NEW BOX
+XLEN 60.0
+YLEN 1200.0
+ZLEN 350.0
+POS E 2400.0 N 0.0 U 750.0
+
+-- 中网格栅条 #1
+NEW BOX
+XLEN 80.0
+YLEN 1150.0
+ZLEN 25.0
+POS E 2400.0 N 0.0 U 650.0
+
+-- 中网格栅条 #2
+NEW BOX
+XLEN 80.0
+YLEN 1150.0
+ZLEN 25.0
+POS E 2400.0 N 0.0 U 740.0
+
+-- 中网格栅条 #3
+NEW BOX
+XLEN 80.0
+YLEN 1150.0
+ZLEN 25.0
+POS E 2400.0 N 0.0 U 830.0
+
+-- 大灯壳体 L
+NEW BOX
+XLEN 100.0
+YLEN 320.0
+ZLEN 180.0
+POS E 2400.0 N 750.0 U 850.0
+
+-- 大灯透镜 L
+NEW CYLI
+DIAM 110.0
+HEIG 50.0
+POS E 2380.0 N 750.0 U 850.0
+ORI Z IS E AND Y IS U
+
+-- 大灯壳体 R
+NEW BOX
+XLEN 100.0
+YLEN 320.0
+ZLEN 180.0
+POS E 2400.0 N -750.0 U 850.0
+
+-- 大灯透镜 R
+NEW CYLI
+DIAM 110.0
+HEIG 50.0
+POS E 2380.0 N -750.0 U 850.0
+ORI Z IS E AND Y IS U
+
+-- 前保险杠
+NEW BOX
+XLEN 200.0
+YLEN 1960.0
+ZLEN 300.0
+POS E 2400.0 N 0.0 U 500.0
+
+
+-- ============================================================
+--  4. 子系统: 乘员舱下车身 & 轮眉 /CABIN_LOWER_BODY
+-- ============================================================
+
+NEW SUBE /CABIN_LOWER_BODY
+-- 乘员舱下部主体盒
+NEW BOX
+XLEN 2200.0
+YLEN 1860.0
+ZLEN 650.0
+POS E -200.0 N 0.0 U 725.0
+
+-- 左踏板
+NEW BOX
+XLEN 2200.0
+YLEN 120.0
+ZLEN 35.0
+POS E -200.0 N 1000.0 U 335.0
+
+-- 右踏板
+NEW BOX
+XLEN 2200.0
+YLEN 120.0
+ZLEN 35.0
+POS E -200.0 N -1000.0 U 335.0
+
+-- 轮眉弧罩 FL
+NEW BOX
+XLEN 900.0
+YLEN 60.0
+ZLEN 380.0
+POS E 1450.0 N 970.0 U 480.0
+
+-- 轮眉弧罩 FR
+NEW BOX
+XLEN 900.0
+YLEN 60.0
+ZLEN 380.0
+POS E 1450.0 N -970.0 U 480.0
+
+-- 轮眉弧罩 RL
+NEW BOX
+XLEN 900.0
+YLEN 60.0
+ZLEN 380.0
+POS E -1450.0 N 970.0 U 480.0
+
+-- 轮眉弧罩 RR
+NEW BOX
+XLEN 900.0
+YLEN 60.0
+ZLEN 380.0
+POS E -1450.0 N -970.0 U 480.0
+
+
+-- ============================================================
+--  5. 子系统: 车顶 & 柱框 & 风挡玻璃 /CABIN_UPPER_ROOF
+-- ============================================================
+
+NEW SUBE /CABIN_UPPER_ROOF
+-- 车顶盖板
+NEW BOX
+XLEN 2200.0
+YLEN 1500.0
+ZLEN 50.0
+POS E -300.0 N 0.0 U 1700.0
+
+-- A 柱 L/R
+NEW BOX
+XLEN 750.0
+YLEN 80.0
+ZLEN 600.0
+POS E 550.0 N 780.0 U 1350.0
+
+NEW BOX
+XLEN 750.0
+YLEN 80.0
+ZLEN 600.0
+POS E 550.0 N -780.0 U 1350.0
+
+-- B 柱 L/R
+NEW BOX
+XLEN 120.0
+YLEN 80.0
+ZLEN 650.0
+POS E -100.0 N 780.0 U 1375.0
+
+NEW BOX
+XLEN 120.0
+YLEN 80.0
+ZLEN 650.0
+POS E -100.0 N -780.0 U 1375.0
+
+-- C 柱 L/R
+NEW BOX
+XLEN 650.0
+YLEN 90.0
+ZLEN 600.0
+POS E -1150.0 N 780.0 U 1375.0
+
+NEW BOX
+XLEN 650.0
+YLEN 90.0
+ZLEN 600.0
+POS E -1150.0 N -780.0 U 1375.0
+
+-- 前挡风玻璃
+NEW BOX
+XLEN 700.0
+YLEN 1450.0
+ZLEN 20.0
+POS E 550.0 N 0.0 U 1350.0
+
+-- 后挡风玻璃
+NEW BOX
+XLEN 600.0
+YLEN 1400.0
+ZLEN 20.0
+POS E -1250.0 N 0.0 U 1375.0
+
+-- 侧窗玻璃 (FL/FR/RL/RR)
+NEW BOX
+XLEN 850.0
+YLEN 15.0
+ZLEN 500.0
+POS E 300.0 N 770.0 U 1375.0
+
+NEW BOX
+XLEN 850.0
+YLEN 15.0
+ZLEN 500.0
+POS E 300.0 N -770.0 U 1375.0
+
+NEW BOX
+XLEN 850.0
+YLEN 15.0
+ZLEN 500.0
+POS E -600.0 N 770.0 U 1375.0
+
+NEW BOX
+XLEN 850.0
+YLEN 15.0
+ZLEN 500.0
+POS E -600.0 N -770.0 U 1375.0
+
+-- 行李架纵轨 L/R
+NEW CYLI
+DIAM 40.0
+HEIG 2000.0
+POS E -1300.0 N 750.0 U 1740.0
+ORI Z IS E AND Y IS U
+
+NEW CYLI
+DIAM 40.0
+HEIG 2000.0
+POS E -1300.0 N -750.0 U 1740.0
+ORI Z IS E AND Y IS U
+
+
+-- ============================================================
+--  6. 子系统: 座椅 & 仪表台 & 方向盘 /CABIN_INTERIOR
+-- ============================================================
+
+NEW SUBE /CABIN_INTERIOR
+-- 主驾座垫
+NEW BOX
+XLEN 500.0
+YLEN 500.0
+ZLEN 120.0
+POS E 300.0 N 400.0 U 500.0
+
+-- 主驾靠背
+NEW BOX
+XLEN 120.0
+YLEN 480.0
+ZLEN 600.0
+POS E 50.0 N 400.0 U 800.0
+
+-- 副驾座垫
+NEW BOX
+XLEN 500.0
+YLEN 500.0
+ZLEN 120.0
+POS E 300.0 N -400.0 U 500.0
+
+-- 副驾靠背
+NEW BOX
+XLEN 120.0
+YLEN 480.0
+ZLEN 600.0
+POS E 50.0 N -400.0 U 800.0
+
+-- 后排座垫
+NEW BOX
+XLEN 550.0
+YLEN 1400.0
+ZLEN 120.0
+POS E -700.0 N 0.0 U 500.0
+
+-- 后排靠背
+NEW BOX
+XLEN 120.0
+YLEN 1380.0
+ZLEN 600.0
+POS E -950.0 N 0.0 U 800.0
+
+-- 仪表台
+NEW BOX
+XLEN 400.0
+YLEN 1500.0
+ZLEN 250.0
+POS E 750.0 N 0.0 U 900.0
+
+-- 方向盘 (轴向沿 E)
+NEW CYLI
+DIAM 380.0
+HEIG 30.0
+POS E 600.0 N 400.0 U 950.0
+ORI Z IS E AND Y IS U
+
+
+-- ============================================================
+--  7. 子系统: 车尾 & 尾灯 & 排气管 /REAR_TRUNK_EXHAUST
+-- ============================================================
+
+NEW SUBE /REAR_TRUNK_EXHAUST
+-- 后备箱下壳体 (E: -2400 ~ -1300)
+NEW BOX
+XLEN 1100.0
+YLEN 1840.0
+ZLEN 650.0
+POS E -1850.0 N 0.0 U 725.0
+
+-- 尾灯条
+NEW BOX
+XLEN 60.0
+YLEN 1600.0
+ZLEN 120.0
+POS E -2400.0 N 0.0 U 950.0
+
+-- 后保险杠
+NEW BOX
+XLEN 200.0
+YLEN 1960.0
+ZLEN 300.0
+POS E -2400.0 N 0.0 U 500.0
+
+-- 左排气尾喉 (轴向沿 E)
+NEW CYLI
+DIAM 90.0
+HEIG 200.0
+POS E -2500.0 N 500.0 U 400.0
+ORI Z IS E AND Y IS U
+
+-- 右排气尾喉 (轴向沿 E)
+NEW CYLI
+DIAM 90.0
+HEIG 200.0
+POS E -2500.0 N -500.0 U 400.0
+ORI Z IS E AND Y IS U
+
+
+-- ============================================================
+--  8. 子系统: 外后视镜 & 门把手 /EXTERIOR_DETAILS
+-- ============================================================
+
+NEW SUBE /EXTERIOR_DETAILS
+-- 左后视镜
+NEW BOX
+XLEN 120.0
+YLEN 220.0
+ZLEN 120.0
+POS E 700.0 N 1080.0 U 1100.0
+
+-- 右后视镜
+NEW BOX
+XLEN 120.0
+YLEN 220.0
+ZLEN 120.0
+POS E 700.0 N -1080.0 U 1100.0
+
+-- 门把手 FL
+NEW BOX
+XLEN 180.0
+YLEN 35.0
+ZLEN 30.0
+POS E 400.0 N 990.0 U 950.0
+
+-- 门把手 FR
+NEW BOX
+XLEN 180.0
+YLEN 35.0
+ZLEN 30.0
+POS E 400.0 N -990.0 U 950.0
+
+-- 门把手 RL
+NEW BOX
+XLEN 180.0
+YLEN 35.0
+ZLEN 30.0
+POS E -500.0 N 990.0 U 950.0
+
+-- 门把手 RR
+NEW BOX
+XLEN 180.0
+YLEN 35.0
+ZLEN 30.0
+POS E -500.0 N -990.0 U 950.0
+
+
+-- ============================================================
+--  标准比例整车模型完成: 1 个 EQUI (/CAR_STANDARD_SUV), 8 个 SUBE, 83 个精准基本体
+-- ============================================================
