@@ -1,9 +1,0 @@
-    CLI 使用方式：
-    bash
-    cd D:\AVEVA\Projects\E3D3.1
-    .venv\Scripts\activate
-    python -m e3d_agent.agent "你的描述"
-    python -m e3d_agent.agent --svg "AvevaMarineSample/amsdia/xxx.svg"
-    python -m e3d_agent.agent --query "PML问题"
-    python -m e3d_agent.agent --errors
-    python -m e3d_agent.agent --summary
