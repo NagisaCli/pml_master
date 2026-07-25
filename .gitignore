@@ -4,3 +4,30 @@ __pycache__/
 .DS_Store
 *.tmp
 *.log
+
+# Client project data is NOT published. Projects/<Name>/ holds the client's
+# specification, equipment list and reference drawings - real tag numbers,
+# coordinates and services. This repository is public, so the whole folder stays
+# local; only the generator, the skill knowledge base and the tests are tracked.
+# Drop a project folder in place and regenerate with:
+#   python -m wsb --project <Name>
+# The leading slash anchors this to the repo root: without it the pattern also
+# matches skill/projects/, which is documentation and carries no client data.
+/Projects/
+
+# Generated macros and reports. Reproducible from the dataset, so not tracked.
+output/*.pml
+output/*.md
+
+# E3D system information reports written on a crash
+errors/
+
+# Local environments
+.venv/
+venv/
+.env
+
+# Tooling caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/

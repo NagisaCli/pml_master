@@ -23,8 +23,10 @@ class StabilityTests(unittest.TestCase):
         self.assertEqual((equipment.name, equipment.width, equipment.depth, equipment.height),
                          ("T-101", 2000.0, 2000.0, 5000.0))
         script = PMLGenerator(PMLKnowledgeBase()).generate(intent)
-        self.assertIn("NEW EQUIPMENT", script)
-        self.assertIn("T-101", script)
+        # PML1 spells the element type EQUI, not EQUIPMENT; see
+        # skill/knowledge/pml1-reference.md.
+        self.assertIn("NEW EQUI", script)
+        self.assertIn("T_101", script)
 
     def test_memory_round_trip_and_error_resolution(self):
         with tempfile.TemporaryDirectory() as directory:

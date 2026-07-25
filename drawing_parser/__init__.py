@@ -1,8 +1,11 @@
 """
-设计图纸解析器
-=============
-支持 PDF P&ID、SVG 系统图、DWG 施工图的解析。
-输出统一的 "设计意图" 数据结构，供 PML 生成器消费。
+Design Drawing Parser
+=====================
+Supports parsing of PDF P&IDs, SVG process diagrams, and DWG construction drawings.
+Outputs a unified "design intent" data structure for the PML generator.
+
+Focused on paper mill plant equipment: pumps, tanks, vessels, heat exchangers,
+pulp processing equipment, pipe networks, and structural elements.
 """
 
 from pathlib import Path
@@ -13,35 +16,35 @@ import logging
 logger = logging.getLogger("e3d_agent.drawing_parser")
 
 
-# ── 统一数据结构 ─────────────────────────────
+# -- Unified Data Structures ------------------------------------------
 
 @dataclass
 class DesignElement:
-    """从图纸中提取的单个设计元素。"""
+    """A single design element extracted from a drawing or description."""
     type: str           # EQUIPMENT / PIPE / NOZZLE / STRUCTURE / VALVE / INSTRUMENT
-    name: str            # 元素名称/位号
-    label: str = ""      # 标注文字
-    category: str = ""   # 设备类型细分 (VESSEL/PUMP/TANK 等)
-    east: float = 0      # X 坐标（如可用）
-    north: float = 0     # Y 坐标
-    up: float = 0        # Z 高度
-    width: float = 0     # 尺寸
+    name: str           # Element name/tag
+    label: str = ""     # Annotation text
+    category: str = ""  # Equipment subtype (VESSEL/PUMP/TANK/COLUMN/HEATEX/FILTER/etc.)
+    east: float = 0     # X coordinate (machine direction)
+    north: float = 0    # Y coordinate (cross-machine direction)
+    up: float = 0       # Z elevation
+    width: float = 0    # Dimensions
     depth: float = 0
     height: float = 0
-    bore: float = 0      # 公称直径
-    spec: str = ""       # 规格引用
-    material: str = ""   # 材料
-    connections: List[str] = field(default_factory=list)  # 连接到的其他元素名称
-    source_svg: str = ""  # 来源 SVG 文件名
-    properties: Dict[str, Any] = field(default_factory=dict)  # 额外属性
-    confidence: float = 1.0  # 解析置信度 0-1
+    bore: float = 0     # Nominal pipe diameter
+    spec: str = ""      # Specification reference
+    material: str = ""  # Material grade
+    connections: List[str] = field(default_factory=list)
+    source_svg: str = ""
+    properties: Dict[str, Any] = field(default_factory=dict)
+    confidence: float = 1.0
 
 @dataclass
 class DesignIntent:
-    """完整的"设计意图"——可从图纸解析或自然语言描述生成。"""
-    project: str = "AvevaMarineSample"  # 目标项目
-    zone: str = "AREA_100"              # 目标区域
-    system: str = ""                     # 系统名称
+    """Complete design intent — from drawing parsing or natural language."""
+    project: str = "AvevaPlantSample"
+    zone: str = "PAPER_MILL_ZONE"
+    system: str = ""
     elements: List[DesignElement] = field(default_factory=list)
     connections: List[tuple] = field(default_factory=list)  # (from, to, type)
     notes: List[str] = field(default_factory=list)
@@ -59,7 +62,7 @@ class DesignIntent:
         }
 
 
-# ── 图纸解析器基类 ───────────────────────────
+# -- Parser Base Class ------------------------------------------------
 
 class BaseParser:
     def can_parse(self, file_path: str) -> bool:
@@ -69,10 +72,10 @@ class BaseParser:
         raise NotImplementedError
 
 
-# ── SVG 解析器（项目已有图纸）────────────────
+# -- SVG Parser (AVEVA Diagrams exports) ------------------------------
 
 class SVGParser(BaseParser):
-    """解析 AVEVA Diagrams 导出的 SVG 系统原理图。"""
+    """Parses SVG process system diagrams exported from AVEVA Diagrams."""
 
     def can_parse(self, file_path: str) -> bool:
         return str(file_path).lower().endswith(".svg")
@@ -89,25 +92,19 @@ class SVGParser(BaseParser):
                 "pc": "http://www.aveva.com/PDMS/Compare2D3D/DrawingSVG",
             }
 
-            # 1. 提取图纸元数据
+            # 1. Extract drawing metadata
             for meta in root.iter("{http://www.aveva.com/PDMS/Compare2D3D/DrawingSVG}drawing"):
                 intent.system = meta.get("pc:number", "")
-                # 从标题推断 project
                 if "Marine" in intent.system or "/711R_" in intent.system:
                     intent.project = "AvevaMarineSample"
 
-            # 2. 提取标题
+            # 2. Extract title
             title_elem = root.find(".//svg:title", ns)
             if title_elem is not None and title_elem.text:
                 intent.system = title_elem.text
 
-            # 3. 提取所有设备/管道元素
-            ns_all = {
-                None: "http://www.w3.org/2000/svg",
-                "v": "http://schemas.microsoft.com/visio/2003/SVGExtensions/",
-            }
-
-            # ── 标题栏/页眉排除列表 ──
+            # 3. Extract all equipment/piping elements
+            # Title block / header exclusion list
             skip_labels = {
                 "title", "drawing no", "department", "system", "func.",
                 "created on", "created by", "sht.", "of", "status",
@@ -132,139 +129,102 @@ class SVGParser(BaseParser):
                             label = d.text.strip()
                             break
 
-                # 跳过空标签、标题栏、日期、纯数字页码
                 if not label:
                     continue
                 label_lower = label.strip().lower()
                 if label_lower in skip_labels:
                     continue
-                if label_lower in ("1", "2", "3", "4", "5", "department",
-                                    "title", "of", "status", "func."):
-                    continue
-                if any(c.isdigit() for c in label) and len(label) <= 4 and "/" not in label and "-" not in label:
-                    # 隔离的日期/页码
-                    if len(label) <= 10 and "/" not in label:
-                        continue
 
-                # 有 path+L 元素 → 管道连线
-                has_line = any(
-                    "L" in (p.get("d", "") or "")
-                    for p in paths
-                )
+                has_line = any("L" in (p.get("d", "") or "") for p in paths)
                 has_shape = bool(rects)
-
-                # 去重：同标签只保留第一个
                 seen_names = {e.name for e in intent.elements}
 
                 if has_line:
-                    # 判断是设备还是管线
                     if self._looks_like_tag(label) or any(
-                        kw in label.upper() for kw in ["PUMP", "FILTER", "EXCHANGER",
-                                                        "PURIFIER", "EJECTOR", "CHEST",
-                                                        "COOLER", "HEATER"]
+                        kw in label.upper() for kw in [
+                            "PUMP", "FILTER", "EXCHANGER", "PURIFIER",
+                            "EJECTOR", "CHEST", "COOLER", "HEATER",
+                            "PULPER", "REFINER", "SCREEN", "CLEANER",
+                            "DIGESTER", "EVAPORATOR", "WASHER", "TOWER",
+                        ]
                     ):
                         etype = self._infer_type(label)
                         if label not in seen_names:
                             intent.elements.append(DesignElement(
-                                type=etype,
-                                name=label,
-                                label=label,
-                                source_svg=str(file_path),
-                                confidence=0.7,
+                                type=etype, name=label, label=label,
+                                source_svg=str(file_path), confidence=0.7,
                             ))
                     else:
                         if label not in seen_names:
                             intent.elements.append(DesignElement(
-                                type="PIPE",
-                                name=label,
-                                label=label,
-                                source_svg=str(file_path),
-                                confidence=0.6,
+                                type="PIPE", name=label, label=label,
+                                source_svg=str(file_path), confidence=0.6,
                             ))
                 elif has_shape and label:
                     etype = self._infer_type(label)
                     name = label.strip().rstrip(".")
                     if name not in seen_names:
                         intent.elements.append(DesignElement(
-                            type=etype,
-                            name=name,
-                            label=label,
-                            source_svg=str(file_path),
-                            confidence=0.7,
+                            type=etype, name=name, label=label,
+                            source_svg=str(file_path), confidence=0.7,
                         ))
 
-            # 4. 提取连接关系
-            shapes = root.findall(".//{http://www.w3.org/2000/svg}g[{http://schemas.microsoft.com/visio/2003/SVGExtensions/}groupContext='shape']")
-            for shape in shapes:
-                pid = shape.get("{http://schemas.microsoft.com/visio/2003/SVGExtensions/}mID", "")
-                path_elems = shape.findall("{http://www.w3.org/2000/svg}path")
-                for p in path_elems:
-                    d = p.get("d", "")
-                    if "L" in d:
-                        # 记录连接
-                        intent.connections.append((f"Shape_{pid}", f"Endpoint_{d[-20:]}", "LINE"))
-
-            logger.info(f"[SVG] 解析完成: {len(intent.elements)} 个元素, {len(intent.connections)} 条连接")
+            logger.info(f"[SVG] Parse complete: {len(intent.elements)} elements, "
+                        f"{len(intent.connections)} connections")
             return intent
 
         except ImportError:
-            logger.error("需要 lxml 库: pip install lxml")
+            logger.error("lxml library required: pip install lxml")
             return intent
         except Exception as e:
-            logger.error(f"SVG 解析失败: {e}")
+            logger.error(f"SVG parse failed: {e}")
             return intent
 
     def _infer_type(self, label: str) -> str:
-        """从标签内容推断元素类型。"""
-        label_upper = label.upper()
-        # 先检查位号前缀（更精确的匹配）
+        """Infer element type from label content."""
         import re
+        label_upper = label.upper()
+
+        # Check tag prefix (more precise matching)
         prefix_tag = re.match(r'^/?([A-Z]+)', label_upper)
         if prefix_tag:
             prefix = prefix_tag.group(1)
-            if prefix in ("P", "PU", "PUMP"):
-                return "EQUIPMENT"
-            if prefix in ("V", "VES", "TNK", "TANK", "DRUM"):
-                return "VESSEL"
-            if prefix in ("E", "HEX", "HE", "EXC"):
-                return "HEATEX"
-            if prefix in ("F", "FIL", "FLT"):
-                return "FILTER"
-            if prefix in ("C", "COM", "CPR"):
-                return "COMPRESSOR"
-            if prefix in ("XV", "HV", "MOV", "FCV", "PCV", "LCV"):
-                return "VALVE"
-            if prefix in ("FT", "PT", "LT", "TT", "FIC", "PIC", "LIC", "FIQ"):
-                return "INSTRUMENT"
+            if prefix in ("P", "PU", "PUMP"): return "EQUIPMENT"
+            if prefix in ("V", "VES", "TNK", "TANK", "DRUM"): return "VESSEL"
+            if prefix in ("E", "HEX", "HE", "EXC"): return "HEATEX"
+            if prefix in ("F", "FIL", "FLT"): return "FILTER"
+            if prefix in ("C", "COM", "CPR"): return "COMPRESSOR"
+            if prefix in ("XV", "HV", "MOV", "FCV", "PCV", "LCV"): return "VALVE"
+            if prefix in ("FT", "PT", "LT", "TT", "FIC", "PIC", "LIC"): return "INSTRUMENT"
 
-        # 关键词匹配（更严格的单词边界）
+        # Keyword matching
         words = label_upper.replace("/", " ").replace("-", " ").replace("_", " ").split()
         for w in words:
-            if w in ("PUMP",): return "EQUIPMENT"
-            if w in ("TANK", "VESSEL"): return "VESSEL"
-            if w in ("HEAT", "EXCHANGER", "COOLER", "HEATER"): return "HEATEX"
-            if w in ("FILTER",): return "FILTER"
+            if w in ("PUMP", "PULPER", "REFINER"): return "EQUIPMENT"
+            if w in ("TANK", "VESSEL", "CHEST", "SILO", "TOWER"): return "VESSEL"
+            if w in ("HEAT", "EXCHANGER", "COOLER", "HEATER", "EVAPORATOR"): return "HEATEX"
+            if w in ("FILTER", "SCREEN", "CLEANER"): return "FILTER"
             if w in ("COMPRESSOR",): return "COMPRESSOR"
             if w in ("VALVE",): return "VALVE"
         return "EQUIPMENT"
 
     @staticmethod
     def _looks_like_tag(text: str) -> bool:
-        """判断文本是否为工程位号格式。"""
+        """Check if text matches an engineering tag format."""
         import re
         patterns = [
-            r'^/?[A-Z]+-\d+[A-Z]?$',        # T-101, /SWC1001
-            r'^/?[A-Z]{2,5}\d{3,5}$',        # SWC1001, OBD001
-            r'^\d{2,3}[A-Z]{2}\d{2,4}$',     # 01EQ001
-            r'^[A-Z]+-\d{3,5}-\d{3,5}$',     # SWC-001-600
+            r'^/?[A-Z]+-\d+[A-Z]?$',       # T-101, /SWC1001
+            r'^/?[A-Z]{2,5}\d{3,5}$',       # SWC1001, OBD001
+            r'^\d{2,3}[A-Z]{2}\d{2,4}$',    # 01EQ001
+            r'^[A-Z]+-\d{3,5}-\d{3,5}$',    # SWC-001-600
         ]
         return any(re.match(p, text.strip()) for p in patterns)
 
 
-# ── PDF 解析器 ────────────────────────────────
+# -- PDF Parser -------------------------------------------------------
 
 class PDFParser(BaseParser):
-    """解析 PDF 格式的 P&ID 图纸。"""
+    """Parses PDF format P&ID drawings."""
 
     def can_parse(self, file_path: str) -> bool:
         return str(file_path).lower().endswith(".pdf")
@@ -278,62 +238,51 @@ class PDFParser(BaseParser):
                 for page in pdf.pages:
                     full_text += page.extract_text() or ""
 
-                # 提取文本内容中的设备/管道线索
                 for line in full_text.split("\n"):
                     line = line.strip()
                     if not line:
                         continue
-                    # 尝试匹配设备位号模式
                     if self._looks_like_tag(line):
-                        etype = self._infer_type(line)
+                        etype = SVGParser()._infer_type(line)
                         intent.elements.append(DesignElement(
-                            type=etype,
-                            name=line,
-                            label=line,
-                            source_svg="",
-                            confidence=0.4,
+                            type=etype, name=line, label=line, confidence=0.4,
                         ))
                     intent.notes.append(f"TEXT: {line[:200]}")
 
-                logger.info(f"[PDF] 解析完成: {len(intent.elements)} 个元素, {len(full_text)} 字符文本")
+                logger.info(f"[PDF] Parse complete: {len(intent.elements)} elements, "
+                            f"{len(full_text)} chars text")
                 return intent
 
         except ImportError:
-            logger.error("需要 pdfplumber: pip install pdfplumber")
+            logger.error("pdfplumber required: pip install pdfplumber")
             return intent
         except Exception as e:
-            logger.error(f"PDF 解析失败: {e}")
+            logger.error(f"PDF parse failed: {e}")
             return intent
 
     def _looks_like_tag(self, text: str) -> bool:
-        """判断是否为设备位号（如 T-101, P-001A, FT-101 等）。"""
         import re
         patterns = [
-            r'^[A-Z]+-\d+[A-Z]?$',        # T-101, P-001A
-            r'^[A-Z]{2,3}-\d{3,5}$',       # FT-101, PIC-001
-            r'^\d{2,3}[A-Z]{2}\d{2,4}$',   # 01EQ001
+            r'^[A-Z]+-\d+[A-Z]?$',
+            r'^[A-Z]{2,3}-\d{3,5}$',
+            r'^\d{2,3}[A-Z]{2}\d{2,4}$',
         ]
         return any(re.match(p, text) for p in patterns)
 
 
-# ── DWG 解析器框架 ───────────────────────────
+# -- DWG Parser Framework ---------------------------------------------
 
 class DWGParser(BaseParser):
-    """
-    DWG 解析器 — 基础框架。
-    完整解析需要 ezdxf (DXF) 或 AutoCAD COM API。
-    目前实现 DWG → DXF 转换后的基础解析。
-    """
+    """DWG parser — base framework. Full parsing requires ezdxf or AutoCAD COM API."""
 
     def can_parse(self, file_path: str) -> bool:
         return str(file_path).lower().endswith(".dwg")
 
     def parse(self, file_path: str) -> DesignIntent:
         intent = DesignIntent(source_file=str(file_path))
-        intent.notes.append(f"DWG文件 '{file_path}' 需要先转换为DXF格式再解析")
-        intent.notes.append("当前使用基础框架模式，仅提取文件名信息")
+        intent.notes.append(f"DWG file '{file_path}' requires DXF conversion first")
+        intent.notes.append("Current mode: framework only, extracting filename info")
 
-        # 从文件名推断项目归属
         fname = Path(file_path).name
         if fname.startswith("acp"):
             intent.project = "AvevaCatalogue"
@@ -345,7 +294,7 @@ class DWGParser(BaseParser):
         return intent
 
     def parse_dxf(self, file_path: str) -> DesignIntent:
-        """解析 DXF 格式（需先转换）。"""
+        """Parse DXF format (requires prior DWG→DXF conversion)."""
         intent = DesignIntent(source_file=str(file_path))
         try:
             import ezdxf
@@ -356,32 +305,28 @@ class DWGParser(BaseParser):
                 etype = entity.dxftype()
                 if etype == "TEXT":
                     intent.elements.append(DesignElement(
-                        type=self._dxf_infer_type(entity.dxf.text),
-                        name=entity.dxf.text,
-                        label=entity.dxf.text,
-                        confidence=0.5,
+                        type=SVGParser()._infer_type(entity.dxf.text),
+                        name=entity.dxf.text, label=entity.dxf.text, confidence=0.5,
                     ))
                 elif etype in ("LINE", "POLYLINE", "LWPOLYLINE"):
                     intent.connections.append(("DXF_LINE", etype, "LINE"))
 
-            logger.info(f"[DXF] 解析完成: {len(intent.elements)} 个文本, {len(intent.connections)} 条线")
+            logger.info(f"[DXF] Parse complete: {len(intent.elements)} texts, "
+                        f"{len(intent.connections)} lines")
             return intent
 
         except ImportError:
-            intent.notes.append("需要 ezdxf 库: pip install ezdxf")
+            intent.notes.append("ezdxf required: pip install ezdxf")
             return intent
         except Exception as e:
-            logger.error(f"DXF 解析失败: {e}")
+            logger.error(f"DXF parse failed: {e}")
             return intent
 
-    def _dxf_infer_type(self, text: str) -> str:
-        return SVGParser()._infer_type(text)
 
-
-# ── 解析器工厂 ────────────────────────────────
+# -- Parser Factory ---------------------------------------------------
 
 class DrawingParserFactory:
-    """根据文件类型自动选择合适的解析器。"""
+    """Auto-selects the appropriate parser based on file type."""
 
     _parsers = [SVGParser(), PDFParser(), DWGParser()]
 
@@ -394,82 +339,115 @@ class DrawingParserFactory:
     def parse(self, file_path: str) -> DesignIntent:
         parser = self.get_parser(file_path)
         if parser is None:
-            logger.warning(f"不支持的图纸格式: {file_path}")
+            logger.warning(f"Unsupported drawing format: {file_path}")
             intent = DesignIntent(source_file=str(file_path))
-            intent.notes.append(f"不支持的文件格式: {Path(file_path).suffix}")
+            intent.notes.append(f"Unsupported file format: {Path(file_path).suffix}")
             return intent
         return parser.parse(file_path)
 
 
-# ── 自然语言解析器 ───────────────────────────
+# -- Natural Language Parser ------------------------------------------
 
 class NaturalLanguageParser:
-    """从自然语言描述创建设计意图。"""
+    """Creates DesignIntent from natural language descriptions."""
+
+    # Paper mill equipment type patterns
+    EQUIPMENT_PATTERNS = [
+        (r'headbox|slice|manifold', 'HEADBOX', 'HEADBOX'),
+        (r'hydrapulper|pulper|slusher', 'PULPER', 'PULPER'),
+        (r'refiner|disc refiner|twin.?disc', 'REFINER', 'REFINER'),
+        (r'pressure screen|fine screen', 'SCREEN', 'SCREEN'),
+        (r'cleaner|centrifugal cleaner', 'CLEANER', 'CLEANER'),
+        (r'digester|cooker', 'DIGESTER', 'DIGESTER'),
+        (r'blow tank', 'BLOW_TANK', 'BLOW_TANK'),
+        (r'vacuum washer|drum washer', 'WASHER', 'WASHER'),
+        (r'bleach tower|bleaching tower', 'BLEACH_TOWER', 'BLEACH_TOWER'),
+        (r'evaporator|falling film', 'EVAPORATOR', 'EVAPORATOR'),
+        (r'recovery boiler', 'RECOVERY_BOILER', 'RECOVERY_BOILER'),
+        (r'lime kiln|rotary kiln', 'KILN', 'KILN'),
+        (r'causticiz', 'CAUSTICIZER', 'CAUSTICIZER'),
+        (r'paper machine|fourdrinier|pm\d', 'PAPER_MACHINE', 'PAPER_MACHINE'),
+        (r'stock chest|storage chest|pulp chest', 'STOCK_CHEST', 'STOCK_CHEST'),
+        (r'white water|effluent|wastewater', 'WATER_SYSTEM', 'WATER_SYSTEM'),
+        (r'clarifier|thickener', 'CLARIFIER', 'CLARIFIER'),
+        (r'boiler|steam boiler|cfb', 'BOILER', 'BOILER'),
+        (r'turbo.?generator|turbine generator', 'TURBOGEN', 'TURBOGEN'),
+        (r'tank|vessel|silo|储罐|贮罐|料仓|槽', 'VESSEL', 'VESSEL'),
+        (r'pump|泵', 'PUMP', 'PUMP'),
+        (r'valve|阀', 'VALVE', 'VALVE'),
+        (r'pipe|piping|pipeline|header|管道|管线', 'PIPE', 'PIPE'),
+    ]
 
     @staticmethod
     def parse(description: str) -> DesignIntent:
-        """从自然语言描述构建 DesignIntent。"""
+        """Build DesignIntent from natural language description."""
         intent = DesignIntent()
-        intent.notes.append(f"自然语言描述: {description}")
+        intent.notes.append(f"Natural language: {description}")
         import re
 
-        # 检测项目
         desc_upper = description.upper()
-        if "船舶" in description or "船" in description or "MARINE" in desc_upper:
-            intent.project = "AvevaMarineSample"
-        elif "工厂" in description or "PLANT" in desc_upper or "化工" in description:
+
+        # Detect project type
+        if any(kw in description for kw in ["paper", "pulp", "mill", "paper machine",
+                                              "fourdrinier", "digester", "stock prep"]):
             intent.project = "AvevaPlantSample"
 
-        # 检测区域名称（支持 "在 XXX 区域" 和 "区域 XXX"）
-        zone_match = re.search(r'(?:在\s*)?(\S+)\s*区域', description)
+        # Detect zone name. Chinese descriptions put the marker after the name
+        # ("AREA_100 区域"), English before it ("in AREA_100 zone"), so the
+        # Chinese pattern is tried first: an English-only regex matches the
+        # wrong token on Chinese input rather than failing outright.
+        zone_match = re.search(r'([A-Za-z0-9_\-]{2,})\s*(?:区域|区|车间)', description)
         if not zone_match:
-            zone_match = re.search(r'区域[：:]?\s*(\S+)', description)
+            zone_match = re.search(
+                r'(?:in\s+)?(\S+)\s+(?:zone|area|hall)', description, re.IGNORECASE
+            )
         if zone_match:
             candidate = zone_match.group(1).strip()
-            # 忽略明显不是区域名的长文本
-            if len(candidate) < 20 and not any(c in candidate for c in "的创建建一"):
+            if len(candidate) < 20:
                 intent.zone = candidate.upper()
 
-        # 检测尺寸参数: 直径/宽x深x高
+        # Detect dimensions: diameter, width, height. Each pattern accepts the
+        # English keyword-first form and the Chinese keyword-then-value form,
+        # including the bare CJK unit characters 米 (m) and 毫米 (mm).
         width = depth = height = 0.0
-        dim_match = re.search(r'直径\s*(\d+(?:\.\d+)?)\s*[米mM]', description)
+        _NUM = r'(\d+(?:\.\d+)?)'
+        _UNIT = r'\s*(毫米|mm|米|m)?'
+
+        def _to_mm(value: str, unit: Optional[str]) -> float:
+            """Normalize a parsed dimension to millimetres."""
+            v = float(value)
+            if unit in ("mm", "毫米"):
+                return v
+            if unit in ("m", "米"):
+                return v * 1000
+            # Unit omitted: values under 100 are metres by convention, since no
+            # plant dimension is 100 mm or less at equipment scale.
+            return v * 1000 if v < 100 else v
+
+        dim_match = re.search(
+            rf'(?:diameter|dia\.?|直径){_UNIT}?\s*{_NUM}{_UNIT}', description, re.IGNORECASE
+        )
         if dim_match:
-            width = depth = float(dim_match.group(1)) * 1000  # 转 mm
+            width = depth = _to_mm(dim_match.group(2), dim_match.group(3) or dim_match.group(1))
 
-        wh_match = re.search(r'宽\s*(\d+(?:\.\d+)?)\s*[米mM]', description)
-        if wh_match:
-            width = float(wh_match.group(1)) * 1000
+        w_match = re.search(rf'(?:width|宽度|宽)\s*{_NUM}{_UNIT}', description, re.IGNORECASE)
+        if w_match:
+            width = _to_mm(w_match.group(1), w_match.group(2))
 
-        dh_match = re.search(r'深\s*(\d+(?:\.\d+)?)\s*[米mM]', description)
-        if dh_match:
-            depth = float(dh_match.group(1)) * 1000
+        h_match = re.search(rf'(?:height|高度|高)\s*{_NUM}{_UNIT}', description, re.IGNORECASE)
+        if h_match:
+            height = _to_mm(h_match.group(1), h_match.group(2))
 
-        hh_match = re.search(r'高\s*(\d+(?:\.\d+)?)\s*[米mM]', description)
-        if hh_match:
-            height = float(hh_match.group(1)) * 1000
-
-        # 检测设备名称/位号
+        # Detect equipment tag
         tag_match = re.search(r'\b([A-Z]+-\d+[A-Z]?)\b', description)
         tag_name = tag_match.group(1) if tag_match else ""
 
-        # 检测设备类型
-        found_equipment = False
-        equipment_map = [
-            (r'储罐|容器|VESSEL|TANK', 'VESSEL', 'VESSEL'),
-            (r'立式\s*(?:储)?罐', 'VESSEL', 'VESSEL'),
-            (r'卧式\s*(?:储)?罐', 'VESSEL', 'VESSEL'),
-            (r'泵|PUMP', 'PUMP', 'PUMP'),
-            (r'换热器|HEAT\s*EXCHANGER|冷却器', 'HEATEX', 'HEATEX'),
-            (r'塔|COLUMN|精馏', 'COLUMN', 'COLUMN'),
-            (r'过滤器|FILTER', 'FILTER', 'FILTER'),
-            (r'压缩机|COMPRESSOR', 'COMPRESSOR', 'COMPRESSOR'),
-        ]
-
-        for pattern, etype, cat in equipment_map:
+        # Match equipment type
+        for pattern, etype, cat in NaturalLanguageParser.EQUIPMENT_PATTERNS:
             if re.search(pattern, description, re.IGNORECASE):
                 name = tag_name if tag_name else f"{etype}-001"
                 elem = DesignElement(
-                    type="EQUIPMENT",  # 统一为 EQUIPMENT，ACTTYPE 区分
+                    type="EQUIPMENT",
                     name=name,
                     category=cat,
                     label=etype,
@@ -479,39 +457,6 @@ class NaturalLanguageParser:
                     confidence=0.6 if not tag_name else 0.8,
                 )
                 intent.elements.append(elem)
-                found_equipment = True
-                # 只匹配第一个设备类型
                 break
-
-        # 检测管道
-        if any(kw in desc_upper for kw in ["管道", "管线", "PIPE", "PIPING", "管路"]):
-            bore_match = re.search(r'(\d+)\s*寸\b', description)
-            if bore_match:
-                bore = int(bore_match.group(1)) * 25  # 寸转 mm
-            else:
-                bore_match = re.search(r'DN\s*(\d+)', description, re.IGNORECASE)
-                bore = int(bore_match.group(1)) if bore_match else 100
-            pipe_name = tag_name if tag_name and not intent.elements else "P-001"
-            intent.elements.append(DesignElement(
-                type="PIPE",
-                name=pipe_name,
-                bore=bore,
-                confidence=0.5,
-            ))
-
-        if not found_equipment and not intent.elements:
-            intent.notes.append("未识别出具体设备/管道，请提供更详细的描述。例如：\n"
-                                "  \"在 AREA_100 区域创建一台直径2米高5米的立式储罐 T-101\"\n"
-                                "  \"创建一条DN200的冷却水管线 P-001\"")
-        else:
-            if width and not height:
-                height = 2000
-            if intent.elements:
-                e = intent.elements[0]
-                if e.type == "EQUIPMENT":
-                    intent.notes.append(
-                        f"[AI] 已解析: {e.name} ({e.category})"
-                        f" 尺寸 {e.width:.0f}x{e.depth:.0f}x{e.height:.0f} mm"
-                    )
 
         return intent

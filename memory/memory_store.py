@@ -1,8 +1,8 @@
 """
-E3D Agent 记忆系统
-=================
-持久化存储：错误日志、用户反馈、建模决策、经验教训。
-这些记忆会在后续 Agent 会话中被重新加载和参考。
+E3D Agent Memory System
+========================
+Persistent storage: error logs, user feedback, modeling decisions, lessons learned.
+Memories are reloaded and referenced in subsequent Agent sessions.
 """
 
 import json
@@ -18,13 +18,14 @@ from ..config import MEMORY_DB_PATH, MAX_MEMORY_ENTRIES
 
 class MemoryStore:
     """
-    记忆存储 — JSON 持久化。
-    存储类型：
-      - error:    建模/执行错误（人工处理）
-      - feedback: 用户反馈/修正
-      - pattern:  成功/失败的建模模式
-      - decision: 设计决策记录
-      - lesson:   经验教训
+    Memory store — JSON persistence.
+
+    Entry types:
+      - error:    Modeling/execution errors (pending manual review)
+      - feedback: User feedback/corrections
+      - pattern:  Successful/failed modeling patterns
+      - decision: Design decision records
+      - lesson:   Lessons learned
     """
 
     def __init__(self, db_path: Optional[Path] = None):
@@ -33,10 +34,10 @@ class MemoryStore:
         self._lock = threading.RLock()
         self._load()
 
-    # ── 核心操作 ─────────────────────────────
+    # -- Core Operations ----------------------------------------------
 
     def add(self, entry_type: str, content: Dict[str, Any]):
-        """添加一条记忆。"""
+        """Add a memory entry."""
         with self._lock:
             record = {
                 "id": f"{entry_type}_{datetime.now().strftime('%Y%m%d_%H%M%S_%f')}",
@@ -50,7 +51,7 @@ class MemoryStore:
         return record["id"]
 
     def add_error(self, module: str, error_text: str, context: Dict = None):
-        """记录错误（待人工处理）。"""
+        """Record an error (pending manual review)."""
         return self.add("error", {
             "module": module,
             "error": error_text,
@@ -59,7 +60,7 @@ class MemoryStore:
         })
 
     def add_feedback(self, user_message: str, related_to: str = ""):
-        """记录用户反馈。"""
+        """Record user feedback."""
         return self.add("feedback", {
             "message": user_message,
             "related_to": related_to,
@@ -67,7 +68,7 @@ class MemoryStore:
         })
 
     def add_pattern(self, name: str, description: str, pml_code: str, success: bool):
-        """记录一个建模模式（方法论）。"""
+        """Record a modeling pattern (methodology)."""
         return self.add("pattern", {
             "name": name,
             "description": description,
@@ -77,18 +78,18 @@ class MemoryStore:
         })
 
     def add_lesson(self, topic: str, lesson: str, pml_example: str = ""):
-        """记录经验教训。"""
+        """Record a lesson learned."""
         return self.add("lesson", {
             "topic": topic,
             "lesson": lesson,
             "pml_example": pml_example,
         })
 
-    # ── 查询 ─────────────────────────────────
+    # -- Query --------------------------------------------------------
 
     def query(self, type: Optional[str] = None, keyword: str = "",
               limit: int = 20) -> List[Dict]:
-        """查询记忆，支持类型过滤和关键词搜索。"""
+        """Query memories with optional type filter and keyword search."""
         results = self._entries
         if type:
             results = [e for e in results if e["type"] == type]
@@ -101,12 +102,12 @@ class MemoryStore:
         return results[-limit:]
 
     def get_unresolved_errors(self) -> List[Dict]:
-        """获取所有未解决的错误。"""
+        """Get all unresolved errors."""
         return [e for e in self._entries
                 if e["type"] == "error" and not e.get("resolved", False)]
 
     def mark_resolved(self, entry_id: str, resolution: str = ""):
-        """标记错误为已解决。"""
+        """Mark an error as resolved."""
         with self._lock:
             for entry in self._entries:
                 if entry["id"] == entry_id and entry["type"] == "error":
@@ -118,7 +119,7 @@ class MemoryStore:
         return False
 
     def get_stats(self) -> Dict:
-        """返回记忆统计。"""
+        """Return memory statistics."""
         types = {}
         for e in self._entries:
             t = e["type"]
@@ -130,13 +131,13 @@ class MemoryStore:
         }
 
     def search_similar_errors(self, error_substring: str) -> List[Dict]:
-        """搜索相似的错误记录（帮助诊断）。"""
+        """Search for similar error records (diagnostic aid)."""
         return self.query(type="error", keyword=error_substring, limit=5)
 
-    # ── 持久化 ─────────────────────────────
+    # -- Persistence --------------------------------------------------
 
     def _save(self):
-        """原子写入，避免进程中断时留下损坏的 JSON 文件。"""
+        """Atomic write to avoid corrupt JSON on process interruption."""
         self.db_path.parent.mkdir(parents=True, exist_ok=True)
         fd, temp_name = tempfile.mkstemp(
             prefix=f".{self.db_path.stem}_", suffix=".tmp", dir=self.db_path.parent,
@@ -157,10 +158,9 @@ class MemoryStore:
                 with open(self.db_path, "r", encoding="utf-8") as f:
                     entries = json.load(f)
                 if not isinstance(entries, list):
-                    raise ValueError("记忆库根节点必须是列表")
+                    raise ValueError("Memory root must be a list")
                 self._entries = entries
             except (json.JSONDecodeError, OSError, ValueError) as exc:
-                # 保留故障现场，防止下一次写入覆盖可恢复的数据。
                 backup = self.db_path.with_suffix(
                     self.db_path.suffix + f".corrupt.{datetime.now().strftime('%Y%m%d_%H%M%S')}"
                 )
@@ -168,29 +168,30 @@ class MemoryStore:
                     os.replace(self.db_path, backup)
                 except OSError:
                     pass
-                print(f"[Memory] 记忆库无法读取，已新建空库: {exc}")
+                print(f"[Memory] Database unreadable, created new empty store: {exc}")
                 self._entries = []
 
     def _trim(self):
-        """裁剪到最大条目数。"""
+        """Trim to max entry count."""
         if len(self._entries) > MAX_MEMORY_ENTRIES:
             self._entries = self._entries[-MAX_MEMORY_ENTRIES:]
 
     def clear(self):
-        """清空记忆。"""
+        """Clear all memories."""
         self._entries = []
         self._save()
 
     def export_to_markdown(self) -> str:
-        """导出为可读的 Markdown 报告。"""
-        lines = ["# E3D Agent 记忆报告", f"生成时间: {datetime.now().isoformat()}", ""]
-        lines.append(f"总计: {len(self._entries)} 条记录\n")
+        """Export as readable Markdown report."""
+        lines = ["# E3D Paper Mill Agent Memory Report",
+                 f"Generated: {datetime.now().isoformat()}", ""]
+        lines.append(f"Total: {len(self._entries)} records\n")
 
         sections = {
-            "error": "## 错误记录（待人工处理）",
-            "feedback": "## 用户反馈",
-            "pattern": "## 建模模式",
-            "lesson": "## 经验教训",
+            "error": "## Errors (Pending Manual Review)",
+            "feedback": "## User Feedback",
+            "pattern": "## Modeling Patterns",
+            "lesson": "## Lessons Learned",
         }
 
         for etype, header in sections.items():
