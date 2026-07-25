@@ -64,7 +64,7 @@ class E3DInterface:
         print(f"[E3D] To execute in E3D Design:")
         print(f"      1. Open E3D Design")
         print(f"      2. Select writable ZONE")
-        print(f"      3. Enter: $$MACRO {filepath}")
+        print(f"      3. Enter: $M {filepath}")
         return str(filepath)
 
     # -- Mode 2: Command-Line Mode ------------------------------------

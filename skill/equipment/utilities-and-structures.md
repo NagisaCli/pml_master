@@ -7,7 +7,7 @@ Supporting infrastructure: pipe bridges, buildings, platforms, utility equipment
 
 ## Piping in macro mode — VERIFIED constraint
 
-In PML1 `$$MACRO` mode, pipes **cannot** be routed with branch/pipe commands.
+In PML1 `$M` macro mode, pipes **cannot** be routed with branch/pipe commands.
 Model pipe runs as `CYLI` primitives at their elevation:
 
 ```pml

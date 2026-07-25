@@ -43,7 +43,13 @@ from __future__ import annotations
 import re
 from typing import Iterable, List, Optional, Sequence, Tuple
 
-__all__ = ["PMLBuilder", "PMLValidationError", "Axis", "validate_pml"]
+__all__ = [
+    "PMLBuilder",
+    "PMLValidationError",
+    "Axis",
+    "validate_pml",
+    "nozzle_component_path",
+]
 
 
 #: Vertical axis, the orientation used by every upright vessel in this area.
@@ -86,21 +92,98 @@ COMMENT = "--"
 #: bare connection point that draws nothing in a shaded view. That is precisely
 #: the "nozzles not displaying" symptom.
 #:
-#: AVEVA's own macro data shows the real arrangement. In
-#: ``PDMSUI\data\SMLdataPlant.pmlmac`` the NOZZLE blocks carry no spec *at the
-#: point of creation*, and the file then rebinds each one in a second pass by
-#: name (``SMLdataPlant.pmlmac:13733``)::
+#: The binding command is ``CATR SPCOMPONENT <path>``, and it must be emitted
+#: **inline, immediately after ``NEW NOZZLE``** - before ``POS``, ``ORI`` or any
+#: other attribute. A nozzle's P-points and position come from its catalogue
+#: component, so until one is bound there is nothing to position or aim.
+#: AVEVA's creation form does exactly this (``equnozzle.pmlfrm:894``)::
 #:
-#:     OLD /SML/HO9007/N1
-#:     CATR SPCOMPONENT /DICHTFL_C/ND-16RF-150
+#:     NEW NOZZ
+#:     !!ce.catref = !this.nozzSpecRef      <- the very next statement
 #:
-#: So the reference is bound with ``CATR``, after creation, against a path that
-#: exists in the receiving project's catalogue. This builder emits that second
-#: pass - see :meth:`PMLBuilder.catref_pass`. The path is site-dependent, so it
-#: is emitted commented-out with the exact command a designer uncomments once
-#: the receiving project's nozzle catalogue is confirmed.
+#: The trailing ``OLD``/``CATR`` pass in ``SMLdataPlant.pmlmac:13733`` is a
+#: *rebinding* of nozzles that already have a component, not a creation
+#: sequence. Using it to create aborts each nozzle on its ``ORI`` line with
+#: ``(2,360) Cannot get position of NOZZLE``.
 NOZZLE_SPEC = "ANSI-NOZZLES"
 NOZZLE_TYPE = "150lb Ansi Flanges"
+
+#: Bore (mm) -> SPCO component name under the ``150lb_Ansi_Flanged`` SELEC of
+#: ``/ANSI-NOZZLES``. **Read out of the live project catalogue**, not inferred.
+#:
+#: Every attempt to derive this from the component-code ordering failed, and the
+#: reason is visible in the table: ``011`` and ``033`` are DN500 and DN600 - the
+#: two *largest* bores sit at the *start* of the sequence, before DN15. The
+#: ladder also contains DN90, which is not in the standard ANSI series. No
+#: ordering rule reproduces that, so guessing a code for a bore would have bound
+#: the wrong flange to most of the schedule while still loading cleanly.
+#:
+#: Obtained by running ``list_nozzle_bores.mac`` in E3D (bare path to navigate,
+#: then ``Q NAME ANSWER``) and reading the ``Answer`` attribute of each SPCO.
+#: Regenerate it the same way against any other receiving project - these names
+#: are catalogue-specific and must never be assumed to carry across.
+#:
+#: **These are component names, not full paths.** ``CATR SPCOMPONENT`` takes the
+#: SPCO's own path, which is ``/<selec>/<component>`` - see
+#: :data:`NOZZLE_SELEC`. Emitting the bare component name produced::
+#:
+#:     (2,108) SCOMPONENT /AAZFBB0YY is not a SPCO
+#:
+#: because ``/AAZFBB0YY`` is the SPCO's ``Catref`` *value* (the catalogue
+#: geometry it points at), not the SPCO itself. The ``Q ATT`` output shows both,
+#: and they are easy to confuse::
+#:
+#:     Name   /150lb_Ansi_Flanged/AAZFBB0YY   <- the SPCO, what CATR wants
+#:     Catref /AAZFBB0YY                      <- what the SPCO points at
+#:
+#: AVEVA's own data uses the two-segment form throughout
+#: (``SMLdataPlant.pmlmac:13735``: ``CATR SPCOMPONENT /DICHTFL_C/ND-16RF-150``).
+NOZZLE_BORE_COMPONENTS: dict = {
+    15: "AAZFBB0DD",
+    20: "AAZFBB0EE",
+    25: "AAZFBB0FF",
+    32: "AAZFBB0GG",
+    40: "AAZFBB0HH",
+    50: "AAZFBB0JJ",
+    65: "AAZFBB0KK",
+    80: "AAZFBB0LL",
+    90: "AAZFBB0MM",
+    100: "AAZFBB0NN",
+    125: "AAZFBB0PP",
+    150: "AAZFBB0RR",
+    200: "AAZFBB0TT",
+    250: "AAZFBB0VV",
+    300: "AAZFBB0WW",
+    350: "AAZFBB0XX",
+    400: "AAZFBB0YY",
+    450: "AAZFBB0ZZ",
+    500: "AAZFBB011",
+    600: "AAZFBB033",
+}
+
+#: SELEC that owns the nozzle SPCOs, from ``Q ATT``'s
+#: ``Owner SELEC 14 of SPECIFICATION /ANSI-NOZZLES``. A component's full path is
+#: ``/<NOZZLE_SELEC>/<component>``, which is what ``CATR SPCOMPONENT`` resolves.
+NOZZLE_SELEC = "150lb_Ansi_Flanged"
+
+#: Largest bore the catalogue carries (mm). A nozzle above this has no component
+#: to bind, and is reported rather than silently downsized - see
+#: :meth:`PMLBuilder.catref_pass`.
+NOZZLE_MAX_CATALOGUE_DN = max(NOZZLE_BORE_COMPONENTS)
+
+
+def nozzle_component_path(bore_dn: int) -> str:
+    """
+    Full SPCO path for a bore, as ``CATR SPCOMPONENT`` requires.
+
+    Args:
+        bore_dn: Nominal bore (mm).
+
+    Raises:
+        KeyError: if the catalogue carries no component at that bore. Callers
+            must report the nozzle rather than substitute a nearby size.
+    """
+    return f"/{NOZZLE_SELEC}/{NOZZLE_BORE_COMPONENTS[bore_dn]}"
 
 #: PML2 constructs that make an E3D macro fail to load. Matched case-insensitively
 #: as whole tokens where the term is a word, so that legitimate PML1 text such as
@@ -121,11 +204,16 @@ _BANNED_PATTERNS: Tuple[Tuple[str, str], ...] = (
     (r"^\s*ENDIF\b", "ENDIF (PML2)"),
     (r"^\s*DO\b.*\$", "DO loop (PML2)"),
     (r"^\s*ENDDO\b", "ENDDO (PML2)"),
-    # Catalogue reference by name. The SPCO components under /ANSI-NOZZLES are
-    # unnamed, so E3D rejects any such path with "(2,109) Undefined name".
-    # A nozzle's CATREF is bound after load, not in the macro - see NOZZLE_SPEC.
+    # Inline catalogue reference inside a NEW NOZZLE block. E3D rejects the
+    # SPRE form with "(2,109) Undefined name" because the bore SPCOs are picked
+    # by DBREF, not by a /spec/type:bore path.
+    #
+    # `CATR SPCOMPONENT /<component>` in the trailing OLD/CATR pass is the
+    # WORKING form and is deliberately not banned - it is how AVEVA's own data
+    # binds nozzles (SMLdataPlant.pmlmac:13733) and how catref_pass() emits
+    # them, against component names read from the live catalogue.
     (r"^\s*SPRE\s+SPCOMPONENT\b", "SPRE SPCOMPONENT (unresolvable catalogue path)"),
-    (r"^\s*CATREF\s*/", "CATREF /path (unresolvable catalogue path)"),
+    (r"^\s*CATREF\s*/", "CATREF /path (attribute form; use CATR SPCOMPONENT)"),
     # PDMS alphanumeric-window command. Not valid in E3D Design Mk3.1: it
     # aborts the macro with "(47,15) CP: Syntax error / ALPHA ^^HEADER OFF".
     # Use SUSPEND/RESUME alone for rendering control.
@@ -180,7 +268,123 @@ def validate_pml(script: str) -> List[str]:
 
     problems.extend(_check_ori_before_pos(lines))
     problems.extend(_check_nozzle_pos_before_ori(lines))
+    problems.extend(_check_nozzle_catref_first(lines))
+    problems.extend(_check_nozzle_heig_plausible(lines))
     problems.extend(_check_element_axis_convention(lines))
+    return problems
+
+
+#: Bounds on a nozzle's ``HEIG`` (mm). A nozzle is a short stub: anything
+#: outside this is a datum error, not a dimension choice.
+_NOZZLE_HEIG_MIN_MM = 1.0
+_NOZZLE_HEIG_MAX_MM = 2000.0
+
+
+def _check_nozzle_heig_plausible(lines: Sequence[str]) -> List[str]:
+    """
+    Verify every nozzle's ``HEIG`` is a plausible nozzle length.
+
+    ``HEIG`` is the nozzle's own length - the projection from its connection
+    point to the flange face. A version of this builder instead computed it as
+    the distance from the owning equipment's origin, which emitted values from
+    **-61680 to +72280 mm** for nozzles 250-450 mm long and drew the model as a
+    thicket of metre-long tubes flying off the vessels.
+
+    A negative length is impossible and a 72 m nozzle is absurd, so a bounds
+    check catches that class of error immediately - without needing to know
+    which datum is correct. Cheap bounds on a physical quantity are worth more
+    than an elaborate check that encodes the same assumption as the code.
+    """
+    problems: List[str] = []
+    in_nozzle = False
+    block_start = 0
+
+    for lineno, raw in enumerate(lines, 1):
+        line = raw.strip()
+        if _COMMENT.match(raw):
+            continue
+        new_match = re.match(r"^NEW\s+([A-Z]+)", line, re.IGNORECASE)
+        if new_match:
+            in_nozzle = new_match.group(1).upper() == "NOZZLE"
+            block_start = lineno
+            continue
+        if not in_nozzle:
+            continue
+        heig_match = re.match(r"^HEIG\s+(-?[\d.]+)", line, re.IGNORECASE)
+        if not heig_match:
+            continue
+        value = float(heig_match.group(1))
+        if not _NOZZLE_HEIG_MIN_MM <= value <= _NOZZLE_HEIG_MAX_MM:
+            problems.append(
+                f"L{lineno}: NEW NOZZLE (L{block_start}) has HEIG {value} - a "
+                f"nozzle's HEIG is its own length and must lie between "
+                f"{_NOZZLE_HEIG_MIN_MM} and {_NOZZLE_HEIG_MAX_MM} mm; a value "
+                f"outside that means the wrong datum was used"
+            )
+        in_nozzle = False
+
+    return problems
+
+
+def _check_nozzle_catref_first(lines: Sequence[str]) -> List[str]:
+    """
+    Verify ``CATR`` precedes ``POS`` and ``ORI`` in every NOZZLE block, and that
+    an unbound nozzle carries no ``ORI``.
+
+    A nozzle's P-points and position come from its catalogue component, so
+    binding late aborts the macro mid-load::
+
+        (2,360) Cannot get position of NOZZLE /203_TA_006_N1_NOZZ
+
+    That failure stops the whole macro at the first nozzle, so only part of the
+    model loads - which is far less obvious than a syntax error on line 1.
+    """
+    problems: List[str] = []
+    in_nozzle = False
+    block_start = 0
+    seen: List[Tuple[str, int]] = []
+
+    def close_block() -> None:
+        if not in_nozzle:
+            return
+        verbs = [v for v, _ in seen]
+        at = dict(seen)
+        if "CATR" in verbs:
+            for later in ("POS", "ORI"):
+                if later in verbs and at[later] < at["CATR"]:
+                    problems.append(
+                        f"L{block_start}: NEW NOZZLE has {later} (L{at[later]}) "
+                        f"before CATR (L{at['CATR']}) - a nozzle has no "
+                        f"P-points or position until its catalogue component "
+                        f"is bound, so this aborts with '(2,360) Cannot get "
+                        f"position of NOZZLE'"
+                    )
+        elif "ORI" in verbs:
+            problems.append(
+                f"L{block_start}: NEW NOZZLE is aimed (L{at['ORI']}) but has no "
+                f"CATR - there is no P1 to orient without a bound component"
+            )
+
+    for lineno, raw in enumerate(lines, 1):
+        line = raw.strip()
+        if _COMMENT.match(raw):
+            continue
+        new_match = re.match(r"^NEW\s+([A-Z]+)", line, re.IGNORECASE)
+        if new_match:
+            close_block()
+            in_nozzle = new_match.group(1).upper() == "NOZZLE"
+            block_start = lineno
+            seen = []
+            continue
+        if not in_nozzle:
+            continue
+        verb_match = re.match(r"^(CATR|POS|ORI)\b", line, re.IGNORECASE)
+        if verb_match:
+            verb = verb_match.group(1).upper()
+            if verb not in dict(seen):
+                seen.append((verb, lineno))
+
+    close_block()
     return problems
 
 
@@ -237,9 +441,10 @@ def _check_element_axis_convention(lines: Sequence[str]) -> List[str]:
 
     * A **primitive**'s length runs along Z (``gphFactory.pmlobj:632``), so a
       vertical vessel needs ``ORI Z IS U``. Orienting on Y lays it on its side.
-    * A **NOZZLE**'s axis runs along Y. Every one of the ten NOZZLE blocks in
-      ``PMLUI\\data\\SMLdataPlant.pmlmac`` orients Y first. Orienting a nozzle
-      on Z aims it along its roll reference instead of its bore.
+    * A **NOZZLE** is aimed by its P-point, ``ORI P1 IS <direction>``, which is
+      what AVEVA's own Modify Nozzle form emits (``equnozzle.pmlfrm:851``).
+      Orienting a nozzle on a geometric axis (``ORI Y is ...``) points it
+      somewhere other than its bore, and still loads without error.
 
     Because neither fault is a syntax error, nothing but a check like this
     catches them before the model is opened.
@@ -268,11 +473,12 @@ def _check_element_axis_convention(lines: Sequence[str]) -> List[str]:
                 f"axis - a primitive's length runs along Z -> {line}"
             )
         elif block == "NOZZLE" and not re.match(
-            r"^ORI\s+Y\s+IS\b", line, re.IGNORECASE
+            r"^ORI\s+P\d+\s+IS\b", line, re.IGNORECASE
         ):
             problems.append(
-                f"L{lineno}: NEW NOZZLE (L{block_start}) orients on the wrong "
-                f"axis - a nozzle's axis runs along Y -> {line}"
+                f"L{lineno}: NEW NOZZLE (L{block_start}) is not aimed by its "
+                f"P-point - a nozzle takes 'ORI P1 IS <direction>', not a "
+                f"geometric axis -> {line}"
             )
 
     return problems
@@ -538,6 +744,26 @@ class PMLBuilder:
 
         clean = _sanitize(name)
         self._lines.append(f"NEW NOZZLE /{clean}")
+        # CATR comes FIRST, immediately after creation. A nozzle's P-points and
+        # geometry come from its catalogue component, so until one is bound the
+        # element has no P1 to aim and no position to set. AVEVA's own creation
+        # form does exactly this - `!!ce.catref = !this.nozzSpecRef` is the
+        # first thing after `NEW NOZZ` (equnozzle.pmlfrm:894), before height,
+        # temperature or anything else.
+        #
+        # An earlier version bound the catalogue in a separate pass at the end
+        # of the macro. That aborted every nozzle on its ORI line with
+        # "(2,360) Cannot get position of NOZZLE" - the P-point did not exist
+        # yet - and the macro stopped at the first tank.
+        if bore_dn in NOZZLE_BORE_COMPONENTS:
+            self._lines.append(
+                f"CATR SPCOMPONENT {nozzle_component_path(bore_dn)}"
+            )
+        else:
+            self.comment(
+                f"No catalogue component at DN{bore_dn} (largest is "
+                f"DN{NOZZLE_MAX_CATALOGUE_DN}) - left unbound, will not render"
+            )
         # POS precedes ORI here, which is the reverse of a primitive and is
         # deliberate. All ten NOZZLE blocks in AVEVA's own macro data
         # (PDMSUI\data\SMLdataPlant.pmlmac:48, 58, 11018, ...) are written
@@ -548,7 +774,20 @@ class PMLBuilder:
         # called before _position() there - see the note in _check_ori_before_pos.
         east, north, up = base
         self._lines.append(f"POS E {_fmt(east)} N {_fmt(north)} U {_fmt(up)}")
-        self._orient_nozzle(axis)
+        # A nozzle with no bound component has no P1 to aim; emitting ORI would
+        # abort the macro. Position alone is still meaningful.
+        if bore_dn in NOZZLE_BORE_COMPONENTS:
+            self._orient_nozzle(axis)
+        # HEIG is the nozzle's own LENGTH - the projection from its connection
+        # point to the flange face. It is a dimension of the nozzle, not a
+        # distance from anything else.
+        #
+        # A previous version computed it as the distance from the owning EQUI's
+        # origin to the flange face. That produced values from -61680 to +72280
+        # for a set of nozzles 250-450 mm long, and drew the model as a thicket
+        # of metre-long tubes flying off the vessels. The negative values alone
+        # disprove the theory: a length cannot be negative, and nothing in the
+        # datum reading survives that.
         self._lines.append(f"HEIG {_fmt(height)}")
         # Process attributes, as carried by every NOZZLE in AVEVA's macro data.
         # Emitted unset/zero rather than invented: no design conditions are
@@ -558,95 +797,133 @@ class PMLBuilder:
         self._lines.append("PRES 0")
         self._lines.append("TPRESS 0")
         self._lines.append("DUTY unset")
-        self.comment(
-            f"CATREF to be assigned from {spec} / {generic_type}, "
-            f"bore DN{bore_dn}"
-        )
         self._lines.append("END")
         self._lines.append("")
-        # Record the nozzle for the catalogue-binding pass emitted at the end of
-        # the macro. Without a bound component a NOZZLE has no geometry at all,
-        # so this list is what turns the connection points into visible nozzles.
+        # Recorded only so the report can list what was and was not bound. The
+        # binding itself is emitted inline above, not in a trailing pass.
         self._nozzle_bindings.append((clean, bore_dn, spec, generic_type))
         self.nozzle_count += 1
         return self
 
     def catref_pass(self) -> "PMLBuilder":
         """
-        Emit the catalogue-binding pass for every nozzle created in this macro.
+        Summarise which nozzles were bound to a catalogue component.
 
-        A ``NOZZLE`` is a catalogue element: its flange, bore and face position
-        all come from the ``SPCO`` component it points at. Until one is bound the
-        element exists in the tree and reports its position correctly but
-        **draws nothing** - which is what "the nozzles are not displaying" means
-        in practice.
+        **This emits no commands.** The binding itself is inline in each
+        ``NEW NOZZLE`` block, immediately after creation - a nozzle's P-points
+        and position come from its catalogue component, so nothing else about
+        the element can be set until one is bound.
 
-        The binding cannot go inline in the ``NEW NOZZLE`` block. AVEVA's own
-        macro data does it as a separate pass keyed by name
-        (``SMLdataPlant.pmlmac:13733``)::
+        An earlier version emitted the binding here instead, as a trailing pass
+        of ``OLD``/``CATR`` pairs keyed by name. That shape does appear in
+        AVEVA's data (``SMLdataPlant.pmlmac:13733``), but it is a *rebinding* of
+        nozzles that already have a component - not how they are created. Used
+        for creation it aborted every nozzle on its ``ORI`` line with::
 
-            OLD /SML/HO9007/N1
-            CATR SPCOMPONENT /DICHTFL_C/ND-16RF-150
+            (2,360) Cannot get position of NOZZLE /203_TA_006_N1_NOZZ
 
-        and this method emits exactly that shape, one pair per nozzle.
-
-        **The commands are emitted commented-out.** The SPCO path is a property
-        of the receiving project's catalogue, not of this model: the components
-        under ``/ANSI-NOZZLES`` in the catalogue read here are unnamed, so the
-        path below is a template rather than a verified reference. Emitting it
-        live would abort the macro on the first nozzle with ``(2,109) Undefined
-        name`` - the failure this project already hit once. Emitting it as text
-        the designer uncomments after confirming their own catalogue is what
-        makes the binding a two-minute edit instead of 114 manual form entries.
+        because the P-point did not exist yet, and the macro stopped at the
+        first tank. AVEVA's own form binds first (``equnozzle.pmlfrm:894``:
+        ``!!ce.catref = !this.nozzSpecRef``, the line straight after
+        ``NEW NOZZ``), which is what the builder now does.
         """
         if not self._nozzle_bindings:
             return self
+        unbound = [
+            (name, dn) for name, dn, _s, _t in self._nozzle_bindings
+            if dn not in NOZZLE_BORE_COMPONENTS
+        ]
+        bound = len(self._nozzle_bindings) - len(unbound)
+
         self.comment()
-        self.banner("NOZZLE CATALOGUE BINDING PASS")
+        self.banner("NOZZLE CATALOGUE SUMMARY")
         self.comment(
-            "A NOZZLE draws nothing until a catalogue component is bound to it."
+            f"{bound} of {len(self._nozzle_bindings)} nozzles bound to a "
+            f"catalogue component."
         )
         self.comment(
-            "Confirm the SPCO paths below against this project's own nozzle"
+            "Each binding is inline in its NEW NOZZLE block: a nozzle has no"
         )
         self.comment(
-            "catalogue, then uncomment this section and re-run the macro."
+            "P-points or position until a component is bound, so CATR must"
         )
         self.comment(
-            "Shape verified against AVEVA's own data, SMLdataPlant.pmlmac:13733."
+            "precede POS and ORI (equnozzle.pmlfrm:894)."
         )
-        self.comment()
-        for clean, bore_dn, spec, generic_type in self._nozzle_bindings:
-            self.comment(f"{clean}  -  {generic_type}, bore DN{bore_dn}")
-            self.comment(f"OLD /{clean}")
-            self.comment(f"CATR SPCOMPONENT /{spec}/DN{bore_dn}")
+        if unbound:
             self.comment()
+            self.comment(
+                f"UNBOUND - ACTION REQUIRED: {len(unbound)} nozzle(s) have a"
+            )
+            self.comment(
+                f"bore the catalogue does not carry (largest is "
+                f"DN{NOZZLE_MAX_CATALOGUE_DN})."
+            )
+            self.comment(
+                "These are created and positioned but have no geometry and"
+            )
+            self.comment(
+                "will not render. They are NOT downsized to the nearest"
+            )
+            self.comment(
+                "component: an under-sized flange on a real connection would"
+            )
+            self.comment("read as correct downstream and mislead the piping designer.")
+            self.comment()
+            for clean, bore_dn in unbound:
+                self.comment(f"  {clean}  -  DN{bore_dn}")
+                self.comment(f"  OLD /{clean}")
+                self.comment(f"  CATR SPCOMPONENT /<a spec carrying DN{bore_dn}>")
+                self.comment(f"  ORI P1 IS <direction>")
+                self.comment()
         return self
+
 
     def _orient_nozzle(self, axis: Axis) -> None:
         """
-        Emit a nozzle's ORI line, with the axis on **Y**.
+        Aim a nozzle by its **P-point 1**, the bore direction.
 
-        AVEVA's macro data orients every nozzle Y-first, so a nozzle pointing
-        East is ``ORI Y is E and Z is U``. The second axis is a roll reference.
-        This deliberately does not reuse :meth:`_orient`, which puts the axis on
-        Z for primitives - the two element families genuinely differ, and
-        sharing one method here would silently mis-aim every nozzle.
+        A nozzle is oriented by ``ORI P1 IS <direction>`` - not by any geometric
+        axis. AVEVA's own Modify Nozzle form does exactly this
+        (``equnozzle.pmlfrm:851``)::
+
+            ORI P1 IS $!direction
+
+        and reads the value back as ``pdir[1]`` (:852). ``ORI P<n> IS`` appears
+        1087 times across the installed library and is macro-legal - it is
+        emitted as literal macro text in ``nucoldocech.pmlobj:663``.
+
+        **An earlier version emitted ``ORI Y is <axis> and Z is U``**, on the
+        theory that a nozzle's axis runs along Y. That was wrong, and it aimed
+        every nozzle in the model incorrectly while still loading cleanly. The
+        rule came from the ``ORI Y is -Z and Z is -X`` lines in AVEVA's sample
+        macro data, read without checking what they meant. Two things should
+        have caught it sooner:
+
+        * ``/SML/XX9004/N2`` in that same file reads ``ORI Y is Y and Z is -Z``.
+          If Y were the bore and Z a free roll reference, that is a pure 180
+          degree roll about the bore of an axisymmetric flange - meaningless.
+        * The ``ORI Y is S and Z is U`` lines cited as corroboration sit on
+          ``NEW FLANGE`` elements (``designcheckerrules.pmlmac:1171``), not on
+          nozzles. Different element family, different convention.
+
+        Orienting P1 states the bore direction directly, so there is no second
+        axis to get wrong and no roll reference to misread.
         """
-        orientations = {
-            "U": "ORI Y is U and Z is N",
-            "D": "ORI Y is D and Z is N",
-            "E": "ORI Y is E and Z is U",
-            "W": "ORI Y is W and Z is U",
-            "N": "ORI Y is N and Z is U",
-            "S": "ORI Y is S and Z is U",
+        directions = {
+            "U": "ORI P1 IS U",
+            "D": "ORI P1 IS D",
+            "E": "ORI P1 IS E",
+            "W": "ORI P1 IS W",
+            "N": "ORI P1 IS N",
+            "S": "ORI P1 IS S",
         }
         try:
-            self._lines.append(orientations[axis.upper()])
+            self._lines.append(directions[axis.upper()])
         except KeyError:
             raise PMLValidationError(
                 f"Unknown nozzle axis {axis!r}; expected one of "
-                f"{sorted(orientations)}"
+                f"{sorted(directions)}"
             ) from None
 
     # -- primitives -----------------------------------------------------

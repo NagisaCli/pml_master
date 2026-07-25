@@ -50,7 +50,7 @@ python -m wsb --project JK-Project --dry-run
 With exactly one project present, `--project` may be omitted.
 
 Load the macro in E3D: open Design, select a **writable ZONE** as the current
-element, then run `$$MACRO <path to the .pml file>`.
+element, then run `$M <path to the .pml file>`.
 
 ---
 

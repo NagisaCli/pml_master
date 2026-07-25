@@ -95,7 +95,12 @@ def generate(
             ("Datum", "Each tank is positioned by its BOTTOM CENTRE POINT"),
             ("Source", f"Projects/{project.name}/ equipment list + drawings"),
             ("Generated", datetime.now().strftime("%Y-%m-%d %H:%M:%S")),
-            ("Execution", "Select a writable ZONE in E3D, then $$MACRO <this file>"),
+            # The macro-run command is `$M <path>`, not `$$MACRO <path>`.
+            # `$$MACRO` appears nowhere in AVEVA's installed library (0 hits
+            # across ~6900 files in PMLLIB and PMLUI); `$M <path>` appears
+            # throughout, e.g. abaloadsymbols.pmlfnc `$M $!file`. Running
+            # `$$MACRO` aborts with "(47,50) CP: Meaningless symbol(s)".
+            ("Execution", "Select a writable ZONE in E3D, then $M <this file>"),
         ],
     )
 

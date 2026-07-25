@@ -20,9 +20,12 @@ E3D on the first attempt, and then **write back what you learned**.
 | Which project am I working on? | **[skill/workflows/project-structure.md](skill/workflows/project-structure.md)** — start here on any real job |
 | How do I run a modeling job? | [skill/workflows/modeling-run.md](skill/workflows/modeling-run.md) |
 | What PML syntax is safe? | [skill/knowledge/pml1-reference.md](skill/knowledge/pml1-reference.md) |
+| I am modelling a NOZZLE | **[skill/knowledge/catalogue-elements.md](skill/knowledge/catalogue-elements.md)** — required; a nozzle fails in ways a primitive cannot |
 | What does this equipment look like? | [skill/equipment/](skill/equipment/README.md) |
 | Has this been done before? | [skill/projects/](skill/projects/README.md) |
 | E3D rejected my macro | [skill/workflows/diagnosing-failures.md](skill/workflows/diagnosing-failures.md) |
+| The model looks wrong but loaded fine | [skill/workflows/diagnosing-failures.md](skill/workflows/diagnosing-failures.md) — the symptom table |
+| I need a fact from the user's E3D session | [skill/workflows/querying-e3d.md](skill/workflows/querying-e3d.md) |
 | The user corrected me | [skill/workflows/capturing-feedback.md](skill/workflows/capturing-feedback.md) |
 
 **Minimum viable read** for a modeling task: this file → `iron-rules.md` →
@@ -32,7 +35,7 @@ wastes the context you need for the model itself.
 
 ---
 
-## The five rules that survive everything
+## The seven rules that survive everything
 
 These are compressed from `skill/knowledge/iron-rules.md`. If you read nothing
 else, read these — but read the full file before emitting geometry.
@@ -43,8 +46,15 @@ else, read these — but read the full file before emitting geometry.
    and the element drifts silently, with no error.
 3. **PML1 only.** No `!var =`, `COLLECT`, `UNSET`, `ENDS`, `END EQUI`, `!!Alert`.
 4. **No render prologue.** `SUSPEND`, `RESUME`, `VAR 0`, `ALPHA HEADER` are not
-   E3D commands and abort the macro.
-5. **User-supplied parameters always win** over anything in this knowledge base.
+   E3D commands and abort the macro. Load with `$M <path>`, never `$$MACRO`.
+5. **A `NOZZLE` is a catalogue element, and nothing about it works like a
+   primitive.** Bind `CATR` first or it draws nothing; aim it with `ORI P1 IS`;
+   its `POS` is the flange face. See
+   [catalogue-elements.md](skill/knowledge/catalogue-elements.md).
+6. **Bounds-check physical quantities before trusting any datum reasoning.**
+   Lengths are positive; nozzles are under a metre; nothing sits below its
+   foundation. A theory-shaped check confirms the theory, not the model (IR-11).
+7. **User-supplied parameters always win** over anything in this knowledge base.
 
 ---
 

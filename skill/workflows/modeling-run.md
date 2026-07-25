@@ -140,7 +140,7 @@ Report per equipment item:
 Deliverables land in `Projects/<Name>/output/` and are **named after the
 project**, so the macro can be traced back and reopened in a later session.
 
-State the load instruction: select a writable ZONE, then `$$MACRO <path>`.
+State the load instruction: select a writable ZONE, then `$M <path>`.
 
 ---
 

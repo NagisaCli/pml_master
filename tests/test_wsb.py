@@ -85,10 +85,10 @@ def test_cylinder_axis_is_z_not_y(result):
     horizontal drums.
 
     A ``NOZZLE`` is the exception, and genuinely so: it is a catalogue element
-    whose axis runs along **Y**. All ten NOZZLE blocks in AVEVA's own
-    ``PMLUI/data/SMLdataPlant.pmlmac`` orient Y first. The two families are
-    therefore checked against their own conventions - applying the primitive
-    rule to a nozzle would aim it along its roll reference.
+    aimed by its **P-point**, ``ORI P1 IS <direction>`` - the form AVEVA's own
+    Modify Nozzle form emits (``equnozzle.pmlfrm:851``). The two families are
+    therefore checked against their own conventions; orienting a nozzle on a
+    geometric axis points it somewhere other than its bore.
     """
     primitives = {"CYLI", "CONE", "DISH"}
     block = None
@@ -104,8 +104,8 @@ def test_cylinder_axis_is_z_not_y(result):
                 f"a primitive's axis must be on Z, got: {line}"
             )
         elif block == "NOZZLE":
-            assert line.upper().startswith("ORI Y IS "), (
-                f"a nozzle's axis must be on Y, got: {line}"
+            assert re.match(r"^ORI\s+P\d+\s+IS\s", line, re.IGNORECASE), (
+                f"a nozzle must be aimed by its P-point, got: {line}"
             )
 
 
@@ -195,7 +195,8 @@ def _nozzle_elements(script, tag):
         if line.startswith("SPRE "):
             cur["spref"] = line[len("SPRE "):].strip()
         elif line.startswith("ORI "):
-            m = re.match(r"^ORI\s+Y\s+is\s+([UDENSW])\b", line, re.IGNORECASE)
+            # A nozzle is aimed by its P-point: ORI P1 IS <direction>.
+            m = re.match(r"^ORI\s+P\d+\s+IS\s+([UDENSW])\b", line, re.IGNORECASE)
             cur["axis"] = m.group(1).upper() if m else None
         elif line.startswith("POS "):
             m = re.match(
@@ -234,33 +235,43 @@ def test_every_nozzle_is_a_native_element(result):
 
 def test_every_nozzle_records_its_intended_specification(result):
     """
-    Each nozzle records the ANSI-NOZZLES component it is to be bound to.
+    Each nozzle either binds a real component or says why it cannot.
 
-    The binding is a **comment**, not a command. Emitting it as
-    ``SPRE SPCOMPONENT /ANSI-NOZZLES/...:400`` made E3D reject the macro with
-    "(2,109) Undefined name": the bore components in the project catalogue are
-    unnamed, so no name-based path resolves to one. The specification and bore
-    still have to travel with the model, or whoever assigns the CATREF has
-    nothing to go on - so they are carried as text against each nozzle.
+    This was once satisfied by a ``-- CATREF to be assigned ...`` comment, on
+    the theory that no name-based path could resolve. That was wrong twice over:
+    the SPCOs *are* named (``/150lb_Ansi_Flanged/AAZFBB0YY``), and a comment
+    binds nothing - every nozzle stayed invisible. The bore must now travel with
+    the model as an actual command, or as an explicit note when the catalogue
+    carries no component at that size.
     """
-    from wsb.pml_builder import NOZZLE_SPEC, NOZZLE_TYPE
+    from wsb.pml_builder import NOZZLE_BORE_COMPONENTS, nozzle_component_path
 
+    lines = result.macro.split("\n")
     for spec in WSB_TANKS:
         by_mark = {n.name: n for n in spec.nozzles}
-        blocks = _nozzle_blocks_with_comments(result.macro, spec.tag)
-        assert len(blocks) == len(spec.nozzles), spec.tag
-        for name, comments in blocks:
-            mark = name.split("_")[-2]
-            bore = by_mark[mark].dn
-            catref = [c for c in comments if "CATREF" in c]
-            assert catref, f"{spec.tag}/{name}: no catalogue reference recorded"
-            text = catref[0]
-            assert NOZZLE_SPEC in text and NOZZLE_TYPE in text, (
-                f"{spec.tag}/{name}: {text!r} names the wrong specification"
-            )
-            assert f"DN{bore}" in text, (
-                f"{spec.tag}/{name}: {text!r} does not record bore DN{bore}"
-            )
+        seen = 0
+        for i, line in enumerate(lines):
+            stripped = line.strip()
+            prefix = f"NEW NOZZLE /{spec.tag.replace('-', '_')}_"
+            if not stripped.startswith(prefix):
+                continue
+            name = stripped[len("NEW NOZZLE /"):]
+            bore = by_mark[name.split("_")[-2]].dn
+            block = [l.strip() for l in lines[i + 1:i + 9]]
+            seen += 1
+            if bore in NOZZLE_BORE_COMPONENTS:
+                want = f"CATR SPCOMPONENT {nozzle_component_path(bore)}"
+                assert want in block, (
+                    f"{spec.tag}/{name}: DN{bore} must bind with {want!r}"
+                )
+            else:
+                note = [l for l in block if "No catalogue component" in l]
+                assert note, (
+                    f"{spec.tag}/{name}: DN{bore} has no component and no note "
+                    f"explaining why it is unbound"
+                )
+                assert f"DN{bore}" in note[0]
+        assert seen == len(spec.nozzles), spec.tag
 
 
 def _nozzle_blocks_with_comments(script, tag):
@@ -287,33 +298,63 @@ def _nozzle_blocks_with_comments(script, tag):
     return out
 
 
-def test_radial_nozzles_sit_on_their_shell(result):
+def test_radial_nozzles_penetrate_their_shell(result):
     """
-    A nozzle's connection point must lie on the shell wall, not floating beside
-    it or buried inside the vessel.
+    Each nozzle barrel must pass through the shell wall - partly inside, mostly
+    outside - not sit buried in the vessel or float beside it.
 
-    A NOZZLE is positioned by its base - the point where it meets the vessel -
-    so this checks the base radius against the shell radius directly. The old
-    primitive version had to infer the same thing from a neck cylinder's centre
-    and half-height.
+    **A NOZZLE's POS is its FLANGE FACE**, and the barrel runs back from there
+    toward the vessel. An earlier version of this test asserted the opposite -
+    that POS was the root on the shell - and passed a model in which every
+    barrel lay entirely inside the tank, with only the flange rim emerging
+    through the plate.
+
+    So this checks the barrel's two ends against the shell face rather than
+    checking POS against anything: the root sits just inside the wall, and the
+    flange face stands clear outside it.
     """
-    from wsb.tank_builder import _NOZZLE_EMBED_MM
+    from wsb.tank_builder import (
+        _NOZZLE_WALL_PENETRATION_MM, _PAD_THICKNESS_MM, _nozzle_length,
+    )
 
+    checked = 0
     for spec in WSB_TANKS:
         shell_r = (spec.outer_diameter or spec.diameter) / 2.0
+        by_mark = {n.name: n for n in spec.nozzles}
         for element in _nozzle_elements(result.macro, spec.tag):
-            if element["axis"] in ("U", "D"):
+            # An unbound nozzle carries no ORI - it has no P1 to aim.
+            if element.get("axis") in ("U", "D", None):
                 continue
-            radial = math.hypot(
+            bore = by_mark[element["name"].split("_")[-2]].dn
+            length = _nozzle_length(bore)
+            face_r = math.hypot(
                 element["east"] - spec.position[0],
                 element["north"] - spec.position[1],
             )
-            # Base sits just inside the wall, by the embed depth, so the nozzle
-            # reads as penetrating the shell.
-            assert radial == pytest.approx(shell_r - _NOZZLE_EMBED_MM, abs=0.5), (
-                f"{spec.tag}/{element['name']}: base at radius {radial:.0f}, "
-                f"expected {shell_r - _NOZZLE_EMBED_MM:.0f} (shell {shell_r:.0f})"
+            root_r = face_r - length
+
+            # The root sits inside the shell face: a real penetration.
+            assert root_r == pytest.approx(
+                shell_r - _NOZZLE_WALL_PENETRATION_MM, abs=0.5
+            ), (
+                f"{spec.tag}/{element['name']}: barrel root at radius "
+                f"{root_r:.0f}, expected {shell_r - _NOZZLE_WALL_PENETRATION_MM:.0f} "
+                f"(shell face {shell_r:.0f})"
             )
+            # The flange face stands clear of the shell and its pad.
+            projection = face_r - shell_r
+            assert projection > _PAD_THICKNESS_MM, (
+                f"{spec.tag}/{element['name']}: flange face projects only "
+                f"{projection:.0f} mm - it must clear the "
+                f"{_PAD_THICKNESS_MM} mm reinforcing pad"
+            )
+            # And the buried portion stays modest: most of the barrel is usable.
+            assert projection > length / 2.0, (
+                f"{spec.tag}/{element['name']}: more than half the "
+                f"{length:.0f} mm barrel is buried in the vessel"
+            )
+            checked += 1
+    assert checked == 87, f"expected 87 radial nozzles, checked {checked}"
 
 
 def test_every_nozzle_has_a_catalogue_binding_recorded(result):
@@ -325,18 +366,67 @@ def test_every_nozzle_has_a_catalogue_binding_recorded(result):
     are not displaying" meant. The binding cannot go inline in the NEW NOZZLE
     block - AVEVA's own data does it as a second pass keyed by name
     (SMLdataPlant.pmlmac:13733) - so the macro carries an OLD/CATR pair per
-    nozzle, commented out pending confirmation of the site catalogue.
+    nozzle, bound to a component name read from the live project catalogue.
+
+    The binding must be a LIVE command, not a comment. An earlier version
+    emitted the whole pass commented out, which meant every nozzle stayed
+    unbound and invisible - the macro documented the fix instead of applying it.
+
+    The path must be the SPCO's own two-segment path, /<selec>/<component>.
+    Emitting the bare component name gave "(2,108) SCOMPONENT /AAZFBB0YY is not
+    a SPCO" - that name is the SPCO's Catref *value*, not the SPCO.
     """
-    total = 0
-    for spec in WSB_TANKS:
-        for element in _nozzle_elements(result.macro, spec.tag):
-            assert f"OLD /{element['name']}" in result.macro, (
-                f"{spec.tag}/{element['name']}: no catalogue binding emitted - "
-                f"this nozzle would draw nothing in E3D"
+    from wsb.pml_builder import NOZZLE_BORE_COMPONENTS, nozzle_component_path
+
+    for line in result.macro.split("\n"):
+        if line.startswith("CATR SPCOMPONENT"):
+            path = line.split()[-1]
+            assert path.count("/") == 2, (
+                f"{line}: CATR needs the SPCO's /<selec>/<component> path, not "
+                f"the bare component name"
             )
-            total += 1
-    assert total == 114, f"expected 114 nozzles, checked {total}"
-    assert result.macro.count("CATR SPCOMPONENT") == 114
+
+    # The binding is inline in each NEW NOZZLE block, so collect each block's
+    # own CATR rather than looking for a trailing pass.
+    lines = result.macro.split("\n")
+    inline = {}
+    for i, line in enumerate(lines):
+        if not line.strip().startswith("NEW NOZZLE /"):
+            continue
+        name = line.strip()[len("NEW NOZZLE /"):]
+        catr = [
+            l.strip() for l in lines[i + 1:i + 9]
+            if l.strip().startswith("CATR SPCOMPONENT")
+        ]
+        inline[name] = catr[0] if catr else None
+
+    bound = unbindable = 0
+    for spec in WSB_TANKS:
+        by_mark = {f"{spec.tag.replace('-', '_')}_{n.name}_NOZZ": n
+                   for n in spec.nozzles}
+        for element in _nozzle_elements(result.macro, spec.tag):
+            nozzle = by_mark[element["name"]]
+            if nozzle.dn not in NOZZLE_BORE_COMPONENTS:
+                # No component exists at this bore. It must be reported, never
+                # silently bound to a smaller one.
+                unbindable += 1
+                assert inline[element["name"]] is None, (
+                    f"{element['name']}: DN{nozzle.dn} has no catalogue "
+                    f"component but was bound anyway"
+                )
+                continue
+            path = nozzle_component_path(nozzle.dn)
+            assert inline[element["name"]] == f"CATR SPCOMPONENT {path}", (
+                f"{spec.tag}/{element['name']}: DN{nozzle.dn} must bind inline "
+                f"to {path}, got {inline[element['name']]!r}"
+            )
+            bound += 1
+
+    assert bound + unbindable == 114
+    assert bound == 113, f"expected 113 bindable nozzles, got {bound}"
+    assert unbindable == 1, "the DN800 outlet is the only unbindable nozzle"
+    # No trailing OLD/CATR rebinding pass: it aborts on the ORI line.
+    assert not [l for l in lines if l.startswith("OLD /")]
 
 
 def test_nozzle_blocks_are_positioned_before_they_are_oriented(result):
@@ -353,16 +443,28 @@ def test_nozzle_blocks_are_positioned_before_they_are_oriented(result):
     for i, line in enumerate(lines):
         if not line.strip().startswith("NEW NOZZLE"):
             continue
-        block = lines[i + 1:i + 8]
+        block = lines[i + 1:i + 9]
         order = [
             l.split()[0].upper() for l in block
             if l.strip() and not l.strip().startswith("--")
         ]
+        if "ORI" not in order:
+            # A nozzle with no catalogue component has no P1 to aim, so no ORI
+            # is emitted. It must carry no CATR either.
+            assert "CATR" not in order, f"{line.strip()}: bound but not aimed"
+            continue
         assert order.index("POS") < order.index("ORI"), (
             f"{line.strip()}: ORI precedes POS"
         )
+        # CATR must come before both: a nozzle has no P-points and no position
+        # until a catalogue component is bound (equnozzle.pmlfrm:894). Binding
+        # later aborts with "(2,360) Cannot get position of NOZZLE".
+        assert order.index("CATR") < order.index("POS"), (
+            f"{line.strip()}: CATR must precede POS - a nozzle has no position "
+            f"until its catalogue component is bound"
+        )
         checked += 1
-    assert checked == 114
+    assert checked == 113, f"expected 113 aimed nozzles, got {checked}"
 
 
 def test_no_primitive_floats_detached_from_its_tank(result):
@@ -457,12 +559,21 @@ def test_nozzle_lengths_are_positive_and_bore_appropriate(result):
     """
     Every nozzle projects far enough to present a usable flange face.
 
-    Length is a Reference Value pending the vendor schedule, so this checks the
-    property that must hold regardless of the figures chosen: a nozzle clears
-    its own reinforcing pad, and a larger bore is never shorter than a smaller
-    one.
+    ``HEIG`` is the nozzle's own LENGTH - the projection from its connection
+    point to the flange face. It is a dimension of the nozzle, nothing else.
+
+    A previous version computed it as the distance from the owning EQUI's origin
+    to the flange face, and this test was rewritten to agree with that theory.
+    Both were wrong. The giveaway is bounds, not arithmetic: that scheme emitted
+    HEIG values from -61680 to +72280 for nozzles 250-450 mm long, and a length
+    cannot be negative. Hence the absolute sanity bound below - it is the check
+    that would have caught the fault before the model was ever opened.
     """
     from wsb.tank_builder import _PAD_THICKNESS_MM, _nozzle_length
+
+    #: No nozzle in this project is shorter than its pad or longer than a metre.
+    #: Anything outside this is a datum error, not a dimension choice.
+    LENGTH_MAX_MM = 1000.0
 
     seen = {}
     for spec in WSB_TANKS:
@@ -471,9 +582,10 @@ def test_nozzle_lengths_are_positive_and_bore_appropriate(result):
             mark = element["name"].split("_")[-2]
             bore = by_mark[mark].dn
             length = element["heig"]
-            assert length > _PAD_THICKNESS_MM, (
-                f"{spec.tag}/{element['name']}: length {length} does not clear "
-                f"its {_PAD_THICKNESS_MM} mm reinforcing pad"
+            assert _PAD_THICKNESS_MM < length < LENGTH_MAX_MM, (
+                f"{spec.tag}/{element['name']}: HEIG {length} is not a "
+                f"plausible nozzle length - it must clear the "
+                f"{_PAD_THICKNESS_MM} mm pad and stay under {LENGTH_MAX_MM} mm"
             )
             assert length == _nozzle_length(bore), (
                 f"{spec.tag}/{element['name']}: length {length} does not match "
@@ -914,6 +1026,12 @@ def test_macro_emits_only_real_e3d_commands(result):
         # name-based catalogue path does not resolve, and the validator now
         # rejects it outright.
         "TEMP", "PRES", "TPRESS", "DUTY", "END",
+        # Catalogue binding pass. Both verbs appear in AVEVA's own data at
+        # SMLdataPlant.pmlmac:13733 -- "OLD /SML/HO9007/N1" followed by
+        # "CATR SPCOMPONENT /DICHTFL_C/ND-16RF-150". OLD re-selects an existing
+        # element by name; CATR sets its catalogue reference. Without this pass
+        # every NOZZLE renders nothing.
+        "OLD", "CATR",
     }
     assert verbs <= known, f"unrecognised command verbs: {sorted(verbs - known)}"
 
@@ -1013,35 +1131,44 @@ def test_validator_rejects_a_primitive_oriented_on_y():
 
 def test_validator_accepts_a_correct_nozzle():
     """
-    A nozzle orients on Y and is written POS-then-ORI - both the opposite
-    convention to a primitive. Matches AVEVA's own macro data, where all ten
-    NOZZLE blocks in PDMSUI\\data\\SMLdataPlant.pmlmac take this form.
+    A nozzle is aimed by its P-point and written POS-then-ORI - both the
+    opposite convention to a primitive. ``ORI P1 IS <direction>`` is what
+    AVEVA's Modify Nozzle form emits (equnozzle.pmlfrm:851).
     """
     good = "\n".join([
         "NEW NOZZLE /V1_N1",
+        "CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0YY",
         "POS E 0.0 N 0.0 U 0.0",
-        "ORI Y is E and Z is U",
+        "ORI P1 IS E",
         "HEIG 300.0",
         "END",
     ])
     assert validate_pml(good) == []
 
 
-def test_validator_rejects_a_nozzle_oriented_on_z():
+@pytest.mark.parametrize("ori", [
+    "ORI Z is E and Y is U",      # primitive convention
+    "ORI Y is E and Z is U",      # the wrong rule this project shipped once
+])
+def test_validator_rejects_a_nozzle_oriented_on_a_geometric_axis(ori):
     """
-    A nozzle oriented on Z points along its roll reference instead of its bore.
-    The macro still loads, so this needs an explicit check too.
+    A nozzle oriented on a geometric axis points somewhere other than its bore.
+
+    ``ORI Y is ...`` is included because this project shipped it: it aimed all
+    114 nozzles wrongly and still loaded without error, so only an explicit
+    check catches it.
     """
     bad = "\n".join([
         "NEW NOZZLE /V1_N1",
+        "CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0YY",
         "POS E 0.0 N 0.0 U 0.0",
-        "ORI Z is E and Y is U",
+        ori,
         "HEIG 300.0",
         "END",
     ])
     problems = validate_pml(bad)
-    assert problems, "a Z-oriented nozzle must be rejected"
-    assert "along Y" in problems[0]
+    assert problems, f"a nozzle oriented as {ori!r} must be rejected"
+    assert "P-point" in problems[0]
 
 
 def test_validator_rejects_a_nozzle_oriented_before_positioned():
@@ -1052,6 +1179,7 @@ def test_validator_rejects_a_nozzle_oriented_before_positioned():
     """
     bad = "\n".join([
         "NEW NOZZLE /V1_N1",
+        "CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0YY",
         "ORI Y is E and Z is U",
         "POS E 0.0 N 0.0 U 0.0",
         "HEIG 300.0",
@@ -1074,6 +1202,7 @@ def test_validator_rejects_a_catalogue_path_by_name():
     """
     bad = "\n".join([
         "NEW NOZZLE /V1_N1",
+        "CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0YY",
         "SPRE SPCOMPONENT /ANSI-NOZZLES/150lb Ansi Flanges:150",
         "ORI Y is E and Z is U",
         "POS E 0.0 N 0.0 U 0.0",

@@ -429,7 +429,7 @@ class MegaPaperMillComplex:
             f"-- Dimensions: 200m(E) × 100m(N) × 65m(U) | PML1",
             f"-- 6 Plant Zones: Woodyard / Pulping / Recovery / Paper Machine / Power / Pipe Bridges",
             f"-- Generated: {ts}",
-            f"-- Prerequisite: select writable ZONE in E3D → $$MACRO <this file>",
+            f"-- Prerequisite: select writable ZONE in E3D → $M <this file>",
             f"-- Strict PML1 compliance: 100% ORI-before-POS, zero drift for all plant components",
             # No rendering-control prologue: ALPHA HEADER, VAR 0, SUSPEND and
             # RESUME are not E3D Design commands and abort the macro.

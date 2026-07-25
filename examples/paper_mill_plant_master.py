@@ -399,7 +399,7 @@ class IntegratedPaperMillPlant:
             f"-- Integrated Paper Mill Plant — Full-Process 3D Digital Twin",
             f"-- Dimensions: 100m(E) × 50m(N) × 24m(U) | Paper machine centerline: N=0",
             f"-- Generated: {ts}",
-            f"-- Prerequisite: select writable ZONE in E3D → $$MACRO <this file>",
+            f"-- Prerequisite: select writable ZONE in E3D → $M <this file>",
             f"-- PML1 compliance: 100% ORI-before-POS, absolute zero drift guaranteed",
             "",
             f"NEW EQUI /PAPER_MILL_INTEGRATED_PLANT",

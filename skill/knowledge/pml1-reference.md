@@ -77,7 +77,7 @@ To point a dish downward, invert the axis (`ORI Z IS D ...`); see
 
 ## Not available — VERIFIED to fail
 
-These produce a syntax error in `$$MACRO` mode:
+These produce a syntax error in `$M` macro mode:
 
 | Primitive | Intended use | Use instead |
 |-----------|--------------|-------------|
@@ -132,11 +132,46 @@ Plus the non-existent render prologue: `ALPHA HEADER`, `VAR 0`, `SUSPEND`,
 In E3D Design, select a **writable ZONE** as the current element, then:
 
 ```
-$$MACRO <full path to the .pml file>
+$M <full path to the .pml file>
 ```
+
+**The command is `$M`, not `$$MACRO`.** This entry previously said `$$MACRO`,
+which is not an E3D command at all. It aborts before executing a single line:
+
+```
+(47,50)   CP: Meaningless symbol(s) in command line
+^^$$MACRO C:\...\JK-Project.pml
+```
+
+**Evidence.** `$$MACRO` has **zero** occurrences across ~6900 files in
+`%AVEVA%\Everything3D3.1\PMLLIB` and `PMLUI`. `$M <path>` appears throughout —
+`abaloadsymbols.pmlfnc` (`$M $!file`), `assydbs.pmlfrm`
+(`$M %PMLLIB%\assembly\data\assembly_adp_library.txt`), `nuccatwgensec.pmlfrm`
+(`$M /%PMLUI%/DES/STLWRK/DSTLSPEC`).
+
+This mattered more than a wrong-command annoyance: the generated deliverable
+carried `$$MACRO` in its own header, so the instruction shipped to the user was
+one that could never work.
 
 If the current element is not a writable zone, element creation fails regardless
 of macro correctness.
+
+### Querying an element interactively
+
+A **bare path navigates** — there is no `GOTO` (that is a macro label jump,
+`GOTO IDLN`) and no `NAVIGATE`. Then query:
+
+```
+/150lb_Ansi_Flanged/AAZFBB0KK
+Q ATT                      -- all attributes
+Q NAME ANSWER              -- named attributes only
+```
+
+The Command Window accepts **PML1 single commands only**. `collect`,
+`do`/`enddo` and `!var =` assignment are rejected there with
+`(47,15) CP: Syntax error` even though they are valid inside a `.pmlfrm`. To run
+a multi-step query, write it to a `.mac` file of bare-path/`Q` pairs and load it
+with `$M`.
 
 ---
 
@@ -187,9 +222,12 @@ verified against AVEVA's own macro data in
 :11018 …, with the binding pass at :13733). See
 [IR-9a](iron-rules.md#ir-9a--a-nozzle-draws-nothing-until-a-catalogue-component-is-bound).
 
-The unverified part is narrower than the old entry implied: whether the emitted
-`CATR SPCOMPONENT` path resolves in **the receiving project's** catalogue. It is
-site-dependent, which is why the binding pass is emitted commented-out.
+The binding is now **fully verified against the live project catalogue**. The
+components under `/ANSI-NOZZLES` sit beneath a SELEC named `150lb_Ansi_Flanged`
+and are named `AAZFBB0xx`; the bore is each SPCO's `Answer` attribute. Read them
+with `list_nozzle_bores.mac` (bare path + `Q NAME ANSWER`, run with `$M`) — the
+mapping is stored in `wsb.pml_builder.NOZZLE_BORE_COMPONENTS` and must be
+re-read for any other receiving project.
 
 ---
 

@@ -4,7 +4,7 @@ PML Code Generator
 Generates executable PML1 scripts from DesignIntent (drawing parse / natural language).
 Uses a combined strategy of knowledge base + templates.
 
-Syntax specification: PML1 (E3D 3.1 $$MACRO mode)
+Syntax specification: PML1 (E3D 3.1 $M macro mode)
 Banned: !!Alert $P ENDS END EQUI NAME = DESC = !var = COLLECT UNSET !!CE !!WORLD
 """
 
@@ -126,7 +126,7 @@ class PMLGenerator:
         """Prerequisite notes for PML1 macro mode."""
         return [
             f"-- Prerequisite: select a writable ZONE ({intent.zone}) in E3D first",
-            f"-- Execution: $$MACRO <path to this script>",
+            f"-- Execution: $M <path to this script>",
             "",
         ]
 

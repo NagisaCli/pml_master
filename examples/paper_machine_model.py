@@ -452,7 +452,7 @@ class PM1PaperMachine:
             f"-- Specs: trim={self.TRIM}mm, wire={self.WIRE_W}mm, {self.D_N} dryer cylinders φ{self.D_DIAM}mm",
             f"-- Dryer pitch={self.D_PITCH}mm, face={self.D_FACE}mm, 2-tier arrangement",
             f"-- Generated: {ts} | Data baseline: industrial fourdrinier multi-cylinder paper machine",
-            "-- Prerequisite: select writable ZONE in E3D → $$MACRO <this file>",
+            "-- Prerequisite: select writable ZONE in E3D → $M <this file>",
             "-- Units: mm | E=machine direction | N=cross-machine | U=vertical",
             "",
         ]

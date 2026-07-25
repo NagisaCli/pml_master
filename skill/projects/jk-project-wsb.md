@@ -106,6 +106,36 @@ loaded cleanly and the geometry was wrong. Only numerical verification caught
 them. This is why [IR-6](../knowledge/iron-rules.md#ir-6--tank-equipment-is-set-out-from-its-bottom-centre-point)
 insists on parsing geometry rather than reading the macro.
 
+### Second round: the nozzle campaign
+
+A later session found the model's nozzles unusable. What looked like one bug was
+six, each hiding the next — and **numerical verification caught none of them**.
+Every one was found by the client loading the macro and reporting what they saw.
+
+| # | Symptom | Cause | Rule |
+|---|---------|-------|------|
+| 1 | Floating discs beside every tank | Ladder cage hoops as solid `CYLI` rings | IR-9b |
+| 2 | Nozzles in the tree, invisible in 3D | No catalogue component bound | IR-9a |
+| 3 | Only the first tank loaded | `CATR` emitted in a trailing pass; P-points do not exist yet | IR-9a |
+| 4 | `(2,108) ... is not a SPCO` | Passed the SPCO's `Catref` value, not its own path | [catalogue-elements](../knowledge/catalogue-elements.md) |
+| 5 | Nozzles aimed wrongly | Oriented on a geometric axis instead of `ORI P1 IS` | IR-2 |
+| 6 | Barrels buried; only flange rims visible | `POS` is the **flange face**, not the root | IR-9a |
+
+Plus a self-inflicted regression: a mis-read `HEIG` datum emitted lengths from
+−61680 to +72280 mm and drew the model as a thicket of flying tubes. A negative
+length is impossible; no datum argument was needed to reject it. That produced
+**[IR-11](../knowledge/iron-rules.md#ir-11--how-a-rule-earns-the-word-verified)**
+— bounds before theories, and property tests over formula tests.
+
+**Why this round was harder than the first.** A catalogue element has more
+independent failure modes than a primitive, and the geometric checks that caught
+round one are blind to all of them: an unbound nozzle has a *correct* position.
+Verification has to reach the property a designer cares about — does the barrel
+pass through the wall — not the numbers the generator just wrote.
+
+The client's screenshots were the diagnostic instrument throughout. Two of the
+six were identified by the client directly, including the flange-face datum.
+
 ---
 
 ## Client corrections

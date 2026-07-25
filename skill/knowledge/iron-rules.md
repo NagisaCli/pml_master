@@ -95,10 +95,38 @@ PDMSUI\data\SMLdataPlant.pmlmac:48
 Both orders load without error, so this is checked explicitly by
 `_check_nozzle_pos_before_ori()`.
 
-| Element family | Axis | Order |
-|----------------|------|-------|
-| `CYLI` / `CONE` / `DISH` | `Z` | `ORI` then `POS` |
-| `NOZZLE` | `Y` | `POS` then `ORI` |
+| Element family | Aimed by | Order |
+|----------------|----------|-------|
+| `CYLI` / `CONE` / `DISH` | `ORI Z IS <axis>` | `ORI` then `POS` |
+| `NOZZLE` | `ORI P1 IS <direction>` | `POS` then `ORI` |
+
+### A `NOZZLE` is aimed by its P-point, not by a geometric axis
+
+```
+CORRECT   ORI P1 IS N
+WRONG     ORI Y is N and Z is U     -- points somewhere other than the bore
+```
+
+**Evidence.** AVEVA's own Modify Nozzle form sets direction with
+`ORI P1 IS $!direction` (`equnozzle.pmlfrm:851`) and reads it back as
+`pdir[1]` (:858). `ORI P<n> IS` appears 1087 times across the installed library
+and is macro-legal — emitted as literal macro text in `nucoldocech.pmlobj:663`.
+
+**This project shipped `ORI Y is <axis> and Z is U` and it aimed all 114
+nozzles wrongly** while loading without a single error. The rule was inferred
+from `ORI Y is -Z and Z is -X` lines in `SMLdataPlant.pmlmac` without checking
+what they meant. Two clues were already in the evidence:
+
+* `/SML/XX9004/N2` in that same file reads `ORI Y is Y and Z is -Z`. If Y were
+  the bore and Z a free roll reference, that is a pure 180° roll about the bore
+  of an axisymmetric flange — meaningless.
+* The `ORI Y is S and Z is U` lines cited as corroboration sit on `NEW FLANGE`
+  elements (`designcheckerrules.pmlmac:1171`), a different element family.
+
+**The general lesson:** a pattern seen in sample data is not a rule until you
+find the code that *writes* it. Grepping for what a working file contains found
+the wrong answer three times here; reading the form that generates it found the
+right one.
 
 ---
 
@@ -270,9 +298,148 @@ reference entirely — is what left all 114 nozzles invisible. **Removing a
 reference that will not resolve does not make the element correct; it makes it
 empty.**
 
-Because the SPCO path belongs to the receiving project's catalogue, the builder
-emits the pass **commented out** (`PMLBuilder.catref_pass()`), so a designer
-uncomments one block rather than binding 114 nozzles by hand.
+**`CATR` must come FIRST, inline, immediately after `NEW NOZZLE`** — before
+`POS`, before `ORI`, before anything. A nozzle's P-points *and its position*
+come from the catalogue component, so until one is bound there is nothing to
+position and no P1 to aim:
+
+```
+CORRECT                                     WRONG (aborts mid-load)
+NEW NOZZLE /203_TA_006_N1_NOZZ              NEW NOZZLE /...
+CATR SPCOMPONENT /150lb_Ansi_Flanged/...    POS E 15000 N 22610 U 7820
+POS E 15000 N 22610 U 7820                  ORI P1 IS N
+ORI P1 IS N                                 ... CATR far later ...
+HEIG 450
+```
+
+```
+(2,360)   Cannot get position of NOZZLE /203_TA_006_N1_NOZZ
+Command: ORI P1 IS N
+```
+
+**Evidence.** AVEVA's creation form sets the catref as the statement straight
+after `NEW NOZZ` (`equnozzle.pmlfrm:894`: `!!ce.catref = !this.nozzSpecRef`),
+before height, temperature or anything else.
+
+**The trap:** the `OLD` / `CATR` pass at `SMLdataPlant.pmlmac:13733` is a
+*rebinding* of nozzles that already have a component — not a creation sequence.
+Copying its shape put the binding at the end of the macro, which aborted the
+first nozzle and **stopped the whole load at the first tank**. A partial model
+is a much quieter failure than a syntax error: 21 of 22 tanks were simply
+absent, with no error visible in the model at all.
+
+A nozzle with no component must also carry **no `ORI`** — there is no P1 to aim.
+Both orderings are enforced by `_check_nozzle_catref_first()`.
+
+### A `NOZZLE`'s `POS` is its FLANGE FACE, not its root on the shell
+
+The barrel runs **back** from `POS` toward the vessel, so the datum must sit a
+full nozzle length *outside* where the barrel should meet the plate:
+
+```
+POS radius = shell_face − penetration + length
+```
+
+```
+203-TA-006 N1, DN400, 450 long, shell face at N 22660:
+  WRONG   POS N 22610   -> barrel spans 22160..22610, entirely INSIDE the tank;
+                           only the flange rim shows where it pierces the plate
+  CORRECT POS N 23010   -> barrel spans 22560..23010: 100 buried, 350 proud
+```
+
+Setting `POS` on the shell face (less a small embed) is the natural assumption
+and it is wrong — it buries the whole barrel. The symptom is subtle: the nozzle
+is at the right coordinate, aimed correctly, and still looks like a flange stuck
+flat on the wall.
+
+**Choose the penetration deliberately.** Offsetting by the full nozzle length
+leaves the barrel merely touching the plate — no penetration, maximum
+unsupported stub, unrealistic. `_NOZZLE_WALL_PENETRATION_MM = 100` buries enough
+to read as a real wall penetration while leaving 150–350 mm projecting for
+piping, depending on bore.
+
+**Verify the barrel, not the datum.** Check both ends against the shell face:
+root at `face − penetration`, flange face clear outside, and more than half the
+barrel outside the vessel. A test that asserts where `POS` sits merely restates
+whatever datum the code assumed — an earlier one did exactly that and passed a
+model with all 87 barrels buried.
+
+---
+
+### `HEIG` is the nozzle's own length — bound it, don't theorise about it
+
+`HEIG` is the projection from the connection point to the flange face. It is a
+dimension of the nozzle and nothing else. For this project that is 250–550 mm.
+
+**A revision of this file claimed `HEIG` was measured from the owning `EQUI`'s
+origin.** It was wrong, and following it emitted values from **−61680 to
++72280 mm**, drawing the model as a thicket of metre-long tubes flying off the
+vessels — far worse than the symptom it was meant to fix.
+
+The reasoning that produced it: AVEVA's sample nozzles carry `HEIG 2.5` and
+`HEIG 30`, which look impossible as projections, so the datum "must" be
+something else. That inference was built on sample values whose vessels were
+never examined, then confirmed by a test rewritten to expect the same thing.
+**A test written after the theory only re-states the theory.**
+
+**What would have caught it instantly is a bounds check, not a datum argument.**
+A length cannot be negative and a 72 m nozzle is absurd — no knowledge of the
+correct datum is needed to reject either. `_check_nozzle_heig_plausible()` now
+enforces 1–2000 mm.
+
+The general rule: when a physical quantity has obvious bounds, assert them.
+Cheap bounds outrank elaborate checks that encode the same assumption as the
+code they are checking.
+
+**Emit the binding live, with real component names.** An intermediate version
+emitted it commented out with a guessed `/ANSI-NOZZLES/DN<bore>` path, on the
+reasoning that the path is site-specific. That fixed nothing: a commented
+command does nothing, so every nozzle stayed unbound and invisible, and the
+placeholder could never have resolved anyway. **Documenting a fix is not
+applying one.**
+
+**Pass the SPCO's own path, not its `Catref` value.** `Q ATT` prints both, one
+line apart, and confusing them gives:
+
+```
+(2,108)   SCOMPONENT /AAZFBB0YY is not a SPCO
+```
+
+```
+Name   /150lb_Ansi_Flanged/AAZFBB0YY   <- the SPCO: what CATR wants
+Catref /AAZFBB0YY                      <- what the SPCO points at
+```
+
+The path is always two segments, `/<selec>/<component>` — matching AVEVA's own
+`CATR SPCOMPONENT /DICHTFL_C/ND-16RF-150`. Note the SELEC name
+(`150lb_Ansi_Flanged`) is *not* the specification name (`/ANSI-NOZZLES`); it is
+the SELEC that owns the components, from `Q ATT`'s `Owner` line.
+
+Read the real names out of the receiving catalogue instead. Navigate to a
+component and query it (`Q ATT`, or `Q NAME ANSWER`); `Answer` is the bore.
+`wsb/…/list_nozzle_bores.mac` does this for a whole family in one `$M` run, and
+the result is stored in `NOZZLE_BORE_COMPONENTS`.
+
+**Never infer a component name from its code.** In this catalogue the SPCOs are
+`AAZFBB0xx` under a SELEC named `150lb_Ansi_Flanged`, and the ordering defeats
+every reasonable guess:
+
+```
+AAZFBB011 = DN500     <- the two LARGEST bores come FIRST
+AAZFBB033 = DN600
+AAZFBB0DD = DN15      <- then the ladder restarts at the smallest
+...
+AAZFBB0MM = DN90      <- a bore that is not in the standard ANSI series
+```
+
+Three separate ordering hypotheses were tested against known points and all
+failed. A wrong guess binds the wrong flange to a real connection and still
+loads cleanly, which is worse than an unbound nozzle.
+
+**A bore the catalogue does not carry is reported, never approximated.** The
+JK-Project DN800 bottom outlet has no 150lb component (the family stops at
+DN600). It is left unbound with an explicit note rather than downsized to DN600,
+which would read as correct downstream and mislead the piping designer.
 
 ---
 
@@ -315,6 +482,84 @@ knowledge — leave it out and say so in the Outstanding Issues.
 
 ---
 
+## IR-11 — How a rule earns the word "verified"
+
+Most rules in this file replaced an earlier rule that was confidently wrong. The
+failures below are not about E3D — they are about how the wrong answers got
+believed, and they cost more time than any syntax error.
+
+### 11a — Bounds before theories
+
+When a quantity is physical, assert its bounds *first*. You do not need to know
+the correct datum to reject a negative length.
+
+```
+HEIG values emitted under a mis-read datum:  -61680 .. +72280 mm
+Actual nozzles:                                  250 .. 550 mm
+```
+
+A bounds check would have caught that in the generator, before the file was ever
+sent. Instead a verification pass ran over it, confirmed the formula had been
+applied consistently, and reported "all 87 verified" — because it checked
+*consistency with the theory*, never *physical possibility*.
+
+**Cheap bounds on a physical quantity outrank elaborate checks that share the
+code's assumptions.** Lengths are positive. Diameters are positive. Equipment
+does not sit below its foundation. Nozzles are shorter than a metre.
+
+### 11b — A test written after the theory only restates the theory
+
+Twice in one session a datum was mis-read, the test was rewritten to match, and
+the suite went green over a broken model:
+
+* the nozzle length test compared `HEIG` to the value the code had just computed;
+* the shell-placement test asserted where `POS` sat, which merely re-stated
+  whatever datum the code assumed.
+
+**Test the property, not the formula.** Not "is `HEIG` what we computed" but
+"does the barrel pass through the wall with most of it outside". A property test
+fails when the theory is wrong; a formula test cannot.
+
+### 11c — Read the code that *writes* a pattern, not the pattern
+
+Sample data shows what some file contains, not what the rule is. Three wrong
+conclusions came from grepping AVEVA's sample macros:
+
+| Inferred from samples | Actually |
+|-----------------------|----------|
+| A nozzle's axis is Y | Aimed by `ORI P1 IS` (`equnozzle.pmlfrm:851`) |
+| `CATR` goes in a trailing pass | Bound inline at creation (`equnozzle.pmlfrm:894`) |
+| `HEIG` is measured from the owner origin | It is the nozzle's own length |
+
+Each was settled by reading the form that *generates* nozzles. Two of the three
+had contradicting evidence already visible in the same sample file — an
+`ORI Y is Y and Z is -Z` that is meaningless as a bore direction, and `ORI Y`
+lines that sit on `FLANGE` elements rather than nozzles.
+
+**Before trusting a pattern, find the code that writes it.** If you cannot, say
+the rule is unverified.
+
+### 11d — "Fixed" means the user has seen it work
+
+A macro that generates cleanly, validates cleanly and passes every test can still
+be wrong in five different ways at once. Every fault in this session was caught
+by the user loading the file and reporting what they saw — never by the test
+suite alone.
+
+State what was verified and how. "146 tests pass and the geometry checks are
+clean" is honest; "the nozzles are fixed" is not, until someone has looked.
+
+### 11e — Documenting a fix is not applying one
+
+An entire catalogue-binding pass was emitted **commented out**, with a note
+explaining what to uncomment. 228 comment lines, 0 executable commands, and every
+nozzle still invisible.
+
+If the generator can emit the working command, emit it. A comment is for
+explaining a command, never for standing in place of one.
+
+---
+
 ## Pre-delivery checklist
 
 Run through this before returning any macro:
@@ -322,12 +567,20 @@ Run through this before returning any macro:
 - [ ] `POS` treated as geometric centre for **all** primitives, converted centrally (IR-1)
 - [ ] `ORI` precedes `POS` for every `CYLI` / `CONE` / `DISH` (IR-2)
 - [ ] `POS` precedes `ORI` for every `NOZZLE` — the opposite order (IR-2)
-- [ ] Every `NOZZLE` has a catalogue binding pass, or it renders nothing (IR-9a)
+- [ ] Every `NOZZLE` aimed by `ORI P1 IS <direction>`, never a geometric axis (IR-2)
+- [ ] Every `NOZZLE` binds `CATR` FIRST, inline — before `POS` and `ORI` (IR-9a)
+- [ ] Nozzle `POS` is the FLANGE FACE; verify the barrel penetrates the wall (IR-9a)
+- [ ] Nozzle `HEIG` is its own length, within plausible bounds (IR-9a)
 - [ ] No ring modelled as a single `CYLI`; no detached geometry (IR-9b)
 - [ ] Axis of revolution on Z (IR-3)
 - [ ] Zero render directives: `SUSPEND`, `RESUME`, `VAR 0`, `ALPHA HEADER` (IR-4)
 - [ ] Zero PML2 syntax (IR-5)
 - [ ] Bottom centre point verified **numerically**, not by string match (IR-6)
+- [ ] Physical quantities bounds-checked, not just formula-checked (IR-11a)
+- [ ] Tests assert properties, not the formula the code just applied (IR-11b)
+- [ ] Every "verified" claim traced to code that writes it, not sample data (IR-11c)
+- [ ] No fix reported as complete before the user has loaded it (IR-11d)
+- [ ] No command emitted commented-out in place of doing the work (IR-11e)
 - [ ] Every `EQUI` explicitly at `POS E 0 N 0 U 0`; no hyphens in names (IR-7)
 - [ ] One EQUI per tag; one SUBE per nozzle (IR-8)
 - [ ] No `DISH` used as a flat plate (IR-9)

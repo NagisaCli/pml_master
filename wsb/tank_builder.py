@@ -89,6 +89,20 @@ _NOZZLE_LENGTH_MAX_MM = 550.0
 #: and shell share a tangent surface, which renders as a visible seam.
 _NOZZLE_EMBED_MM = 50.0
 
+#: How far a nozzle barrel penetrates past the shell face (mm).
+#:
+#: A NOZZLE is positioned by its **flange face**, so this is what decides how
+#: much of the barrel ends up inside the vessel and how much projects outside:
+#: the barrel spans ``face - penetration`` to ``face - penetration + length``.
+#:
+#: 100 mm is a deliberate middle setting. Using the full nozzle length as the
+#: offset would leave the barrel merely touching the shell - no penetration, and
+#: the maximum unsupported stub outside, which reads as unrealistic. Too little
+#: and the connection buries itself again. At 100 the barrel passes convincingly
+#: through the plate while 150-450 mm still projects for piping, depending on
+#: bore.
+_NOZZLE_WALL_PENETRATION_MM = 100.0
+
 #: Unit vector for each cardinal axis, as (east, north).
 _AXIS_UNIT = {
     "E": (1.0, 0.0),
@@ -584,6 +598,33 @@ class TankBuilder:
             else:
                 self._build_radial_nozzle(nozzle)
 
+    def _nozzle_datum_radius(self, bore_dn: int) -> float:
+        """
+        Radius at which a radial nozzle's ``POS`` is placed (mm).
+
+        **A NOZZLE is positioned by its flange face, not by its root.** The
+        barrel runs back from ``POS`` toward the vessel along the nozzle axis,
+        so the flange face must sit a full nozzle length *outside* the point
+        where the barrel should meet the shell.
+
+        Placing ``POS`` on the shell face instead put the whole barrel inside
+        the tank: for a DN400 with a 450 long neck on a DN5600 shell, the barrel
+        spanned N 22160..22610 against a shell face at N 22660 - entirely
+        buried, with only the flange rim showing where it pierced the plate.
+
+        The barrel is sunk :data:`_NOZZLE_WALL_PENETRATION_MM` past the shell
+        face so it reads as penetrating the wall rather than butting against it,
+        leaving ``length - penetration`` projecting for the piping designer::
+
+            POS radius = shell_face - penetration + length
+
+        Args:
+            bore_dn: Nominal bore (mm), which selects the length band.
+        """
+        s = self.spec
+        face = (s.outer_diameter or s.diameter) / 2.0
+        return face - _NOZZLE_WALL_PENETRATION_MM + _nozzle_length(bore_dn)
+
     def _build_radial_nozzle(self, nozzle: Nozzle) -> None:
         """
         Nozzle projecting horizontally from the shell.
@@ -600,11 +641,11 @@ class TankBuilder:
         axis = self._bearing_axis(nozzle.bearing)
         unit_e, unit_n = _AXIS_UNIT[axis]
 
-        # Start at the outer surface, using the outer envelope where present so a
-        # nozzle on a double-shell tower is not buried inside the annulus. The
-        # base is sunk slightly into the wall so the nozzle reads as penetrating
-        # the shell rather than merely touching it.
-        wall = (s.outer_diameter or s.diameter) / 2.0 - _NOZZLE_EMBED_MM
+        # A NOZZLE's POS is its FLANGE FACE, not its root on the shell, so the
+        # barrel runs back from POS towards the vessel. Placing POS at the shell
+        # face (less an embed) therefore put the entire barrel *inside* the tank,
+        # with only the flange rim emerging - see _nozzle_datum_radius.
+        wall = self._nozzle_datum_radius(nozzle.dn)
         height = self._shell_base + nozzle.elevation
 
         # Reinforcing pad around the shell penetration. This stays a primitive:
@@ -651,29 +692,36 @@ class TankBuilder:
         on_roof = nozzle.elevation > 0
         axis = "U"
 
+        # A NOZZLE's POS is its FLANGE FACE and its barrel runs back toward the
+        # vessel, so the datum sits one nozzle length beyond where the barrel
+        # should meet the plate - exactly as for a radial nozzle.
+        length = _nozzle_length(nozzle.dn)
+
         if on_roof:
             # Set the nozzle off the centreline so it does not collide with the
             # agitator drive, then find the roof height at that radius. A
             # conical roof slopes away from its apex, so a nozzle placed at the
             # apex height would hang in mid-air above the sloping plate.
             offset = s.diameter * 0.2
-            base_u = self._shell_top + self._roof_rise_at(offset) - _NOZZLE_EMBED_MM
+            plate_u = self._shell_top + self._roof_rise_at(offset)
+            base_u = plate_u - _NOZZLE_WALL_PENETRATION_MM + length
         else:
-            # Bottom outlet: sits on the datum and projects upward into the
-            # vessel. It must not hang below the datum - that would put steel
-            # under the foundation and make the tank's lowest geometry something
-            # other than its base.
+            # Bottom outlet through the floor, pointing UP into the vessel: the
+            # flange face is the lowest point, so the datum sits on the floor
+            # itself and the barrel rises from there. Nothing may hang below the
+            # bottom-centre datum (IR-6), which is what makes this case differ
+            # from the roof: there is no room to offset downward.
             offset = 0.0
+            plate_u = 0.0
             base_u = 0.0
 
         # Reinforcing pad at the penetration, as on a radial nozzle: set out from
         # the plate surface rather than from the nozzle's embedded base, so it
         # lies on the outside of the plate instead of being sunk into it.
         if nozzle.dn >= _PAD_MIN_DN:
-            pad_base = (
-                base_u + _NOZZLE_EMBED_MM - _PAD_THICKNESS_MM if on_roof
-                else base_u
-            )
+            # The pad belongs on the plate the nozzle passes through, not at the
+            # flange face, so it is set out from plate_u rather than base_u.
+            pad_base = plate_u if on_roof else base_u
             self.b.cyli(
                 nozzle.dn + _PAD_OVERSIZE_MM,
                 _PAD_THICKNESS_MM,

@@ -111,27 +111,45 @@ def test_pml_examples_put_ori_before_pos():
     """
     Every PML example in the skill must obey IR-2. A counter-example in the
     documentation is worse than none: it gets copied.
+
+    Two exemptions, both narrow:
+
+    * **NOZZLE takes the opposite order** - ``POS`` then ``ORI`` - so a block
+      opened by ``NEW NOZZLE`` is skipped. Applying the primitive rule to a
+      nozzle is itself a documented fault (IR-2).
+    * A line explicitly marked ``WRONG`` on that line, or inside a fence whose
+      opening region says so. An earlier version accepted the example if the
+      word "WRONG" appeared **anywhere in the file**, which exempted every
+      example in any document that discussed a mistake - most of them.
     """
     for doc in ALL_DOCS:
+        lines = _text(doc).splitlines()
         in_fence = False
         seen_pos = False
-        for lineno, line in enumerate(_text(doc).splitlines(), start=1):
+        block_is_nozzle = False
+        fence_start = 0
+        for lineno, line in enumerate(lines, start=1):
             if line.lstrip().startswith("```"):
                 in_fence = not in_fence
                 seen_pos = False
+                block_is_nozzle = False
+                fence_start = lineno
                 continue
             if not in_fence:
                 continue
             stripped = line.strip()
-            if stripped.upper().startswith("NEW "):
+            upper = stripped.upper()
+            if upper.startswith("NEW "):
                 seen_pos = False
-            elif stripped.upper().startswith("POS "):
+                block_is_nozzle = upper.startswith("NEW NOZZLE")
+            elif upper.startswith("POS "):
                 seen_pos = True
-            elif stripped.upper().startswith("ORI ") and seen_pos:
-                # Legitimate only inside a block explicitly labelled WRONG.
-                assert "WRONG" in _text(doc), (
-                    f"{doc.relative_to(REPO_ROOT)}:{lineno} shows ORI after POS, "
-                    f"violating IR-2"
+            elif upper.startswith("ORI ") and seen_pos and not block_is_nozzle:
+                # Marked wrong on the line itself, or in this fence's header.
+                context = "\n".join(lines[fence_start - 1:lineno])
+                assert "WRONG" in context.upper(), (
+                    f"{doc.relative_to(REPO_ROOT)}:{lineno} shows ORI after POS "
+                    f"on a primitive, violating IR-2"
                 )
 
 

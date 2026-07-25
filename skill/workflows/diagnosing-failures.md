@@ -61,6 +61,17 @@ syntax" from "this command does not exist", which are fixed differently.
 | Geometry moved after a "cosmetic" tree change | Hierarchy change altered the owner | [IR-7](../knowledge/iron-rules.md#ir-7--anchor-every-equi-at-its-owner-origin) |
 | Huge hemispherical bulge on a flat top | `DISH` used as a cover plate | [IR-9](../knowledge/iron-rules.md#ir-9--dish-and-cone-are-closures-not-shaping-surfaces) |
 | Half the vessel underground | Datum conversion missing at one call site | [IR-1](../knowledge/iron-rules.md#ir-1--pos-is-the-geometric-centre-of-every-primitive) |
+| **Nozzles absent from the 3D view but present in the tree** | No catalogue component bound — the element is empty | [IR-9a](../knowledge/iron-rules.md#ir-9a--a-nozzle-draws-nothing-until-a-catalogue-component-is-bound) |
+| **Only the flange rim shows; barrel invisible** | `POS` treated as the nozzle root, not the flange face | [IR-9a](../knowledge/iron-rules.md#a-nozzles-pos-is-its-flange-face-not-its-root-on-the-shell) |
+| **Nozzles aimed off the shell, or rolled oddly** | Oriented on a geometric axis instead of `ORI P1 IS` | [IR-2](../knowledge/iron-rules.md#a-nozzle-is-aimed-by-its-p-point-not-by-a-geometric-axis) |
+| **Only the first equipment item loaded** | Macro aborted mid-load — read the error file, not the model | F-8 below |
+| **Nozzles as metre-long tubes flying off the vessels** | `HEIG` given a value that is not the nozzle's own length | [IR-9a](../knowledge/iron-rules.md#heig-is-the-nozzles-own-length--bound-it-dont-theorise-about-it) |
+| Row of floating discs beside each item | A ring modelled as one solid `CYLI` | [IR-9b](../knowledge/iron-rules.md#ir-9b--cyli-is-solid-there-is-no-annulus-primitive) |
+
+**A partial model is a failure, not a rendering quirk.** If some equipment is
+missing entirely, the macro aborted partway: find the E3D alert file
+(`SIR-*.txt` on the Desktop) and read the line number. Nothing about the loaded
+geometry will tell you this — the model just looks incomplete.
 
 The "overlapping clutter" symptom deserves emphasis: because each element shifts
 by half of *its own* height, the failure does not look like an offset. It looks
@@ -77,7 +88,32 @@ like the model was built badly. Recognising it as a datum error saves hours.
 | F-3 | Transverse elements drifting from intended positions | `POS` emitted before `ORI`, rotating the position vector | Builder emits `ORI` first structurally; `validate_pml()` re-checks | Fixed — IR-2 |
 | F-4 | Vessels rendering on their side | Axis assumed to be Y | Verified against `gphFactory.pmlobj:632` that Z is the axis | Fixed — IR-3 |
 | F-5 | Verification passed on a model with wrong datums | Verification string-matched the `POS` line | Replaced with geometric parse in `verify_bottom_centre` | Fixed — IR-6 |
-| F-6 | Macro loads but creates nothing | Current element was not a writable ZONE | Select a writable zone before `$$MACRO` | Documented |
+| F-6 | Macro loads but creates nothing | Current element was not a writable ZONE | Select a writable zone before `$M` | Documented |
+| F-7 | `(47,50) CP: Meaningless symbol(s)` on the load command | `$$MACRO` is not an E3D command — 0 hits in ~6900 library files. It was in the deliverable's own header, so the shipped instruction could never work | Corrected to `$M <path>` everywhere | Fixed — [pml1-reference](../knowledge/pml1-reference.md#loading-a-macro--verified) |
+| F-8 | All 114 nozzles present in the tree, invisible in 3D | No catalogue component bound. A prior fix had *removed* the reference after it failed to resolve, leaving every element empty | `CATR SPCOMPONENT` emitted live, inline, per nozzle | Fixed — IR-9a |
+| F-9 | `(2,360) Cannot get position of NOZZLE`; only the first tank loaded | Binding emitted as a trailing `OLD`/`CATR` pass, copying a *rebinding* idiom. P-points do not exist until a component is bound | `CATR` moved inline, before `POS`/`ORI`; enforced by `_check_nozzle_catref_first()` | Fixed — IR-9a |
+| F-10 | `(2,108) SCOMPONENT /AAZFBB0YY is not a SPCO` | Passed the SPCO's `Catref` *value* instead of the SPCO's own two-segment path. `Q ATT` prints both, one line apart | Path built by `nozzle_component_path()` | Fixed — [catalogue-elements](../knowledge/catalogue-elements.md) |
+| F-11 | Nozzles buried in the shell; only the flange rim visible | `POS` treated as the root on the shell. It is the **flange face**; the barrel runs back from it into the vessel | `POS = face − penetration + length`; test checks the barrel's two ends | Fixed — IR-9a |
+| F-12 | Nozzles drawn as metre-long tubes flying off the vessels | `HEIG` computed from the EQUI origin on a mis-read datum; emitted −61680..+72280 mm for 250–450 mm nozzles | Reverted to the nozzle's own length; bounds check 1–2000 mm in `validate_pml()` | Fixed — IR-9a, IR-11 |
+
+### What F-8 through F-12 have in common
+
+They are **one bug reported five times**. Each fix was correct as far as it went
+and revealed the next layer:
+
+```
+bind nothing        -> invisible
+bind late           -> abort mid-load
+bind wrong path     -> (2,108)
+aim wrong axis      -> pointing off the shell
+place wrong datum   -> buried in the shell
+```
+
+A catalogue element has more independent ways to be wrong than a primitive, and
+**four of the five produced no error message**. When a catalogue element
+misbehaves, expect to work through the whole list in
+[catalogue-elements.md](../knowledge/catalogue-elements.md) rather than assuming
+the first fix is the last.
 
 ---
 
