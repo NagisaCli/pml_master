@@ -6,8 +6,10 @@ it started contradicting itself or the implementation. These tests guard the
 failure modes that have actually happened here:
 
 * A stale rule contradicting a verified one. ``pml_knowledge/corpus/`` claimed a
-  bottom-face datum and a SUSPEND/RESUME prologue long after both were proven
-  wrong, and any model built from it would have reproduced failures F-1 and F-2.
+  bottom-face datum for CYLI/CONE and a SUSPEND/RESUME prologue long after both
+  were proven wrong, and any model built from it reproduced failures F-1/F-2.
+  A later over-correction assigned the same centre datum to DISH and produced
+  the F-12 flying-head failure.
 * Documentation drift. The README advertised "427 primitives" against an actual
   403 -- a number nobody re-checked after the geometry changed.
 * Broken cross-references, which quietly turn a navigable skill into a pile of
@@ -61,6 +63,10 @@ _FALSE_CLAIMS = (
     (r"\bdatum\b[^.\n]*\bis\b[^.\n]*\bbottom[- ]face\b", "bottom-face datum (F-2 / IR-1)"),
     (r"\bdatum\s*\*{0,2}\s*[:=]\s*\*{0,2}\s*bottom\b", "bottom-face datum (F-2 / IR-1)"),
     (r"\bpos\b[^.\n]*\bis\b[^.\n]*\bbottom[- ]face\b", "bottom-face datum (F-2 / IR-1)"),
+    (
+        r"\bdish\b[^.\n]*\b(?:geometric[- ]?)?cent(?:re|er)\b",
+        "DISH centre datum (F-13 / IR-1)",
+    ),
     (r"\banti[- ]freeze\b", "anti-freeze prologue (F-1 / IR-4)"),
 )
 
@@ -162,8 +168,12 @@ def test_documented_primitive_count_matches_reality():
     quoted for the WSB package must match what the generator really produces.
     """
     from wsb.generate import generate
+    from wsb.projects import resolve_project
 
-    result = generate(timestamp=False)  # in-memory: writes nothing
+    result = generate(
+        project=resolve_project("JK-Project"),
+        timestamp=False,
+    )  # in-memory: writes nothing
     actual = {
         "primitive": result.primitive_count,
         "tank": len(result.tanks),
@@ -176,7 +186,14 @@ def test_documented_primitive_count_matches_reality():
     )
     singular = {"primitives": "primitive", "tanks": "tank", "nozzles": "nozzle"}
 
-    for doc in [*ALL_DOCS, REPO_ROOT / "README.md"]:
+    # Counts are project-specific. Check only the WSB-facing documents; other
+    # project logs legitimately state their own primitive/nozzle totals.
+    count_docs = [
+        ENTRY_POINT,
+        REPO_ROOT / "README.md",
+        SKILL_ROOT / "projects" / "jk-project-wsb.md",
+    ]
+    for doc in count_docs:
         if not doc.is_file():
             continue
         for lineno, line in enumerate(_text(doc).splitlines(), start=1):

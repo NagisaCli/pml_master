@@ -1,0 +1,58 @@
+-- ====================================================================
+-- List every nozzle SPCO under /ANSI-NOZZLES with its bore
+-- ====================================================================
+-- RUN WITH:
+--     $M C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK-Project\output\list_nozzle_bores.mac
+--
+-- Note `$M`, NOT `$$MACRO`. `$$MACRO` is not an E3D command - it appears
+-- nowhere in AVEVA's installed PMLLIB/PMLUI (0 hits across ~6900 files),
+-- and aborts with "(47,50) CP: Meaningless symbol(s) in command line".
+-- `$M <path>` is the real form, used throughout AVEVA's own PML.
+--
+-- Prints two lines per component: Name and Answer (the bore).
+-- Copy the whole output back.
+--
+-- Only PML1 single commands are used: a bare path navigates, and
+-- `Q NAME ANSWER` reports. No collect, no do/enddo - the Command Window
+-- rejects those, and so would this file.
+
+/150lb_Ansi_Flanged/AAZFBB011
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB033
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0DD
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0EE
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0FF
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0GG
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0HH
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0JJ
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0KK
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0LL
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0MM
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0NN
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0PP
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0RR
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0TT
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0VV
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0WW
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0XX
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0YY
+Q NAME ANSWER
+/150lb_Ansi_Flanged/AAZFBB0ZZ
+Q NAME ANSWER

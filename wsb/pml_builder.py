@@ -15,31 +15,33 @@ Two rules are structural here:
 
 Datum conversion
 ----------------
-**E3D positions every primitive by its geometric centre**, including CYLI, CONE
-and DISH. Verified in AVEVA's own PML, which offsets by half the height to make
-a cylinder *start* at a given point::
+**E3D positions CYLI, CONE and BOX by geometric centre.  DISH is the important
+exception: its POS is the flat rim / tangent plane.**  The centre rule for
+CYLI/CONE is verified in AVEVA's own PML, which offsets by half the height to
+make a cylinder *start* at a given point::
 
     pipeEditor.pmlfrm:7807
         !cylinderPosition = !position.offset(!direction, !height / 2)
 
 Engineering drawings, by contrast, dimension a vessel from its **bottom face**.
 This builder accepts the bottom-face point that callers naturally have and
-converts it to the centre datum E3D wants, in :meth:`PMLBuilder._position`.
-Callers never do this arithmetic themselves - doing it per call site is what
-produced a model where every element sat half its own height too low.
+converts CYLI/CONE to the centre datum E3D wants in
+:meth:`PMLBuilder._position`.  DISH already accepts the rim point E3D wants and
+passes it through.  Callers never do this arithmetic themselves.
 
 ===========  =================  ==============================================
 Primitive    E3D datum          What this builder accepts
 ===========  =================  ==============================================
 ``CYLI``     geometric centre   ``base`` - bottom-face centre, converted
 ``CONE``     geometric centre   ``base`` - bottom-face centre, converted
-``DISH``     geometric centre   ``base`` - the flat rim, converted
+``DISH``     flat rim plane     ``base`` - the flat rim, passed through
 ``BOX``      geometric centre   ``centre`` - geometric centre, passed through
 ===========  =================  ==============================================
 """
 
 from __future__ import annotations
 
+import math
 import re
 from typing import Iterable, List, Optional, Sequence, Tuple
 
@@ -472,6 +474,16 @@ def _check_element_axis_convention(lines: Sequence[str]) -> List[str]:
                 f"L{lineno}: NEW {block} (L{block_start}) orients on the wrong "
                 f"axis - a primitive's length runs along Z -> {line}"
             )
+        elif block == "BOX" and not re.match(
+            r"^ORI\s+Z\s+IS\s+U\s+AND\s+X\s+IS\b",
+            line,
+            re.IGNORECASE,
+        ):
+            problems.append(
+                f"L{lineno}: NEW BOX (L{block_start}) uses an unsupported "
+                f"orientation - plan-rotated boxes take "
+                f"'ORI Z IS U AND X IS <bearing>' -> {line}"
+            )
         elif block == "NOZZLE" and not re.match(
             r"^ORI\s+P\d+\s+IS\b", line, re.IGNORECASE
         ):
@@ -502,7 +514,8 @@ def _check_ori_before_pos(lines: Sequence[str]) -> List[str]:
     by :func:`_check_nozzle_pos_before_ori`.
     """
     problems: List[str] = []
-    oriented = {"CYLI", "CONE", "DISH"}
+    required_orientation = {"CYLI", "CONE", "DISH"}
+    optional_orientation = {"BOX"}
 
     block_prim: Optional[str] = None
     block_start = 0
@@ -510,7 +523,7 @@ def _check_ori_before_pos(lines: Sequence[str]) -> List[str]:
     pos_at: Optional[int] = None
 
     def close_block() -> None:
-        if block_prim in oriented and pos_at is not None:
+        if block_prim in required_orientation and pos_at is not None:
             if ori_at is None:
                 problems.append(
                     f"L{block_start}: NEW {block_prim} has POS at L{pos_at} but no "
@@ -522,6 +535,17 @@ def _check_ori_before_pos(lines: Sequence[str]) -> List[str]:
                     f"ORI (L{ori_at}) - this rotates the position vector and "
                     f"drifts the element"
                 )
+        elif (
+            block_prim in optional_orientation
+            and ori_at is not None
+            and pos_at is not None
+            and pos_at < ori_at
+        ):
+            problems.append(
+                f"L{block_start}: NEW {block_prim} has POS (L{pos_at}) before "
+                f"ORI (L{ori_at}) - this rotates the position vector and "
+                f"drifts the element"
+            )
 
     for lineno, raw in enumerate(lines, 1):
         line = raw.strip()
@@ -546,6 +570,31 @@ def _check_ori_before_pos(lines: Sequence[str]) -> List[str]:
 def _fmt(value: float) -> str:
     """Format a length for PML: millimetres to 1 decimal place."""
     return f"{value:.1f}"
+
+
+def _fmt_angle(value: float) -> str:
+    """Format an orientation angle without losing off-axis bearing accuracy."""
+    return f"{value:.4f}".rstrip("0").rstrip(".")
+
+
+def _plan_direction(rotation_deg: float) -> str:
+    """
+    E3D direction text for an XY bearing measured East towards North.
+
+    Examples: 30 degrees -> ``E 30 N``; 135 degrees -> ``N 45 W``.
+    """
+    angle = rotation_deg % 360.0
+    cardinals = ((0.0, "E"), (90.0, "N"), (180.0, "W"), (270.0, "S"))
+    for cardinal_angle, direction in cardinals:
+        if abs(angle - cardinal_angle) < 1e-9:
+            return direction
+    if angle < 90.0:
+        return f"E {_fmt_angle(angle)} N"
+    if angle < 180.0:
+        return f"N {_fmt_angle(angle - 90.0)} W"
+    if angle < 270.0:
+        return f"W {_fmt_angle(angle - 180.0)} S"
+    return f"S {_fmt_angle(angle - 270.0)} E"
 
 
 def _sanitize(name: str) -> str:
@@ -690,12 +739,12 @@ class PMLBuilder:
         label: str = "",
     ) -> "PMLBuilder":
         """
-        Native E3D ``NOZZLE`` element, positioned by its **base** on the shell.
+        Native E3D ``NOZZLE`` element, positioned by its **flange face**.
 
         A NOZZLE is a catalogue element, not a primitive: its flange geometry,
         bore and face position come from the specification component it points
         at, so this emits no CYLI of its own. Only the length (``HEIG``) and the
-        connection point are set here.
+        flange-face datum are set here.
 
         Syntax verified against AVEVA's own macro data in
         ``%AVEVA_DESIGN_EXE%\\PMLUI\\data\\SMLdataPlant.pmlmac``, which contains
@@ -713,10 +762,9 @@ class PMLBuilder:
 
         Two facts from that data drive this method:
 
-        * **A nozzle's axis is Y, not Z.** Every one of those ten blocks orients
-          Y first. This is the opposite of a primitive, whose length runs along
-          Z (see :meth:`_orient`), and getting it wrong points every nozzle in
-          the wrong direction while still producing a loadable macro.
+        * **A nozzle is aimed by its P-point.** The verified creation form emits
+          ``ORI P1 IS <direction>``. This is different from a primitive, whose
+          length is aimed with ``ORI Z IS``.
         * **There is no DIAM attribute.** The bore is a property of the
           catalogue component, so it is selected through the spec reference
           rather than set on the element.
@@ -725,7 +773,8 @@ class PMLBuilder:
             name: Nozzle mark, appended to the current equipment name.
             bore_dn: Nominal bore (mm), used to select the catalogue component.
             height: Projection from the shell to the flange face (mm).
-            base: (east, north, up) of the nozzle base on the vessel surface.
+            base: (east, north, up) of the flange face. The barrel runs back
+                from this datum through the vessel wall.
             axis: Direction the nozzle points away from the vessel.
             spec: Nozzle specification name.
             generic_type: Generic type within that specification.
@@ -1040,7 +1089,11 @@ class PMLBuilder:
         self._lines.append(f"HEIG {_fmt(height)}")
         self._lines.append(f"RADIUS {_fmt(radius if radius is not None else diameter)}")
         self._orient(axis)
-        self._position(base, axis=axis, extent=height)
+        # E3D's DISH datum is its flat rim / tangent plane.  Do not apply the
+        # half-height centre conversion used by CYLI and CONE.  The previous
+        # conversion made the ACCUMULATOR_TANK top head float by HEIG / 2 in
+        # the user's E3D session (JK_Cooking_Tank_Build, 2026-07-30).
+        self._position(base)
         self.primitive_count += 1
         return self
 
@@ -1071,20 +1124,27 @@ class PMLBuilder:
         centre: Tuple[float, float, float],
         *,
         label: str = "",
+        plan_rotation_deg: float = 0.0,
     ) -> "PMLBuilder":
         """
         Box positioned by its **geometric centre**.
 
         Args:
-            xlen: Size along East (mm).
-            ylen: Size along North (mm).
+            xlen: Size along the BOX local X axis (mm).
+            ylen: Size along the BOX local Y axis (mm).
             zlen: Size along Up (mm).
             centre: (east, north, up) of the geometric centre.
             label: Optional comment written above the primitive.
+            plan_rotation_deg: Local X bearing measured from East towards North.
+                Zero leaves the BOX on the global E/N axes.
         """
         if min(xlen, ylen, zlen) <= 0:
             raise PMLValidationError(
                 f"BOX needs positive dimensions, got {xlen}x{ylen}x{zlen}"
+            )
+        if not math.isfinite(plan_rotation_deg):
+            raise PMLValidationError(
+                f"BOX plan rotation must be finite, got {plan_rotation_deg}"
             )
         if label:
             self.comment(label)
@@ -1092,6 +1152,14 @@ class PMLBuilder:
         self._lines.append(f"XLEN {_fmt(xlen)}")
         self._lines.append(f"YLEN {_fmt(ylen)}")
         self._lines.append(f"ZLEN {_fmt(zlen)}")
+        rotation = plan_rotation_deg % 360.0
+        if abs(rotation) > 1e-9:
+            # AVEVA's own support/working-plane forms create a BOX, then set
+            # `ORI Z IS <up> AND X IS <direction>` before POS.  X is the local
+            # radial axis here; Y is consequently tangent to the vessel.
+            self._lines.append(
+                f"ORI Z IS U AND X IS {_plan_direction(rotation)}"
+            )
         self._position(centre)
         self.primitive_count += 1
         return self
@@ -1136,22 +1204,23 @@ class PMLBuilder:
         extent: float = 0.0,
     ) -> None:
         """
-        Emit the POS line, converting a bottom-face datum to E3D's centre datum.
+        Emit a POS line, optionally converting a face datum to a centre datum.
 
-        E3D positions CYLI, CONE and DISH by their geometric centre, but callers
-        supply the bottom-face point that engineering drawings dimension from.
-        The centre lies half the axial extent along the primitive's own axis, so
-        that shift is applied here - once, for every primitive - rather than at
-        each call site.
+        E3D positions CYLI and CONE by geometric centre, but callers supply the
+        bottom-face point that engineering drawings dimension from.  Their
+        centre lies half the axial extent along the primitive's own axis, so
+        that shift is applied here once.  BOX centre points and DISH rim points
+        pass through unchanged.
 
         Args:
-            point: Bottom-face centre for oriented primitives; geometric centre
-                for BOX, which needs no conversion.
+            point: Bottom-face centre for CYLI/CONE; geometric centre for BOX;
+                rim-plane centre for DISH.
             axis: The primitive's axis. ``None`` passes the point through
                 unchanged, which is what BOX wants.
             extent: Axial size (mm). Half of it is the offset applied.
 
-        Only ever called after :meth:`_orient`.
+        For an oriented element this is only called after its ORI line. An
+        unrotated BOX has no ORI and passes its centre directly.
         """
         east, north, up = point
         if axis is not None and extent:

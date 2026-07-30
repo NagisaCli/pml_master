@@ -1,0 +1,268 @@
+# AVEVA E3D Tank Modeling Task Specification for the Pulp Mill Washing, Screening & Bleaching Area
+
+## Objective
+
+Use the Agent available in the current workspace to perform **3D equipment modeling in AVEVA E3D** for **tank-type equipment** located within the **Washing, Screening and Bleaching (WSB) area** of the **Pulp Mill**.
+
+The models shall be developed in accordance with engineering design practices. The objective is not only to reproduce the external appearance of each tank, but also to create engineering-grade models that are realistic, maintainable, editable, and suitable for downstream detailed design activities such as piping, clash detection, and model review.
+
+
+
+# Project Data Sources
+
+The primary project data is located in the following files and directories:
+
+All paths are relative to this project folder, `Projects/JK-Project/`:
+
+```
+Modeling_lists.xlsx                 primary equipment data
+Model_Reference(All_Top_View)/      top-view reference drawings
+Model_reference(Part_Side_View)/    side-view P&ID sketches
+equipment_data.py                   the modelled dataset, with provenance
+output/                             deliverables, named JK-Project.pml
+```
+
+These files provide, where available:
+
+* Equipment Name
+* Tag Number
+* Partial geometric dimensions
+* Installation coordinates
+* Design information
+* Equipment reference photographs
+
+The Excel file shall be treated as the **primary source of engineering data**, while the reference images shall be used to determine the actual structural configuration and appearance.
+
+
+
+# Modeling Requirements
+
+## 1. Use Project Data as the Primary Source
+
+Whenever engineering data is available in the equipment list, it shall be used directly without arbitrary modification.
+
+This includes, but is not limited to:
+
+* Diameter
+* Height
+* Volume
+* Elevation
+* Installation Coordinates
+* Equipment Tag Number
+
+Existing project data shall always take precedence over assumed values.
+
+
+
+## 2. Handling Missing Parameters
+
+Some equipment may have incomplete design information, such as:
+
+* Overall height
+* Cone dimensions
+* Head type and head height
+* Skirt height
+* Nozzle specifications
+* Stiffening ring dimensions
+* Structural details
+
+Missing information shall be determined according to the following priority:
+
+1. Reference photographs provided with the project.
+
+2. Publicly available technical documentation, vendor brochures, engineering standards, or similar equipment from recognized manufacturers such as **Valmet, ANDRITZ, Voith**, etc.
+
+3. If reliable information is still unavailable, adopt engineering-standard reference dimensions based on common industry practice.
+
+All estimated values shall be clearly identified as:
+
+> **Reference Value**
+
+Engineering judgement shall be applied at all times. Random assumptions are not acceptable.
+
+
+
+## 3. Equipment Appearance
+
+The overall geometry shall closely resemble the actual equipment.
+
+Priority shall be given to:
+
+* Project reference photographs
+* Images of identical or similar equipment
+* Typical structural configurations used in pulp mill applications
+
+Where applicable, models should correctly represent:
+
+* Flat roof
+* Conical roof
+* Dished head
+* Skirt support
+* Support legs
+* Stiffening rings
+* Access platforms (where clearly visible)
+* Manways
+* Access ladders (when applicable)
+* Top-mounted accessories
+
+The objective is to maximize the engineering realism and recognizability of each model.
+
+
+
+## 4. Nozzle Modeling
+
+Nozzle configuration should be determined primarily from the reference photographs.
+
+This includes:
+
+* Quantity
+* Orientation
+* Elevation
+* Nominal Diameter (DN/NPS)
+
+If nozzle information is incomplete, create engineering reference nozzles suitable for future piping work.
+
+Reference nozzles shall satisfy the following requirements:
+
+* Appropriate nozzle type
+* Reasonable nominal size
+* Process-logical location
+* Practical orientation for future piping design
+
+Random nozzle placement is prohibited.
+
+
+
+# Equipment Positioning (Critical Requirement)
+
+Every equipment item shall be positioned strictly according to the installation coordinates provided in the equipment list.
+
+The coordinate reference point shall be:
+
+> **Bottom Center Point of the Equipment**
+
+Specifically, the insertion point shall be located at the geometric center of the equipment base.
+
+The following reference points shall **NOT** be used:
+
+* Geometric center
+* Model center
+* Bounding box center
+
+After modeling, verify that:
+
+> **Equipment Bottom Center Point = Installation Coordinates specified in the Excel file**
+
+No global offset or positional deviation is permitted.
+
+
+
+# AVEVA E3D Modeling Standards
+
+Models shall comply with AVEVA E3D equipment modeling best practices.
+
+Whenever practical, construct the equipment using standard E3D primitives, including:
+
+* CYLI
+* CONE
+* DISH
+* BOX
+* EXTRU
+* NOZZLE
+* SCTN
+
+Avoid unnecessarily complex Boolean operations that may reduce model maintainability.
+
+The completed models shall remain suitable for:
+
+* Future modification
+* Piping design
+* Clash detection
+* Drawing generation
+* Model review
+
+
+
+# MCP Integration (Optional)
+
+If the Agent supports **Model Context Protocol (MCP)**, configure and connect MCP to AVEVA E3D before modeling.
+
+If MCP provides access to:
+
+* Current model status
+* Real-time modeling feedback
+* Element properties
+* Coordinate verification
+
+make full use of these capabilities to improve:
+
+* Modeling stability
+* Data consistency
+* Modeling accuracy
+* Workflow efficiency
+
+
+
+# Deliverables
+
+After completing each equipment model, provide a summary including:
+
+## Completed Equipment
+
+* Equipment Tag Number
+* Equipment Name
+
+
+
+## Modeling Parameters
+
+Include at minimum:
+
+* Diameter
+* Overall Height
+* Head Type
+* Skirt Dimensions
+* Number of Nozzles
+
+
+
+## Estimated Parameters
+
+List every assumed value together with its reference source.
+
+Examples include:
+
+* Based on a similar Valmet design
+* Based on publicly available equipment photographs
+* Estimated using common pulp mill engineering practice
+
+
+
+## Outstanding Issues
+
+Clearly identify any remaining uncertainties, for example:
+
+* Overall height requires confirmation
+* Nozzle size unavailable
+* Platform details unavailable
+* Top structure cannot be identified from available photographs
+
+This information will be used for subsequent model refinement.
+
+
+
+# Overall Modeling Objectives
+
+While maintaining a high level of modeling stability and execution reliability, maximize the following engineering qualities:
+
+* Engineering Realism
+* Geometric Accuracy
+* Process Consistency
+* Maintainability
+* Piping Readiness
+
+Whenever project data is incomplete, adopt temporary engineering reference values based on recognized industry standards, vendor practices, or mature engineering experience. All assumed values shall be explicitly identified as **Reference Values** to facilitate future revision when official design information becomes available.
+
+
+
+**Note:** All terminology in this specification follows standard AVEVA E3D, EPC engineering, and pulp & paper industry conventions. Terms such as **Pulp Mill**, **Washing, Screening and Bleaching (WSB)**, **Tank-Type Equipment**, **Bottom Center Point**, **Skirt Support**, **Manway**, **Stiffening Ring**, **Piping Readiness**, and **Engineering Realism** are intentionally retained to align with international engineering documentation and vendor standards.

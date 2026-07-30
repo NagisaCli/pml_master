@@ -39,6 +39,41 @@ The digester is the tallest item in a fibreline and usually the vertical
 reference for surrounding structures. Nozzle rings occur at many elevations
 because circulation and extraction are drawn off at several heights.
 
+### Batch-cooking auxiliaries
+
+**VERIFIED process functions; project-specific geometry remains a Reference
+Value.**
+
+| Equipment | Process function | Geometry implication |
+|-----------|------------------|----------------------|
+| Liquor accumulator | Balances liquor flows between batch-cooking stages | Vertical vessel; pressure-service closures and support must be confirmed from the vendor GA |
+| Junk trap | Removes sand and other heavy debris from chip-chute circulation | Compact vertical vessel with a lower reject hopper and several circulation/flush connections |
+| Blow tank | Receives the digester blow; flash vapour continues to blow-heat recovery | Large upper vapour space, stock connections and a low-point discharge |
+
+> **User-corrected 2026-07-30 (JK_Cooking_Tank_Build).** The two cooking-area
+> Blow Tanks contain ground-mounted, vertical bottom-entry agitators. The motor
+> and gearbox sit centrally below the cone; the shaft rises through the bottom
+> opening into horizontal impeller stages. The previous side-entry
+> interpretation was wrong. Do not generalise this exact arrangement or its
+> dimensions to every blow tank; those remain project/vendor data.
+
+Sources:
+
+- Valmet application report `2611_01_01EN` states that batch cooking uses liquor
+  accumulators to balance flows between stages and that the digester/circulation
+  system is pressure service:
+  <https://www.valmet.com/globalassets/sharepoint/imported/2611_01_01en.pdf>
+- Valmet lists junk traps as an application for automatic removal of sand and
+  fine debris from chip-chute circulation:
+  <https://www.valmet.com/flowcontrol/valves/application-specific-products/>
+- Valmet's methanol white paper traces flash vapour from the blow tank into blow
+  heat recovery:
+  <https://www.valmet.com/globalassets/media/downloads/white-papers/power-and-recovery/methanol_waste_to_fuel_whitepaper.pdf>
+
+These sources establish **function**, not a universal vessel height, nozzle size
+or support dimension. Values inferred from the function stay labelled Reference
+Values until a project or vendor drawing supplies them.
+
 ---
 
 ## Screening & cleaning

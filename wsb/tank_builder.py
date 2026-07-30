@@ -1221,10 +1221,10 @@ def _parse_primitives(script: str, tag: str) -> List[dict]:
     """
     Extract the primitives belonging to one tag, with their true extents.
 
-    Each returned dict carries the primitive's centre and the lowest elevation it
-    actually occupies, derived from the E3D centre datum and the primitive's own
-    dimensions - which is what makes the check independent of the builder's
-    internal bookkeeping.
+    Each returned dict carries the emitted datum and the lowest elevation it
+    actually occupies, derived from E3D's element-specific datum (centre for
+    CYLI/CONE/BOX, rim plane for DISH) and the primitive's own dimensions.
+    This keeps the check independent of the builder's internal bookkeeping.
 
     Membership follows the tree: everything from a tank's ``NEW EQUI`` up to the
     next one belongs to that tank, which covers the vessel body and every nozzle
@@ -1276,7 +1276,7 @@ def _parse_primitives(script: str, tag: str) -> List[dict]:
 
 def _lowest_point(prim: dict) -> float:
     """
-    The lowest elevation a primitive occupies, given its E3D centre datum.
+    The lowest elevation a primitive occupies, given its E3D datum.
 
     For a BOX that is the centre less half its vertical size. For an oriented
     primitive it depends on the axis: one aligned with U extends half its height
@@ -1292,6 +1292,12 @@ def _lowest_point(prim: dict) -> float:
     diameter = max(
         prim.get("diam", 0.0), prim.get("dbot", 0.0), prim.get("dtop", 0.0)
     )
+    if kind == "DISH":
+        if prim["axis"] == "D":
+            return up - height
+        if prim["axis"] == "U":
+            return up
+        return up - diameter / 2.0
     if prim["axis"] in ("U", "D"):
         return up - height / 2.0
     return up - diameter / 2.0

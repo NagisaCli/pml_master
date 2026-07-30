@@ -803,13 +803,13 @@ def test_geometry_is_independent_of_the_grouping_elements(result):
     assert nozzles == sum(len(t.nozzles) for t in WSB_TANKS)
 
 
-def test_primitives_are_positioned_by_their_centre(result):
+def test_cylinders_are_positioned_by_their_centre(result):
     """
-    E3D positions CYLI/CONE/DISH by their geometric centre, not their bottom
-    face. The builder converts the bottom-face point callers supply.
+    E3D positions CYLI/CONE by their geometric centre, not their bottom face.
+    The builder converts the bottom-face point callers supply.
 
     Checked on the shell, whose centre must sit half its height above the datum.
-    Without the conversion every primitive lands half its own height too low,
+    Without the conversion every CYLI/CONE lands half its own height too low,
     and because each has a different height they telescope into one another -
     the model looks like overlapping clutter rather than a tank farm.
     """
@@ -823,6 +823,25 @@ def test_primitives_are_positioned_by_their_centre(result):
         )
         expected = spec.position[2] + spec.skirt_height + spec.height / 2.0
         assert shell["up"] == pytest.approx(expected, abs=0.2), spec.tag
+
+
+def test_dish_position_is_its_rim_plane(result):
+    """
+    DISH is the exception to the centre-datum rule: POS is the flat rim /
+    tangent plane.  Applying the CYLI half-height conversion makes a top head
+    float by HEIG/2, as observed in E3D on JK_Cooking_Tank_Build.
+    """
+    for spec in WSB_TANKS:
+        if spec.head is not HeadType.DISHED:
+            continue
+        prims = _parse_primitives(result.macro, spec.tag)
+        dish = next(
+            p
+            for p in prims
+            if p["kind"] == "DISH" and p["axis"] == "U"
+        )
+        expected_rim = spec.position[2] + spec.skirt_height + spec.height
+        assert dish["up"] == pytest.approx(expected_rim, abs=0.2), spec.tag
 
 
 def test_nothing_is_built_below_the_foundation(result):
@@ -1486,14 +1505,14 @@ def test_report_flags_reference_values(result):
 
 
 def test_can_generate_a_single_tank():
-    single = generate((get_tank("203-TA-006"),))
+    single = generate((get_tank("203-TA-006"),), project=_PROJECT)
     assert single.verified
     assert "203-TA-006" in single.macro
     assert "205-TA-056" not in single.macro
 
 
 def test_generation_is_deterministic_except_for_the_timestamp():
-    a = generate().macro.split("\n")
-    b = generate().macro.split("\n")
+    a = generate(project=_PROJECT).macro.split("\n")
+    b = generate(project=_PROJECT).macro.split("\n")
     strip = lambda lines: [l for l in lines if "Generated" not in l]  # noqa: E731
     assert strip(a) == strip(b)

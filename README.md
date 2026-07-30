@@ -96,11 +96,11 @@ All geometry is generated in a local frame whose origin is the bottom centre,
 then translated by the installation coordinate, so the requirement holds by
 construction.
 
-**E3D positions every primitive by its geometric centre** — `CYLI` and `CONE` and
-`DISH` included, not just `BOX`. The builder converts the bottom-face point that
-engineering drawings dimension from into that centre datum, in one place. Getting
-this wrong puts each element half its own height too low; since heights differ,
-elements shift by different amounts and telescope into each other.
+E3D datums are element-specific: `CYLI`, `CONE` and `BOX` use geometric centre,
+while `DISH` uses its flat rim / tangent plane. The builder converts the
+bottom-face point for CYLI/CONE into the centre datum in one place and passes a
+DISH rim point through unchanged. Getting either rule wrong shifts geometry by
+half its own height and either telescopes the model or makes a head float.
 
 `verify_bottom_centre()` re-checks every tank by parsing the emitted primitives
 and computing their true extents, rather than string-matching a `POS` line — a
@@ -185,6 +185,26 @@ skill: start at [SKILL.md](SKILL.md), then
 
 ---
 
+## Continuing from a manually edited E3D export
+
+A PML file exported after manual E3D work is treated as the new working
+baseline, not as disposable generated output. Archive the received file
+unchanged, compare it with the last accepted macro, and preserve every
+out-of-scope manual change:
+
+```bash
+python -m wsb.pml_compare accepted.pml native-export.pml
+python -m wsb.pml_compare accepted.pml native-export.pml --format json
+```
+
+The comparison is hierarchy- and attribute-aware: it reports added/removed
+elements and changes to `POS`, `ORI`, dimensions, catalogue references and other
+properties while ignoring comment, whitespace and numeric-format noise. The
+full procedure is in
+[reconciling-native-exports.md](skill/workflows/reconciling-native-exports.md).
+
+---
+
 ## Project layout
 
 ```
@@ -208,6 +228,7 @@ wsb/                    Shared modeling engine — used by every project
   report.py             Engineering deliverable
   projects.py           Project registry: discovery, loading, output naming
   generate.py           Pipeline and CLI
+  pml_compare.py        Semantic comparison for accepted/native-export PML files
 drawing_parser/         SVG / PDF / DXF and natural language parsing
 pml_knowledge/          Retrieval over skill/ for the Python pipeline
 pml_generator/          DesignIntent to PML1 generation

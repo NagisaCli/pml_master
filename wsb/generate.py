@@ -222,6 +222,60 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         print(f"error: {exc}", file=sys.stderr)
         return 2
 
+    # Composite projects resolve their geometry up front as generic primitive
+    # assemblies.  They use the same project registry and PMLBuilder, but need
+    # one macro per equipment item and a bounds-based verifier rather than the
+    # original single-shell TankSpec pipeline.
+    from .composite_schema import EquipmentModel
+
+    if register and all(isinstance(item, EquipmentModel) for item in register):
+        from .composite_generate import generate_composite_project
+
+        models = tuple(register)
+        if args.tags:
+            lookup = {}
+            for model in models:
+                lookup[model.name] = model
+                lookup[model.display_name] = model
+            try:
+                models = tuple(lookup[tag] for tag in args.tags)
+            except KeyError as exc:
+                print(
+                    f"error: no equipment named {exc} in project "
+                    f"'{project.name}'",
+                    file=sys.stderr,
+                )
+                return 2
+
+        output_dir = args.output_dir or project.output_dir
+        try:
+            result = generate_composite_project(
+                project,
+                models,
+                output_dir=None if args.dry_run else output_dir,
+            )
+        except (PMLValidationError, ValueError) as exc:
+            print(f"error: {exc}", file=sys.stderr)
+            return 1
+
+        print(f"Project            : {project.name}")
+        print(f"Equipment modelled : {len(result.models)}")
+        print(f"Primitives         : {result.primitive_count}")
+        print(f"Nozzle groups      : {result.nozzle_count}")
+        if result.verified:
+            print("Positioning        : verified - all numeric bounds match")
+        else:
+            print("Positioning        : FAILED")
+            for problem in result.verification_problems:
+                print(f"  - {problem}", file=sys.stderr)
+        if result.combined_path:
+            print(f"Combined macro     : {result.combined_path}")
+            print(f"Individual macros  : {len(result.macro_paths)}")
+            print(f"Report             : {result.report_path}")
+        else:
+            print("Dry run            : no files written")
+        return 0 if result.verified else 1
+
     if args.tags:
         by_tag = {spec.tag: spec for spec in register}
         try:

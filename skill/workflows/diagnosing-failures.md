@@ -54,13 +54,14 @@ syntax" from "this command does not exist", which are fixed differently.
 
 | Symptom | Almost certainly | Rule |
 |---------|------------------|------|
-| Elements telescoped into one another; "overlapping clutter" | `POS` treated as bottom-face instead of centre | [IR-1](../knowledge/iron-rules.md#ir-1--pos-is-the-geometric-centre-of-every-primitive) |
+| CYLI/CONE elements telescoped into one another; "overlapping clutter" | `POS` treated as bottom-face instead of centre | [IR-1](../knowledge/iron-rules.md#ir-1--pos-is-element-specific-centre-for-cyliconebox-rim-for-dish) |
+| **Dished head floats above the shell by exactly half its HEIG** | CYLI/CONE centre conversion incorrectly applied to `DISH`; its POS is the rim plane | [IR-1](../knowledge/iron-rules.md#ir-1--pos-is-element-specific-centre-for-cyliconebox-rim-for-dish) |
 | Whole item offset by a constant amount | Owning `EQUI` not anchored at `POS E 0 N 0 U 0` | [IR-7](../knowledge/iron-rules.md#ir-7--anchor-every-equi-at-its-owner-origin) |
 | One element drifted, no error | `POS` emitted before `ORI` | [IR-2](../knowledge/iron-rules.md#ir-2--ori-before-pos) |
 | Vessel lying on its side | Axis put on Y instead of Z | [IR-3](../knowledge/iron-rules.md#ir-3--z-is-the-axis-of-revolution) |
 | Geometry moved after a "cosmetic" tree change | Hierarchy change altered the owner | [IR-7](../knowledge/iron-rules.md#ir-7--anchor-every-equi-at-its-owner-origin) |
 | Huge hemispherical bulge on a flat top | `DISH` used as a cover plate | [IR-9](../knowledge/iron-rules.md#ir-9--dish-and-cone-are-closures-not-shaping-surfaces) |
-| Half the vessel underground | Datum conversion missing at one call site | [IR-1](../knowledge/iron-rules.md#ir-1--pos-is-the-geometric-centre-of-every-primitive) |
+| Half a CYLI/CONE underground | Datum conversion missing at one call site | [IR-1](../knowledge/iron-rules.md#ir-1--pos-is-element-specific-centre-for-cyliconebox-rim-for-dish) |
 | **Nozzles absent from the 3D view but present in the tree** | No catalogue component bound — the element is empty | [IR-9a](../knowledge/iron-rules.md#ir-9a--a-nozzle-draws-nothing-until-a-catalogue-component-is-bound) |
 | **Only the flange rim shows; barrel invisible** | `POS` treated as the nozzle root, not the flange face | [IR-9a](../knowledge/iron-rules.md#a-nozzles-pos-is-its-flange-face-not-its-root-on-the-shell) |
 | **Nozzles aimed off the shell, or rolled oddly** | Oriented on a geometric axis instead of `ORI P1 IS` | [IR-2](../knowledge/iron-rules.md#a-nozzle-is-aimed-by-its-p-point-not-by-a-geometric-axis) |
@@ -84,7 +85,7 @@ like the model was built badly. Recognising it as a datum error saves hours.
 | # | Symptom | Cause | Resolution | Status |
 |---|---------|-------|------------|--------|
 | F-1 | `(47,15) CP: Syntax error / ^^SUSPEND` | `SUSPEND`/`RESUME`/`VAR 0`/`ALPHA HEADER` prescribed as an anti-freeze prologue; not E3D commands | Prologue removed; all four banned in `validate_pml()` | Fixed — IR-4 |
-| F-2 | Shells, skirts, heads and nozzles telescoped together | Knowledge base claimed a bottom-face datum for `CYLI`/`CONE`/`DISH` | Datum corrected to geometric centre; conversion centralised in `PMLBuilder._position` | Fixed — IR-1 |
+| F-2 | Shells, skirts and primitive nozzle parts telescoped together | Knowledge base claimed a bottom-face datum for `CYLI`/`CONE` | Their datum corrected to geometric centre; conversion centralised in `PMLBuilder._position` | Fixed — IR-1 |
 | F-3 | Transverse elements drifting from intended positions | `POS` emitted before `ORI`, rotating the position vector | Builder emits `ORI` first structurally; `validate_pml()` re-checks | Fixed — IR-2 |
 | F-4 | Vessels rendering on their side | Axis assumed to be Y | Verified against `gphFactory.pmlobj:632` that Z is the axis | Fixed — IR-3 |
 | F-5 | Verification passed on a model with wrong datums | Verification string-matched the `POS` line | Replaced with geometric parse in `verify_bottom_centre` | Fixed — IR-6 |
@@ -95,6 +96,7 @@ like the model was built badly. Recognising it as a datum error saves hours.
 | F-10 | `(2,108) SCOMPONENT /AAZFBB0YY is not a SPCO` | Passed the SPCO's `Catref` *value* instead of the SPCO's own two-segment path. `Q ATT` prints both, one line apart | Path built by `nozzle_component_path()` | Fixed — [catalogue-elements](../knowledge/catalogue-elements.md) |
 | F-11 | Nozzles buried in the shell; only the flange rim visible | `POS` treated as the root on the shell. It is the **flange face**; the barrel runs back from it into the vessel | `POS = face − penetration + length`; test checks the barrel's two ends | Fixed — IR-9a |
 | F-12 | Nozzles drawn as metre-long tubes flying off the vessels | `HEIG` computed from the EQUI origin on a mis-read datum; emitted −61680..+72280 mm for 250–450 mm nozzles | Reverted to the nozzle's own length; bounds check 1–2000 mm in `validate_pml()` | Fixed — IR-9a, IR-11 |
+| F-13 | `ACCUMULATOR_TANK` top head floating above the shell by 877.9 mm | F-2 was over-generalised: DISH was wrongly assigned the CYLI/CONE centre conversion, but its `POS` is the rim/tangent plane | DISH now passes its rim point through unchanged; parsers use the same element-specific datum; regression checks shell top = head rim | Fixed in generator; awaiting user reload — IR-1 |
 
 ### What F-8 through F-12 have in common
 

@@ -24,6 +24,7 @@ Then retrieve on demand:
 | PML1 syntax | [skill/knowledge/pml1-reference.md](skill/knowledge/pml1-reference.md) |
 | What equipment looks like | [skill/equipment/](skill/equipment/README.md) |
 | Prior work | [skill/projects/](skill/projects/README.md) |
+| A manually edited E3D export | [skill/workflows/reconciling-native-exports.md](skill/workflows/reconciling-native-exports.md) |
 | An E3D error | [skill/workflows/diagnosing-failures.md](skill/workflows/diagnosing-failures.md) |
 | A user correction | [skill/workflows/capturing-feedback.md](skill/workflows/capturing-feedback.md) |
 
@@ -33,8 +34,8 @@ Do not read the whole directory. That wastes the context you need for the model.
 
 ## The five things that will break your macro
 
-1. **`POS` is the geometric CENTRE** of every primitive — `CYLI`, `CONE`, `DISH`,
-   `BOX` alike. There is no bottom-face datum in E3D.
+1. **`POS` is element-specific.** `CYLI`, `CONE` and `BOX` use geometric centre;
+   `DISH` uses its flat rim / tangent plane.
 2. **`ORI` before `POS`.** The reverse order drifts the element silently, with no
    error message.
 3. **PML1 only.** No `!var =`, `COLLECT`, `UNSET`, `ENDS`, `END EQUI`, `!!Alert`.
@@ -50,6 +51,8 @@ Full detail and the evidence behind each is in the Iron Rules.
 
 - **Verify geometry numerically**, never by string-matching a `POS` line. A
   textual check passes a model in which every element has the wrong datum.
+- **Treat a user-edited native export as the new working baseline.** Compare its
+  hierarchy and key attributes before editing; never regenerate over it blindly.
 - **Label every assumed value** as a Reference Value with its basis.
 - **Write back what you learn** — see the evolution loop in SKILL.md. A fix that
   lives only in generated output will be paid for again on the next project.

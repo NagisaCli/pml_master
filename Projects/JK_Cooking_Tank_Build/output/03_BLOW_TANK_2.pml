@@ -1,0 +1,1651 @@
+-- ====================================================================
+-- BLOW TANK-2
+-- ====================================================================
+-- Scope: One independent equipment model
+-- Units: mm
+-- Frame: E = East, N = North, U = Up
+-- Datum: Equipment bottom centre / foundation bearing plane
+-- Generated: 2026-07-30 03:18:47
+-- Execution: Select a writable ZONE, then $M <this file>
+
+
+-- ====================================================================
+-- BLOW TANK-2
+-- ====================================================================
+-- Bottom centre: E 27498.0  N 18002.0  U -300.0
+-- Main dimensions: TOP→BOTTOM: CY D3876 H2508; CONE 3876→7300 H2944; CY D7300 H8753; CONE 7300→555 H5898; bottom opening 1848 above grade
+-- Overall height: 21951.0 mm
+-- Listed capacity: 380 m3
+
+NEW EQUI /BLOW_TANK_2
+POS E 0.0 N 0.0 U 0.0
+NEW SUBE /BLOW_TANK_2_SHELL
+-- Top cylindrical section
+NEW CYLI
+DIAM 3876.0
+HEIG 2508.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 20397.0
+
+-- Upper transition
+NEW CONE
+DTOP 3876.0
+DBOT 7300.0
+HEIG 2944.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 17671.0
+
+-- Main blow-tank shell
+NEW CYLI
+DIAM 7300.0
+HEIG 8753.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 11822.5
+
+-- Bottom discharge cone
+NEW CONE
+DTOP 7300.0
+DBOT 555.0
+HEIG 5898.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 4497.0
+
+-- Top cover plate within authoritative overall height
+NEW CYLI
+DIAM 3876.0
+HEIG 25.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 21638.5
+
+NEW SUBE /BLOW_TANK_2_SUPPORT
+-- Blow-tank support leg 1
+NEW BOX
+XLEN 250.0
+YLEN 250.0
+ZLEN 7746.0
+POS E 30998.0 N 18002.0 U 3573.0
+
+-- Blow-tank support leg 1 foot plate
+NEW BOX
+XLEN 300.0
+YLEN 300.0
+ZLEN 30.0
+POS E 30998.0 N 18002.0 U -285.0
+
+-- Blow-tank support leg 1 non-shrink grout pad
+NEW BOX
+XLEN 380.0
+YLEN 380.0
+ZLEN 12.0
+POS E 30998.0 N 18002.0 U -294.0
+
+-- Blow-tank support leg 1 radial base gusset
+NEW BOX
+XLEN 165.0
+YLEN 35.0
+ZLEN 150.0
+POS E 30998.0 N 18002.0 U -225.0
+
+-- Blow-tank support leg 1 tangential base gusset
+NEW BOX
+XLEN 35.0
+YLEN 165.0
+ZLEN 150.0
+POS E 30998.0 N 18002.0 U -225.0
+
+-- Blow-tank support leg 1 anchor stud 1
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 31100.0 N 18104.0 U -266.0
+
+-- Blow-tank support leg 1 anchor clamp washer plate 1
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+POS E 31100.0 N 18104.0 U -265.0
+
+-- Blow-tank support leg 1 anchor washer 1
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 31100.0 N 18104.0 U -267.5
+
+-- Blow-tank support leg 1 anchor nut 1
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 31100.0 N 18104.0 U -256.0
+
+-- Blow-tank support leg 1 anchor stud 2
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 30896.0 N 18104.0 U -266.0
+
+-- Blow-tank support leg 1 anchor clamp washer plate 2
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+POS E 30896.0 N 18104.0 U -265.0
+
+-- Blow-tank support leg 1 anchor washer 2
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 30896.0 N 18104.0 U -267.5
+
+-- Blow-tank support leg 1 anchor nut 2
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 30896.0 N 18104.0 U -256.0
+
+-- Blow-tank support leg 1 anchor stud 3
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 30896.0 N 17900.0 U -266.0
+
+-- Blow-tank support leg 1 anchor clamp washer plate 3
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+POS E 30896.0 N 17900.0 U -265.0
+
+-- Blow-tank support leg 1 anchor washer 3
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 30896.0 N 17900.0 U -267.5
+
+-- Blow-tank support leg 1 anchor nut 3
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 30896.0 N 17900.0 U -256.0
+
+-- Blow-tank support leg 1 anchor stud 4
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 31100.0 N 17900.0 U -266.0
+
+-- Blow-tank support leg 1 anchor clamp washer plate 4
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+POS E 31100.0 N 17900.0 U -265.0
+
+-- Blow-tank support leg 1 anchor washer 4
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 31100.0 N 17900.0 U -267.5
+
+-- Blow-tank support leg 1 anchor nut 4
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 31100.0 N 17900.0 U -256.0
+
+-- Blow-tank support leg 1 top load-spreader plate
+NEW BOX
+XLEN 430.0
+YLEN 430.0
+ZLEN 40.0
+POS E 30998.0 N 18002.0 U 7446.0
+
+-- Blow-tank support leg 1 radial top gusset web
+NEW BOX
+XLEN 510.0
+YLEN 35.0
+ZLEN 320.0
+POS E 30998.0 N 18002.0 U 7296.0
+
+-- Blow-tank support leg 1 tangential top gusset web
+NEW BOX
+XLEN 35.0
+YLEN 510.0
+ZLEN 320.0
+POS E 30998.0 N 18002.0 U 7296.0
+
+-- Blow-tank support leg 2
+NEW BOX
+XLEN 250.0
+YLEN 250.0
+ZLEN 7746.0
+POS E 23998.0 N 18002.0 U 3573.0
+
+-- Blow-tank support leg 2 foot plate
+NEW BOX
+XLEN 300.0
+YLEN 300.0
+ZLEN 30.0
+POS E 23998.0 N 18002.0 U -285.0
+
+-- Blow-tank support leg 2 non-shrink grout pad
+NEW BOX
+XLEN 380.0
+YLEN 380.0
+ZLEN 12.0
+ORI Z IS U AND X IS W
+POS E 23998.0 N 18002.0 U -294.0
+
+-- Blow-tank support leg 2 radial base gusset
+NEW BOX
+XLEN 165.0
+YLEN 35.0
+ZLEN 150.0
+ORI Z IS U AND X IS W
+POS E 23998.0 N 18002.0 U -225.0
+
+-- Blow-tank support leg 2 tangential base gusset
+NEW BOX
+XLEN 35.0
+YLEN 165.0
+ZLEN 150.0
+ORI Z IS U AND X IS W
+POS E 23998.0 N 18002.0 U -225.0
+
+-- Blow-tank support leg 2 anchor stud 1
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 23896.0 N 17900.0 U -266.0
+
+-- Blow-tank support leg 2 anchor clamp washer plate 1
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS W
+POS E 23896.0 N 17900.0 U -265.0
+
+-- Blow-tank support leg 2 anchor washer 1
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 23896.0 N 17900.0 U -267.5
+
+-- Blow-tank support leg 2 anchor nut 1
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 23896.0 N 17900.0 U -256.0
+
+-- Blow-tank support leg 2 anchor stud 2
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 24100.0 N 17900.0 U -266.0
+
+-- Blow-tank support leg 2 anchor clamp washer plate 2
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS W
+POS E 24100.0 N 17900.0 U -265.0
+
+-- Blow-tank support leg 2 anchor washer 2
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 24100.0 N 17900.0 U -267.5
+
+-- Blow-tank support leg 2 anchor nut 2
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 24100.0 N 17900.0 U -256.0
+
+-- Blow-tank support leg 2 anchor stud 3
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 24100.0 N 18104.0 U -266.0
+
+-- Blow-tank support leg 2 anchor clamp washer plate 3
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS W
+POS E 24100.0 N 18104.0 U -265.0
+
+-- Blow-tank support leg 2 anchor washer 3
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 24100.0 N 18104.0 U -267.5
+
+-- Blow-tank support leg 2 anchor nut 3
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 24100.0 N 18104.0 U -256.0
+
+-- Blow-tank support leg 2 anchor stud 4
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 23896.0 N 18104.0 U -266.0
+
+-- Blow-tank support leg 2 anchor clamp washer plate 4
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS W
+POS E 23896.0 N 18104.0 U -265.0
+
+-- Blow-tank support leg 2 anchor washer 4
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 23896.0 N 18104.0 U -267.5
+
+-- Blow-tank support leg 2 anchor nut 4
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 23896.0 N 18104.0 U -256.0
+
+-- Blow-tank support leg 2 top load-spreader plate
+NEW BOX
+XLEN 430.0
+YLEN 430.0
+ZLEN 40.0
+ORI Z IS U AND X IS W
+POS E 23998.0 N 18002.0 U 7446.0
+
+-- Blow-tank support leg 2 radial top gusset web
+NEW BOX
+XLEN 510.0
+YLEN 35.0
+ZLEN 320.0
+ORI Z IS U AND X IS W
+POS E 23998.0 N 18002.0 U 7296.0
+
+-- Blow-tank support leg 2 tangential top gusset web
+NEW BOX
+XLEN 35.0
+YLEN 510.0
+ZLEN 320.0
+ORI Z IS U AND X IS W
+POS E 23998.0 N 18002.0 U 7296.0
+
+-- Blow-tank support leg 3
+NEW BOX
+XLEN 250.0
+YLEN 250.0
+ZLEN 7746.0
+POS E 27498.0 N 21502.0 U 3573.0
+
+-- Blow-tank support leg 3 foot plate
+NEW BOX
+XLEN 300.0
+YLEN 300.0
+ZLEN 30.0
+POS E 27498.0 N 21502.0 U -285.0
+
+-- Blow-tank support leg 3 non-shrink grout pad
+NEW BOX
+XLEN 380.0
+YLEN 380.0
+ZLEN 12.0
+ORI Z IS U AND X IS N
+POS E 27498.0 N 21502.0 U -294.0
+
+-- Blow-tank support leg 3 radial base gusset
+NEW BOX
+XLEN 165.0
+YLEN 35.0
+ZLEN 150.0
+ORI Z IS U AND X IS N
+POS E 27498.0 N 21502.0 U -225.0
+
+-- Blow-tank support leg 3 tangential base gusset
+NEW BOX
+XLEN 35.0
+YLEN 165.0
+ZLEN 150.0
+ORI Z IS U AND X IS N
+POS E 27498.0 N 21502.0 U -225.0
+
+-- Blow-tank support leg 3 anchor stud 1
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 21604.0 U -266.0
+
+-- Blow-tank support leg 3 anchor clamp washer plate 1
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS N
+POS E 27396.0 N 21604.0 U -265.0
+
+-- Blow-tank support leg 3 anchor washer 1
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 21604.0 U -267.5
+
+-- Blow-tank support leg 3 anchor nut 1
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 21604.0 U -256.0
+
+-- Blow-tank support leg 3 anchor stud 2
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 21400.0 U -266.0
+
+-- Blow-tank support leg 3 anchor clamp washer plate 2
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS N
+POS E 27396.0 N 21400.0 U -265.0
+
+-- Blow-tank support leg 3 anchor washer 2
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 21400.0 U -267.5
+
+-- Blow-tank support leg 3 anchor nut 2
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 21400.0 U -256.0
+
+-- Blow-tank support leg 3 anchor stud 3
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 21400.0 U -266.0
+
+-- Blow-tank support leg 3 anchor clamp washer plate 3
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS N
+POS E 27600.0 N 21400.0 U -265.0
+
+-- Blow-tank support leg 3 anchor washer 3
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 21400.0 U -267.5
+
+-- Blow-tank support leg 3 anchor nut 3
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 21400.0 U -256.0
+
+-- Blow-tank support leg 3 anchor stud 4
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 21604.0 U -266.0
+
+-- Blow-tank support leg 3 anchor clamp washer plate 4
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS N
+POS E 27600.0 N 21604.0 U -265.0
+
+-- Blow-tank support leg 3 anchor washer 4
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 21604.0 U -267.5
+
+-- Blow-tank support leg 3 anchor nut 4
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 21604.0 U -256.0
+
+-- Blow-tank support leg 3 top load-spreader plate
+NEW BOX
+XLEN 430.0
+YLEN 430.0
+ZLEN 40.0
+ORI Z IS U AND X IS N
+POS E 27498.0 N 21502.0 U 7446.0
+
+-- Blow-tank support leg 3 radial top gusset web
+NEW BOX
+XLEN 510.0
+YLEN 35.0
+ZLEN 320.0
+ORI Z IS U AND X IS N
+POS E 27498.0 N 21502.0 U 7296.0
+
+-- Blow-tank support leg 3 tangential top gusset web
+NEW BOX
+XLEN 35.0
+YLEN 510.0
+ZLEN 320.0
+ORI Z IS U AND X IS N
+POS E 27498.0 N 21502.0 U 7296.0
+
+-- Blow-tank support leg 4
+NEW BOX
+XLEN 250.0
+YLEN 250.0
+ZLEN 7746.0
+POS E 27498.0 N 14502.0 U 3573.0
+
+-- Blow-tank support leg 4 foot plate
+NEW BOX
+XLEN 300.0
+YLEN 300.0
+ZLEN 30.0
+POS E 27498.0 N 14502.0 U -285.0
+
+-- Blow-tank support leg 4 non-shrink grout pad
+NEW BOX
+XLEN 380.0
+YLEN 380.0
+ZLEN 12.0
+ORI Z IS U AND X IS S
+POS E 27498.0 N 14502.0 U -294.0
+
+-- Blow-tank support leg 4 radial base gusset
+NEW BOX
+XLEN 165.0
+YLEN 35.0
+ZLEN 150.0
+ORI Z IS U AND X IS S
+POS E 27498.0 N 14502.0 U -225.0
+
+-- Blow-tank support leg 4 tangential base gusset
+NEW BOX
+XLEN 35.0
+YLEN 165.0
+ZLEN 150.0
+ORI Z IS U AND X IS S
+POS E 27498.0 N 14502.0 U -225.0
+
+-- Blow-tank support leg 4 anchor stud 1
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 14400.0 U -266.0
+
+-- Blow-tank support leg 4 anchor clamp washer plate 1
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS S
+POS E 27600.0 N 14400.0 U -265.0
+
+-- Blow-tank support leg 4 anchor washer 1
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 14400.0 U -267.5
+
+-- Blow-tank support leg 4 anchor nut 1
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 14400.0 U -256.0
+
+-- Blow-tank support leg 4 anchor stud 2
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 14604.0 U -266.0
+
+-- Blow-tank support leg 4 anchor clamp washer plate 2
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS S
+POS E 27600.0 N 14604.0 U -265.0
+
+-- Blow-tank support leg 4 anchor washer 2
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 14604.0 U -267.5
+
+-- Blow-tank support leg 4 anchor nut 2
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27600.0 N 14604.0 U -256.0
+
+-- Blow-tank support leg 4 anchor stud 3
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 14604.0 U -266.0
+
+-- Blow-tank support leg 4 anchor clamp washer plate 3
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS S
+POS E 27396.0 N 14604.0 U -265.0
+
+-- Blow-tank support leg 4 anchor washer 3
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 14604.0 U -267.5
+
+-- Blow-tank support leg 4 anchor nut 3
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 14604.0 U -256.0
+
+-- Blow-tank support leg 4 anchor stud 4
+NEW CYLI
+DIAM 24.0
+HEIG 68.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 14400.0 U -266.0
+
+-- Blow-tank support leg 4 anchor clamp washer plate 4
+NEW BOX
+XLEN 75.0
+YLEN 75.0
+ZLEN 10.0
+ORI Z IS U AND X IS S
+POS E 27396.0 N 14400.0 U -265.0
+
+-- Blow-tank support leg 4 anchor washer 4
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 14400.0 U -267.5
+
+-- Blow-tank support leg 4 anchor nut 4
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27396.0 N 14400.0 U -256.0
+
+-- Blow-tank support leg 4 top load-spreader plate
+NEW BOX
+XLEN 430.0
+YLEN 430.0
+ZLEN 40.0
+ORI Z IS U AND X IS S
+POS E 27498.0 N 14502.0 U 7446.0
+
+-- Blow-tank support leg 4 radial top gusset web
+NEW BOX
+XLEN 510.0
+YLEN 35.0
+ZLEN 320.0
+ORI Z IS U AND X IS S
+POS E 27498.0 N 14502.0 U 7296.0
+
+-- Blow-tank support leg 4 tangential top gusset web
+NEW BOX
+XLEN 35.0
+YLEN 510.0
+ZLEN 320.0
+ORI Z IS U AND X IS S
+POS E 27498.0 N 14502.0 U 7296.0
+
+NEW SUBE /BLOW_TANK_2_N1
+-- N1 native NOZZLE placeholder — DN400 upper tangential blow-line inlet
+NEW NOZZLE /BLOW_TANK_2_N1_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0YY
+POS E 29806.0 N 18002.0 U 20310.0
+ORI P1 IS E
+HEIG 450.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+NEW SUBE /BLOW_TANK_2_N2
+-- N2 native NOZZLE placeholder — DN400 upper circulation connection
+NEW NOZZLE /BLOW_TANK_2_N2_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0YY
+POS E 25190.0 N 18002.0 U 19810.0
+ORI P1 IS W
+HEIG 450.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+NEW SUBE /BLOW_TANK_2_N3
+-- N3 native NOZZLE placeholder — DN600 large vapour / stock connection
+NEW NOZZLE /BLOW_TANK_2_N3_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB033
+POS E 27498.0 N 22022.0 U 14810.0
+ORI P1 IS N
+HEIG 450.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+NEW SUBE /BLOW_TANK_2_N4
+-- N4 native NOZZLE placeholder — DN300 dilution / recirculation connection
+NEW NOZZLE /BLOW_TANK_2_N4_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0WW
+POS E 27498.0 N 14082.0 U 10010.0
+ORI P1 IS S
+HEIG 350.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+NEW SUBE /BLOW_TANK_2_M1
+-- M1 native NOZZLE placeholder — DN600 shell access manway
+NEW NOZZLE /BLOW_TANK_2_M1_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB033
+POS E 31518.0 N 18002.0 U 9010.0
+ORI P1 IS E
+HEIG 450.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+NEW SUBE /BLOW_TANK_2_N5
+-- N5 native NOZZLE placeholder — DN500 placeholder at the authoritative 555 mm bottom opening and bottom-entry agitator mounting
+NEW NOZZLE /BLOW_TANK_2_N5_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB011
+POS E 27498.0 N 18002.0 U 1548.0
+ORI P1 IS D
+HEIG 450.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+NEW SUBE /BLOW_TANK_2_ACCESS
+-- BLOW TANK-2 E left ladder base shoe
+NEW BOX
+XLEN 120.0
+YLEN 120.0
+ZLEN 20.0
+POS E 31408.0 N 17742.0 U -290.0
+
+-- BLOW TANK-2 E left ladder rail
+NEW CYLI
+DIAM 42.0
+HEIG 16479.0
+ORI Z IS U AND Y IS N
+POS E 31408.0 N 17742.0 U 7959.5
+
+-- BLOW TANK-2 E right ladder base shoe
+NEW BOX
+XLEN 120.0
+YLEN 120.0
+ZLEN 20.0
+POS E 31408.0 N 18262.0 U -290.0
+
+-- BLOW TANK-2 E right ladder rail
+NEW CYLI
+DIAM 42.0
+HEIG 16479.0
+ORI Z IS U AND Y IS N
+POS E 31408.0 N 18262.0 U 7959.5
+
+-- BLOW TANK-2 E ladder rung 01
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U -20.0
+
+-- BLOW TANK-2 E ladder rung 02
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 330.0
+
+-- BLOW TANK-2 E ladder rung 03
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 680.0
+
+-- BLOW TANK-2 E ladder rung 04
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 1030.0
+
+-- BLOW TANK-2 E ladder rung 05
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 1380.0
+
+-- BLOW TANK-2 E ladder rung 06
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 1730.0
+
+-- BLOW TANK-2 E ladder rung 07
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 2080.0
+
+-- BLOW TANK-2 E ladder rung 08
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 2430.0
+
+-- BLOW TANK-2 E ladder rung 09
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 2780.0
+
+-- BLOW TANK-2 E ladder rung 10
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 3130.0
+
+-- BLOW TANK-2 E ladder rung 11
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 3480.0
+
+-- BLOW TANK-2 E ladder rung 12
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 3830.0
+
+-- BLOW TANK-2 E ladder rung 13
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 4180.0
+
+-- BLOW TANK-2 E ladder rung 14
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 4530.0
+
+-- BLOW TANK-2 E ladder rung 15
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 4880.0
+
+-- BLOW TANK-2 E ladder rung 16
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 5230.0
+
+-- BLOW TANK-2 E ladder rung 17
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 5580.0
+
+-- BLOW TANK-2 E ladder rung 18
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 5930.0
+
+-- BLOW TANK-2 E ladder rung 19
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 6280.0
+
+-- BLOW TANK-2 E ladder rung 20
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 6630.0
+
+-- BLOW TANK-2 E ladder rung 21
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 6980.0
+
+-- BLOW TANK-2 E ladder rung 22
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 7330.0
+
+-- BLOW TANK-2 E ladder rung 23
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 7680.0
+
+-- BLOW TANK-2 E ladder rung 24
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 8030.0
+
+-- BLOW TANK-2 E ladder rung 25
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 8380.0
+
+-- BLOW TANK-2 E ladder rung 26
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 8730.0
+
+-- BLOW TANK-2 E ladder rung 27
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 9080.0
+
+-- BLOW TANK-2 E ladder rung 28
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 9430.0
+
+-- BLOW TANK-2 E ladder rung 29
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 9780.0
+
+-- BLOW TANK-2 E ladder rung 30
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 10130.0
+
+-- BLOW TANK-2 E ladder rung 31
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 10480.0
+
+-- BLOW TANK-2 E ladder rung 32
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 10830.0
+
+-- BLOW TANK-2 E ladder rung 33
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 11180.0
+
+-- BLOW TANK-2 E ladder rung 34
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 11530.0
+
+-- BLOW TANK-2 E ladder rung 35
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 11880.0
+
+-- BLOW TANK-2 E ladder rung 36
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 12230.0
+
+-- BLOW TANK-2 E ladder rung 37
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 12580.0
+
+-- BLOW TANK-2 E ladder rung 38
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 12930.0
+
+-- BLOW TANK-2 E ladder rung 39
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 13280.0
+
+-- BLOW TANK-2 E ladder rung 40
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 13630.0
+
+-- BLOW TANK-2 E ladder rung 41
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 13980.0
+
+-- BLOW TANK-2 E ladder rung 42
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 14330.0
+
+-- BLOW TANK-2 E ladder rung 43
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 14680.0
+
+-- BLOW TANK-2 E ladder rung 44
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 15030.0
+
+-- BLOW TANK-2 E ladder rung 45
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 15380.0
+
+-- BLOW TANK-2 E ladder rung 46
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 15730.0
+
+-- BLOW TANK-2 E ladder rung 47
+NEW CYLI
+DIAM 30.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31408.0 N 18002.0 U 16080.0
+
+-- BLOW TANK-2 E ladder-to-leg crossbar 01
+NEW CYLI
+DIAM 55.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31123.0 N 18002.0 U -160.0
+
+-- BLOW TANK-2 E left connected ladder bracket 01
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 17742.0 U -160.0
+
+-- BLOW TANK-2 E right connected ladder bracket 01
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 18262.0 U -160.0
+
+-- BLOW TANK-2 E ladder-to-leg crossbar 02
+NEW CYLI
+DIAM 55.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31123.0 N 18002.0 U 1779.9
+
+-- BLOW TANK-2 E left connected ladder bracket 02
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 17742.0 U 1779.9
+
+-- BLOW TANK-2 E right connected ladder bracket 02
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 18262.0 U 1779.9
+
+-- BLOW TANK-2 E ladder-to-leg crossbar 03
+NEW CYLI
+DIAM 55.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31123.0 N 18002.0 U 3839.8
+
+-- BLOW TANK-2 E left connected ladder bracket 03
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 17742.0 U 3839.8
+
+-- BLOW TANK-2 E right connected ladder bracket 03
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 18262.0 U 3839.8
+
+-- BLOW TANK-2 E ladder-to-leg crossbar 04
+NEW CYLI
+DIAM 55.0
+HEIG 520.0
+ORI Z IS N AND Y IS U
+POS E 31123.0 N 18002.0 U 5899.6
+
+-- BLOW TANK-2 E left connected ladder bracket 04
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 17742.0 U 5899.6
+
+-- BLOW TANK-2 E right connected ladder bracket 04
+NEW CYLI
+DIAM 30.0
+HEIG 285.0
+ORI Z IS E AND Y IS U
+POS E 31265.5 N 18262.0 U 5899.6
+
+-- BLOW TANK-2 E left connected ladder bracket 05
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 17742.0 U 7959.5
+
+-- BLOW TANK-2 E right connected ladder bracket 05
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 18262.0 U 7959.5
+
+-- BLOW TANK-2 E left connected ladder bracket 06
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 17742.0 U 10019.4
+
+-- BLOW TANK-2 E right connected ladder bracket 06
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 18262.0 U 10019.4
+
+-- BLOW TANK-2 E left connected ladder bracket 07
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 17742.0 U 12079.2
+
+-- BLOW TANK-2 E right connected ladder bracket 07
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 18262.0 U 12079.2
+
+-- BLOW TANK-2 E left connected ladder bracket 08
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 17742.0 U 14139.1
+
+-- BLOW TANK-2 E right connected ladder bracket 08
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 18262.0 U 14139.1
+
+-- BLOW TANK-2 E left connected ladder bracket 09
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 17742.0 U 16079.0
+
+-- BLOW TANK-2 E right connected ladder bracket 09
+NEW CYLI
+DIAM 30.0
+HEIG 260.0
+ORI Z IS E AND Y IS U
+POS E 31278.0 N 18262.0 U 16079.0
+
+NEW SUBE /BLOW_TANK_2_INTERNALS
+-- BLOW TANK-2 bottom-entry agitator non-shrink grout pad
+NEW BOX
+XLEN 1320.0
+YLEN 1320.0
+ZLEN 12.0
+POS E 27498.0 N 18002.0 U -294.0
+
+-- BLOW TANK-2 bottom-entry agitator ground baseplate
+NEW BOX
+XLEN 1200.0
+YLEN 1200.0
+ZLEN 60.0
+POS E 27498.0 N 18002.0 U -258.0
+
+-- BLOW TANK-2 ground-mounted vertical agitator motor
+NEW CYLI
+DIAM 650.0
+HEIG 650.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 97.0
+
+-- BLOW TANK-2 bottom-entry agitator gearbox
+NEW BOX
+XLEN 760.0
+YLEN 760.0
+ZLEN 400.0
+POS E 27498.0 N 18002.0 U 622.0
+
+-- BLOW TANK-2 bottom-entry packing-box and bearing housing
+NEW CYLI
+DIAM 520.0
+HEIG 726.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 1185.0
+
+-- BLOW TANK-2 internal vertical bottom-entry agitator shaft
+NEW CYLI
+DIAM 120.0
+HEIG 7624.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 4634.0
+
+-- BLOW TANK-2 agitator impeller hub 1
+NEW CYLI
+DIAM 360.0
+HEIG 240.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 3317.4
+
+-- BLOW TANK-2 agitator east-west blade pair 1
+NEW BOX
+XLEN 1200.0
+YLEN 90.0
+ZLEN 160.0
+POS E 27498.0 N 18002.0 U 3317.4
+
+-- BLOW TANK-2 agitator north-south blade pair 1
+NEW BOX
+XLEN 90.0
+YLEN 1200.0
+ZLEN 160.0
+POS E 27498.0 N 18002.0 U 3317.4
+
+-- BLOW TANK-2 agitator impeller hub 2
+NEW CYLI
+DIAM 300.0
+HEIG 240.0
+ORI Z IS U AND Y IS N
+POS E 27498.0 N 18002.0 U 5676.6
+
+-- BLOW TANK-2 agitator east-west blade pair 2
+NEW BOX
+XLEN 1600.0
+YLEN 90.0
+ZLEN 160.0
+POS E 27498.0 N 18002.0 U 5676.6
+
+-- BLOW TANK-2 agitator north-south blade pair 2
+NEW BOX
+XLEN 90.0
+YLEN 1600.0
+ZLEN 160.0
+POS E 27498.0 N 18002.0 U 5676.6
+
+-- BLOW TANK-2 ground drive support post 1
+NEW BOX
+XLEN 100.0
+YLEN 180.0
+ZLEN 1050.0
+POS E 27048.0 N 18002.0 U 297.0
+
+-- BLOW TANK-2 ground drive support post 2
+NEW BOX
+XLEN 100.0
+YLEN 180.0
+ZLEN 1050.0
+POS E 27948.0 N 18002.0 U 297.0
+
+-- BLOW TANK-2 agitator ground anchor stud 1
+NEW CYLI
+DIAM 24.0
+HEIG 100.0
+ORI Z IS U AND Y IS N
+POS E 27978.0 N 18482.0 U -250.0
+
+-- BLOW TANK-2 agitator ground anchor washer 1
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27978.0 N 18482.0 U -225.5
+
+-- BLOW TANK-2 agitator ground anchor nut 1
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27978.0 N 18482.0 U -214.0
+
+-- BLOW TANK-2 agitator ground anchor stud 2
+NEW CYLI
+DIAM 24.0
+HEIG 100.0
+ORI Z IS U AND Y IS N
+POS E 27018.0 N 18482.0 U -250.0
+
+-- BLOW TANK-2 agitator ground anchor washer 2
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27018.0 N 18482.0 U -225.5
+
+-- BLOW TANK-2 agitator ground anchor nut 2
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27018.0 N 18482.0 U -214.0
+
+-- BLOW TANK-2 agitator ground anchor stud 3
+NEW CYLI
+DIAM 24.0
+HEIG 100.0
+ORI Z IS U AND Y IS N
+POS E 27018.0 N 17522.0 U -250.0
+
+-- BLOW TANK-2 agitator ground anchor washer 3
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27018.0 N 17522.0 U -225.5
+
+-- BLOW TANK-2 agitator ground anchor nut 3
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27018.0 N 17522.0 U -214.0
+
+-- BLOW TANK-2 agitator ground anchor stud 4
+NEW CYLI
+DIAM 24.0
+HEIG 100.0
+ORI Z IS U AND Y IS N
+POS E 27978.0 N 17522.0 U -250.0
+
+-- BLOW TANK-2 agitator ground anchor washer 4
+NEW CYLI
+DIAM 48.0
+HEIG 5.0
+ORI Z IS U AND Y IS N
+POS E 27978.0 N 17522.0 U -225.5
+
+-- BLOW TANK-2 agitator ground anchor nut 4
+NEW CYLI
+DIAM 42.0
+HEIG 18.0
+ORI Z IS U AND Y IS N
+POS E 27978.0 N 17522.0 U -214.0
+
+NEW SUBE /BLOW_TANK_2_DETAIL
+-- BLOW TANK-2 east lifting lug plate
+NEW BOX
+XLEN 140.0
+YLEN 260.0
+ZLEN 300.0
+POS E 31218.0 N 18002.0 U 15819.0
+
+-- BLOW TANK-2 east lifting-lug pin envelope
+NEW CYLI
+DIAM 70.0
+HEIG 180.0
+ORI Z IS N AND Y IS U
+POS E 31218.0 N 18002.0 U 15819.0
+
+-- BLOW TANK-2 west lifting lug plate
+NEW BOX
+XLEN 140.0
+YLEN 260.0
+ZLEN 300.0
+POS E 23778.0 N 18002.0 U 15819.0
+
+-- BLOW TANK-2 west lifting-lug pin envelope
+NEW CYLI
+DIAM 70.0
+HEIG 180.0
+ORI Z IS N AND Y IS U
+POS E 23778.0 N 18002.0 U 15819.0
+
+-- BLOW TANK-2 north lifting lug plate
+NEW BOX
+XLEN 260.0
+YLEN 140.0
+ZLEN 300.0
+POS E 27498.0 N 21722.0 U 15819.0
+
+-- BLOW TANK-2 north lifting-lug pin envelope
+NEW CYLI
+DIAM 70.0
+HEIG 180.0
+ORI Z IS E AND Y IS U
+POS E 27498.0 N 21722.0 U 15819.0
+
+-- BLOW TANK-2 south lifting lug plate
+NEW BOX
+XLEN 260.0
+YLEN 140.0
+ZLEN 300.0
+POS E 27498.0 N 14282.0 U 15819.0
+
+-- BLOW TANK-2 south lifting-lug pin envelope
+NEW CYLI
+DIAM 70.0
+HEIG 180.0
+ORI Z IS E AND Y IS U
+POS E 27498.0 N 14282.0 U 15819.0
+
+-- BLOW TANK-2 engraved equipment nameplate
+NEW BOX
+XLEN 500.0
+YLEN 24.0
+ZLEN 320.0
+POS E 27498.0 N 14340.0 U 8646.0
+
+-- BLOW TANK-2 nameplate screw 1
+NEW CYLI
+DIAM 18.0
+HEIG 18.0
+ORI Z IS S AND Y IS U
+POS E 27288.0 N 14340.0 U 8521.0
+
+-- BLOW TANK-2 nameplate screw 2
+NEW CYLI
+DIAM 18.0
+HEIG 18.0
+ORI Z IS S AND Y IS U
+POS E 27708.0 N 14340.0 U 8521.0
+
+-- BLOW TANK-2 nameplate screw 3
+NEW CYLI
+DIAM 18.0
+HEIG 18.0
+ORI Z IS S AND Y IS U
+POS E 27288.0 N 14340.0 U 8771.0
+
+-- BLOW TANK-2 nameplate screw 4
+NEW CYLI
+DIAM 18.0
+HEIG 18.0
+ORI Z IS S AND Y IS U
+POS E 27708.0 N 14340.0 U 8771.0
+
+-- BLOW TANK-2 grounding lug
+NEW BOX
+XLEN 160.0
+YLEN 80.0
+ZLEN 120.0
+POS E 31228.0 N 18002.0 U 7566.0
+
+-- BLOW TANK-2 grounding-lug bolt
+NEW CYLI
+DIAM 24.0
+HEIG 100.0
+ORI Z IS N AND Y IS U
+POS E 31228.0 N 18002.0 U 7566.0
+
+
+-- ====================================================================
+-- NOZZLE CATALOGUE SUMMARY
+-- ====================================================================
+-- 6 of 6 nozzles bound to a catalogue component.
+-- Each binding is inline in its NEW NOZZLE block: a nozzle has no
+-- P-points or position until a component is bound, so CATR must
+-- precede POS and ORI (equnozzle.pmlfrm:894).
+
+-- End of macro - 1 equipment, 215 primitives.

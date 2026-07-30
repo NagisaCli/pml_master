@@ -11,8 +11,9 @@ syntax lookup.
 
 ## Primitives — VERIFIED
 
-All four position by **geometric centre** (IR-1). All rotational primitives take
-`ORI` before `POS` (IR-2), with the axis of revolution on Z (IR-3).
+CYLI, CONE and BOX position by **geometric centre**; DISH positions by its flat
+rim / tangent plane (IR-1). All rotational primitives take `ORI` before `POS`
+(IR-2), with the axis of revolution on Z (IR-3).
 
 ### CYLI — cylinder
 
@@ -37,8 +38,32 @@ ZLEN 700.0      -- Up dimension
 POS E 0 N 0 U 4500.0
 ```
 
-No `ORI` required. Foundations, platforms, hoods, frames, motors, headbox
-chambers, valve bodies.
+No `ORI` is required for a world-axis-aligned BOX. Foundations, platforms,
+hoods, frames, motors, headbox chambers, valve bodies.
+
+For a BOX rotated in plan, set local Z vertical and local X to the required
+bearing **before POS**:
+
+```pml
+NEW BOX
+XLEN 240.0      -- local radial length
+YLEN 90.0       -- local tangential width
+ZLEN 20.0
+ORI Z IS U AND X IS E 30 N
+POS E 20958.7 N -4711.5 U -274.0
+```
+
+The bearing form is quadrant-based (`E 30 N`, `N 30 W`, `W 30 S`,
+`S 30 E`). Evidence: AVEVA's own
+`spcwfitspecsel.pmlfrm:2423-2434` creates a dummy BOX and writes
+`ORI Z IS $!zDir AND X IS $!xDir` before `POS`; the installed direction
+handling documents arbitrary bearings such as `E 45 N`. This project parses
+the emitted bearing back and verifies the rotated occupied bounds.
+
+> **User-corrected 2026-07-30 (JK_Cooking_Tank_Build).** Circular-vessel anchor
+> plates at non-cardinal bearings distorted when left on global E/N axes.
+> Their local X must be radial and local Y tangential; deriving XLEN/YLEN from
+> absolute E/N deltas is not a rotation.
 
 ### CONE — frustum
 
@@ -66,6 +91,7 @@ ORI Z IS U AND Y IS N
 POS E 0 N 0 U 53000.0
 ```
 
+- `POS` is the flat rim / shell tangent plane; the apex is `HEIG` along Z
 - 2:1 elliptical approximation: `RADIUS ≈ DIAM`
 - Flatter head: `RADIUS > DIAM`
 - **Never** as a flat cover plate (IR-9)

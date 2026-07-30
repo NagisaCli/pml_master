@@ -80,9 +80,16 @@ discharge, overflow, vent, drain, manway — sized to the duty, spread across
 distinct bearings so future piping does not collide, and flagged as Reference
 Values.
 
-Modelled as `CYLI` neck + `CYLI` flange, each nozzle in its **own SUBE** (IR-8),
-so a piping designer can attach to one connection without disturbing its
-neighbours.
+Model as a catalogue-backed native `NOZZLE`, each in its **own SUBE** (IR-8), so
+a piping designer can attach to one connection without disturbing its
+neighbours. Do not rebuild a placeholder nozzle from stacked `CYLI` neck,
+flange, gasket and fastener primitives when a verified receiving-project
+catalogue component is available.
+
+> **User-corrected 2026-07-30 (JK_Cooking_Tank_Build).** Temporary cooking-area
+> connections should be single native `NOZZLE` placeholders. The previous
+> primitive neck/flange/bolt stacks were visually excessive and harder to
+> replace uniformly.
 
 Production constants (`wsb/tank_builder.py`) — RECOMMENDED:
 
@@ -104,8 +111,27 @@ is the skirt base. Used where the vessel is pressurised, elevated, or has a
 conical bottom needing clearance.
 
 **Legs** — typically 4, equally spaced. Datum is the base of the legs.
+Each leg needs a physical load path at both ends: a top load-spreader/cap plate
+and gussets into the vessel, plus a sole plate, grout/cleats and anchored foot at
+the foundation. A bare rectangular post merely touching a curved cone is not a
+credible support.
 
 **Ground** — bottom bears directly on the slab. Datum is the bottom of the shell.
+An external anchor stud must pass through a baseplate or clamp chair tied back
+to the shell/skirt. A bolt standing beside the tank with no connecting plate has
+no physical restraining function.
+
+For any baseplate, clamp, chair or gusset arranged around a circular shell, use
+the attachment's **local radial/tangential frame**: the plate's long axis points
+radially and the edge at the shell is tangential. Only the E/W/N/S locations can
+look correct while remaining world-axis-aligned; every skew location needs a
+real BOX orientation.
+
+> **User-corrected 2026-07-30 (JK_Cooking_Tank_Build).** The previous perimeter
+> anchors calculated BOX lengths from absolute E/N deltas and never rotated the
+> boxes. Skew clamps consequently distorted and did not meet the vessel
+> tangentially. Circular support hardware now carries its radial bearing and the
+> bolt pattern rotates with it.
 
 ---
 
@@ -126,6 +152,16 @@ pressure-vessel form. For a `DISH` primitive, `RADIUS ≈ DIAM` approximates it
 (IR-9).
 
 Do not add ladders, platforms or accessories that no drawing shows (IR-10).
+Where a user authorises reference access steel, place ladders only on vessels
+whose height creates a real access need, vary the bearing to suit the layout,
+provide base shoes, and make every stand-off terminate on shell/support steel.
+Do not copy the same free-floating ladder onto every tank.
+
+> **User-corrected 2026-07-30 (JK_Cooking_Tank_Build).** The previous detail
+> pass put a same-bearing ladder on nearly every vessel and carried the Blow
+> Tank ladder into an unsupported reducing section. Low/grade-accessible vessels
+> now omit ladders; remaining ladder bearings vary, and Blow Tank ladders stop at
+> the supported main-shell top with lower crossbars tied to a support leg.
 
 ---
 

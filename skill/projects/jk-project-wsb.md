@@ -3,8 +3,9 @@
 **Scope:** 3D modelling of all tank-type equipment in the Washing, Screening and
 Bleaching area, for AVEVA E3D.
 **Status:** Delivered and verified.
-**Folder:** `Projects/JK-Project/`
-**Brief:** [Do.txt](../../Projects/JK-Project/Do.txt) — the client's
+**Folder:** `Projects/JK-Tank_Build/` (logical name `JK-Project`, declared in
+`project.json`)
+**Brief:** [Do.txt](../../Projects/JK-Tank_Build/Do.txt) — the client's
 specification, and the living instruction prompt for this project.
 
 ---
@@ -26,7 +27,7 @@ Regenerate:
 python -m wsb --project JK-Project
 ```
 
-Outputs `Projects/JK-Project/output/JK-Project_<timestamp>.pml` and a matching
+Outputs `Projects/JK-Tank_Build/output/JK-Project_<timestamp>.pml` and a matching
 report, named after the project so a macro found later can be traced back to the
 folder that produced it. `--dry-run` validates without writing; it exits non-zero
 if any tank fails verification.
@@ -49,7 +50,7 @@ from this project.
 
 ## Source data
 
-All under `Projects/JK-Project/`:
+All under `Projects/JK-Tank_Build/`:
 
 | File | Role |
 |------|------|
@@ -95,7 +96,7 @@ problem that recurs.
 | Problem | Symptom | Resolution |
 |---------|---------|------------|
 | Invented render prologue | `(47,15) CP: Syntax error / ^^SUSPEND` | `SUSPEND`/`RESUME`/`VAR 0`/`ALPHA HEADER` are not E3D commands — confirmed absent from AVEVA's `pmllib`. Removed and banned. → **IR-4** |
-| Wrong primitive datum | Shells, skirts, heads and nozzles telescoped into one another | Knowledge base wrongly claimed a bottom-face datum. `POS` is the geometric centre for all primitives; conversion centralised in `PMLBuilder._position`. → **IR-1** |
+| Wrong CYLI/CONE datum | Shells, skirts and primitive nozzle parts telescoped into one another | Knowledge base wrongly claimed a bottom-face datum. CYLI/CONE `POS` is the geometric centre; conversion centralised in `PMLBuilder._position`. A later user correction established that DISH is the rim-plane exception. → **IR-1** |
 | Coordinate drift | Transverse elements away from intended positions, no error | `POS` was emitted before `ORI`. Builder now emits `ORI` first structurally. → **IR-2** |
 | Vessels on their side | Vertical tanks rendering horizontally | Axis is Z, not Y — verified against `gphFactory.pmlobj:632`. → **IR-3** |
 | False-positive verification | Verification passed a model with wrong datums | String-matching a `POS` line proves only that *some* primitive sits there. Replaced with a geometric parse computing true extents. → **IR-6** |

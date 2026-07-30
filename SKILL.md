@@ -27,11 +27,15 @@ E3D on the first attempt, and then **write back what you learned**.
 | The model looks wrong but loaded fine | [skill/workflows/diagnosing-failures.md](skill/workflows/diagnosing-failures.md) — the symptom table |
 | I need a fact from the user's E3D session | [skill/workflows/querying-e3d.md](skill/workflows/querying-e3d.md) |
 | The user corrected me | [skill/workflows/capturing-feedback.md](skill/workflows/capturing-feedback.md) |
+| The user supplied a manually edited native E3D export | **[skill/workflows/reconciling-native-exports.md](skill/workflows/reconciling-native-exports.md)** |
 
 **Minimum viable read** for a modeling task: this file → `iron-rules.md` →
 `project-structure.md` → the project's own `DO.txt` → `modeling-run.md`.
 Everything else is retrieved on demand. Do not read the whole directory; that
 wastes the context you need for the model itself.
+
+If the input is a manually edited/native-exported PML file, also read
+`reconciling-native-exports.md` before inspecting or changing that file.
 
 ---
 
@@ -40,8 +44,9 @@ wastes the context you need for the model itself.
 These are compressed from `skill/knowledge/iron-rules.md`. If you read nothing
 else, read these — but read the full file before emitting geometry.
 
-1. **`POS` is the geometric CENTRE of every primitive** — `CYLI`, `CONE`, `DISH`
-   and `BOX` alike. There is no bottom-face datum in E3D.
+1. **`POS` is element-specific.** `CYLI`, `CONE` and `BOX` use geometric centre;
+   `DISH` uses its flat rim / tangent plane. Never apply a half-height centre
+   conversion to a DISH.
 2. **`ORI` before `POS`**, always. The reverse order rotates the position vector
    and the element drifts silently, with no error.
 3. **PML1 only.** No `!var =`, `COLLECT`, `UNSET`, `ENDS`, `END EQUI`, `!!Alert`.
@@ -55,6 +60,9 @@ else, read these — but read the full file before emitting geometry.
    Lengths are positive; nozzles are under a metre; nothing sits below its
    foundation. A theory-shaped check confirms the theory, not the model (IR-11).
 7. **User-supplied parameters always win** over anything in this knowledge base.
+8. **A user-edited native export is the current geometry baseline.** Identify
+   its hierarchy and attribute deltas before changing it; preserve every
+   out-of-scope manual edit.
 
 ---
 
@@ -99,6 +107,7 @@ must close this loop:
 | A syntax form was proven to work | `skill/knowledge/pml1-reference.md`, marked VERIFIED |
 | A syntax form is untested | same file, marked EXPERIMENTAL — never promote without evidence |
 | A workflow step was missing | `skill/workflows/` |
+| A manually edited export was supplied | Archive it under the project, compare it with the accepted baseline, and record the preservation set |
 
 A fix that lives only in generated output and not in `skill/` will be paid for
 again on the next project. That is the failure mode this whole structure exists

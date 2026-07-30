@@ -5,19 +5,14 @@ __pycache__/
 *.tmp
 *.log
 
-# Client project data is NOT published. Projects/<Name>/ holds the client's
-# specification, equipment list and reference drawings - real tag numbers,
-# coordinates and services. This repository is public, so the whole folder stays
-# local; only the generator, the skill knowledge base and the tests are tracked.
-# Drop a project folder in place and regenerate with:
-#   python -m wsb --project <Name>
-# The leading slash anchors this to the repo root: without it the pattern also
-# matches skill/projects/, which is documentation and carries no client data.
-/Projects/
+# Project data, drawings, accepted native exports, generated macros and reports
+# are versioned.  The repository owner explicitly selected a complete-project
+# archive on 2026-07-30 so future revisions can reconcile against exact accepted
+# baselines instead of regenerating over manual E3D edits.
 
-# Generated macros and reports. Reproducible from the dataset, so not tracked.
-output/*.pml
-output/*.md
+# Microsoft Office lock files are transient and can contain workstation/user
+# metadata.  The actual workbook remains versioned.
+~$*
 
 # E3D system information reports written on a crash
 errors/

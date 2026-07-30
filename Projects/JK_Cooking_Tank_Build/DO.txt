@@ -1,0 +1,465 @@
+You are now working on a new AVEVA Everything3D (E3D) equipment modeling project.
+
+The project shall be developed based on the existing e3d_agent framework:
+
+Agent directory:
+C:\Users\A\Desktop\Projects\e3d_agent
+
+Project directory:
+C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Cooking_Tank_Build
+
+Equipment data source:
+C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Cooking_Tank_Build\Tank_list.xlsx
+
+Reference drawings:
+C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Cooking_Tank_Build\Refs
+
+The Refs folder contains corresponding reference drawings:
+- Mainly top view layouts
+- Some equipment also include side views
+
+The objective is to create accurate AVEVA E3D equipment models for several tanks/vessels located in the Cooking Plant area.
+
+--------------------------------------------------
+1. MODELING COORDINATE SYSTEM
+--------------------------------------------------
+
+Use the equipment bottom center point as the modeling datum/base point.
+
+All equipment positioning shall be referenced from:
+- Bottom center of equipment
+- Global E3D coordinate system
+
+Maintain correct spatial and physical relationships.
+
+--------------------------------------------------
+2. BASIC EQUIPMENT GEOMETRY RULES
+--------------------------------------------------
+
+The equipment list provides:
+- Equipment diameter
+- Equipment total height
+- Sometimes volume
+
+Important:
+
+The height value in Tank_list.xlsx represents the TOTAL overall equipment height.
+
+It is NOT only the height of the main cylindrical shell.
+
+The total height shall include all sections:
+
+- Main cylindrical body
+- Top cone / conical roof
+- Top reducer or transition section
+- Bottom cone
+- Bottom outlet section
+- Supporting legs or skirt structures
+
+Example:
+
+A vessel may consist of:
+
+TOP
+|
+|-- Cone / Reducer
+|
+|-- Cylinder shell
+|
+|-- Bottom cone
+|
+|-- Outlet section
+|
+|-- Legs/support
+|
+BOTTOM
+
+
+--------------------------------------------------
+3. EQUIPMENT SHAPE RECONSTRUCTION LOGIC
+--------------------------------------------------
+
+Do NOT assume every tank is a single cylinder.
+
+Many vessels may contain:
+
+- Cylindrical shell + top cone
+- Cylindrical shell + bottom cone outlet
+- Cylindrical shell + cone transitions
+- Legs or support structures
+- Special process-related structures
+
+
+The provided diameter represents:
+
+"The maximum outside diameter shown in the top view"
+
+It does NOT mean:
+
+"The equipment consists of only one cylinder with this diameter."
+
+
+Before modeling:
+
+1. Study the equipment name and function.
+2. Search and analyze the engineering knowledge base.
+3. Determine the most reasonable industrial equipment configuration.
+4. Build the equipment using appropriate E3D primitives.
+
+The final geometry shall follow realistic process equipment design.
+
+--------------------------------------------------
+4. HEIGHT CALCULATION REQUIREMENTS
+--------------------------------------------------
+
+For equipment with incomplete geometry information:
+
+The height must be calculated, not randomly assumed.
+
+Calculation procedure:
+
+Step 1:
+Research the typical structure and function of the equipment.
+
+Step 2:
+Define a reasonable equipment configuration.
+
+Step 3:
+Calculate approximate dimensions using:
+
+- Provided vessel diameter
+- Provided volume (if available)
+- Standard industrial proportions
+- Additional primitive dimensions required for cones, outlets, supports, etc.
+
+Step 4:
+Verify that the calculated total height matches the given equipment height.
+
+The generated geometry must satisfy:
+
+Total primitive height =
+Equipment total height in Tank_list.xlsx
+
+
+--------------------------------------------------
+5. E3D PRIMITIVE DESCRIPTION STRING RULE
+--------------------------------------------------
+
+Some equipment heights are provided as primitive definition strings.
+
+Example:
+
+FTTD:CY:D3876 H2508;
+CONE:DT:3876 DD:7300 H2944;
+CY:D:7300 H:8753;
+CONE:DT:7300 DD:555 H:5898;
+
+
+This format is an AVEVA E3D Equipment Primitive geometry definition.
+
+Interpretation rules:
+
+- The primitives are arranged from TOP to BOTTOM.
+- Do NOT reverse the order.
+- Do NOT reinterpret the orientation.
+
+Syntax:
+
+CY:
+Cylinder
+
+Parameters:
+D = diameter
+H = height
+
+
+CONE:
+Cone / conical transition
+
+Parameters:
+DT = top diameter
+DB or DD = bottom diameter
+H = height
+
+
+Example:
+
+CONE:DT:7300 DD:555 H:5898
+
+means:
+
+Top diameter = 7300 mm
+Bottom diameter = 555 mm
+Height = 5898 mm
+
+
+All dimensions are in millimeters.
+
+Primitive elements automatically connect end-to-end.
+
+Use this string directly as the authoritative equipment outer profile definition.
+
+--------------------------------------------------
+6. MODEL DETAIL REQUIREMENTS
+--------------------------------------------------
+
+The Tank_list.xlsx provides the main framework only.
+
+Missing details shall be added based on:
+
+- Equipment function
+- Industrial standards
+- Process requirements
+- Typical pulp mill cooking plant equipment design
+
+Examples of additional details:
+
+- Nozzles
+- Manways
+- Platforms
+- Ladders
+- Supports
+- Legs
+- Reinforcement rings
+- Flanges
+- Mechanical connections
+- Bottom outlet structures
+- Top accessories
+
+
+However:
+
+DO NOT exceed the provided basic dimensions.
+
+The following rules are mandatory:
+
+Allowed:
+- Adding missing details
+- Adding reasonable mechanical structures
+- Adding standard accessories
+- Adjusting unknown minor dimensions
+
+
+Not allowed:
+- Changing provided diameter
+- Increasing provided total height
+- Inventing larger structures
+- Modifying supplied primitive geometry
+
+
+The provided data has the highest priority.
+
+--------------------------------------------------
+7. SPECIAL STRUCTURES
+--------------------------------------------------
+
+For complicated equipment structures:
+
+- Use higher polygon resolution where necessary.
+- Preserve curved surfaces accurately.
+- Avoid low-quality simplified geometry.
+
+The model should represent realistic industrial equipment appearance.
+
+--------------------------------------------------
+8. E3D MODEL ORGANIZATION
+--------------------------------------------------
+
+Each equipment item shall have:
+
+ONE independent E3D EQUIPMENT hierarchy.
+
+Structure example:
+
+EQUIPMENT
+ |
+ |-- SUBEQUIPMENT
+ |
+ |-- NOZZLES
+ |
+ |-- SUPPORTS
+ |
+ |-- DETAILS
+
+
+Each vessel shall be independent and correctly named according to Tank_list.xlsx.
+
+--------------------------------------------------
+9. OUTPUT REQUIREMENTS
+--------------------------------------------------
+
+Output:
+
+One PML macro file for each equipment model.
+
+The PML files must:
+
+- Run directly in AVEVA E3D
+- Create complete equipment hierarchy
+- Generate correct geometry
+- Maintain coordinate accuracy
+- Follow E3D modeling standards
+
+
+--------------------------------------------------
+10. FINAL QUALITY REQUIREMENTS
+--------------------------------------------------
+
+Work as an experienced AVEVA E3D equipment designer.
+
+Prioritize:
+
+1. Physical realism
+2. Spatial correctness
+3. Process equipment logic
+4. Engineering consistency
+5. Detailed modeling quality
+
+
+The final model should be detailed enough for professional 3D plant design review.
+
+Proceed with full analysis, knowledge-base lookup, geometry reconstruction, and E3D PML generation.
+
+--------------------------------------------------
+11. USER VISUAL REVIEW — 2026-07-30
+--------------------------------------------------
+
+The first generated macro set loaded successfully in AVEVA E3D.
+
+Mandatory correction:
+- ACCUMULATOR_TANK top dished head shall be seated directly on the cylindrical
+  shell tangent line. No visible gap is permitted.
+
+Detailing direction:
+- Refine all equipment as far as reasonably possible without changing any
+  supplied basic diameter, capacity, total height or authoritative primitive
+  profile.
+- Model visible small hardware, including individual flange studs, washers,
+  nuts, support anchors, nameplate screws and comparable mechanical details.
+- Add reasonable access/support accessories where they do not alter the
+  supplied body geometry.
+
+Nozzle direction:
+- Representative native E3D nozzles may be used temporarily for visual
+  reference.
+- Where receiving-project catalogue paths are not yet confirmed, use detailed,
+  catalogue-independent nozzle assemblies that remain grouped for later
+  one-for-one replacement.
+- All temporary/reference nozzle data shall remain easy to update uniformly
+  when the final nozzle schedule and catalogue mapping are available.
+
+--------------------------------------------------
+12. SECOND USER VISUAL REVIEW — 2026-07-30
+--------------------------------------------------
+
+Revision 2 loaded successfully in AVEVA E3D.
+
+Access correction:
+- Do not place a ladder on every tank.
+- Ladder bearings shall vary reasonably with equipment layout.
+- Every retained ladder shall have base shoes and a continuous support path.
+- BLOW TANK-1 and BLOW TANK-2 ladders shall not extend into an unsupported
+  reducing/upper section. Their lower brackets shall connect to support steel,
+  and their upper brackets shall terminate on the constant-diameter main shell.
+
+Blow Tank internals:
+- BLOW TANK-1 and BLOW TANK-2 contain internal agitators.
+- Add a detailed internal shaft and impeller assembly together with a physically
+  supported drive, bearing/packing housing, gearbox and motor. The final drive
+  arrangement is the ground-mounted vertical bottom-entry configuration in
+  Section 14.
+
+Nozzle correction:
+- Replace every primitive pad/neck/flange/fastener stack with one reasonable
+  native E3D NOZZLE placeholder in the existing nozzle SUBE.
+- Bind the verified catalogue component inline and keep each placeholder easy to
+  replace from the final nozzle schedule.
+
+Support correction:
+- Add top load-spreader plates and gusset webs where support legs meet a vessel
+  or cone.
+- Add realistic sole/grout interfaces, base gussets, clamp washer plates and
+  anchors where legs meet the foundation.
+- A tank/skirt anchor bolt shall be connected back to the shell or skirt by a
+  visible baseplate, clamp plate and chair web. No free-standing anchor bolts.
+
+--------------------------------------------------
+13. THIRD USER VISUAL REVIEW — 2026-07-30
+--------------------------------------------------
+
+Revision 3 loaded successfully and the overall model is acceptable.
+
+Perimeter-anchor rotation correction:
+- A rectangular baseplate, clamp plate, chair or gusset located away from the
+  global E/N axes shall not remain aligned to the world axes.
+- At every circular-vessel attachment, the part's local X direction shall follow
+  the radial line from the equipment centre and its local Y direction shall be
+  tangent to the shell/skirt.
+- Use a real BOX orientation before POS; do not approximate a skew radial plate
+  by separate absolute E and N dimensions.
+- Rotate the anchor pattern and support gussets with the same local bearing so
+  the complete assembly remains mechanically aligned.
+- Preserve all supplied vessel dimensions and installation coordinates.
+
+--------------------------------------------------
+14. FOURTH USER VISUAL REVIEW — 2026-07-30
+--------------------------------------------------
+
+Revision 4 loaded successfully; the perimeter-anchor rotation correction is
+visually accepted.
+
+Corrected Blow Tank source data:
+- This correction applies only to BLOW TANK-1 and BLOW TANK-2.
+- The final TOP-to-BOTTOM CONE is DTOP 7300 mm, DBOT 555 mm and HEIG 5898 mm.
+  The previous 2636 mm height in the source data is erroneous and superseded.
+- The bottom opening of that final cone is 1848 mm above the foundation/ground
+  datum.
+- The corrected four-section body height is 20103 mm.
+- The resulting grade-to-top height is 1848 + 20103 = 21951 mm.
+- With the equipment ground datum at global U=-300 mm, the calculated top is
+  global U=21651 mm, consistent with the user's approximate 21 m direction.
+
+Support correction:
+- Four support legs shall extend from the foundation to the DN7300 cone/shell
+  junction at local U=7746 mm and physically carry the elevated vessel body.
+
+Agitator correction:
+- Remove the previous side-entry agitator arrangement.
+- Place the agitator motor and gearbox centrally on the ground below the vessel.
+- The agitator shaft shall run vertically upward through the bottom opening and
+  into the final cone, with horizontal impeller stages inside the vessel.
+- Provide a ground baseplate, grout, bearing/packing housing, support posts and
+  visible anchor hardware.
+
+Scope freeze:
+- Preserve all dimensions of the other three Blow Tank body segments.
+- Keep the existing Blow Tank nozzles, ladder bearings, access hardware and
+  fittings in the same body-relative locations; shift their elevations only as
+  required by the corrected body datum.
+- Do not change any of the other 13 equipment models.
+
+--------------------------------------------------
+15. FINAL ACCEPTANCE AND CONTINUATION — 2026-07-30
+--------------------------------------------------
+
+Revision 5 was loaded and visually accepted by the user as complete and
+perfect. It is the accepted baseline for any future continuation of this
+project.
+
+Archive direction:
+- Preserve the complete project data, references, source, generated PML files
+  and report under version control.
+- Keep the project reopenable; acceptance closes the current revision, not the
+  possibility of later modification.
+
+Future native-export direction:
+- A later file supplied by the user will normally be a native E3D export made
+  after manual editing.
+- Hierarchy and element names will normally remain stable, while the user may
+  change attributes or add elements under an existing hierarchy level.
+- Treat that newly supplied export as the working geometry baseline.
+- Before changing it, compare its hierarchy, element names/types and key
+  attributes against this accepted baseline to identify the user's manual work.
+- Preserve every manual difference outside the newly requested scope.
+- Do not regenerate from the old data in a way that overwrites manual additions,
+  restores superseded attributes or reintroduces a previously corrected bug.

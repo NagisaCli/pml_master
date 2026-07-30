@@ -11,11 +11,15 @@ Rules are ordered by how expensive the failure is.
 
 ---
 
-## IR-1 — `POS` is the geometric CENTRE of every primitive
+## IR-1 — `POS` is element-specific: centre for CYLI/CONE/BOX, rim for DISH
 
-Applies to `CYLI`, `CONE`, `DISH` **and** `BOX`. There is no bottom-face datum
-in E3D. An earlier revision of this knowledge base claimed one; following it put
-every primitive half its own height too low.
+`CYLI`, `CONE` and `BOX` use their **geometric centre**.  `DISH` is the verified
+exception: its `POS` is the flat rim / tangent-plane centre where the head joins
+the shell.  Do not apply the CYLI/CONE half-height conversion to a DISH.
+
+An earlier revision of this knowledge base treated the drawing's bottom face as
+the E3D datum for every element; following it put CYLI/CONE primitives half
+their own height too low.
 
 ```
 A DN2000 x 1500 skirt whose base must sit on the slab at U 300:
@@ -31,15 +35,25 @@ pipeEditor.pmlfrm:7807
     !cylinderPosition = !position.offset(!direction, !height / 2)
 ```
 
+**DISH evidence.** In `JK_Cooking_Tank_Build`, the generated
+`ACCUMULATOR_TANK` top head had `HEIG 1755.8` and the builder moved its `POS`
+from the shell tangent plane `U 14407.3` to `U 15285.2`.  The macro loaded, but
+the user's E3D view showed the head floating above the shell by exactly
+`HEIG / 2 = 877.9 mm`.  Emitting `POS U 14407.3` seats the rim on the shell.
+
+> **User-corrected 2026-07-30 (JK_Cooking_Tank_Build).** `DISH POS` is its
+> rim/tangent plane.  This replaces the previous claim that DISH used a
+> geometric-centre datum.
+
 **Why it is so damaging.** Each element has a different height, so each shifts by
 a different amount. The result does not look like a uniform offset that you would
 notice immediately — it looks like overlapping clutter, with shells, skirts,
 heads and nozzles telescoped into one another.
 
-**Do the conversion once, centrally.** Take the bottom-face point from the
-drawing and add half the extent along the primitive's own axis in a single helper
-(`wsb.pml_builder.PMLBuilder._position`). Never do this arithmetic at the call
-site — scattered conversions are how half of them end up missing.
+**Do the conversion once, centrally.** Take the bottom-face point for CYLI/CONE
+from the drawing and add half the extent along the primitive's own axis in
+`wsb.pml_builder.PMLBuilder._position`.  Pass BOX centre points and DISH rim
+points through unchanged.  Never scatter this arithmetic across call sites.
 
 ---
 
@@ -146,6 +160,42 @@ lays the vessel on its side.
 
 The second axis in the pair is only a roll reference; it does not affect a body
 of revolution.
+
+---
+
+## IR-3a — Off-axis rectangular hardware needs a local bearing
+
+A rectangular plate on a circular vessel cannot remain aligned to global E/N
+unless it lies on a cardinal axis. At a skew bearing, its local axes must follow
+the equipment:
+
+- local X = radial direction from the vessel centre;
+- local Y = shell tangent;
+- local Z = Up.
+
+```pml
+NEW BOX
+XLEN 240
+YLEN 90
+ZLEN 20
+ORI Z IS U AND X IS E 30 N
+POS E ... N ... U ...
+```
+
+`ORI` still precedes `POS`. Do not calculate separate
+`XLEN = abs(deltaE) + allowance` and `YLEN = abs(deltaN) + allowance`; that
+changes the physical plate proportions at every bearing and produces a
+world-aligned rectangle, not a rotated radial plate.
+
+**Evidence.** AVEVA's installed `spcwfitspecsel.pmlfrm:2423-2434` creates a
+BOX and emits `ORI Z IS $!zDir AND X IS $!xDir` before POS. In
+`JK_Cooking_Tank_Build`, the user's E3D view exposed the geometry failure:
+axis anchors appeared correct, while skew perimeter clamps were visibly twisted
+and failed to meet the cylindrical shell tangentially.
+
+> **User-corrected 2026-07-30 (JK_Cooking_Tank_Build).** Perimeter anchor
+> baseplates, clamps, chairs and related gussets must rotate with their radial
+> bearing. The previous model kept every BOX on global E/N axes.
 
 ---
 
@@ -564,7 +614,7 @@ explaining a command, never for standing in place of one.
 
 Run through this before returning any macro:
 
-- [ ] `POS` treated as geometric centre for **all** primitives, converted centrally (IR-1)
+- [ ] `POS` uses the correct element datum: CYLI/CONE/BOX centre; DISH rim plane (IR-1)
 - [ ] `ORI` precedes `POS` for every `CYLI` / `CONE` / `DISH` (IR-2)
 - [ ] `POS` precedes `ORI` for every `NOZZLE` — the opposite order (IR-2)
 - [ ] Every `NOZZLE` aimed by `ORI P1 IS <direction>`, never a geometric axis (IR-2)
@@ -573,6 +623,8 @@ Run through this before returning any macro:
 - [ ] Nozzle `HEIG` is its own length, within plausible bounds (IR-9a)
 - [ ] No ring modelled as a single `CYLI`; no detached geometry (IR-9b)
 - [ ] Axis of revolution on Z (IR-3)
+- [ ] Off-axis rectangular vessel hardware uses radial X / tangential Y and
+      ORI-before-POS (IR-3a)
 - [ ] Zero render directives: `SUSPEND`, `RESUME`, `VAR 0`, `ALPHA HEADER` (IR-4)
 - [ ] Zero PML2 syntax (IR-5)
 - [ ] Bottom centre point verified **numerically**, not by string match (IR-6)

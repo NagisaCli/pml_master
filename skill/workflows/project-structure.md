@@ -12,9 +12,12 @@ delivered.
 ```
 Projects/<Project-Name>/
     DO.txt                  the instruction prompt — what the user wants
+    project.json            optional stable logical/output name
     equipment_data.py       the project's dataset
     Modeling_lists.xlsx     source equipment data
     Model_Reference.../     reference drawings
+    imports/                immutable native E3D exports received from the user
+    archive/                accepted revision records and baseline hashes
     output/
         <Project-Name>.pml          the macro, named after the project
         <Project-Name>_report.md    the engineering deliverable
@@ -26,6 +29,11 @@ stays at the repository root and is shared by every project. That is deliberate:
 an Iron Rule fix applied to the engine protects every project at once, whereas a
 copy inside each project folder would have to be fixed repeatedly and would
 inevitably drift.
+
+`project.json` is optional. Use `{"name": "Logical-Project"}` when a historical
+folder name must remain unchanged but commands and deliverables use a different,
+stable project name. Project lookup accepts either the logical name or folder
+name.
 
 ---
 
@@ -73,6 +81,14 @@ statement of what the project requires, and it **evolves**:
 
 A requirement that exists only in conversation is lost at the end of the session.
 That is the failure this file exists to prevent.
+
+### Native-export continuations
+
+When the user supplies a PML exported after manual E3D editing, save the original
+unchanged under `imports/` and compare it against the last accepted file before
+making any modification. The native export is the new working baseline; the
+generator's earlier output is historical evidence, not an overwrite target.
+Follow [reconciling-native-exports.md](reconciling-native-exports.md).
 
 ---
 

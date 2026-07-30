@@ -23,6 +23,7 @@ folder needs no ``__init__.py`` and its name is free of Python identifier rules
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -47,6 +48,10 @@ _DO_NAMES = ("do.txt", "claudedo.txt")
 
 #: The module inside a project folder that defines its equipment.
 _DATASET_FILENAME = "equipment_data.py"
+
+#: Optional metadata allows a stable logical project/output name when the
+#: on-disk folder was created under a different historical name.
+_METADATA_FILENAME = "project.json"
 
 
 class ProjectNotFoundError(LookupError):
@@ -163,11 +168,27 @@ def discover_projects(projects_dir: Optional[Path] = None) -> List[Project]:
     root = projects_dir or PROJECTS_DIR
     if not root.is_dir():
         return []
-    return [
-        Project(name=child.name, root=child)
-        for child in sorted(root.iterdir())
-        if child.is_dir() and not child.name.startswith((".", "_"))
-    ]
+    projects: List[Project] = []
+    for child in sorted(root.iterdir()):
+        if not child.is_dir() or child.name.startswith((".", "_")):
+            continue
+        name = child.name
+        metadata_path = child / _METADATA_FILENAME
+        if metadata_path.is_file():
+            try:
+                metadata = json.loads(metadata_path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError) as exc:
+                raise ProjectNotFoundError(
+                    f"Invalid project metadata at {metadata_path}: {exc}"
+                ) from exc
+            configured_name = metadata.get("name")
+            if not isinstance(configured_name, str) or not configured_name.strip():
+                raise ProjectNotFoundError(
+                    f"{metadata_path} must define a non-empty string 'name'"
+                )
+            name = configured_name.strip()
+        projects.append(Project(name=name, root=child))
+    return projects
 
 
 def find_project(
@@ -185,15 +206,19 @@ def find_project(
         return None
 
     for project in projects:
-        if project.name == name:
+        if project.name == name or project.root.name == name:
             return project
 
     lowered = name.lower()
     for project in projects:
-        if project.name.lower() == lowered:
+        if project.name.lower() == lowered or project.root.name.lower() == lowered:
             return project
 
-    partial = [p for p in projects if lowered in p.name.lower()]
+    partial = [
+        project
+        for project in projects
+        if lowered in project.name.lower() or lowered in project.root.name.lower()
+    ]
     return partial[0] if len(partial) == 1 else None
 
 

@@ -13,7 +13,9 @@ starting from the equipment knowledge base.
 
 | Project | Folder | Scope | Status | Log |
 |---------|--------|-------|--------|-----|
-| JK-Project | `Projects/JK-Project/` | Pulp Mill WSB area — 22 tank-type items | Delivered, verified | [jk-project-wsb.md](jk-project-wsb.md) |
+| JK-Project | `Projects/JK-Tank_Build/` | Pulp Mill WSB area — 22 tank-type items | Delivered, verified; logical name retained through `project.json` | [jk-project-wsb.md](jk-project-wsb.md) |
+| JK_Pump_Build | `Projects/JK_Pump_Build/` | 30 horizontal process/MC pumps; individual macros plus one combined loader, one EQUI per tag | Final combined macro visually accepted in E3D; ongoing customization memory retained | [jk-pump-build.md](jk-pump-build.md) |
+| JK_Cooking_Tank_Build | `Projects/JK_Cooking_Tank_Build/` | 15 cooking-plant tanks/vessels; compound Blow Tank profiles, accumulators, junk traps and a horizontal condensate receiver | R5 loaded and visually accepted; archived as the continuation baseline | [jk-cooking-tank-build.md](jk-cooking-tank-build.md) |
 
 Each entry has **two homes**: the folder under `Projects/` holds its data,
 `DO.txt` and deliverables; the log here holds the experience. See

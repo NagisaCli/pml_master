@@ -1,0 +1,164 @@
+JK_Pump_Build — Standing Requirements
+=====================================
+
+Authoritative detailed instruction:
+  Projects/JK_Pump_Build/Agent_do_pump.md
+
+Source data:
+  Projects/JK_Pump_Build/Pump_details.xlsx
+
+Structural reference only:
+  Projects/JK_Pump_Build/Horizontal_Pump_Example.txt
+
+The structural reference may be used only to understand E3D hierarchy,
+component relationships and modeling approach. Its dimensions, coordinates,
+positions, orientations, proportions and equipment parameters must not be
+copied.
+
+Project requirements
+--------------------
+
+1. Generate one independent AVEVA E3D PML model/script per Excel pump tag.
+2. Excel coordinates are the geometric centre of the underside of the
+   rectangular baseplate. They are not the casing centre, top face or a nozzle
+   datum.
+3. Excel Length and Width are baseplate dimensions only and must not be changed.
+4. The suction direction defines the pump longitudinal arrangement:
+   suction -> casing -> motor. The motor is at the opposite end.
+5. The discharge direction does not override the suction-defined longitudinal
+   direction.
+6. Use each tag's top-view PNG as the primary configuration reference where
+   available. Missing detail may use documented engineering Reference Values,
+   but every assumed value must be listed in the deliverable.
+7. User/Excel values outrank every project default or engineering assumption.
+8. Generate PML1 only. Follow SKILL.md, the Iron Rules and the shared
+   PMLBuilder validation rules. For every oriented primitive, emit ORI before
+   POS; treat POS as the primitive geometric centre.
+9. Verify baseplate length, width, thickness, underside-centre coordinate,
+   elevation and suction-defined orientation numerically for every pump.
+10. Each pump shall occupy one independent E3D `EQUI` (EQUIPMENT) hierarchy.
+    Each individual macro shall contain exactly one `NEW EQUI`, named from that
+    pump's tag with E3D-safe underscores.
+11. Deliver an individual macro and verification record for each tag, plus an
+    uncertainty/exception report. Do not report E3D execution as verified until
+    the user has loaded the macro successfully.
+
+Coordinate convention established from the project
+--------------------------------------------------
+
+- Units: millimetres.
+- World axes: E = East, N = North, U = Up.
+- Positive U is upward.
+- Excel U is the underside elevation of the baseplate.
+- Local positive longitudinal direction is from motor toward the pump casing.
+  It normally equals suction direction, except for explicitly documented
+  side-suction special pumps.
+
+Client-confirmed corrections — 2026-07-29
+-----------------------------------------
+
+- 205-PU-046, Excel row 25: use position (45221, 14294, 0) mm.
+- 205-PU-061, Excel row 31: use position (46154, -8256, 0) mm.
+- Baseplate thickness: use 50 mm for every pump.
+- One pump per independent EQUI hierarchy; never combine multiple pumps under
+  one EQUI.
+- 205-PU-018 and 205-PU-038 are special exceptions to the normal
+  suction-defines-longitudinal rule: the main pump/driver axis is East-West,
+  with the driver on the East side and casing on the West side. Their two
+  horizontal nozzles share one elevation plane: suction points South and
+  discharge points West.
+
+Non-critical Reference Values proposed for Phase 2
+--------------------------------------------------
+
+- Vendor-specific casing, driver, coupling, support and nozzle sizes are not in
+  Excel. Derive engineering-proportional values by pump family and label every
+  one as a Reference Value.
+
+Client-requested high-detail pass — 2026-07-29
+-----------------------------------------------
+
+- Refine every pump as an individual engineering model; do not apply one
+  undifferentiated exterior to the full register.
+- Interpret the supplied service name and available tag-specific top view before
+  selecting the casing, bearing-frame, driver and auxiliary construction.
+- Preserve all underlying project parameters without modification: tag,
+  coordinate, baseplate length/width/thickness, longitudinal axis, suction
+  direction and discharge direction.
+- Add realistic visible construction within the confirmed baseplate envelope:
+  welded rails/cross-members, exposed base/driver fasteners, casing split flange
+  and flange-face fasteners, bearing/seal housing, flexible coupling and guard,
+  finned TEFC motor, motor feet, fan grille, terminal box, cable gland, lifting
+  lug and nameplate.
+- Differentiate dilution, filtrate, screen/stock feed, booster, wire-wash,
+  washer-feed, MC and scrubber-circulation duties. Matched duty/size pump pairs
+  may retain equivalent construction where the supplied data supports no real
+  difference.
+- MC pumps shall retain tag-specific separation/degassing and auxiliary-drive
+  layouts from their top-view drawings; missing views remain UNCONFIRMED.
+- Thread pitch, exact hex flats, motor manufacturer, bolt grade, materials and
+  vendor dimensions are not supplied. Model bounded visual envelopes as
+  Reference Values and do not claim them as confirmed fabrication data.
+
+Client correction to the high-detail pass — 2026-07-29
+-------------------------------------------------------
+
+- The previous driver envelope was visibly undersized. Use a substantial,
+  skid-scaled TEFC/MC motor envelope and reject motors below the documented
+  length, height and length-to-finned-diameter proportion floors.
+- Motor cooling ribs shall be axial ribs distributed around the complete 360°
+  stator circumference. A few top/side BOX strips are not acceptable. Every rib
+  must overlap the stator solid and project beyond it.
+- Model an open fan-grille lattice, a separate mounting pad and
+  barrel-connected foot web; do not use a solid grille disc or detached feet.
+- Preserve positive, non-overlapping axial interfaces from motor through
+  coupling and bearing frame to casing. Every motor pad and hold-down bolt must
+  bear on a skid longitudinal rail in plan, not only touch it in elevation.
+- Heterogeneity must be physical, not a unique code or comment. Motor family,
+  casing family, coupling guard, duty feature and MC package selections must
+  alter generated geometry. Identical documented pump pairs shall remain the
+  same family rather than receiving invented mirror/details.
+- The 27 plan images support family/outline and clearly visible accessory
+  differences, not exact fin/bolt counts. Such counts remain S/M/L/XL
+  engineering Reference Values. `203-PU-020`, `205-PU-004` and `205-PU-032`
+  remain explicitly UNCONFIRMED because their tag views are missing.
+- Preserve the 30 independent one-EQUI-per-pump macros, and additionally
+  deliver one directly generated all-pumps PML file for one-click loading. The
+  combined file shall contain 30 independent `EQUI` elements, not one common
+  equipment hierarchy, and must pass the same numerical checks pump by pump.
+
+Client E3D load feedback and fastener-only correction — 2026-07-29
+------------------------------------------------------------------
+
+- The combined macro loaded successfully in the receiving E3D project.
+- The client confirmed that the overall models, independent EQUI hierarchy and
+  native nozzles load normally. Retain the current high-detail Reference Values
+  as the customization baseline for this project.
+- Preserve an explicit future customization window: vendor dimensions or later
+  client directions may replace individual Reference Values without reopening
+  confirmed coordinates, baseplate data, hierarchy or nozzle configuration.
+- Freeze every existing pump parameter and all non-fastener geometry for this
+  correction.
+- For every `BASE_FASTENERS` group, seat the washer on the baseplate top, place
+  the head directly on the washer and embed the remaining shank into the 50 mm
+  baseplate without extending below the foundation datum.
+- The attempted `CASING_FASTENERS` placement on the tapered cover is physically
+  unsupported and visibly floating. Casing fasteners would belong on the
+  cylinder/cone connection flange only where a proven annular bearing area
+  exists.
+- Client clarification: retain `CASING_FASTENERS` and move them to the
+  cylinder/cone connection flange rather than deleting them. Place every bolt
+  centre on the midpoint of the protruding annular band between the tapered
+  cover root and split-flange outside diameter.
+- Seat each casing washer on the flange front face at the cylinder/cone joint,
+  place the head immediately outward and extend the shank backward into the
+  flange. Do not place any part from an independently solved point on the sloped
+  cone surface.
+- The client reloaded the final connection-flange fastener version in E3D and
+  confirmed the result as visually correct on 2026-07-29. Treat this macro as
+  the accepted current project baseline.
+- Keep this project open for continuing AI-assisted customization. Future
+  changes shall start from this accepted baseline and preserve confirmed
+  coordinates, 50 mm baseplates, one-EQUI-per-pump hierarchy, nozzle
+  configuration, motor construction, seated base fasteners and flange-face
+  casing fasteners unless the client explicitly reopens one of them.

@@ -25,6 +25,19 @@ Step 4 is the one most often skipped and the most valuable. If a similar tank
 exists in a project log, you inherit its resolved parameters, its user
 corrections, and its mistakes-already-made. Start there rather than from scratch.
 
+### Phase 0a — Detect a native/manual continuation
+
+Before treating an incoming PML as generator output, determine whether the user
+exported it from E3D after manual work. Stable hierarchy and names do **not**
+mean unchanged geometry: designers commonly change attributes on an existing
+element or add a child beneath an existing SUBE.
+
+If it is a native/manual continuation, stop the ordinary regenerate-first path
+and follow
+[reconciling-native-exports.md](reconciling-native-exports.md). The supplied
+file becomes the working geometry baseline. The previous accepted macro remains
+the comparison baseline; neither may be overwritten.
+
 ---
 
 ## Phase 1 — Establish the data, and its provenance
@@ -87,11 +100,17 @@ point, a drain at the low point.
 
 ## Phase 3 — Generate
 
+For a new/generated model, use the procedure below. For a user-edited native
+export, apply only the reconciled delta described in Phase 0a; do not rebuild the
+file from project data until its manual changes have been identified and
+preserved.
+
 Build geometry in a **local frame whose origin is the equipment bottom centre**,
 then translate by the installation coordinate (IR-6). Never compute absolute
 coordinates per primitive.
 
-Convert the bottom-face datum to E3D's centre datum in **one** helper (IR-1).
+Convert CYLI/CONE bottom-face points to E3D centre datums in **one** helper;
+pass DISH rim/tangent-plane points through unchanged (IR-1).
 
 Emit through a builder that enforces ORI-before-POS structurally, rather than
 relying on review (IR-2). `wsb/pml_builder.py` is the reference implementation.
@@ -104,8 +123,8 @@ relying on review (IR-2). `wsb/pml_builder.py` is the reference implementation.
 proves only that *some* primitive sits there; it passes a model in which every
 element has the wrong datum.
 
-Parse the emitted primitives, compute each one's true extent from its centre
-datum and dimensions, then assert:
+Parse the emitted primitives, compute each one's true extent from its
+element-specific datum and dimensions, then assert:
 
 - [ ] Lowest point of the equipment = the listed installation elevation
 - [ ] Bottom centre E/N = the listed installation coordinate
@@ -154,6 +173,9 @@ skill is larger than it was.
   session.
 - Update or create `skill/projects/<project>.md` — what was modelled, what was
   assumed, what remains open.
+- If the user supplied a native export, record its archive path, comparison
+  baseline and preservation set so the next session does not overwrite manual
+  edits.
 - If E3D rejected anything → [diagnosing-failures.md](diagnosing-failures.md),
   then promote the lesson if it generalises.
 - If the user corrected anything → [capturing-feedback.md](capturing-feedback.md).

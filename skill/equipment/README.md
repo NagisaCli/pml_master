@@ -9,6 +9,7 @@ when project data is incomplete, defaults are reasoned rather than invented.
 | [fibreline.md](fibreline.md) | Washing, screening, bleaching, pulping, recovery |
 | [paper-machine.md](paper-machine.md) | Fourdrinier machine sections and components |
 | [utilities-and-structures.md](utilities-and-structures.md) | Piping, pipe bridges, buildings, platforms |
+| [horizontal-pumps.md](horizontal-pumps.md) | Long-coupled process pumps, MC pumps, motors, couplings and visible fasteners |
 
 ---
 
