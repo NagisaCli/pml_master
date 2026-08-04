@@ -20,7 +20,11 @@ E3D on the first attempt, and then **write back what you learned**.
 | Which project am I working on? | **[skill/workflows/project-structure.md](skill/workflows/project-structure.md)** — start here on any real job |
 | How do I run a modeling job? | [skill/workflows/modeling-run.md](skill/workflows/modeling-run.md) |
 | What PML syntax is safe? | [skill/knowledge/pml1-reference.md](skill/knowledge/pml1-reference.md) |
+| Which PML form matches a shape or spatial intent? | **[skill/knowledge/pml-spatial-lookup.md](skill/knowledge/pml-spatial-lookup.md)** |
+| The user supplied a native export so I can learn new syntax | **[skill/workflows/learning-from-native-exports.md](skill/workflows/learning-from-native-exports.md)** |
 | I am modelling a NOZZLE | **[skill/knowledge/catalogue-elements.md](skill/knowledge/catalogue-elements.md)** — required; a nozzle fails in ways a primitive cannot |
+| I am modelling PIPE/BRANCH or piping components | **[skill/knowledge/piping-reference.md](skill/knowledge/piping-reference.md)** — native-observed; check certification state |
+| I am connecting equipment NOZZLEs with pipework | **[skill/workflows/equipment-to-piping-run.md](skill/workflows/equipment-to-piping-run.md)** — inventory, connection logic, routing order and verification |
 | What does this equipment look like? | [skill/equipment/](skill/equipment/README.md) |
 | Has this been done before? | [skill/projects/](skill/projects/README.md) |
 | E3D rejected my macro | [skill/workflows/diagnosing-failures.md](skill/workflows/diagnosing-failures.md) |
@@ -93,7 +97,8 @@ The skill is worthless if it ends each job the same size it started. Every run
 must close this loop:
 
 ```
-   read  →  model  →  verify  →  user/E3D feedback  →  WRITE BACK  →  read …
+   native evidence → interpret → experiment → user/E3D certify
+                   → WRITE BACK → generate → verify → learn …
 ```
 
 **Write back after every job.** Concretely:
@@ -106,6 +111,7 @@ must close this loop:
 | A tank/unit was delivered | `skill/projects/<project>.md` |
 | A syntax form was proven to work | `skill/knowledge/pml1-reference.md`, marked VERIFIED |
 | A syntax form is untested | same file, marked EXPERIMENTAL — never promote without evidence |
+| A native export teaches new syntax | `skill/workflows/learning-from-native-exports.md` → syntax reference + spatial lookup + builder + regression test |
 | A workflow step was missing | `skill/workflows/` |
 | A manually edited export was supplied | Archive it under the project, compare it with the accepted baseline, and record the preservation set |
 

@@ -183,6 +183,9 @@ Full modeling rules, primitive reference and equipment specifications live in th
 skill: start at [SKILL.md](SKILL.md), then
 [skill/knowledge/iron-rules.md](skill/knowledge/iron-rules.md).
 
+For fast selection from a desired shape or spatial intent, use the
+[PML Spatial Construction Lookup](skill/knowledge/pml-spatial-lookup.md).
+
 ---
 
 ## Continuing from a manually edited E3D export
@@ -202,6 +205,20 @@ elements and changes to `POS`, `ORI`, dimensions, catalogue references and other
 properties while ignoring comment, whitespace and numeric-format noise. The
 full procedure is in
 [reconciling-native-exports.md](skill/workflows/reconciling-native-exports.md).
+
+## Learning new PML from a native E3D export
+
+The project's main growth mechanism is an evidence loop: the user supplies an
+untouched E3D export and identifies the model, the export is decomposed into
+hierarchy, element attributes, pose semantics and macro execution, and a minimal
+experimental macro is returned for a real E3D trial. Only a result confirmed in
+E3D—or traced to authoritative AVEVA source—is promoted to VERIFIED and added to
+the shared builder.
+
+An authentic export is initially `NATIVE-OBSERVED`, not automatically VERIFIED:
+it proves what E3D wrote, but not yet why an attribute has that order or which
+physical point its datum represents. The complete protocol is
+[Learning PML from Native E3D Exports](skill/workflows/learning-from-native-exports.md).
 
 ---
 
@@ -224,6 +241,7 @@ Projects/               One folder per modeling project
 wsb/                    Shared modeling engine — used by every project
   schema.py             TankSpec, Nozzle, Provenance and the closure/support types
   pml_builder.py        PML1 primitive emitter and validator
+  piping_builder.py     Evidence-gated PIPE/BRANCH emitter
   tank_builder.py       Tank geometry generation
   report.py             Engineering deliverable
   projects.py           Project registry: discovery, loading, output naming
@@ -243,6 +261,37 @@ so an Iron Rule fix applies to every project at once; only data and
 project-specific configuration live under `Projects/`. A project supplies
 instances of the `wsb.schema` types, and the builder, validator and report work
 against any project unchanged.
+
+The piping engine currently exposes the E3D-tested free-ended straight/slope
+BRANCH form only:
+
+```python
+from wsb import BranchSpec, PipeSpec, build_pipe
+
+macro = build_pipe(PipeSpec(
+    name="/100-B-1",
+    specification="/A3B",
+    bore=100,
+    branches=(BranchSpec(
+        name="/100-B-1/B1",
+        head=(0, 0, 0),
+        tail=(4000, 0, 0),
+        head_direction="E",
+        tail_direction="W",
+        head_bore=100,
+        tail_bore=100,
+        tube_component="/A3B/PA100",
+    ),),
+))
+```
+
+Run the resulting fragment beneath a writable piping ZONE. The engine also
+provides `ElbowSpec` for the user-confirmed Up-to-West `ARRI 2 / LEAV 1` form
+and `VerticalReducerSpec` for the user-confirmed
+`ORI Y IS N AND Z IS E` vertical form. Other bearings and multi-component
+routes remain evidence-gated. `NativeCatalogueComponentSpec` is available only
+for explicit native-evidence stress packages; it does not turn copied syntax
+into a production rule.
 
 `skill/` is the single source of truth for modeling knowledge. It is read by
 humans, by any AI model, and by `pml_knowledge/knowledge_base.py` — so the rules

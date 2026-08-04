@@ -27,10 +27,18 @@ corrections, and its mistakes-already-made. Start there rather than from scratch
 
 ### Phase 0a — Detect a native/manual continuation
 
-Before treating an incoming PML as generator output, determine whether the user
-exported it from E3D after manual work. Stable hierarchy and names do **not**
-mean unchanged geometry: designers commonly change attributes on an existing
-element or add a child beneath an existing SUBE.
+Before treating an incoming PML as generator output, determine why it was
+supplied:
+
+- a teaching specimen for learning new E3D syntax → follow
+  [learning-from-native-exports.md](learning-from-native-exports.md);
+- a model exported after manual work, to be continued → follow
+  [reconciling-native-exports.md](reconciling-native-exports.md);
+- both → reconcile/preserve first, then study an evidence copy.
+
+Stable hierarchy and names do **not** mean unchanged geometry: designers
+commonly change attributes on an existing element or add a child beneath an
+existing SUBE.
 
 If it is a native/manual continuation, stop the ordinary regenerate-first path
 and follow

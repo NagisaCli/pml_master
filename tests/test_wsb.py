@@ -1223,14 +1223,34 @@ def test_validator_rejects_a_catalogue_path_by_name():
         "NEW NOZZLE /V1_N1",
         "CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0YY",
         "SPRE SPCOMPONENT /ANSI-NOZZLES/150lb Ansi Flanges:150",
-        "ORI Y is E and Z is U",
         "POS E 0.0 N 0.0 U 0.0",
+        "ORI P1 IS E",
         "HEIG 300.0",
         "END",
     ])
     problems = validate_pml(bad)
     assert problems, "a name-based catalogue reference must be rejected"
     assert "catalogue path" in problems[0]
+
+
+def test_validator_accepts_spre_on_a_piping_component():
+    """
+    SPRE is element-specific, not globally invalid.
+
+    The native PIPE export supplied for PML-STUDY-PIPE-001 contains 1,112
+    ``SPRE SPCOMPONENT`` lines on ELBOW/TEE/VALVE and other piping components.
+    AVEVA's pipework documentation also requires a component's Spref. Only a
+    NOZZLE uses the separate CATR binding rule enforced above.
+    """
+    good = "\n".join([
+        "NEW ELBOW",
+        "POS E 0mm N 0mm U 0mm",
+        "ORI Y is D and Z is N",
+        "SPRE SPCOMPONENT /A3B/EA100",
+        "LSTU SPCOMPONENT /A3B/PA100",
+        "END",
+    ])
+    assert validate_pml(good) == []
 
 
 # -- builder guarantees ---------------------------------------------------

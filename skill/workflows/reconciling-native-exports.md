@@ -5,6 +5,11 @@ manual editing. The user normally preserves hierarchy and names, but may change
 attributes or add elements at an existing level. Those edits are intentional
 project data and must survive later agent work.
 
+If the export was supplied only to teach a new syntax/model form, use
+[learning-from-native-exports.md](learning-from-native-exports.md) instead. If it
+is both a continuation and a teaching specimen, preserve and reconcile it here
+before studying a separate evidence copy.
+
 ---
 
 ## Authority and non-negotiable rule
@@ -17,6 +22,15 @@ Never regenerate wholesale over a native export before reconciliation. A clean
 generator run can silently remove a designer's new child element, restore an old
 `POS` or `ORI`, replace a catalogue reference, or reintroduce a previously
 corrected visual defect.
+
+## Phase 0 — Identify the project first
+
+Before preserving or comparing anything, identify which project the export
+belongs to using that project's `FINGERPRINT.md` (file patterns, zone/site
+names, tag conventions, coordinate anchors). Then read its `TIMELINE.md` for
+the current accepted baseline. The user's versions frequently contain manual
+edits, so the fingerprint match is the guard that keeps those edits in the
+right project's memory.
 
 ---
 

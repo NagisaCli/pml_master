@@ -100,7 +100,8 @@ Source:
 
 ## Fasteners in additive PML geometry
 
-PML1 has no verified threaded-bolt primitive. A useful visual bolt is modeled as:
+PML1 has no verified threaded-bolt primitive. Before the native EXTRUSION study,
+a useful visual bolt was modeled as:
 
 1. a small `CYLI` shank;
 2. a larger, thin solid `CYLI` washer around the filled shank;
@@ -110,6 +111,34 @@ The washer is not treated as an unsupported annulus: its centre is filled by the
 shank, so the combined solid reads correctly without a floating disc. Thread
 pitch and exact hex flats remain UNCONFIRMED. Never add anchor embedment below
 the project's foundation datum merely for appearance.
+
+### Native high-detail EXTRUSION baseline — 2026-08-03
+
+**NATIVE-OBSERVED, with hierarchy/local-axis behavior supported by installed
+AVEVA E3D 3.1 code.** The `/PMP-10` specimen in `PML-STUDY-EXTR-001` raises the
+preferred visible fastener quality above a circular head envelope:
+
+- eight `CYLINDER` shanks are paired with sixteen short hexagonal `EXTRUSION`
+  heads, two heads per shank;
+- the heads are true ordered LOOP profiles extruded along local Z;
+- a separate asymmetric EXTRUSION is used for a genuinely non-standard support
+  section;
+- the remaining pump uses BOX, CYLINDER, DISH and PYRAMID where those forms
+  match the actual feature.
+
+For future high-detail pumps, use a true hex EXTRUSION head when the fastener is
+large enough to read and the live project justifies that fidelity. The head,
+shank and retained plate/flange must be coaxial and in numerical contact. Use a
+CYLINDER head only as an explicitly documented lower-detail envelope. Do not
+copy the specimen's 20 mm hex side, 40 mm across-corners, 34.64 mm across-flats
+or 20 mm head height: these are source-specific observations, not reference
+values for other equipment.
+
+This is also a syntax-weight rule. EXTRUSION is selected for constant custom or
+polygonal sections; it must not replace simpler primitives for circular,
+rectangular or crowned features. A model exceeds this specimen by improving
+proportion, contact, hierarchy and recognisable construction—not by maximizing
+EXTRUSION count.
 
 > **User-corrected 2026-07-29 (JK_Pump_Build).**
 
@@ -131,6 +160,19 @@ decorations:
   the washer on the common connection plane, place the head immediately outward
   and extend the shank backward into the flange.
 
+> **User-corrected 2026-07-30 (JK_Pump_Build).**
+
+Do not add a bearing-frame pedestal, oil-fill cap or coupling-guard support foot
+merely because it is recognizable pump detail. In the accepted long-coupled
+layout, the generated pedestal/cap and the two guard feet were detached from a
+credible bearing surface and appeared as floating blocks in E3D. The client
+required their removal from all 30 pumps.
+
+This correction generalizes as a contact rule: a support, cap or foot must
+numerically touch the part it supports and its bearing surface. If the available
+project data cannot establish both contacts, omit the assumed primitive rather
+than leave a visually plausible but physically floating detail.
+
 ## Verification properties
 
 - baseplate underside centre and dimensions are numerically unchanged;
@@ -143,6 +185,8 @@ decorations:
 - every motor pad overlaps a longitudinal skid rail in plan, every hold-down
   shank lands inside that rail, and each inner foot web intersects the barrel;
 - nozzle directions and flange-face datums are unchanged;
+- catalogue DN changes must not silently move a nozzle face, alter its
+  orientation or change its projection length;
 - every modeled fastener touches the part it retains; casing fasteners bear on
   the cylinder/cone connection-flange plane, never on a detached cone point;
 - one independent `EQUI` exists per pump and each native nozzle retains its own

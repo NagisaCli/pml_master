@@ -551,6 +551,44 @@ _APPEARANCES.update(
     }
 )
 
+# Project nozzle measurements from pump_nozzle_modify.xlsx, mapped to the
+# nearest verified bore in ANSI-NOZZLES / 150lb_Ansi_Flanged.  In an exact tie
+# the lower DN is selected so the catalogue component does not enlarge the
+# measured opening.  The source-to-catalogue mapping is documented in
+# output/JK_Pump_Build_nozzle_mapping.md.
+_NOZZLE_CATALOGUE_DN = {
+    "203-PU-008": (200, 150),
+    "203-PU-009": (200, 150),
+    "203-PU-011": (90, 150),
+    "203-PU-020": (500, 150),
+    "203-PU-026": (125, 150),
+    "203-PU-031": (65, 150),
+    "204-PU-003": (200, 150),
+    "204-PU-008": (100, 150),
+    "204-PU-006": (100, 150),
+    "204-PU-015": (200, 150),
+    "204-PU-016": (200, 150),
+    "204-PU-017": (80, 150),
+    "204-PU-023": (90, 150),
+    "205-PU-004": (200, 150),
+    "205-PU-012": (600, 150),
+    "205-PU-013": (65, 150),
+    "205-PU-018": (150, 150),
+    "205-PU-024": (125, 150),
+    "205-PU-027": (200, 150),
+    "205-PU-030": (200, 150),
+    "205-PU-031": (200, 150),
+    "205-PU-032": (200, 150),
+    "205-PU-038": (150, 150),
+    "205-PU-046": (90, 150),
+    "205-PU-047": (200, 150),
+    "205-PU-048": (200, 150),
+    "205-PU-049": (125, 150),
+    "205-PU-054": (150, 150),
+    "205-PU-060": (125, 150),
+    "205-PU-061": (125, 150),
+}
+
 
 def _pump(
     row: int,
@@ -589,11 +627,15 @@ def _pump(
             Provenance.TOP_VIEW if top_view else Provenance.VENDOR_TYPICAL
         ),
         "driver_dimensions": Provenance.STANDARD,
-        "nozzle_sizes": Provenance.STANDARD,
+        "nozzle_measurements": Provenance.EXCEL,
+        "nozzle_sizes": Provenance.DERIVED,
+        "nozzle_specification": Provenance.EXCEL,
+        "nozzle_generic_type": Provenance.DERIVED,
         "support_dimensions": Provenance.STANDARD,
     }
     if top_view:
         source_map["top_view_configuration"] = Provenance.TOP_VIEW
+    suction_dn, discharge_dn = _NOZZLE_CATALOGUE_DN[tag]
     return PumpSpec(
         tag=tag,
         name=name,
@@ -610,6 +652,10 @@ def _pump(
         baseplate_thickness=50.0,
         top_view=f"PU_reference/{tag}.png" if top_view else None,
         auxiliary_side=auxiliary_side,
+        suction_dn=suction_dn,
+        discharge_dn=discharge_dn,
+        nozzle_specification="ANSI-NOZZLES",
+        nozzle_generic_type="150lb Ansi Flanges",
         sources=source_map,
         notes=notes,
     )
@@ -811,5 +857,16 @@ DATA_QUALITY_EXCEPTIONS = (
         source_value="(461554, -8256, 0)",
         corrected_value="(46154, -8256, 0)",
         rationale="Client confirmation on 2026-07-29.",
+    ),
+    DataQualityException(
+        tag="ALL-PUMPS",
+        field_name="nozzle_generic_type",
+        source_value="150Ib through 179Ib Ansi Flanges",
+        corrected_value="150lb Ansi Flanges / 150lb_Ansi_Flanged",
+        rationale=(
+            "The workbook contains an apparent numeric autofill sequence and "
+            "uses 'I' instead of 'l'; the receiving E3D catalogue has only the "
+            "verified 150 lb selector. Source workbook retained unchanged."
+        ),
     ),
 )

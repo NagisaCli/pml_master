@@ -13,6 +13,7 @@ from wsb.pump_builder import (
     verify_pump,
 )
 from wsb.pump_generate import generate_pumps
+from wsb.pml_builder import nozzle_component_path
 
 
 _IMMUTABLE_PROJECT_DATA = {
@@ -48,25 +49,43 @@ _IMMUTABLE_PROJECT_DATA = {
     "205-PU-061": ((46154, -8256, 0), 1720, 760, "E", "U", "E"),
 }
 
-_PRE_FASTENER_FIX_NON_TARGET_SHA256 = (
-    "a5fce5959232cda68bb343c5fd4a52a5f0c75b4027f9caa4e28734ec8d2dc57c"
+_AUTHORIZED_REVISION_NON_TARGET_SHA256 = (
+    "edb8a3301444fe81e0c80f368412b2f2a9f18742257a735e9abfb9ac03b1ae7c"
 )
 
 
 def _canonical_non_target_geometry(script: str) -> str:
-    """Exclude only the two user-authorized fastener SUBEs from a macro."""
+    """Exclude only geometry/catalogue lines authorized by client revisions."""
+    removable_primitive_labels = {
+        "-- Reference Value: bearing-frame pedestal",
+        "-- Reference Value: bearing grease/oil fill cap",
+        "-- Reference Value: coupling-guard support foot",
+    }
     kept = []
-    skipping = False
+    skipping_section = False
+    skipping_primitive = False
     for line in script.splitlines():
+        if line in removable_primitive_labels:
+            skipping_primitive = True
+            continue
+        if skipping_primitive:
+            if not line.strip():
+                skipping_primitive = False
+            continue
         if re.match(
             r"^NEW SUBE /.*_(?:BASE_FASTENERS|CASING_FASTENERS)\s*$",
             line,
         ):
-            skipping = True
+            skipping_section = True
             continue
-        if skipping and re.match(r"^NEW (?:SUBE|NOZZ|EQUI)\b", line):
-            skipping = False
-        if not skipping and line.strip() and not line.lstrip().startswith("--"):
+        if skipping_section and re.match(r"^NEW (?:SUBE|NOZZ|EQUI)\b", line):
+            skipping_section = False
+        if (
+            not skipping_section
+            and line.strip()
+            and not line.lstrip().startswith("--")
+            and not line.startswith("CATR SPCOMPONENT ")
+        ):
             kept.append(line.rstrip())
     return "\n".join(kept)
 
@@ -223,11 +242,39 @@ def test_high_detail_models_have_realistic_subsystems_and_fasteners():
     assert len(signatures) >= 12
 
 
-def test_only_authorized_fastener_sections_changed_from_loaded_model():
+def test_only_authorized_sections_changed_from_loaded_model():
     canonical = _canonical_non_target_geometry(_result().combined_macro)
     assert hashlib.sha256(canonical.encode("utf-8")).hexdigest() == (
-        _PRE_FASTENER_FIX_NON_TARGET_SHA256
+        _AUTHORIZED_REVISION_NON_TARGET_SHA256
     )
+
+
+def test_user_rejected_floating_primitives_are_absent():
+    macro = _result().combined_macro
+    assert "bearing-frame pedestal" not in macro
+    assert "bearing grease/oil fill cap" not in macro
+    assert "coupling-guard support foot" not in macro
+
+
+def test_project_nozzle_catalogue_overrides_are_bound_inline():
+    for pump in _result().pumps:
+        spec = pump.spec
+        expected = (
+            (f"{spec.safe_tag}_SUCTION_NOZZLE", spec.suction_dn),
+            (f"{spec.safe_tag}_DISCHARGE_NOZZLE", spec.discharge_dn),
+        )
+        for nozzle_name, dn in expected:
+            assert dn is not None
+            block = re.search(
+                rf"(?ms)^NEW NOZZLE /{re.escape(nozzle_name)}\n"
+                r"(.*?)(?=^NEW (?:SUBE|NOZZ|EQUI)\b|\Z)",
+                pump.macro,
+            )
+            assert block, nozzle_name
+            assert (
+                f"CATR SPCOMPONENT {nozzle_component_path(dn)}"
+                in block.group(1)
+            )
 
 
 def test_base_anchors_and_casing_flange_fasteners_are_physically_seated():

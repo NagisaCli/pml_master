@@ -1,0 +1,28 @@
+Attributes 
+Name ZONE 1 of SITE 1 of WORLD /*
+Type ZONE
+Lock false
+Owner SITE 1 of WORLD /*
+Description unset
+Function unset
+Purpose unset
+Number 0
+Area 0
+Position E 0mm N 0mm U 0mm
+Orientation Y is N and Z is U
+Pspec Nulref
+Ispec Nulref
+Tspec Nulref
+BendMacReference Nulref
+DUnion 2
+Module unset
+Offsrf Nulref
+Rlstored unset
+Fstatus unset
+Facode unset
+SpcRef Nulref
+ModNme unset
+
+(2,201)   Element ZONE 1 of SITE 1 of WORLD /* does not have attribute ANSW
+ In line 21 of Macro C:\Users\A\Desktop\Projects\e3d_agent\Projects\E3D_Syntax_Lab\experiments\PML-STUDY-PIPE-001\queries\12_query_tee_gasket.mac
+Q NAME ANSWER

@@ -1,0 +1,43 @@
+E3D syntax laboratory for learning reusable model construction from native
+AVEVA E3D exports.
+
+Current studies:
+- PML-STUDY-PIPE-001 — native PIPE/BRANCH network
+- PML-STUDY-EXTR-001 — native `/PMP-10` pump EXTRUSION/LOOP/VERTEX syntax
+
+User-supplied evidence:
+- C:\Users\A\Desktop\pipe.txt, described by the user as a native PIPE export.
+- Three orthographic screenshots of the exported pipe network.
+- C:\Users\A\Desktop\learn_pump_sample_extrcut.txt, native `/PMP-10` data
+  listing dated 03 Aug 2026, plus three orthographic screenshots.
+
+Standing requirements:
+1. Preserve every native source unchanged and record its SHA-256 hash.
+2. Separate native observation, official support, experiment and E3D-verified
+   knowledge.
+3. Build small discriminating macros rather than one production-sized guess.
+4. The user loads each candidate in E3D and supplies the authoritative verdict.
+5. Promote syntax to VERIFIED only after the result is measurable and confirmed.
+6. Write accepted syntax into the shared knowledge, generator/validator and
+   regression tests.
+7. Renovate the project system incrementally: expose USER-CONFIRMED core
+   PIPE/BRANCH forms through a reusable, evidence-gated builder, while keeping
+   unresolved catalogue-component forms out of production generation until
+   their isolated E3D candidates pass.
+8. Maintain syntax-weight balance by modeling each intent with its best-evidenced
+   E3D element family. Do not let one familiar syntax (primitive solids,
+   catalogue pipework, or copied native blocks) become the default for unrelated
+   geometry. Balance is evidence- and intent-weighted, not a quota.
+9. For the integrated equipment test, inspect the supplied equipment and every
+   nozzle first, publish the inferred connection logic and routing order with
+   uncertainties, then generate the corresponding pipework. Never connect
+   nozzles by proximity alone.
+10. Run the high-density stress package after each E3D reset. Keep the full
+    component inventory as an experimental load test until every component
+    family has a measured E3D result; do not promote stress-only syntax merely
+    because the macro loads.
+
+Confirmed receiving runtime:
+- AVEVA Everything3D 3.1
+- E3D Design Mk3.1.11.0[Z31110-056], confirmed by the 2026-07-30 SIR exit
+  summary

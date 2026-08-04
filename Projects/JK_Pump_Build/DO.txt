@@ -71,9 +71,12 @@ Client-confirmed corrections — 2026-07-29
 Non-critical Reference Values proposed for Phase 2
 --------------------------------------------------
 
-- Vendor-specific casing, driver, coupling, support and nozzle sizes are not in
-  Excel. Derive engineering-proportional values by pump family and label every
-  one as a Reference Value.
+- Vendor-specific casing, driver, coupling and support sizes are not in the
+  original `Pump_details.xlsx`. Derive engineering-proportional values by pump
+  family and label every one as a Reference Value.
+- The later `pump_nozzle_modify.xlsx` supplies measured suction/discharge
+  opening sizes and supersedes the earlier nozzle-size Reference Values; map
+  those measurements to verified catalogue DN values as documented below.
 
 Client-requested high-detail pass — 2026-07-29
 -----------------------------------------------
@@ -162,3 +165,30 @@ Client E3D load feedback and fastener-only correction — 2026-07-29
   coordinates, 50 mm baseplates, one-EQUI-per-pump hierarchy, nozzle
   configuration, motor construction, seated base fasteners and flange-face
   casing fasteners unless the client explicitly reopens one of them.
+
+Client floating-geometry and nozzle-schedule correction — 2026-07-30
+--------------------------------------------------------------------
+
+- Start from the accepted combined macro and change only the explicitly listed
+  bearing-frame, coupling and native-nozzle items.
+- In every `BEARING_FRAME` SUBE, delete the final pedestal `BOX` and grease/oil
+  fill-cap `CYLI`; the client identified both as visually floating and without
+  useful physical meaning.
+- In every `COUPLING` SUBE, delete the final two coupling-guard support-foot
+  `BOX` primitives; the client identified them as floating and non-supporting.
+- Use `pump_nozzle_modify.xlsx` for each pump's suction (`DN_INPUT`) and
+  discharge (`DN_OUTPUT`) opening sizes. Bind each native nozzle to the closest
+  verified `ANSI-NOZZLES / 150lb_Ansi_Flanged` catalogue DN; when two sizes are
+  equally close, select the lower DN.
+- Preserve every nozzle's existing `POS`, `ORI`, `HEIG` and process attributes.
+  Do not resize discharge bosses, service-detail primitives or any other
+  non-nozzle geometry.
+- Preserve all coordinates, baseplates, hierarchy, motor/casing construction
+  and previously accepted fastener geometry byte-for-byte outside the
+  authorized sections.
+- Record the source size, selected DN and SPCO path for all 60 nozzles in
+  `output/JK_Pump_Build_nozzle_mapping.md`.
+- The workbook's `Generic Type` column contains an apparent autofill sequence
+  `150Ib` through `179Ib`, not verified pressure classes. Do not alter the
+  workbook silently; record the exception and use the receiving catalogue's
+  verified `150lb_Ansi_Flanged` family pending client correction.

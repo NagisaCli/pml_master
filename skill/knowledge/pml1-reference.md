@@ -5,15 +5,81 @@ Mk3.1.11.0 or traced to AVEVA's own PML library. **RECOMMENDED** = sound practic
 **EXPERIMENTAL** = unproven; never rely on it silently.
 
 Geometry semantics live in [iron-rules.md](iron-rules.md). This file is the
-syntax lookup.
+syntax lookup. To select syntax from a desired model shape, datum or spatial
+intent, start with [pml-spatial-lookup.md](pml-spatial-lookup.md).
+
+New forms learned from a user-supplied E3D export follow
+[learning-from-native-exports.md](../workflows/learning-from-native-exports.md).
+An authentic export earns `NATIVE-OBSERVED`; it becomes VERIFIED only after its
+semantics are supported by AVEVA evidence or a discriminating E3D trial.
+
+PIPE, BRANCH and piping-component forms are tracked separately in
+[piping-reference.md](piping-reference.md). They use catalogue and pose rules
+that must not be inferred from equipment NOZZLE or basic primitives.
+
+## DRAWING / POINT — project contract
+
+The project supports the following exact 2D form for E3D Command/Form Input:
+
+```pml
+NEW DRAWING
+NEW POINT
+POS E 0mm N 0mm U 0mm
+END
+NEW POINT
+POS E 100mm N 0mm U 0mm
+END
+NEW POINT
+POS E 0mm N 0mm U 0mm
+END
+END
+```
+
+Drawing points may be anywhere in 3D space; `E`, `N` and `U` are the three
+coordinates and are emitted in path order. Each point is an independent
+`NEW POINT` block. Point-to-point segments follow that order. A closed outline
+must repeat the complete first `(E,N,U)` coordinate exactly as its final point.
+Do not substitute
+`NEW DRAW`, `NEW LINE`, inline point coordinates, or standalone `EAST`/`NORTH`/
+`UP` assignments. The reusable implementation is
+`wsb.drawing_builder.build_drawing`.
+
+Two exact catalogue-component forms are **VERIFIED in AVEVA Everything3D
+3.1** by discriminating E3D trials:
+
+```pml
+-- Tested Up-to-West /A3B/EA100 elbow
+NEW ELBOW
+POS E 0mm N 0mm U 2000mm
+ORI Y IS D AND Z IS N
+SPRE SPCOMPONENT /A3B/EA100
+LSTU SPCOMPONENT /A3B/PA100
+ARRI 2
+LEAV 1
+END
+
+-- Tested vertical /A3B/RC100X80 reducer
+NEW REDUCER
+POS E 0mm N 0mm U 1500mm
+ORI Y IS N AND Z IS E
+SPRE SPCOMPONENT /A3B/RC100X80
+LSTU SPCOMPONENT /A3B/PA80
+END
+```
+
+These are exact tested contracts, not universal orientation rules for every
+catalogue family.
 
 ---
 
 ## Primitives — VERIFIED
 
 CYLI, CONE and BOX position by **geometric centre**; DISH positions by its flat
-rim / tangent plane (IR-1). All rotational primitives take `ORI` before `POS`
-(IR-2), with the axis of revolution on Z (IR-3).
+rim / tangent plane (IR-1). Those rotational basic primitives take `ORI` before
+`POS` (IR-2), with the axis of revolution on Z (IR-3). EXTRUSION positions by
+its **profile end plane** (IR-1) and its `POS`/`ORI` assignment order is
+equivalent in the tested forms — do not transfer the CYLI/CONE centre-datum or
+ORI-before-POS rule to it.
 
 ### CYLI — cylinder
 
@@ -98,6 +164,96 @@ POS E 0 N 0 U 53000.0
 
 To point a dish downward, invert the axis (`ORI Z IS D ...`); see
 `PMLBuilder.dish_down`.
+
+### EXTRUSION / LOOP / VERTEX — custom section
+
+**VERIFIED — hierarchy, local-axis semantics, longitudinal POS datum and
+assignment-order independence.** The supplied native `/PMP-10` listing and
+AVEVA's installed E3D 3.1 PML source both use an EXTRUSION containing one LOOP
+and ordered VERTEX elements.
+[AVEVA's Extrusion Primitive documentation](https://help.aveva.com/AVEVA_Everything3D/1.1/EUG/EUG4.05.3.html)
+defines the LOOP in its local XY coordinates and extrusion by `HEIG` along local
+Z. Installed E3D 3.1 evidence is
+`D:\AVEVA\Everything3D3.1\pmllib\mining\objects\mmmcounterweight.pmlobj`.
+
+**`POS` is the profile end plane; `HEIG` sweeps toward local +Z.** Confirmed
+by the user in E3D Design Mk3.1.11.0 on 2026-08-04: candidate
+`PML-STUDY-EXTR-001/01` with `POS U 1000` and `HEIG 800` occupies
+U 1000..1800 exactly as predicted. The same meaning is traced in AVEVA's own
+creation code: `dbenextrusion.pmlfrm:1448-1452` maps a picked point onto the
+surface plane and offsets it by the **full thickness** along -Z before
+`POSITION`/`ORI`/`HEIGHT` (only an end-plane datum explains that offset);
+`dbeextrusion.pmlfrm:1153-1156` emits `AT <plane.position>` -> `ORI
+<plane.orientation>` -> `HEIGHT <thickness>`; `mmmcounterweight.pmlobj`
+(820-960) assigns `!!ce.position` from a frame `startPosition`/`endPosition`
+and `!!ce.heig` from the frame `length()`, while the cylinder in the same
+method is centred with `proportion(0.5)`.
+
+**Assignment order is not significant for EXTRUSION in the tested forms.**
+Candidate `PML-STUDY-EXTR-001/03` placed identical extrusions at identical POS
+with `POS`->`ORI` (A/C) and `ORI`->`POS` (B/D) at two 90-degree orientations;
+the user reported occupied ranges identical on 2026-08-04. This is the
+opposite of CYLI/CONE/BOX, where `POS` before `ORI` rotates the position
+vector. No order constraint is enforced for EXTRUSION.
+
+**Two-head fastener contact contract — VERIFIED (candidate 04, 2026-08-04).**
+For a hex head paired with a cylindrical shank, the native `/PMP-10` pattern
+is two coaxial hex *nuts* on the shank, not caps outside it: the lower head's
+profile plane sits 10 mm above the shank lower end (shank protrudes 10 mm) and
+the upper head's profile plane is flush with the shank upper end. Candidate
+`PML-STUDY-EXTR-001/04` (shank U 10..110, lower head 20..40, upper head
+90..110) was visually confirmed by the user.
+
+```pml
+NEW EXTRUSION
+POS E 0mm N 0mm U 0mm
+ORI Y IS N AND Z IS U
+LEVE 5 10
+HEIG 20mm
+
+NEW LOOP
+NEW VERTEX
+POS W 20mm N 0mm U 0mm
+END
+NEW VERTEX
+POS W 10mm N 17.320508mm U 0mm
+END
+NEW VERTEX
+POS E 10mm N 17.320508mm U 0mm
+END
+NEW VERTEX
+POS E 20mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 10mm S 17.320508mm U 0mm
+END
+NEW VERTEX
+POS W 10mm S 17.320508mm U 0mm
+END
+END
+END
+```
+
+- Keep vertices in boundary order in local XY; generated VERTEX U is zero.
+- The LOOP supplies the closing edge. Do not emit a duplicate terminal vertex
+  merely to close the profile; normalize only an exact repeat of the first
+  coordinate.
+- Reject fewer than three unique points and zero-area/self-collapsed profiles.
+- `ORI` maps the local profile frame and the local-Z extrusion direction into
+  model space.
+- The native sample and AVEVA's own creation forms write EXTRUSION `POS`
+  before `ORI`, and candidate `PML-STUDY-EXTR-001/03` proved the reversed
+  order places the solid identically (user E3D result 2026-08-04). Emit either
+  order; the builder keeps the native POS-first form.
+- Do not interpret EXTRUSION `POS` as centre, bottom face or positive-Z end.
+  It is the **profile end plane**: the LOOP plane sits at POS and the solid
+  extends `HEIG` toward local +Z (IR-1).
+
+The reusable implementation is `wsb.extrusion_builder`. It accepts the
+EXTRUSION profile end-plane POS datum directly and intentionally performs no
+longitudinal datum conversion — the end plane is the datum E3D wants, exactly
+as DISH's rim plane is passed through unchanged. Source study:
+`Projects/E3D_Syntax_Lab/experiments/PML-STUDY-EXTR-001/STUDY.md`.
 
 ---
 
@@ -190,8 +346,17 @@ A **bare path navigates** — there is no `GOTO` (that is a macro label jump,
 ```
 /150lb_Ansi_Flanged/AAZFBB0KK
 Q ATT                      -- all attributes
-Q NAME ANSWER              -- named attributes only
+Q NAME ANSWER              -- the ANSWER attribute (the SPCO bore), not a
+                            -- generic "named attributes only" query
 ```
+
+`Q NAME <attribute>` queries one specific attribute. On the nozzle catalogue
+SPCOs the `ANSWER` attribute holds the bore, which is why
+`list_nozzle_bores.mac` uses `Q NAME ANSWER`. On any element that lacks that
+attribute the same command fails, e.g. `(2,201) Element ZONE 1 of SITE 1 of
+WORLD /* does not have attribute ANSW` — observed 2026-08-04 when the TEE/GASKET
+query pack ran while a ZONE was current. Use `Q ATT` for a generic attribute
+dump and query the exact attribute name you need.
 
 The Command Window accepts **PML1 single commands only**. `collect`,
 `do`/`enddo` and `!var =` assignment are rejected there with
@@ -209,6 +374,7 @@ with `$M`.
 | `BOX` | `XLEN`, `YLEN`, `ZLEN` |
 | `CONE` | `DTOP`, `DBOT`, `HEIG` |
 | `DISH` | `DIAM`, `HEIG`, `RADIUS` |
+| `EXTRUSION` | `HEIG`; cross-section from owned `LOOP` / `VERTEX` elements |
 
 Units are millimetres throughout.
 
@@ -232,12 +398,12 @@ is unproven and what evidence would settle it.
 
 | Item | Claim | What would verify it |
 |------|-------|----------------------|
-| `EXTRU` | Extrusion for non-standard cross-sections | Load a macro using it in Design and confirm the profile renders |
 | `SCTN` | Structural sections for platforms/ladders | Confirm specification reference resolves in macro mode |
 
-`Do.txt` lists `EXTRU`, `NOZZLE` and `SCTN` as acceptable primitives. `EXTRU` and
-`SCTN` have **not** been verified in macro mode here, so they stay experimental
-until someone runs them.
+`SCTN` has not been verified in macro mode here. EXTRUSION's editable hierarchy,
+profile plane, local-Z extrusion axis, end-plane POS datum, assignment-order
+independence and two-head fastener contact contract are all now VERIFIED
+(PML-STUDY-EXTR-001, closed 2026-08-04).
 
 **`NOZZLE` has been promoted to VERIFIED** — this entry previously claimed
 nozzles were modelled as `CYLI` neck + flange pairs, which had not been true of

@@ -22,6 +22,9 @@ Then retrieve on demand:
 | Need | File |
 |------|------|
 | PML1 syntax | [skill/knowledge/pml1-reference.md](skill/knowledge/pml1-reference.md) |
+| PIPE/BRANCH and piping components | [skill/knowledge/piping-reference.md](skill/knowledge/piping-reference.md) |
+| Shape/spatial intent → PML form | [skill/knowledge/pml-spatial-lookup.md](skill/knowledge/pml-spatial-lookup.md) |
+| A native export supplied to teach new syntax | [skill/workflows/learning-from-native-exports.md](skill/workflows/learning-from-native-exports.md) |
 | What equipment looks like | [skill/equipment/](skill/equipment/README.md) |
 | Prior work | [skill/projects/](skill/projects/README.md) |
 | A manually edited E3D export | [skill/workflows/reconciling-native-exports.md](skill/workflows/reconciling-native-exports.md) |

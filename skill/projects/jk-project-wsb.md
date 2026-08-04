@@ -186,6 +186,35 @@ code rather than by review:
 93 tests cover the guarantees that cannot be checked by eye across 400+
 primitives.
 
+## 2026-08-04 — DROPLEG appearance retrofit (WSB_TA.txt)
+
+Native export `WSB_TA.txt` was retrofitted for five droplegs
+(203-TA-019, 204-TA-021, 205-TA-016, 205-TA-036, 205-TA-052): SUPPORT/SHELL
+rebuilt as a four-cylinder stack (D1246×100 / D1006×4991 / D1044×10 /
+D610×4885) from the unchanged bottom centre, plus a default DN200 lower nozzle
+with pad and catalogue binding per the export's trailing OLD/CATR style.
+Original preserved under `Projects/JK-Tank_Build/imports/2026-08-04_WSB_TA.txt`;
+deliverable and report under `Projects/JK-Tank_Build/output/`. Outstanding:
+existing top/side nozzles keep their original coordinates and will stand off
+the shorter body; user confirmation needed before re-seating them.
+
+R2 (same day, user follow-up): removed every original nozzle and the ACCESS
+subequipment from the five droplegs, keeping only the new DN200 lower nozzle;
+17 matching OLD/CATR bindings removed (114 -> 97). Final file
+`Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r2.txt`; R1
+kept for rollback.
+
+R3 (same day, user correction): new DN200 nozzle ORI corrected to
+`Y is S and Z is U` (East-facing side nozzle). Lesson: in native data-listing
+NOZZLE blocks, ORI Y is the roll reference perpendicular to the bore, not the
+bore direction (North-facing = Y is E, East-facing = Y is S). Final file
+`Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r3.txt`.
+
+Archived 2026-08-04 under
+`Projects/JK-Tank_Build/archive/2026-08-04_WSB_TA_dropleg/` (R1/R2/R3 + hashes
+in `REVISION_RECORD.md`); project time tree added at
+`Projects/JK-Tank_Build/TIMELINE.md`.
+
 The duty-based configuration table in
 [tanks-and-vessels.md](../equipment/tanks-and-vessels.md) is this project's main
 reusable output.

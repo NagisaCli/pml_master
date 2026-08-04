@@ -8,7 +8,7 @@
 -- Datum: Each coordinate is the geometric centre of its baseplate underside
 -- Hierarchy: 30 independent EQUI elements; one EQUI per pump tag
 -- Execution: Select a writable ZONE, then $M <this combined file>
--- Generated: 2026-07-29 22:54:29
+-- Generated: 2026-07-30 23:40:33
 
 -- ====================================================================
 -- 203-PU-008 - BLOW TANK DILUTION PUMP
@@ -611,24 +611,10 @@ HEIG 43.6
 ORI Z IS N AND Y IS U
 POS E 13971.0 N 14549.6 U 324.1
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 81.2
-YLEN 179.4
-ZLEN 153.8
-POS E 13971.0 N 14456.0 U 190.8
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 13971.0 N 14458.6 U 390.5
-
 NEW SUBE /203_PU_008_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /203_PU_008_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 13971.0 N 15257.1 U 324.1
 ORI P1 IS N
 HEIG 250.0
@@ -646,9 +632,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 13971.0 N 14789.2 U 496.1
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /203_PU_008_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 13971.0 N 14789.2 U 645.8
 ORI P1 IS U
 HEIG 153.4
@@ -700,20 +686,6 @@ XLEN 8.8
 YLEN 245.2
 ZLEN 8.8
 POS E 13971.0 N 14165.5 U 391.2
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 99.1
-YLEN 35.9
-ZLEN 130.3
-POS E 13971.0 N 14069.8 U 179.1
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 99.1
-YLEN 35.9
-ZLEN 130.3
-POS E 13971.0 N 14261.2 U 179.1
 
 NEW SUBE /203_PU_008_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -1741,24 +1713,10 @@ HEIG 41.7
 ORI Z IS N AND Y IS U
 POS E 16137.0 N 14515.2 U 317.7
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 68.2
-YLEN 178.8
-ZLEN 156.0
-POS E 16137.0 N 14421.1 U 192.3
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 16137.0 N 14423.7 U 375.1
-
 NEW SUBE /203_PU_009_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /203_PU_009_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 16137.0 N 15203.4 U 317.7
 ORI P1 IS N
 HEIG 250.0
@@ -1776,9 +1734,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 16137.0 N 14744.7 U 479.2
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /203_PU_009_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 16137.0 N 14744.7 U 629.9
 ORI P1 IS U
 HEIG 154.3
@@ -1837,20 +1795,6 @@ DIAM 161.5
 HEIG 12.0
 ORI Z IS N AND Y IS U
 POS E 16137.0 N 14274.6 U 317.7
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 95.8
-YLEN 35.8
-ZLEN 126.1
-POS E 16137.0 N 14036.2 U 177.3
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 95.8
-YLEN 35.8
-ZLEN 126.1
-POS E 16137.0 N 14227.0 U 177.3
 
 NEW SUBE /203_PU_009_DRIVER
 -- Reference Value: IEC standard ribbed motor TEFC motor fan cowl
@@ -2766,24 +2710,10 @@ HEIG 33.0
 ORI Z IS N AND Y IS U
 POS E 17685.0 N 500.9 U 278.5
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 58.6
-YLEN 144.5
-ZLEN 130.7
-POS E 17685.0 N 424.6 U 172.4
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 17685.0 N 426.6 U 329.2
-
 NEW SUBE /203_PU_011_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN90; POS is flange face, contractual direction N
 NEW NOZZLE /203_PU_011_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0MM
 POS E 17685.0 N 1054.1 U 278.5
 ORI P1 IS N
 HEIG 206.4
@@ -2801,9 +2731,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 17685.0 N 682.6 U 417.8
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /203_PU_011_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 17685.0 N 682.6 U 564.2
 ORI P1 IS U
 HEIG 150.0
@@ -2863,20 +2793,6 @@ DIAM 136.2
 HEIG 10.8
 ORI Z IS N AND Y IS U
 POS E 17685.0 N 305.6 U 278.5
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 80.8
-YLEN 28.9
-ZLEN 106.3
-POS E 17685.0 N 113.6 U 160.2
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 80.8
-YLEN 28.9
-ZLEN 106.3
-POS E 17685.0 N 267.7 U 160.2
 
 NEW SUBE /203_PU_011_DRIVER
 -- Reference Value: IEC standard ribbed motor TEFC motor fan cowl
@@ -3848,24 +3764,10 @@ HEIG 26.7
 ORI Z IS W AND Y IS U
 POS E 17010.3 N 5685.0 U 278.3
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 49.2
-YLEN 82.6
-ZLEN 113.9
-POS E 17028.6 N 5685.0 U 164.0
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 17027.9 N 5685.0 U 345.7
-
 NEW SUBE /203_PU_020_SUCTION
--- Reference Value: suction DN150; POS is flange face, contractual direction W
+-- Project data: suction catalogue DN500; POS is flange face, contractual direction W
 NEW NOZZLE /203_PU_020_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB011
 POS E 16580.3 N 5685.0 U 278.3
 ORI P1 IS W
 HEIG 150.0
@@ -3883,9 +3785,9 @@ HEIG 28.0
 ORI Z IS U AND Y IS N
 POS E 16863.7 N 5685.0 U 453.8
 
--- Reference Value: discharge DN100; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /203_PU_020_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 16863.7 N 5685.0 U 599.6
 ORI P1 IS U
 HEIG 150.0
@@ -4007,20 +3909,6 @@ XLEN 5.0
 YLEN 10.0
 ZLEN 106.8
 POS E 17069.7 N 5685.0 U 278.3
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 80.7
-ZLEN 106.2
-POS E 17120.4 N 5685.0 U 160.1
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 80.7
-ZLEN 106.2
-POS E 17078.9 N 5685.0 U 160.1
 
 NEW SUBE /203_PU_020_DRIVER
 -- Reference Value: MC-pump main drive TEFC motor fan cowl
@@ -5149,24 +5037,10 @@ HEIG 32.3
 ORI Z IS S AND Y IS U
 POS E 13809.0 N -7.7 U 285.6
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 70.0
-YLEN 144.5
-ZLEN 130.0
-POS E 13809.0 N 69.0 U 172.0
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 13809.0 N 67.0 U 344.2
-
 NEW SUBE /203_PU_026_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction S
+-- Project data: suction catalogue DN125; POS is flange face, contractual direction S
 NEW NOZZLE /203_PU_026_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0PP
 POS E 13809.0 N -553.6 U 285.6
 ORI P1 IS S
 HEIG 206.4
@@ -5184,9 +5058,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 13809.0 N -185.5 U 420.6
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /203_PU_026_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 13809.0 N -185.5 U 567.0
 ORI P1 IS U
 HEIG 150.0
@@ -5245,20 +5119,6 @@ DIAM 141.8
 HEIG 10.8
 ORI Z IS S AND Y IS U
 POS E 13809.0 N 188.0 U 285.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 84.2
-YLEN 28.9
-ZLEN 110.7
-POS E 13809.0 N 380.0 U 162.4
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 84.2
-YLEN 28.9
-ZLEN 110.7
-POS E 13809.0 N 225.9 U 162.4
 
 NEW SUBE /203_PU_026_DRIVER
 -- Reference Value: Compact high-speed motor TEFC motor fan cowl
@@ -6237,24 +6097,10 @@ HEIG 24.9
 ORI Z IS S AND Y IS U
 POS E 15108.0 N -107.5 U 238.9
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 55.5
-YLEN 113.7
-ZLEN 102.3
-POS E 15108.0 N -46.9 U 149.2
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 15108.0 N -48.5 U 287.4
-
 NEW SUBE /203_PU_031_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction S
+-- Project data: suction catalogue DN65; POS is flange face, contractual direction S
 NEW NOZZLE /203_PU_031_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0KK
 POS E 15108.0 N -531.3 U 238.9
 ORI P1 IS S
 HEIG 162.4
@@ -6272,9 +6118,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 15108.0 N -244.4 U 357.5
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /203_PU_031_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 15108.0 N -244.4 U 503.9
 ORI P1 IS U
 HEIG 150.0
@@ -6334,20 +6180,6 @@ DIAM 114.9
 HEIG 8.5
 ORI Z IS S AND Y IS U
 POS E 15108.0 N 46.7 U 238.9
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 68.2
-YLEN 24.0
-ZLEN 85.9
-POS E 15108.0 N 197.7 U 140.9
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 68.2
-YLEN 24.0
-ZLEN 85.9
-POS E 15108.0 N 76.5 U 140.9
 
 NEW SUBE /203_PU_031_DRIVER
 -- Reference Value: Compact high-speed motor TEFC motor fan cowl
@@ -7494,24 +7326,10 @@ HEIG 46.0
 ORI Z IS N AND Y IS U
 POS E 20162.0 N -8318.4 U 333.8
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 94.6
-YLEN 178.8
-ZLEN 153.9
-POS E 20162.0 N -8410.3 U 191.2
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 20162.0 N -8407.8 U 409.5
-
 NEW SUBE /204_PU_003_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /204_PU_003_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 20162.0 N -7585.5 U 333.8
 ORI P1 IS N
 HEIG 250.0
@@ -7529,9 +7347,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 20162.0 N -8065.4 U 514.9
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /204_PU_003_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 20162.0 N -8065.4 U 665.5
 ORI P1 IS U
 HEIG 154.3
@@ -7583,20 +7401,6 @@ XLEN 9.2
 YLEN 244.4
 ZLEN 9.2
 POS E 20162.0 N -8699.9 U 403.9
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 103.4
-YLEN 35.8
-ZLEN 136.1
-POS E 20162.0 N -8795.3 U 182.3
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 103.4
-YLEN 35.8
-ZLEN 136.1
-POS E 20162.0 N -8604.5 U 182.3
 
 NEW SUBE /204_PU_003_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -8694,24 +8498,10 @@ HEIG 35.8
 ORI Z IS E AND Y IS U
 POS E 20350.2 N 19210.0 U 291.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 144.5
-YLEN 73.8
-ZLEN 132.7
-POS E 20275.2 N 19210.0 U 173.3
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 20277.3 N 19210.0 U 352.2
-
 NEW SUBE /204_PU_008_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction E
+-- Project data: suction catalogue DN100; POS is flange face, contractual direction E
 NEW NOZZLE /204_PU_008_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
 POS E 20932.2 N 19210.0 U 291.0
 ORI P1 IS E
 HEIG 206.4
@@ -8729,9 +8519,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 20547.0 N 19210.0 U 447.6
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /204_PU_008_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 20547.0 N 19210.0 U 594.0
 ORI P1 IS U
 HEIG 150.0
@@ -8853,20 +8643,6 @@ XLEN 10.8
 YLEN 10.5
 ZLEN 114.6
 POS E 20156.3 N 19210.0 U 291.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 28.9
-YLEN 86.7
-ZLEN 114.1
-POS E 19964.2 N 19210.0 U 164.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 28.9
-YLEN 86.7
-ZLEN 114.1
-POS E 20118.3 N 19210.0 U 164.0
 
 NEW SUBE /204_PU_008_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -9936,24 +9712,10 @@ HEIG 35.5
 ORI Z IS E AND Y IS U
 POS E 20347.9 N 17410.0 U 292.7
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 144.9
-YLEN 72.4
-ZLEN 135.4
-POS E 20272.5 N 17410.0 U 174.7
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 20274.6 N 17410.0 U 353.1
-
 NEW SUBE /204_PU_006_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction E
+-- Project data: suction catalogue DN100; POS is flange face, contractual direction E
 NEW NOZZLE /204_PU_006_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
 POS E 20928.0 N 17410.0 U 292.7
 ORI P1 IS E
 HEIG 207.0
@@ -9971,9 +9733,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 20543.4 N 17410.0 U 446.5
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /204_PU_006_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 20543.4 N 17410.0 U 592.9
 ORI P1 IS U
 HEIG 150.0
@@ -10033,20 +9795,6 @@ DIAM 147.5
 HEIG 10.9
 ORI Z IS E AND Y IS U
 POS E 20153.3 N 17410.0 U 292.7
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 29.0
-YLEN 87.5
-ZLEN 115.2
-POS E 19960.7 N 17410.0 U 164.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 29.0
-YLEN 87.5
-ZLEN 115.2
-POS E 20115.2 N 17410.0 U 164.6
 
 NEW SUBE /204_PU_006_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -11158,24 +10906,10 @@ HEIG 43.6
 ORI Z IS N AND Y IS U
 POS E 22512.0 N 14531.4 U 327.7
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 82.3
-YLEN 179.3
-ZLEN 155.8
-POS E 22512.0 N 14437.9 U 192.6
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 22512.0 N 14440.4 U 394.8
-
 NEW SUBE /204_PU_015_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /204_PU_015_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 22512.0 N 15238.7 U 327.7
 ORI P1 IS N
 HEIG 250.0
@@ -11193,9 +10927,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 22512.0 N 14770.9 U 501.8
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /204_PU_015_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 22512.0 N 14770.9 U 653.5
 ORI P1 IS U
 HEIG 155.3
@@ -11247,20 +10981,6 @@ XLEN 8.9
 YLEN 245.1
 ZLEN 8.9
 POS E 22512.0 N 14147.5 U 395.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 100.3
-YLEN 35.9
-ZLEN 132.0
-POS E 22512.0 N 14051.9 U 180.7
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 100.3
-YLEN 35.9
-ZLEN 132.0
-POS E 22512.0 N 14243.2 U 180.7
 
 NEW SUBE /204_PU_015_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -12344,24 +12064,10 @@ HEIG 43.4
 ORI Z IS N AND Y IS U
 POS E 28213.0 N 14527.1 U 325.7
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 81.7
-YLEN 178.8
-ZLEN 154.7
-POS E 28213.0 N 14433.9 U 191.6
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 28213.0 N 14436.5 U 392.5
-
 NEW SUBE /204_PU_016_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /204_PU_016_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 28213.0 N 15233.2 U 325.7
 ORI P1 IS N
 HEIG 250.0
@@ -12379,9 +12085,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 28213.0 N 14766.0 U 498.7
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /204_PU_016_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 28213.0 N 14766.0 U 649.3
 ORI P1 IS U
 HEIG 154.3
@@ -12433,20 +12139,6 @@ XLEN 8.8
 YLEN 244.4
 ZLEN 8.8
 POS E 28213.0 N 14144.4 U 393.2
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 99.6
-YLEN 35.8
-ZLEN 131.1
-POS E 28213.0 N 14049.0 U 179.8
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 99.6
-YLEN 35.8
-ZLEN 131.1
-POS E 28213.0 N 14239.7 U 179.8
 
 NEW SUBE /204_PU_016_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -13383,22 +13075,8 @@ HEIG 33.0
 ORI Z IS N AND Y IS U
 POS E 25814.0 N 14624.9 U 278.5
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 58.6
-YLEN 144.5
-ZLEN 130.7
-POS E 25814.0 N 14548.6 U 172.4
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 25814.0 N 14550.6 U 329.2
-
 NEW SUBE /204_PU_017_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN80; POS is flange face, contractual direction N
 NEW NOZZLE /204_PU_017_SUCTION_NOZZLE
 CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
 POS E 25814.0 N 15178.1 U 278.5
@@ -13418,9 +13096,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 25814.0 N 14806.6 U 417.8
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /204_PU_017_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 25814.0 N 14806.6 U 564.2
 ORI P1 IS U
 HEIG 150.0
@@ -13480,20 +13158,6 @@ DIAM 136.2
 HEIG 10.8
 ORI Z IS N AND Y IS U
 POS E 25814.0 N 14429.6 U 278.5
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 80.8
-YLEN 28.9
-ZLEN 106.3
-POS E 25814.0 N 14237.6 U 160.2
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 80.8
-YLEN 28.9
-ZLEN 106.3
-POS E 25814.0 N 14391.7 U 160.2
 
 NEW SUBE /204_PU_017_DRIVER
 -- Reference Value: IEC standard ribbed motor TEFC motor fan cowl
@@ -14395,24 +14059,10 @@ HEIG 33.1
 ORI Z IS N AND Y IS U
 POS E 28520.0 N 746.9 U 278.5
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 58.6
-YLEN 144.9
-ZLEN 130.7
-POS E 28520.0 N 670.3 U 172.4
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 28520.0 N 672.4 U 329.2
-
 NEW SUBE /204_PU_023_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN90; POS is flange face, contractual direction N
 NEW NOZZLE /204_PU_023_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0MM
 POS E 28520.0 N 1301.6 U 278.5
 ORI P1 IS N
 HEIG 207.0
@@ -14430,9 +14080,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 28520.0 N 929.0 U 417.8
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /204_PU_023_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 28520.0 N 929.0 U 564.2
 ORI P1 IS U
 HEIG 150.0
@@ -14492,20 +14142,6 @@ DIAM 136.2
 HEIG 10.9
 ORI Z IS N AND Y IS U
 POS E 28520.0 N 551.0 U 278.5
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 80.8
-YLEN 29.0
-ZLEN 106.3
-POS E 28520.0 N 358.4 U 160.2
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 80.8
-YLEN 29.0
-ZLEN 106.3
-POS E 28520.0 N 513.0 U 160.2
 
 NEW SUBE /204_PU_023_DRIVER
 -- Reference Value: IEC standard ribbed motor TEFC motor fan cowl
@@ -15526,24 +15162,10 @@ HEIG 52.8
 ORI Z IS E AND Y IS U
 POS E 30508.3 N -10580.0 U 287.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 91.6
-YLEN 95.0
-ZLEN 114.1
-POS E 30475.9 N -10580.0 U 164.0
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 30477.2 N -10580.0 U 363.0
-
 NEW SUBE /205_PU_004_SUCTION
--- Reference Value: suction DN150; POS is flange face, contractual direction E
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction E
 NEW NOZZLE /205_PU_004_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 31304.1 N -10580.0 U 287.0
 ORI P1 IS E
 HEIG 241.5
@@ -15561,9 +15183,9 @@ HEIG 28.0
 ORI Z IS U AND Y IS N
 POS E 30798.7 N -10580.0 U 469.5
 
--- Reference Value: discharge DN100; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_004_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 30798.7 N -10580.0 U 615.3
 ORI P1 IS U
 HEIG 150.0
@@ -15685,20 +15307,6 @@ XLEN 5.4
 YLEN 10.3
 ZLEN 112.2
 POS E 30401.2 N -10580.0 U 287.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 84.8
-ZLEN 111.6
-POS E 30304.9 N -10580.0 U 162.8
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 84.8
-ZLEN 111.6
-POS E 30382.2 N -10580.0 U 162.8
 
 NEW SUBE /205_PU_004_DRIVER
 -- Reference Value: MC-pump main drive TEFC motor fan cowl
@@ -17023,24 +16631,10 @@ HEIG 55.0
 ORI Z IS N AND Y IS U
 POS E 33065.0 N 14407.9 U 450.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 136.1
-YLEN 226.9
-ZLEN 215.5
-POS E 33065.0 N 14289.6 U 247.7
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 22.7
-HEIG 20.4
-ORI Z IS U AND Y IS N
-POS E 33065.0 N 14292.8 U 554.7
-
 NEW SUBE /205_PU_012_SUCTION
--- Reference Value: suction DN150; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN600; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_012_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB033
 POS E 33065.0 N 15258.0 U 450.0
 ORI P1 IS N
 HEIG 250.0
@@ -17058,9 +16652,9 @@ HEIG 28.0
 ORI Z IS U AND Y IS N
 POS E 33065.0 N 14721.7 U 709.7
 
--- Reference Value: discharge DN100; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_012_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 33065.0 N 14721.7 U 929.6
 ORI P1 IS U
 HEIG 224.1
@@ -17112,20 +16706,6 @@ XLEN 12.1
 YLEN 310.1
 ZLEN 12.1
 POS E 33065.0 N 13922.2 U 542.4
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 136.4
-YLEN 45.4
-ZLEN 200.0
-POS E 33065.0 N 13801.2 U 240.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 136.4
-YLEN 45.4
-ZLEN 200.0
-POS E 33065.0 N 14043.2 U 240.0
 
 NEW SUBE /205_PU_012_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -18097,24 +17677,10 @@ HEIG 31.6
 ORI Z IS N AND Y IS U
 POS E 31566.0 N 14660.0 U 282.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 61.3
-YLEN 144.5
-ZLEN 132.5
-POS E 31566.0 N 14583.0 U 173.2
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 31566.0 N 14585.0 U 334.6
-
 NEW SUBE /205_PU_013_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN65; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_013_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0KK
 POS E 31566.0 N 15198.7 U 282.0
 ORI P1 IS N
 HEIG 206.4
@@ -18132,9 +17698,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 31566.0 N 14834.1 U 412.7
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_013_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 31566.0 N 14834.1 U 559.1
 ORI P1 IS U
 HEIG 150.0
@@ -18193,20 +17759,6 @@ DIAM 139.0
 HEIG 10.8
 ORI Z IS N AND Y IS U
 POS E 31566.0 N 14464.0 U 282.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 82.5
-YLEN 28.9
-ZLEN 108.5
-POS E 31566.0 N 14272.0 U 161.3
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 82.5
-YLEN 28.9
-ZLEN 108.5
-POS E 31566.0 N 14426.1 U 161.3
 
 NEW SUBE /205_PU_013_DRIVER
 -- Reference Value: Compact high-speed motor TEFC motor fan cowl
@@ -19360,24 +18912,10 @@ HEIG 55.0
 ORI Z IS W AND Y IS U
 POS E 35630.0 N 5019.0 U 389.9
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 107.3
-YLEN 136.5
-ZLEN 166.3
-POS E 35671.5 N 5019.0 U 212.0
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 22.8
-HEIG 20.5
-ORI Z IS U AND Y IS N
-POS E 35670.0 N 5019.0 U 494.9
-
 NEW SUBE /205_PU_018_SUCTION
--- Reference Value: suction DN200; POS is flange face, contractual direction S
+-- Project data: suction catalogue DN150; POS is flange face, contractual direction S
 NEW NOZZLE /205_PU_018_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 35287.1 N 4479.7 U 389.9
 ORI P1 IS S
 HEIG 283.1
@@ -19388,7 +18926,7 @@ DUTY unset
 END
 
 NEW SUBE /205_PU_018_DISCHARGE
--- Reference Value: discharge DN150; POS is flange face, contractual direction W
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction W
 NEW NOZZLE /205_PU_018_DISCHARGE_NOZZLE
 CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 34782.5 N 5019.0 U 389.9
@@ -19512,20 +19050,6 @@ XLEN 6.4
 YLEN 14.9
 ZLEN 162.7
 POS E 35759.0 N 5019.0 U 389.9
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 123.0
-ZLEN 161.9
-POS E 35871.9 N 5019.0 U 209.8
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 123.0
-ZLEN 161.9
-POS E 35781.3 N 5019.0 U 209.8
 
 NEW SUBE /205_PU_018_DRIVER
 -- Reference Value: MC-pump main drive TEFC motor fan cowl
@@ -20696,24 +20220,10 @@ HEIG 32.3
 ORI Z IS S AND Y IS U
 POS E 41518.0 N 294.3 U 285.6
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 70.0
-YLEN 144.5
-ZLEN 130.0
-POS E 41518.0 N 371.0 U 172.0
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 41518.0 N 369.0 U 344.2
-
 NEW SUBE /205_PU_024_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction S
+-- Project data: suction catalogue DN125; POS is flange face, contractual direction S
 NEW NOZZLE /205_PU_024_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0PP
 POS E 41518.0 N -251.6 U 285.6
 ORI P1 IS S
 HEIG 206.4
@@ -20731,9 +20241,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 41518.0 N 116.5 U 420.6
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_024_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 41518.0 N 116.5 U 567.0
 ORI P1 IS U
 HEIG 150.0
@@ -20792,20 +20302,6 @@ DIAM 141.8
 HEIG 10.8
 ORI Z IS S AND Y IS U
 POS E 41518.0 N 490.0 U 285.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 84.2
-YLEN 28.9
-ZLEN 110.7
-POS E 41518.0 N 682.0 U 162.4
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 84.2
-YLEN 28.9
-ZLEN 110.7
-POS E 41518.0 N 527.9 U 162.4
 
 NEW SUBE /205_PU_024_DRIVER
 -- Reference Value: Compact high-speed motor TEFC motor fan cowl
@@ -21966,24 +21462,10 @@ HEIG 46.1
 ORI Z IS N AND Y IS U
 POS E 42218.0 N -8169.1 U 333.8
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 94.6
-YLEN 179.3
-ZLEN 153.9
-POS E 42218.0 N -8261.3 U 191.2
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 42218.0 N -8258.8 U 409.5
-
 NEW SUBE /205_PU_027_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_027_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 42218.0 N -7434.9 U 333.8
 ORI P1 IS N
 HEIG 250.0
@@ -22001,9 +21483,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 42218.0 N -7915.4 U 514.9
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_027_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 42218.0 N -7915.4 U 665.5
 ORI P1 IS U
 HEIG 154.3
@@ -22055,20 +21537,6 @@ XLEN 9.2
 YLEN 245.1
 ZLEN 9.2
 POS E 42218.0 N -8551.7 U 403.9
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 103.4
-YLEN 35.9
-ZLEN 136.1
-POS E 42218.0 N -8647.3 U 182.3
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 103.4
-YLEN 35.9
-ZLEN 136.1
-POS E 42218.0 N -8456.0 U 182.3
 
 NEW SUBE /205_PU_027_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -23208,24 +22676,10 @@ HEIG 43.4
 ORI Z IS N AND Y IS U
 POS E 40868.0 N 14527.1 U 327.7
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 82.3
-YLEN 178.8
-ZLEN 155.8
-POS E 40868.0 N 14433.9 U 192.6
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 40868.0 N 14436.5 U 394.8
-
 NEW SUBE /205_PU_030_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_030_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 40868.0 N 15233.2 U 327.7
 ORI P1 IS N
 HEIG 250.0
@@ -23243,9 +22697,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 40868.0 N 14766.0 U 501.8
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_030_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 40868.0 N 14766.0 U 653.5
 ORI P1 IS U
 HEIG 155.3
@@ -23297,20 +22751,6 @@ XLEN 8.9
 YLEN 244.4
 ZLEN 8.9
 POS E 40868.0 N 14144.4 U 395.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 100.3
-YLEN 35.8
-ZLEN 132.0
-POS E 40868.0 N 14049.0 U 180.7
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 100.3
-YLEN 35.8
-ZLEN 132.0
-POS E 40868.0 N 14239.7 U 180.7
 
 NEW SUBE /205_PU_030_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -24394,24 +23834,10 @@ HEIG 43.4
 ORI Z IS N AND Y IS U
 POS E 37916.0 N 14527.1 U 325.7
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 81.7
-YLEN 178.8
-ZLEN 154.7
-POS E 37916.0 N 14433.9 U 191.6
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 37916.0 N 14436.5 U 392.5
-
 NEW SUBE /205_PU_031_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_031_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 37916.0 N 15233.2 U 325.7
 ORI P1 IS N
 HEIG 250.0
@@ -24429,9 +23855,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 37916.0 N 14766.0 U 498.7
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_031_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 37916.0 N 14766.0 U 649.3
 ORI P1 IS U
 HEIG 154.3
@@ -24483,20 +23909,6 @@ XLEN 8.8
 YLEN 244.4
 ZLEN 8.8
 POS E 37916.0 N 14144.4 U 393.2
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 99.6
-YLEN 35.8
-ZLEN 131.1
-POS E 37916.0 N 14049.0 U 179.8
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 99.6
-YLEN 35.8
-ZLEN 131.1
-POS E 37916.0 N 14239.7 U 179.8
 
 NEW SUBE /205_PU_031_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -25440,24 +24852,10 @@ HEIG 30.7
 ORI Z IS N AND Y IS U
 POS E 39418.0 N 14649.6 U 283.6
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 61.7
-YLEN 140.4
-ZLEN 133.3
-POS E 39418.0 N 14574.7 U 174.0
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 39418.0 N 14576.7 U 336.4
-
 NEW SUBE /205_PU_032_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_032_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 39418.0 N 15172.9 U 283.6
 ORI P1 IS N
 HEIG 200.5
@@ -25475,9 +24873,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 39418.0 N 14818.7 U 415.1
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_032_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 39418.0 N 14818.7 U 561.5
 ORI P1 IS U
 HEIG 150.0
@@ -25536,20 +24934,6 @@ DIAM 139.9
 HEIG 10.5
 ORI Z IS N AND Y IS U
 POS E 39418.0 N 14459.2 U 283.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 83.0
-YLEN 28.1
-ZLEN 109.2
-POS E 39418.0 N 14272.6 U 162.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 83.0
-YLEN 28.1
-ZLEN 109.2
-POS E 39418.0 N 14422.3 U 162.0
 
 NEW SUBE /205_PU_032_DRIVER
 -- Reference Value: Compact high-speed motor TEFC motor fan cowl
@@ -26703,24 +26087,10 @@ HEIG 55.0
 ORI Z IS W AND Y IS U
 POS E 43023.8 N 5016.0 U 392.3
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 106.2
-YLEN 137.8
-ZLEN 167.8
-POS E 43064.6 N 5016.0 U 212.7
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 23.0
-HEIG 20.7
-ORI Z IS U AND Y IS N
-POS E 43063.1 N 5016.0 U 498.3
-
 NEW SUBE /205_PU_038_SUCTION
--- Reference Value: suction DN200; POS is flange face, contractual direction S
+-- Project data: suction catalogue DN150; POS is flange face, contractual direction S
 NEW NOZZLE /205_PU_038_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 42681.3 N 4477.3 U 392.3
 ORI P1 IS S
 HEIG 280.0
@@ -26731,7 +26101,7 @@ DUTY unset
 END
 
 NEW SUBE /205_PU_038_DISCHARGE
--- Reference Value: discharge DN150; POS is flange face, contractual direction W
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction W
 NEW NOZZLE /205_PU_038_DISCHARGE_NOZZLE
 CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 42177.2 N 5016.0 U 392.3
@@ -26785,20 +26155,6 @@ XLEN 114.8
 YLEN 11.0
 ZLEN 11.0
 POS E 43218.0 N 5016.0 U 476.4
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 124.2
-ZLEN 163.4
-POS E 43262.8 N 5016.0 U 210.5
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 24.0
-YLEN 124.2
-ZLEN 163.4
-POS E 43173.2 N 5016.0 U 210.5
 
 NEW SUBE /205_PU_038_DRIVER
 -- Reference Value: MC-pump main drive TEFC motor fan cowl
@@ -27976,24 +27332,10 @@ HEIG 33.7
 ORI Z IS N AND Y IS U
 POS E 45221.0 N 14631.5 U 282.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 61.1
-YLEN 144.5
-ZLEN 132.6
-POS E 45221.0 N 14555.4 U 173.3
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 45221.0 N 14557.5 U 334.5
-
 NEW SUBE /205_PU_046_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN90; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_046_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0MM
 POS E 45221.0 N 15191.8 U 282.0
 ORI P1 IS N
 HEIG 206.4
@@ -28011,9 +27353,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 45221.0 N 14816.9 U 427.1
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_046_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 45221.0 N 14816.9 U 573.5
 ORI P1 IS U
 HEIG 150.0
@@ -28073,20 +27415,6 @@ DIAM 139.0
 HEIG 10.8
 ORI Z IS N AND Y IS U
 POS E 45221.0 N 14436.5 U 282.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 82.5
-YLEN 28.9
-ZLEN 108.5
-POS E 45221.0 N 14244.5 U 161.3
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 82.5
-YLEN 28.9
-ZLEN 108.5
-POS E 45221.0 N 14398.6 U 161.3
 
 NEW SUBE /205_PU_046_DRIVER
 -- Reference Value: IEC standard ribbed motor TEFC motor fan cowl
@@ -29072,24 +28400,10 @@ HEIG 41.7
 ORI Z IS N AND Y IS U
 POS E 46620.0 N 14515.2 U 319.6
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 68.7
-YLEN 178.8
-ZLEN 157.1
-POS E 46620.0 N 14421.1 U 193.3
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 46620.0 N 14423.7 U 377.3
-
 NEW SUBE /205_PU_047_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_047_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 46620.0 N 15203.4 U 319.6
 ORI P1 IS N
 HEIG 250.0
@@ -29107,9 +28421,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 46620.0 N 14744.7 U 482.2
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_047_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 46620.0 N 14744.7 U 633.9
 ORI P1 IS U
 HEIG 155.3
@@ -29168,20 +28482,6 @@ DIAM 162.7
 HEIG 12.0
 ORI Z IS N AND Y IS U
 POS E 46620.0 N 14274.6 U 319.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 96.5
-YLEN 35.8
-ZLEN 127.0
-POS E 46620.0 N 14036.2 U 178.2
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 96.5
-YLEN 35.8
-ZLEN 127.0
-POS E 46620.0 N 14227.0 U 178.2
 
 NEW SUBE /205_PU_047_DRIVER
 -- Reference Value: IEC standard ribbed motor TEFC motor fan cowl
@@ -30244,24 +29544,10 @@ HEIG 43.4
 ORI Z IS N AND Y IS U
 POS E 48221.0 N 14527.1 U 327.7
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 82.3
-YLEN 178.8
-ZLEN 155.8
-POS E 48221.0 N 14433.9 U 192.6
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 48221.0 N 14436.5 U 394.8
-
 NEW SUBE /205_PU_048_SUCTION
--- Reference Value: suction DN100; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN200; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_048_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
 POS E 48221.0 N 15233.2 U 327.7
 ORI P1 IS N
 HEIG 250.0
@@ -30279,9 +29565,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 48221.0 N 14766.0 U 501.8
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_048_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 48221.0 N 14766.0 U 653.5
 ORI P1 IS U
 HEIG 155.3
@@ -30333,20 +29619,6 @@ XLEN 8.9
 YLEN 244.4
 ZLEN 8.9
 POS E 48221.0 N 14144.4 U 395.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 100.3
-YLEN 35.8
-ZLEN 132.0
-POS E 48221.0 N 14049.0 U 180.7
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 100.3
-YLEN 35.8
-ZLEN 132.0
-POS E 48221.0 N 14239.7 U 180.7
 
 NEW SUBE /205_PU_048_DRIVER
 -- Reference Value: Heavy-duty high-torque motor TEFC motor fan cowl
@@ -31290,24 +30562,10 @@ HEIG 31.6
 ORI Z IS N AND Y IS U
 POS E 49674.0 N 14660.0 U 282.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 61.3
-YLEN 144.5
-ZLEN 132.5
-POS E 49674.0 N 14583.0 U 173.2
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 49674.0 N 14585.0 U 334.6
-
 NEW SUBE /205_PU_049_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN125; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_049_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0PP
 POS E 49674.0 N 15198.7 U 282.0
 ORI P1 IS N
 HEIG 206.4
@@ -31325,9 +30583,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 49674.0 N 14834.1 U 412.7
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_049_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 49674.0 N 14834.1 U 559.1
 ORI P1 IS U
 HEIG 150.0
@@ -31386,20 +30644,6 @@ DIAM 139.0
 HEIG 10.8
 ORI Z IS N AND Y IS U
 POS E 49674.0 N 14464.0 U 282.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 82.5
-YLEN 28.9
-ZLEN 108.5
-POS E 49674.0 N 14272.0 U 161.3
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 82.5
-YLEN 28.9
-ZLEN 108.5
-POS E 49674.0 N 14426.1 U 161.3
 
 NEW SUBE /205_PU_049_DRIVER
 -- Reference Value: Compact high-speed motor TEFC motor fan cowl
@@ -32602,24 +31846,10 @@ HEIG 55.0
 ORI Z IS N AND Y IS U
 POS E 48852.0 N 4812.7 U 393.1
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 138.4
-YLEN 106.2
-ZLEN 168.5
-POS E 48852.0 N 4771.9 U 212.7
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 23.1
-HEIG 20.8
-ORI Z IS U AND Y IS N
-POS E 48852.0 N 4773.4 U 499.6
-
 NEW SUBE /205_PU_054_SUCTION
--- Reference Value: suction DN200; POS is flange face, contractual direction N
+-- Project data: suction catalogue DN150; POS is flange face, contractual direction N
 NEW NOZZLE /205_PU_054_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 48852.0 N 5756.2 U 393.1
 ORI P1 IS N
 HEIG 280.0
@@ -32637,7 +31867,7 @@ HEIG 42.0
 ORI Z IS U AND Y IS N
 POS E 48852.0 N 5158.2 U 659.2
 
--- Reference Value: discharge DN150; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_054_DISCHARGE_NOZZLE
 CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 48852.0 N 5158.2 U 841.2
@@ -32691,20 +31921,6 @@ XLEN 11.1
 YLEN 114.8
 ZLEN 11.1
 POS E 48852.0 N 4618.5 U 477.6
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 124.7
-YLEN 24.0
-ZLEN 164.1
-POS E 48852.0 N 4573.7 U 210.5
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 124.7
-YLEN 24.0
-ZLEN 164.1
-POS E 48852.0 N 4663.3 U 210.5
 
 NEW SUBE /205_PU_054_DRIVER
 -- Reference Value: MC-pump main drive TEFC motor fan cowl
@@ -33987,24 +33203,10 @@ HEIG 35.1
 ORI Z IS E AND Y IS U
 POS E 46504.5 N -10854.0 U 291.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 144.5
-YLEN 69.7
-ZLEN 135.6
-POS E 46429.2 N -10854.0 U 174.8
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 46431.3 N -10854.0 U 349.3
-
 NEW SUBE /205_PU_060_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction E
+-- Project data: suction catalogue DN125; POS is flange face, contractual direction E
 NEW NOZZLE /205_PU_060_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0PP
 POS E 47079.4 N -10854.0 U 291.0
 ORI P1 IS E
 HEIG 206.4
@@ -34022,9 +33224,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 46697.5 N -10854.0 U 439.0
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_060_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 46697.5 N -10854.0 U 585.4
 ORI P1 IS U
 HEIG 150.0
@@ -34146,20 +33348,6 @@ XLEN 10.8
 YLEN 10.5
 ZLEN 114.6
 POS E 46310.3 N -10854.0 U 291.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 28.9
-YLEN 86.7
-ZLEN 114.1
-POS E 46118.2 N -10854.0 U 164.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 28.9
-YLEN 86.7
-ZLEN 114.1
-POS E 46272.3 N -10854.0 U 164.0
 
 NEW SUBE /205_PU_060_DRIVER
 -- Reference Value: Chemical-duty sealed motor TEFC motor fan cowl
@@ -35215,24 +34403,10 @@ HEIG 35.1
 ORI Z IS E AND Y IS U
 POS E 46504.5 N -8256.0 U 291.0
 
--- Reference Value: bearing-frame pedestal
-NEW BOX
-XLEN 144.5
-YLEN 69.7
-ZLEN 135.6
-POS E 46429.2 N -8256.0 U 174.8
-
--- Reference Value: bearing grease/oil fill cap
-NEW CYLI
-DIAM 20.0
-HEIG 20.0
-ORI Z IS U AND Y IS N
-POS E 46431.3 N -8256.0 U 349.3
-
 NEW SUBE /205_PU_061_SUCTION
--- Reference Value: suction DN80; POS is flange face, contractual direction E
+-- Project data: suction catalogue DN125; POS is flange face, contractual direction E
 NEW NOZZLE /205_PU_061_SUCTION_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0PP
 POS E 47079.4 N -8256.0 U 291.0
 ORI P1 IS E
 HEIG 206.4
@@ -35250,9 +34424,9 @@ HEIG 24.0
 ORI Z IS U AND Y IS N
 POS E 46697.5 N -8256.0 U 439.0
 
--- Reference Value: discharge DN80; POS is flange face, contractual direction U
+-- Project data: discharge catalogue DN150; POS is flange face, contractual direction U
 NEW NOZZLE /205_PU_061_DISCHARGE_NOZZLE
-CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
 POS E 46697.5 N -8256.0 U 585.4
 ORI P1 IS U
 HEIG 150.0
@@ -35374,20 +34548,6 @@ XLEN 10.8
 YLEN 10.5
 ZLEN 114.6
 POS E 46310.3 N -8256.0 U 291.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 28.9
-YLEN 86.7
-ZLEN 114.1
-POS E 46118.2 N -8256.0 U 164.0
-
--- Reference Value: coupling-guard support foot
-NEW BOX
-XLEN 28.9
-YLEN 86.7
-ZLEN 114.1
-POS E 46272.3 N -8256.0 U 164.0
 
 NEW SUBE /205_PU_061_DRIVER
 -- Reference Value: Chemical-duty sealed motor TEFC motor fan cowl
@@ -35879,4 +35039,4 @@ POS E 46564.2 N -8256.0 U 169.7
 -- P-points or position until a component is bound, so CATR must
 -- precede POS and ORI (equnozzle.pmlfrm:894).
 
--- End of macro - 30 equipment, 4927 primitives.
+-- End of macro - 30 equipment, 4807 primitives.

@@ -1,0 +1,21 @@
+-- PML-STUDY-PIPE-001 / query pack 12 — SUPERSEDED
+--
+-- The self-navigating version of this pack targeted /CODEX-PIPE-LAB04 and
+-- /CODEX-PIPE-LAB01, but those lab sites no longer exist in the receiving
+-- project, so it failed with "(2,109) Undefined name /CODEX-PIPE-LAB04/
+-- CODEX-P04-TEE/B1".
+--
+-- Use candidate 13 instead: a fully self-contained query kit that creates a
+-- fresh SITE (/CODEX-PIPE-LAB13), connects TEE/B2 reciprocally, and prints
+-- Q ATT for both the TEE and the GASKET in one $M run:
+--
+--     $M <lab>\candidate\13_tee_gasket_query_kit.pml
+--
+-- Key syntax (kept here for reference):
+--   Autonamed components are addressed by ordinal phrase, the same form the
+--   native two-pass OLD/CREF/TREF blocks use:
+--       <TYPE> <n> of BRANCH <full branch path>
+--   Q NAME ANSWER queries the ANSWER attribute (only SPCOs carry it); use
+--   Q ATT for a generic attribute dump.
+--
+-- Re-run rule: delete /CODEX-PIPE-LAB13 before loading candidate 13 again.

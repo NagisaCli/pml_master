@@ -1,0 +1,21 @@
+-- PML-STUDY-EXTR-001 / query pack 01
+-- Required E3D observations for candidates 01 and 03.
+--
+-- How to run:
+--   1. Load candidate 01 (or 03) under a writable ZONE.
+--   2. Make each EXTRUSION current in turn and run:
+--        $M <this file>
+--   3. Record the Q output and the visible occupied extents (screenshot).
+--
+-- What to capture per extrusion:
+--   - Q ATT prints POS / ORI / HEIG exactly as E3D stored them.
+--   - Occupied world E/N/U minimum and maximum from the 3D view or a
+--     measurement. Candidate 01 uses POS U 1000 and HEIG 800; the solid
+--     therefore spans U 1000..1800 if POS is the profile end plane (traced
+--     from installed AVEVA code), U 600..1400 if centred, U 200..1000 if
+--     POS is the far face.
+--   - Candidate 03 compares POS->ORI (A/C) with ORI->POS (B/D) at the same
+--     POS. If the orders are equivalent, B/D occupy the same world extents
+--     relative to their own POS as A/C.
+Q ATT
+Q NAME ANSWER

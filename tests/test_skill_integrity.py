@@ -41,6 +41,40 @@ def test_skill_structure_exists():
     for section in ("knowledge", "workflows", "equipment", "projects"):
         assert (SKILL_ROOT / section).is_dir(), f"skill/{section}/ is missing"
     assert (SKILL_ROOT / "knowledge" / "iron-rules.md").is_file()
+    assert (SKILL_ROOT / "knowledge" / "pml-spatial-lookup.md").is_file()
+    assert (
+        SKILL_ROOT / "workflows" / "learning-from-native-exports.md"
+    ).is_file()
+
+
+def test_native_learning_workflow_has_promotion_gates():
+    """Native text must not become VERIFIED merely because it was exported."""
+    workflow = _text(
+        SKILL_ROOT / "workflows" / "learning-from-native-exports.md"
+    )
+    for required in (
+        "NATIVE-OBSERVED",
+        "EXPERIMENTAL",
+        "VERIFIED",
+        "REJECTED",
+        "SHA-256",
+        "E3D version",
+        "regression test",
+    ):
+        assert required in workflow, (
+            f"native-learning workflow is missing promotion evidence: {required}"
+        )
+
+
+def test_spatial_lookup_covers_verified_builder_elements():
+    """The fast map must cover every element emitted by the shared builder."""
+    lookup = _text(SKILL_ROOT / "knowledge" / "pml-spatial-lookup.md")
+    for element in ("EQUI", "SUBE", "CYLI", "CONE", "DISH", "BOX", "NOZZLE"):
+        assert f"`{element}`" in lookup, (
+            f"spatial lookup does not cover builder element {element}"
+        )
+    for contract in ("datum", "Required order", "Status"):
+        assert contract in lookup
 
 
 # --- Contradiction guards -------------------------------------------------
@@ -118,7 +152,12 @@ def test_pml_examples_put_ori_before_pos():
     Every PML example in the skill must obey IR-2. A counter-example in the
     documentation is worse than none: it gets copied.
 
-    Two exemptions, both narrow:
+    The guard applies only to the basic primitive families covered by IR-2:
+    CYLI, CONE, DISH and an oriented BOX. Catalogue piping components have
+    element-specific pose semantics; the first native PIPE export serializes
+    all 1,013 of them POS-then-ORI and tests that contract separately.
+
+    Two historical exemptions remain documented here:
 
     * **NOZZLE takes the opposite order** - ``POS`` then ``ORI`` - so a block
       opened by ``NEW NOZZLE`` is skipped. Applying the primitive rule to a
@@ -132,13 +171,13 @@ def test_pml_examples_put_ori_before_pos():
         lines = _text(doc).splitlines()
         in_fence = False
         seen_pos = False
-        block_is_nozzle = False
+        block_requires_primitive_order = False
         fence_start = 0
         for lineno, line in enumerate(lines, start=1):
             if line.lstrip().startswith("```"):
                 in_fence = not in_fence
                 seen_pos = False
-                block_is_nozzle = False
+                block_requires_primitive_order = False
                 fence_start = lineno
                 continue
             if not in_fence:
@@ -147,10 +186,17 @@ def test_pml_examples_put_ori_before_pos():
             upper = stripped.upper()
             if upper.startswith("NEW "):
                 seen_pos = False
-                block_is_nozzle = upper.startswith("NEW NOZZLE")
+                element = upper.split()[1] if len(upper.split()) > 1 else ""
+                block_requires_primitive_order = element in {
+                    "CYLI", "CONE", "DISH", "BOX"
+                }
             elif upper.startswith("POS "):
                 seen_pos = True
-            elif upper.startswith("ORI ") and seen_pos and not block_is_nozzle:
+            elif (
+                upper.startswith("ORI ")
+                and seen_pos
+                and block_requires_primitive_order
+            ):
                 # Marked wrong on the line itself, or in this fence's header.
                 context = "\n".join(lines[fence_start - 1:lineno])
                 assert "WRONG" in context.upper(), (
@@ -312,3 +358,14 @@ def test_knowledge_base_loads_the_skill_corpus():
     assert top and top[0]["source"] == "knowledge/iron-rules", (
         "A datum query must retrieve the Iron Rules first"
     )
+
+    spatial = kb.search("choose element for shape and spatial intent", top_k=1)
+    assert spatial and spatial[0]["source"] == "knowledge/pml-spatial-lookup", (
+        "A construction-selection query must retrieve the spatial lookup first"
+    )
+
+    native = kb.search("native export syntax experiment", top_k=1)
+    assert (
+        native
+        and native[0]["source"] == "workflows/learning-from-native-exports"
+    ), "A native syntax study must retrieve the certification workflow first"

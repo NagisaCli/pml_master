@@ -206,15 +206,11 @@ _BANNED_PATTERNS: Tuple[Tuple[str, str], ...] = (
     (r"^\s*ENDIF\b", "ENDIF (PML2)"),
     (r"^\s*DO\b.*\$", "DO loop (PML2)"),
     (r"^\s*ENDDO\b", "ENDDO (PML2)"),
-    # Inline catalogue reference inside a NEW NOZZLE block. E3D rejects the
-    # SPRE form with "(2,109) Undefined name" because the bore SPCOs are picked
-    # by DBREF, not by a /spec/type:bore path.
-    #
-    # `CATR SPCOMPONENT /<component>` in the trailing OLD/CATR pass is the
-    # WORKING form and is deliberately not banned - it is how AVEVA's own data
-    # binds nozzles (SMLdataPlant.pmlmac:13733) and how catref_pass() emits
-    # them, against component names read from the live catalogue.
-    (r"^\s*SPRE\s+SPCOMPONENT\b", "SPRE SPCOMPONENT (unresolvable catalogue path)"),
+    # SPRE is valid and required for catalogue-backed piping components such as
+    # ELBOW, TEE and VALVE. It is invalid only inside a NOZZLE block in this
+    # project, where CATR binds the SPCO and creates the P-points. That
+    # element-specific check lives in _check_nozzle_catref_first(); a global
+    # ban here incorrectly rejected 1,112 native piping SPRE lines.
     (r"^\s*CATREF\s*/", "CATREF /path (attribute form; use CATR SPCOMPONENT)"),
     # PDMS alphanumeric-window command. Not valid in E3D Design Mk3.1: it
     # aborts the macro with "(47,15) CP: Syntax error / ALPHA ^^HEADER OFF".
@@ -330,8 +326,9 @@ def _check_nozzle_heig_plausible(lines: Sequence[str]) -> List[str]:
 
 def _check_nozzle_catref_first(lines: Sequence[str]) -> List[str]:
     """
-    Verify ``CATR`` precedes ``POS`` and ``ORI`` in every NOZZLE block, and that
-    an unbound nozzle carries no ``ORI``.
+    Verify ``CATR`` precedes ``POS`` and ``ORI`` in every NOZZLE block, reject
+    the piping-only ``SPRE`` form there, and ensure an unbound nozzle carries no
+    ``ORI``.
 
     A nozzle's P-points and position come from its catalogue component, so
     binding late aborts the macro mid-load::
@@ -351,6 +348,12 @@ def _check_nozzle_catref_first(lines: Sequence[str]) -> List[str]:
             return
         verbs = [v for v, _ in seen]
         at = dict(seen)
+        if "SPRE" in verbs:
+            problems.append(
+                f"L{at['SPRE']}: NEW NOZZLE uses SPRE SPCOMPONENT "
+                f"(unresolvable catalogue path for NOZZLE); bind its SPCO "
+                f"with CATR SPCOMPONENT before POS and ORI instead"
+            )
         if "CATR" in verbs:
             for later in ("POS", "ORI"):
                 if later in verbs and at[later] < at["CATR"]:
@@ -380,7 +383,7 @@ def _check_nozzle_catref_first(lines: Sequence[str]) -> List[str]:
             continue
         if not in_nozzle:
             continue
-        verb_match = re.match(r"^(CATR|POS|ORI)\b", line, re.IGNORECASE)
+        verb_match = re.match(r"^(CATR|SPRE|POS|ORI)\b", line, re.IGNORECASE)
         if verb_match:
             verb = verb_match.group(1).upper()
             if verb not in dict(seen):

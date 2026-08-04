@@ -96,6 +96,30 @@ class PMLKnowledgeBase:
             if score > 0:
                 scores[doc_id] = score
 
+        # Route high-level construction questions to the purpose-built maps.
+        # Plain term frequency tends to rank iron-rules.md first because it is
+        # intentionally repetitive; that is useful for safety questions but
+        # slow when the user is asking "which element should represent this
+        # shape?" or supplying a native export for a syntax study.
+        spatial_terms = {
+            "shape", "spatial", "intent", "construct", "construction",
+            "selection", "choose",
+        }
+        if query_words & spatial_terms:
+            doc_id = "knowledge/pml-spatial-lookup"
+            if doc_id in self.documents:
+                scores[doc_id] = scores.get(doc_id, 0) + 750
+
+        native_study = (
+            {"native", "export"} <= query_words
+            or {"syntax", "experiment"} <= query_words
+            or {"syntax", "study"} <= query_words
+        )
+        if native_study:
+            doc_id = "workflows/learning-from-native-exports"
+            if doc_id in self.documents:
+                scores[doc_id] = scores.get(doc_id, 0) + 750
+
         # 2) Extract matching chunks
         results = []
         for doc_id in sorted(scores, key=scores.get, reverse=True)[:top_k]:

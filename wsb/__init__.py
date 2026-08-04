@@ -22,7 +22,18 @@ Or from the command line::
 """
 
 from .generate import GenerationResult, generate
+from .drawing_builder import DrawingBuilder, DrawingSpec, PointSpec, build_drawing
+from .extrusion_builder import ExtrusionBuilder, ExtrusionSpec, build_extrusion
 from .pml_builder import PMLBuilder, PMLValidationError, validate_pml
+from .piping_builder import (
+    BranchSpec,
+    ElbowSpec,
+    NativeCatalogueComponentSpec,
+    PipeSpec,
+    PipingBuilder,
+    VerticalReducerSpec,
+    build_pipe,
+)
 from .projects import (
     PROJECTS_DIR,
     Project,
@@ -37,13 +48,27 @@ from .tank_builder import TankBuilder, build_tank, verify_bottom_centre
 __all__ = [
     "PROJECTS_DIR",
     "GenerationResult",
+    "DrawingBuilder",
+    "DrawingSpec",
+    "ExtrusionBuilder",
+    "ExtrusionSpec",
+    "PointSpec",
     "PMLBuilder",
     "PMLValidationError",
+    "ElbowSpec",
+    "NativeCatalogueComponentSpec",
+    "PipeSpec",
+    "PipingBuilder",
     "Project",
     "ProjectNotFoundError",
     "TankBuilder",
+    "VerticalReducerSpec",
     "build_report",
+    "build_pipe",
+    "build_drawing",
+    "build_extrusion",
     "build_tank",
+    "BranchSpec",
     "discover_projects",
     "find_project",
     "generate",

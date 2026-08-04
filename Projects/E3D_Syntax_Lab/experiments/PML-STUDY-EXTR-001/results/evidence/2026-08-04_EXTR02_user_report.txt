@@ -1,0 +1,48 @@
+Q ATT
+
+Attributes 
+Name CYLINDER 1 of SUBEQUIPMENT /CODEX_EXTR_FASTENER_ASSEMBLY
+Type CYLI
+Lock false
+Owner /CODEX_EXTR_FASTENER_ASSEMBLY
+Purpose unset
+Position E 0mm N 0mm U 60mm
+Orientation Y is N and Z is U
+Level 0 10
+Obstruction 2
+Diameter 15mm
+Height 100mm
+Tmrref Nulref
+RepCount 0
+Q ATT
+
+Attributes 
+Name EXTRUSION 1 of SUBEQUIPMENT /CODEX_EXTR_FASTENER_ASSEMBLY
+Type EXTR
+Lock false
+Owner /CODEX_EXTR_FASTENER_ASSEMBLY
+Purpose unset
+Position E 0mm N 0mm U 20mm
+Orientation Y is N and Z is U
+Level 5 10
+Obstruction 2
+Height 20mm
+Tmrref Nulref
+RepCount 0
+Q ATT
+
+Attributes 
+Name EXTRUSION 2 of SUBEQUIPMENT /CODEX_EXTR_FASTENER_ASSEMBLY
+Type EXTR
+Lock false
+Owner /CODEX_EXTR_FASTENER_ASSEMBLY
+Purpose unset
+Position E 0mm N 0mm U 100mm
+Orientation Y is N and Z is U
+Level 5 10
+Obstruction 2
+Height 20mm
+Tmrref Nulref
+RepCount 0
+
+管道同轴，整体是像一个“干”，你没有给出你对于这个的预期表现，这里只有一些数据，看起来上面的螺帽是完美套在轴的上端，但是下面的螺帽是串在下轴的的，穿出一部分；

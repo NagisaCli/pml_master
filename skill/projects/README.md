@@ -15,7 +15,8 @@ starting from the equipment knowledge base.
 |---------|--------|-------|--------|-----|
 | JK-Project | `Projects/JK-Tank_Build/` | Pulp Mill WSB area — 22 tank-type items | Delivered, verified; logical name retained through `project.json` | [jk-project-wsb.md](jk-project-wsb.md) |
 | JK_Pump_Build | `Projects/JK_Pump_Build/` | 30 horizontal process/MC pumps; individual macros plus one combined loader, one EQUI per tag | Final combined macro visually accepted in E3D; ongoing customization memory retained | [jk-pump-build.md](jk-pump-build.md) |
-| JK_Cooking_Tank_Build | `Projects/JK_Cooking_Tank_Build/` | 15 cooking-plant tanks/vessels; compound Blow Tank profiles, accumulators, junk traps and a horizontal condensate receiver | R5 loaded and visually accepted; archived as the continuation baseline | [jk-cooking-tank-build.md](jk-cooking-tank-build.md) |
+| JK_Cooking_Tank_Build | `Projects/JK_Cooking_Tank_Build/` | 15 cooking-plant tanks/vessels; compound Blow Tank profiles, accumulators, junk traps and a horizontal condensate receiver | R5 loaded and visually accepted; R6 native-export rework (base plates + slimmed supports) archived 2026-08-02 | [jk-cooking-tank-build.md](jk-cooking-tank-build.md) |
+| E3D_Syntax_Lab | `Projects/E3D_Syntax_Lab/` | Native-export-driven syntax studies and E3D certification packages | PIPE core rounds 1–2 VERIFIED in E3D Design Mk3.1.11.0 | [e3d-syntax-lab.md](e3d-syntax-lab.md) |
 
 Each entry has **two homes**: the folder under `Projects/` holds its data,
 `DO.txt` and deliverables; the log here holds the experience. See
@@ -61,3 +62,13 @@ fix — the symptom is what a future reader will recognise when it happens again
 
 Write the log even when a project goes perfectly; "nothing went wrong" is itself
 a useful signal about which workflows are working.
+
+Every project folder also carries `TIMELINE.md` — the project time tree (newest
+first, current baseline marked ●). It is the dated history of revisions and
+archives; see
+[project-structure.md](../workflows/project-structure.md#the-time-tree--timelinemd).
+
+Every project folder also carries `FINGERPRINT.md` — the stable signals used to
+identify an incoming file as that project before editing (file patterns, zone
+names, tag conventions, coordinate anchors). See
+[project-structure.md](../workflows/project-structure.md#identify-before-you-edit).

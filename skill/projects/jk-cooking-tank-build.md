@@ -249,6 +249,31 @@ The complete R5 project, including source data, drawings, individual macros,
 combined macro and report, is versioned in Git. The revision record is
 `Projects/JK_Cooking_Tank_Build/archive/R5_ACCEPTED_2026-07-30.md`.
 
+### R6 — 2026-08-02 native-export rework (base plates + slimmed supports)
+
+A fresh native E3D export of the `/COOKING_TANK` zone was supplied as
+`cooking_tank.txt`. Three sequential user-directed edits were applied and
+archived at
+`Projects/JK_Cooking_Tank_Build/archive/2026-08-02_R6_baseplate_support/`:
+
+1. **Base plates:** 14 of 15 tanks (all but MAIN_CONDENSATE_TANK) received
+   a `_BASEPLATE` subequipment — one CYLINDER, `HEIG 50`, `DIAM = shell
+   diameter + 300`, top flush with the tank bottom (centre `D 325`).
+2. **Support slim-down:** in the other 10 tanks, all SUPPORT BOXes
+   (foot plates, sole plates, legs) were deleted; only bolt CYLINDERs
+   (DIAM 30/60/52) remain.
+3. **Correction + bolt move:** ACCUMULATOR_TANK, AID_1, AID_2 kept their
+   skirt + base-ring CYLINDERs (restored verbatim); the 348 remaining
+   bolts across the 10 slimmed tanks were moved radially inward to
+   tank wall + 75 mm (mid-width of the 300 mm base plate).
+
+Excluded tanks (BLOW_TANK_1/2, JUNK_TRAP_1/2, MAIN_CONDENSATE_TANK) are
+byte-identical to the original export. R6 is the continuation baseline for
+any future request on these 15 tanks. Re-running the three round scripts
+on the current file corrupts it — restore the matching backup first.
+
+**User-confirmed 2026-08-04:** R6 accepted; no further changes requested.
+
 Future user-supplied PML files are expected to be native E3D exports containing
 manual edits. The hierarchy and names will usually remain stable, while
 attributes may change and new children may be added. Such a file becomes the

@@ -11,11 +11,14 @@ Rules are ordered by how expensive the failure is.
 
 ---
 
-## IR-1 — `POS` is element-specific: centre for CYLI/CONE/BOX, rim for DISH
+## IR-1 — `POS` is element-specific: centre for CYLI/CONE/BOX, rim for DISH,
+end plane for EXTRUSION
 
-`CYLI`, `CONE` and `BOX` use their **geometric centre**.  `DISH` is the verified
-exception: its `POS` is the flat rim / tangent-plane centre where the head joins
-the shell.  Do not apply the CYLI/CONE half-height conversion to a DISH.
+`CYLI`, `CONE` and `BOX` use their **geometric centre**.  `DISH` uses its flat
+rim / tangent-plane centre where the head joins the shell.  `EXTRUSION` uses
+its **profile end plane**: the LOOP plane sits at `POS` and the solid extends
+`HEIG` toward local +Z.  Do not apply the CYLI/CONE half-height conversion to a
+DISH or an EXTRUSION.
 
 An earlier revision of this knowledge base treated the drawing's bottom face as
 the E3D datum for every element; following it put CYLI/CONE primitives half
@@ -45,6 +48,17 @@ the user's E3D view showed the head floating above the shell by exactly
 > rim/tangent plane.  This replaces the previous claim that DISH used a
 > geometric-centre datum.
 
+**EXTRUSION evidence — VERIFIED 2026-08-04 (E3D_Syntax_Lab).** Candidate
+`PML-STUDY-EXTR-001/01` wrote `POS U 1000` with `HEIG 800`; the user measured
+the occupied U range as 1000..1800 in E3D Design Mk3.1.11.0, exactly the
+profile end-plane prediction.  A centre datum would have produced 600..1400 and
+a far-face datum 200..1000.  AVEVA's own creation code agrees:
+`dbenextrusion.pmlfrm:1448-1452` offsets the picked point by the **full
+thickness** along -Z before `POSITION` (only an end-plane datum explains that),
+and `mmmcounterweight.pmlobj:820-960` assigns `!!ce.position` from a frame's
+`startPosition`/`endPosition` with `!!ce.heig` = the frame `length()`, while the
+cylinder in the same method is centred with `proportion(0.5)`.
+
 **Why it is so damaging.** Each element has a different height, so each shifts by
 a different amount. The result does not look like a uniform offset that you would
 notice immediately — it looks like overlapping clutter, with shells, skirts,
@@ -52,8 +66,9 @@ heads and nozzles telescoped into one another.
 
 **Do the conversion once, centrally.** Take the bottom-face point for CYLI/CONE
 from the drawing and add half the extent along the primitive's own axis in
-`wsb.pml_builder.PMLBuilder._position`.  Pass BOX centre points and DISH rim
-points through unchanged.  Never scatter this arithmetic across call sites.
+`wsb.pml_builder.PMLBuilder._position`.  Pass BOX centre points, DISH rim
+points and EXTRUSION profile end-plane points through unchanged
+(`wsb.extrusion_builder`).  Never scatter this arithmetic across call sites.
 
 ---
 
@@ -614,7 +629,8 @@ explaining a command, never for standing in place of one.
 
 Run through this before returning any macro:
 
-- [ ] `POS` uses the correct element datum: CYLI/CONE/BOX centre; DISH rim plane (IR-1)
+- [ ] `POS` uses the correct element datum: CYLI/CONE/BOX centre; DISH rim plane;
+      EXTRUSION profile end plane (IR-1)
 - [ ] `ORI` precedes `POS` for every `CYLI` / `CONE` / `DISH` (IR-2)
 - [ ] `POS` precedes `ORI` for every `NOZZLE` — the opposite order (IR-2)
 - [ ] Every `NOZZLE` aimed by `ORI P1 IS <direction>`, never a geometric axis (IR-2)

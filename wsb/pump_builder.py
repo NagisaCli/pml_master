@@ -759,38 +759,17 @@ class PumpBuilder:
             label="Reference Value: mechanical-seal/gland housing",
         )
 
-        bearing_d = max(diameters)
-        pedestal_top = g.shaft_u - bearing_d / 2.0
-        pedestal_h = max(
-            24.0,
-            pedestal_top - (s.baseplate_thickness + g.rail_height),
-        )
-        self._box(
-            bearing_l * 0.70,
-            bearing_d * 0.72,
-            pedestal_h,
-            bearing_start + bearing_l * 0.55,
-            0.0,
-            s.baseplate_thickness + g.rail_height + pedestal_h / 2.0,
-            label="Reference Value: bearing-frame pedestal",
-        )
-        cap_d = _clamp(bearing_d * 0.12, 20.0, 36.0)
-        b.cyli(
-            cap_d,
-            _clamp(cap_d * 0.90, 20.0, 34.0),
-            self._at(
-                bearing_start + bearing_l * 0.56,
-                0.0,
-                g.shaft_u + bearing_d / 2.0,
-            ),
-            axis="U",
-            label="Reference Value: bearing grease/oil fill cap",
-        )
         return bearing_start
 
     def _build_nozzles(self) -> None:
         s, g, b = self.spec, self.g, self.b
         prefix = s.safe_tag
+        suction_catalogue_dn = (
+            s.suction_dn if s.suction_dn is not None else g.suction_dn
+        )
+        discharge_catalogue_dn = (
+            s.discharge_dn if s.discharge_dn is not None else g.discharge_dn
+        )
         casing_centre = self._at(g.casing_centre_l, 0.0, g.shaft_u)
 
         b.sube(f"{prefix}_SUCTION")
@@ -812,12 +791,15 @@ class PumpBuilder:
         )
         b.nozzle(
             f"{prefix}_SUCTION_NOZZLE",
-            g.suction_dn,
+            suction_catalogue_dn,
             g.suction_length,
             suction_face,
             axis=suction_axis,
+            spec=s.nozzle_specification,
+            generic_type=s.nozzle_generic_type,
             label=(
-                f"Reference Value: suction DN{g.suction_dn}; POS is flange face, "
+                f"Project data: suction catalogue DN{suction_catalogue_dn}; "
+                f"POS is flange face, "
                 f"contractual direction {suction_axis}"
             ),
         )
@@ -855,12 +837,15 @@ class PumpBuilder:
             )
         b.nozzle(
             f"{prefix}_DISCHARGE_NOZZLE",
-            g.discharge_dn,
+            discharge_catalogue_dn,
             g.discharge_length,
             discharge_face,
             axis=discharge_axis,
+            spec=s.nozzle_specification,
+            generic_type=s.nozzle_generic_type,
             label=(
-                f"Reference Value: discharge DN{g.discharge_dn}; POS is flange "
+                f"Project data: discharge catalogue DN{discharge_catalogue_dn}; "
+                f"POS is flange "
                 f"face, contractual direction {discharge_axis}"
             ),
         )
@@ -1009,23 +994,6 @@ class PumpBuilder:
                     g.shaft_u,
                     label=f"Reference Value: coupling-guard clamp band {index}",
                 )
-        guard_foot_h = max(
-            18.0,
-            g.shaft_u
-            - guard_d / 2.0
-            - (s.baseplate_thickness + g.rail_height),
-        )
-        for lpos in (motor_front + span * 0.18, motor_front + span * 0.82):
-            self._box(
-                max(24.0, span * 0.12),
-                guard_d * 0.62,
-                guard_foot_h,
-                lpos,
-                0.0,
-                s.baseplate_thickness + g.rail_height + guard_foot_h / 2.0,
-                label="Reference Value: coupling-guard support foot",
-            )
-
     def _build_driver(self) -> None:
         s, g, b = self.spec, self.g, self.b
         prefix = s.safe_tag

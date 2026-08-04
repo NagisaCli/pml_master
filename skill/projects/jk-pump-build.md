@@ -8,21 +8,27 @@
   the same 30 independent EQUI elements for one-click import.
 - Exactly one `EQUI` per file, with separate SUBEs for baseplate, supports,
   casing, suction, discharge, coupling, driver and MC auxiliaries where fitted.
-- High-detail generated geometry: 4,927 primitives and 60 native catalogue
+- High-detail generated geometry: 4,807 primitives and 60 native catalogue
   `NOZZLE` elements.
 - Status on 2026-07-29: the first combined high-detail macro loaded
   successfully in E3D; the client confirmed the independent EQUI hierarchy,
   native nozzles and most geometry. The subsequent base-fastener seating and
   casing-fastener connection-flange placement pass static PML1, immutable-input
-  and numerical verification for all 30 pumps and the combined macro; 17
+  and numerical verification for all 30 pumps and the combined macro; 19
   pump-specific regression tests pass. The client reloaded the final version
-  and confirmed it visually correct. It is the accepted current baseline, with
-  the project retained for continuing AI-assisted customization.
+  and confirmed it visually correct. The 2026-07-30 floating-block removal and
+  nozzle remapping preserve that accepted baseline outside the authorized
+  sections and pass static/numerical checks. **User-confirmed 2026-08-04:** the
+  2026-07-30 revision was reloaded in E3D and accepted; no further changes were
+  requested.
 
 ## Source data
 
 - Excel supplies tag, description, baseplate underside-centre coordinate,
   baseplate length/width, suction direction and discharge direction.
+- `pump_nozzle_modify.xlsx` supplies measured suction/discharge openings plus
+  the requested ANSI nozzle/150 lb flange family; its Generic Type autofill
+  anomaly is documented rather than silently corrected in the workbook.
 - 27 tag-matched top-view PNGs are available.
 - No top view exists for `203-PU-020`, `205-PU-004` or `205-PU-032`.
 - `Horizontal_Pump_Example.txt` is an E3D-native structural reference only.
@@ -63,8 +69,9 @@ than being generalized as defaults for all pump projects.
   and
   [Valmet medium-consistency pumps](https://www.valmet.com/pulp/mechanical-pulping/bleaching/pumps/).
 - Native nozzles bind catalogue components first, use flange-face POS, then
-  `ORI P1 IS <direction>`. Nominal bores are Reference Values selected only from
-  the verified project catalogue mapping.
+  `ORI P1 IS <direction>`. The 2026-07-30 nozzle schedule supplies measured
+  opening sizes; each is mapped to the closest bore in the verified project
+  catalogue and recorded in the project mapping table.
 - The client requested an individual high-realism pass without changing the
   underlying project parameters. Coordinates, baseplate L/W/T, main axis and
   nozzle directions are now locked by an explicit 30-tag regression register.
@@ -222,10 +229,43 @@ Resolution:
   retains the exact pre-correction hash
   `a5fce5959232cda68bb343c5fd4a52a5f0c75b4027f9caa4e28734ec8d2dc57c`.
 
+### Floating bearing/coupling blocks and project nozzle measurements
+
+Symptoms:
+
+- The final `BOX` and `CYLI` in every `BEARING_FRAME` appeared as a detached
+  pedestal/cap pair without useful visual or physical meaning.
+- The final two `BOX` primitives in every `COUPLING` appeared as floating guard
+  feet that did not provide credible support.
+- The original pump register contained no nozzle schedule, but
+  `pump_nozzle_modify.xlsx` later supplied tag-specific suction and discharge
+  opening measurements.
+- The new workbook's `Generic Type` column contains an apparent autofill error:
+  `150Ib Ansi Flanges` becomes `151Ib` through `179Ib`.
+
+Resolution:
+
+- Removed exactly four primitives per pump: the bearing pedestal, bearing cap
+  and two coupling-guard support feet. No other primitive dimensions or
+  coordinates were changed.
+- Mapped all 60 measured openings to the closest verified
+  `ANSI-NOZZLES / 150lb_Ansi_Flanged` catalogue DN. An equal-distance tie uses
+  the lower DN; `204-PU-017` input 85 mm therefore maps to DN80.
+- Changed only the native-nozzle DN comments and inline `CATR SPCOMPONENT`
+  paths. Every nozzle `POS`, `ORI`, `HEIG` and process attribute is unchanged.
+- Added `output/JK_Pump_Build_nozzle_mapping.md` with all source values,
+  selected DNs, deltas and SPCO paths. The source workbook remains unedited and
+  its flange-class anomaly is explicitly reported.
+- A canonical comparison against the previously accepted combined macro proves
+  all non-target geometry unchanged. Static PML1/numerical checks and 19 pump
+  regression tests pass; this 2026-07-30 revision still requires a fresh E3D
+  visual reload before it can be called E3D-verified.
+
 ## Reference Values
 
-The workbook contains no vendor GA, motor schedule, nozzle schedule or side
-elevation. The following remain assumptions:
+The workbook contains no vendor GA, motor schedule or side elevation. The
+nozzle workbook supplies opening measurements but no vendor nozzle projections.
+The following remain assumptions:
 
 - casing diameter and axial length;
 - shaft centreline and overall height;
@@ -233,7 +273,7 @@ elevation. The following remain assumptions:
   centred on top where the plan does not establish an offset);
 - coupling and guard;
 - skid rails and support feet;
-- nozzle DN and projection;
+- nozzle projection;
 - MC auxiliary separator/drive dimensions.
 - casing split/rib details and flange-face bolt count;
 - base anchor and motor hold-down bolt visual sizes/counts;
@@ -246,9 +286,8 @@ verification report. None is presented as vendor-confirmed data.
 
 ## Outstanding issues
 
-- No current E3D visual correction is outstanding. The accepted baseline
-  includes the independent hierarchy, native nozzles, seated base anchors and
-  casing fasteners on the protruding connection-flange band.
+- The 2026-07-30 floating-block removal and nozzle remapping were accepted by
+  the user on 2026-08-04; no open verification item remains for that revision.
 - Replace Reference Values when vendor GA drawings, motor data and nozzle
   schedules are issued or the client opens the retained customization window.
 - Re-query the nozzle catalogue mapping if the receiving E3D project changes.

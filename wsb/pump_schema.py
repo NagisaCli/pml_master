@@ -166,6 +166,10 @@ class PumpSpec:
     baseplate_thickness: float = 50.0
     top_view: Optional[str] = None
     auxiliary_side: int = 1
+    suction_dn: Optional[int] = None
+    discharge_dn: Optional[int] = None
+    nozzle_specification: str = "ANSI-NOZZLES"
+    nozzle_generic_type: str = "150lb Ansi Flanges"
     sources: Dict[str, Provenance] = field(default_factory=dict)
     notes: Tuple[str, ...] = ()
 
@@ -187,6 +191,16 @@ class PumpSpec:
             )
         if min(self.length, self.width, self.baseplate_thickness) <= 0:
             raise ValueError(f"{self.tag}: baseplate dimensions must be positive")
+        for value, label in (
+            (self.suction_dn, "suction_dn"),
+            (self.discharge_dn, "discharge_dn"),
+        ):
+            if value is not None and value <= 0:
+                raise ValueError(f"{self.tag}: {label} must be positive")
+        if not self.nozzle_specification:
+            raise ValueError(f"{self.tag}: nozzle_specification cannot be empty")
+        if not self.nozzle_generic_type:
+            raise ValueError(f"{self.tag}: nozzle_generic_type cannot be empty")
         if self.auxiliary_side not in (-1, 1):
             raise ValueError(f"{self.tag}: auxiliary_side must be -1 or 1")
 

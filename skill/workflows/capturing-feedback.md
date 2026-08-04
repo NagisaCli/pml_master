@@ -19,6 +19,7 @@ the correction, not as follow-up work.
 | "The diameter is 5400, not 5000" | Project data + project log | **Overrides everything** |
 | "Nozzles should be spread around the shell" | `skill/equipment/` or a workflow | Practice |
 | "E3D rejected this command" | [diagnosing-failures.md](diagnosing-failures.md) | Verified fact |
+| "This native export is how E3D represents this model" | [learning-from-native-exports.md](learning-from-native-exports.md) | Native evidence; semantics still require certification |
 | "Always report assumptions separately" | `skill/workflows/` | Process |
 | "Don't model the ladder unless it's on the drawing" | Iron Rules if general, else equipment file | Practice |
 
@@ -102,3 +103,25 @@ The middle case is the one most often misfiled. "The height is wrong" frequently
 means "you applied the height to the wrong dimension", which is a knowledge
 defect, not a data defect. Ask which part of the equipment the parameter refers
 to rather than simply changing the number.
+
+---
+
+## Working rhythm and deletion discipline — user-confirmed 2026-08-04
+
+Two project conventions now govern how feedback is exchanged:
+
+1. **Silence means accepted.** If the user does not raise a problem, treat the
+   deliverable as accepted. Do not re-ask "is this OK?" after every delivery —
+   the user raises issues proactively, and we fix them when raised. Only a
+   genuinely blocking decision (one where a wrong guess is expensive and cannot
+   be recovered from project data) warrants a question.
+2. **Never delete unprompted in a continuation.** When working from a
+   user-supplied native export / manually edited baseline, keep ambiguous or
+   out-of-scope parts in place and present them for review. Delete only what
+   the user explicitly asked to delete. The user explicitly approved this
+   discipline ("不乱删除是对的") after the JK-Tank_Build dropleg pass: parts
+   that looked superseded were preserved until the user reviewed and
+   instructed the removal.
+
+These are workflow rules, not E3D facts; record them with the projects that
+established them (JK-Tank_Build dropleg, 2026-08-04).
