@@ -1,4 +1,4 @@
-# TIMELINE — JK_Pump_Build (时间树)
+# TIMELINE — JK_Pump_Build (timeline tree)
 
 Chronological record of accepted progress. Newest entries first.
 

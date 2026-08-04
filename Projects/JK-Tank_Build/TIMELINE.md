@@ -1,4 +1,4 @@
-# TIMELINE — JK-Tank_Build (时间树)
+# TIMELINE — JK-Tank_Build (timeline tree)
 
 Chronological record of accepted progress for the WSB tank models.
 Newest entries first. Current baseline is marked **●**.

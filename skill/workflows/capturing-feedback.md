@@ -119,9 +119,9 @@ Two project conventions now govern how feedback is exchanged:
    user-supplied native export / manually edited baseline, keep ambiguous or
    out-of-scope parts in place and present them for review. Delete only what
    the user explicitly asked to delete. The user explicitly approved this
-   discipline ("不乱删除是对的") after the JK-Tank_Build dropleg pass: parts
-   that looked superseded were preserved until the user reviewed and
-   instructed the removal.
+   discipline (the user's own wording: "never delete indiscriminately") after
+   the JK-Tank_Build dropleg pass: parts that looked superseded were preserved
+   until the user reviewed and instructed the removal.
 
 These are workflow rules, not E3D facts; record them with the projects that
 established them (JK-Tank_Build dropleg, 2026-08-04).

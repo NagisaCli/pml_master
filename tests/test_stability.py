@@ -1,4 +1,5 @@
-"""不依赖 E3D 安装、不会写入正式项目数据的回归测试。"""
+"""Regression tests that do not require an E3D installation and never write
+into production project data."""
 
 import json
 import tempfile
@@ -14,6 +15,8 @@ from e3d_agent.pml_knowledge import PMLKnowledgeBase
 
 class StabilityTests(unittest.TestCase):
     def test_chinese_equipment_description_generates_pml(self):
+        # The Chinese description is functional test data for the
+        # natural-language parser; project content stays English.
         intent = NaturalLanguageParser.parse(
             "在 AREA_100 区域创建一台直径2米高5米的立式储罐 T-101"
         )

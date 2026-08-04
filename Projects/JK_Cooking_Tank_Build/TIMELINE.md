@@ -1,4 +1,4 @@
-# TIMELINE — JK_Cooking_Tank_Build (时间树)
+# TIMELINE — JK_Cooking_Tank_Build (timeline tree)
 
 Chronological record of accepted progress. Newest entries first.
 Current baseline is marked **●**.

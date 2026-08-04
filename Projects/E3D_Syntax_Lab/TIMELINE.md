@@ -1,4 +1,4 @@
-# TIMELINE — E3D_Syntax_Lab (时间树)
+# TIMELINE — E3D_Syntax_Lab (timeline tree)
 
 Chronological record of accepted progress. Newest entries first.
 

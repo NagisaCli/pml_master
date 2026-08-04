@@ -12,7 +12,7 @@ Mk3.1.11.0[Z31110-056].
 
 ## Candidate 06 — ELBOW Arrive 2 / Leave 1
 
-User verdict: “完美符合预期”.
+User verdict: "perfectly matches expectation".
 
 The screenshot shows:
 
@@ -28,7 +28,7 @@ Design Mk3.1.11.0.
 
 ## Candidate 07 — vertical REDUCER native axes
 
-User verdict: “完美符合预期”.
+User verdict: "perfectly matches expectation".
 
 The screenshot shows:
 

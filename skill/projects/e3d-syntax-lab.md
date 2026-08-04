@@ -27,7 +27,7 @@ coaxial, lower head matching the native pattern (POS U 20, shank protrudes
 10 mm), upper head 10 mm proud of the shank top. The native `/PMP-10` specimen
 defines the expected two-head contract (lower head 10 mm inset, upper head
 flush), and candidate 04 reproduces it — visually confirmed by the user on
-2026-08-04 ("EXTR完美"). **The EXTRUSION study is closed.**
+2026-08-04 ("EXTR is perfect"). **The EXTRUSION study is closed.**
 
 PML delivery rule: generated PML is always saved as a `.pml` file and returned
 as a file link; do not paste the full macro into the chat window.

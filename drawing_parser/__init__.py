@@ -392,10 +392,11 @@ class NaturalLanguageParser:
                                               "fourdrinier", "digester", "stock prep"]):
             intent.project = "AvevaPlantSample"
 
-        # Detect zone name. Chinese descriptions put the marker after the name
-        # ("AREA_100 区域"), English before it ("in AREA_100 zone"), so the
-        # Chinese pattern is tried first: an English-only regex matches the
-        # wrong token on Chinese input rather than failing outright.
+        # Detect zone name. Chinese descriptions put the marker after the
+        # name (e.g. "AREA_100 <zone-marker>"), English before it
+        # ("in AREA_100 zone"), so the Chinese pattern is tried first: an
+        # English-only regex matches the wrong token on Chinese input rather
+        # than failing outright.
         zone_match = re.search(r'([A-Za-z0-9_\-]{2,})\s*(?:区域|区|车间)', description)
         if not zone_match:
             zone_match = re.search(
@@ -408,7 +409,7 @@ class NaturalLanguageParser:
 
         # Detect dimensions: diameter, width, height. Each pattern accepts the
         # English keyword-first form and the Chinese keyword-then-value form,
-        # including the bare CJK unit characters 米 (m) and 毫米 (mm).
+        # including the bare CJK unit characters for metre and millimetre.
         width = depth = height = 0.0
         _NUM = r'(\d+(?:\.\d+)?)'
         _UNIT = r'\s*(毫米|mm|米|m)?'

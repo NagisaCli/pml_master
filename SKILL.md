@@ -91,6 +91,18 @@ wrong, model it as given and say so separately.
 
 ---
 
+## Writing language (project rule)
+
+All project content written into this repository must be standard English:
+documentation, code comments, commit messages, candidate files, reports stored
+under `Projects/` and any knowledge-base entry. The only exceptions are
+(1) chat conversation with the user and (2) Chinese-language reports explicitly
+delivered to the user as deliverables (e.g. a Chinese revision report). Chinese
+strings that are functional data — such as natural-language input patterns the
+parser must recognise — are preserved as code behaviour, not as documentation.
+
+---
+
 ## The evolution loop — this is the point of the skill
 
 The skill is worthless if it ends each job the same size it started. Every run

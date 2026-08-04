@@ -25,9 +25,10 @@ Chat-confirmed results on the same date:
 | EXTRUSION 1 | E 0 N 0 U 20 | Y is N and Z is U | HEIG 20 | 20..40 |
 | EXTRUSION 2 | E 0 N 0 U 100 | Y is N and Z is U | HEIG 20 | 100..120 |
 
-User's visual observation: the assembly is coaxial and reads as a `干` shape;
-the upper head appears seated on the top of the shaft, while the lower head is
-threaded on the lower shaft with the shaft protruding below it.
+User's visual observation: the assembly is coaxial and reads as a vertical
+stem with two lateral bars; the upper head appears seated on the top of the
+shaft, while the lower head is threaded on the lower shaft with the shaft
+protruding below it.
 
 ## Expected contact contract — derived from the native specimen
 
