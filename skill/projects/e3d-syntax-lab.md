@@ -58,6 +58,25 @@ closed.
 For the EXTRUSION study, a matching measurement pack is at
 `PML-STUDY-EXTR-001/queries/01_measure_extrusions.mac`.
 
+## PML-STUDY-SCREW-001 (2026-08-05)
+
+Newest study: a refined fastener set that exercises primitive selection
+instead of path dependency. One `/CODEX_SCREW_001` EQUIPMENT carries three
+screws, each head form built with the primitive that matches its real shape:
+hex head as EXTRUSION/LOOP/VERTEX (the VERIFIED native form), button head as
+a shallow DISH dome, square head as a BOX. CYLINDER carries the shank and
+thread root, thin CYLINDER discs add the thread ridges (all inside the root
+range, so nothing is detached), and CONE forms the head fillets and tip
+chamfers. Candidate 01 was generated from individually VERIFIED forms,
+passes `validate_pml` and a numeric geometry parse (face-to-face contacts,
+ridge containment, bounds, lowest point U 0), and the user accepted it in
+E3D on 2026-08-05 ("可以的"). The assembly contract — head primitive chosen
+by head form, CYLINDER body/root, additive thread ridges, CONE transitions —
+is promoted to `skill/knowledge/pml-spatial-lookup.md` as VERIFIED, because
+every element form it uses was already individually VERIFIED and the set was
+user-accepted. A detailed Q ATT measurement pack remains available but is
+optional.
+
 Crash isolation closed 2026-08-04: candidates 09 (straight/slope) and 10
 (elbow/reducer) both passed visual and attribute confirmation, so the
 candidate 08 Collections/My Data crash is an application/add-in level failure,

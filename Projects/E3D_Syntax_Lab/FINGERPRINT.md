@@ -10,6 +10,7 @@ baseline.
   (e.g. `2026-07-30_pipe_native.txt`, `2026-08-03_pmp10_native.txt`)
 - `PML-STUDY-*` experiment folders (`PML-STUDY-PIPE-001`, `PML-STUDY-EXTR-001`)
 - `*_stress.pml`, `*_point_loop.pml` style candidate studies
+- `PML-STUDY-SCREW-*` experiment folders (`PML-STUDY-SCREW-001`)
 
 ## Zone / site signals
 
@@ -21,6 +22,8 @@ baseline.
 - PIPE / BRANCH syntax studies: `NEW PIPE`, `NEW BRANCH`, drawing-image point
   loops; not tank `EQUIPMENT` blocks.
 - EXTRUSION studies: `NEW EXTRU` under `PML-STUDY-EXTR-001`.
+- Fastener studies: `NEW EQUIPMENT /CODEX_SCREW_001` with
+  `/CODEX_SCREW_001_*` SUBEQUIPMENTs under `PML-STUDY-SCREW-001`.
 
 ## Look-alikes
 

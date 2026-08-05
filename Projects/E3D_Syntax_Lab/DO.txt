@@ -4,6 +4,9 @@ AVEVA E3D exports.
 Current studies:
 - PML-STUDY-PIPE-001 — native PIPE/BRANCH network
 - PML-STUDY-EXTR-001 — native `/PMP-10` pump EXTRUSION/LOOP/VERTEX syntax
+- PML-STUDY-SCREW-001 — refined fastener set: primitive selection per head
+  form (EXTRUSION/DISH/BOX), CYLINDER bodies, CONE transitions and additive
+  thread detail
 
 User-supplied evidence:
 - C:\Users\A\Desktop\pipe.txt, described by the user as a native PIPE export.

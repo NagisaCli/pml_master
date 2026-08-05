@@ -1,0 +1,17 @@
+-- PML-STUDY-SCREW-001 / query pack 01
+-- Required E3D observations for candidate 01.
+--
+-- How to run:
+--   1. Load candidate 01 under a writable ZONE.
+--   2. Make each SUBEQUIPMENT current in turn and run:
+--        $M <this file>
+--   3. Record the Q output and screenshot the visible result.
+--
+-- What to capture per screw:
+--   - Q ATT on the head element: EXTRUSION HEIG 20 / DISH DIAM 24 HEIG 6 /
+--     BOX 28x28x14 exactly as E3D stored them.
+--   - Q ATT on the thread root CYLINDER and the tip CONE.
+--   - Visible confirmation that every part touches its neighbour and the
+--     lowest point of each screw sits at U 0.
+Q ATT
+Q NAME ANSWER

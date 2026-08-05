@@ -4,6 +4,8 @@ Chronological record of accepted progress. Newest entries first.
 
 | Date | Version / Event | Evidence / Archive |
 |------|-----------------|--------------------|
+| 2026-08-05 | **● PML-STUDY-SCREW-001 candidate 01 user-accepted** in E3D Design Mk3.1.11.0 ("可以的"); assembly contract promoted to `skill/knowledge/pml-spatial-lookup.md` | experiments/PML-STUDY-SCREW-001/ ; results/README.md ; tests/test_screw_study.py |
+| 2026-08-05 | **PML-STUDY-SCREW-001 established**: refined fastener set candidate 01 (hex head via EXTRUSION, button head via DISH, square head via BOX; CYLINDER shanks + additive thread ridges; CONE fillets and tip chamfers). All element forms individually VERIFIED; assembly generated from them and passes local PML1 + numeric geometry verification. Awaiting user E3D load | experiments/PML-STUDY-SCREW-001/ ; tests/test_screw_study.py |
 | 2026-08-04 | Candidate 08 re-submitted and VERIFIED (loads normally, "not complex"); crash investigation closed as application/add-in level | candidate/08_balanced_pipe_cluster.pml ; results/RESULTS-ISOLATION-09-10.md |
 | 2026-08-04 | Advanced PIPE candidates 14/15/16 VERIFIED (imported; all families display); 17 gated on `/FIRE` (undefined, exactly as predicted). PIPE study core + advanced families closed; deferred 4-6 remain evidence-gated | results/RESULTS-ADVANCED-CANDIDATES.md ; skill/knowledge/piping-reference.md |
 | 2026-08-04 | Candidate 14 first load aborted at line 21: generator emitted `PSPE SPECIFICATION SPECIFICATION /A3B` (keyword duplicated). Fixed in `build_advanced_candidates.py`; candidates regenerated, desktop copies refreshed | results/RESULTS-ADVANCED-CANDIDATES.md |

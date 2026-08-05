@@ -48,6 +48,7 @@ justify. Unknown syntax remains visible as a gap rather than being guessed.
 | Hollow ring | Array of small `BOX`/`CYLI` segments | Segment dimensions and bearings | Only when justified and attachment is verified | One axial `CYLI`, which becomes a solid disc | RECOMMENDED |
 | Sloped or irregular body | Additive slices of verified primitives | Per-slice dimensions | Approximation with explicit resolution | Invented negative/Boolean forms | RECOMMENDED |
 | Extruded custom section | `EXTRUSION` + owned `LOOP` / ordered `VERTEX` | `HEIG`; LOOP local-XY profile | Non-standard constant section, true polygonal head | Guessing the longitudinal POS datum or using it for every solid | VERIFIED — hierarchy, axis and end-plane POS datum |
+| Detailed fastener / screw | Head by head form: `EXTRUSION` for hex, `DISH` for dome/button, `BOX` for square; shank and thread root `CYLI`; transitions `CONE` | Per-element size attributes | Real fastener detail where the drawing or study justifies it | One familiar primitive for every head form | VERIFIED — user-accepted PML-STUDY-SCREW-001/01 (2026-08-05); each element form individually VERIFIED |
 | Catalogue structural member | `SCTN` candidate | Catalogue/project dependent | Await native specimen + live catalogue trial | Guessing specification paths | EXPERIMENTAL |
 
 ---
@@ -94,6 +95,7 @@ rotate its frame. Do not enlarge world-axis dimensions to imitate a rotation.
 | Platform/base frame | Rotated or axis-aligned `BOX` members | Member local axes follow the frame, not world axes by accident | RECOMMENDED |
 | Vessel nozzle | One `SUBE` + native `NOZZLE` | Flange face, bore direction and wall penetration are checked separately | VERIFIED / RECOMMENDED |
 | Ring/stiffener | Segmented additive geometry only when detail is justified | Every segment attaches to shell or to an attachment chain | RECOMMENDED |
+| Threaded fastener detail | Head primitive chosen by head form; CYLINDER shank/root; additive thin CYLINDER thread ridges; CONE fillet and tip | Every part touches its neighbour; ridges stay inside the root range; lowest point at the bearing plane | VERIFIED — user-accepted 2026-08-05; element forms individually VERIFIED |
 
 Equipment-specific decisions—what belongs on a digester, pump, paper machine or
 tank—live in [the equipment index](../equipment/README.md). This table selects a
