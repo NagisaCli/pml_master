@@ -663,6 +663,26 @@ Lessons promoted:
   mistake. The 横-斜-平-斜-横 profile gives each part a neighbour it
   supports and a neighbour that supports it.
 
+### FAILURE RECORD — r11 rejected, base thread closed (same day)
+
+Client verdict on r11 after loading: "完全的失敗案例，底部支架和泵與
+Motor完全分離" (complete failure: the base support and the pump/motor are
+completely separated). No modification requested. r9-r11 are all recorded
+as rejected base revisions; the base optimisation thread is CLOSED until
+new direction arrives. The day's accepted work is the negative-primitive
+(NCYLI) series only (r2-r5 rules VERIFIED: child-only, owner-relative POS,
+NAPPFLAG 2, per-pump hole containment).
+
+Lesson (write-back): a numerically "connected" support chain (contact
+tests within 0.51 mm) does not guarantee the model reads as connected in
+E3D. The final failure -- base and pump/motor visibly separated -- means
+the datum/connection between the support brackets and the pump/motor feet
+was wrong at a level the local checks did not model (the checks verified
+contacts inside the base assembly, not the assembly's connection to the
+casing/motor). Any future base work must verify the SUPPORT-TO-PUMP/
+MOTOR bearing surfaces against the actual casing/motor foot datums, not
+only internal bracket contacts.
+
 ### Outstanding
 
 - A fresh E3D visual reload is required before this revision can be called

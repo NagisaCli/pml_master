@@ -1,6 +1,13 @@
 # Revision record — r11 (2026-08-06)
 
-Status: generated and numerically verified; **awaits E3D visual reload**.
+Status: **FAILED REVISION CASE** (client verdict 2026-08-06).
+
+Client verdict: "完全的失敗案例，底部支架和泵與Motor完全分離" -- the
+base support and the pump/motor are completely separated. The bridge
+brackets did not connect to the pump/motor as intended. No further
+modification requested; this revision is archived for reference only.
+Today's base revisions r9-r11 are all rejected; the only accepted work of
+the day is the negative-primitive (NCYLI) series (r2-r5 rules, VERIFIED).
 
 ## Deliverable
 

@@ -368,3 +368,18 @@ Client bridge-bracket correction — 2026-08-06 (r11)
   and all non-base geometry byte-identical to r8; bearing heights kept.
 - r11 deliverable: `output/JK_Pump_Build_refined_20260805_r11.pml`
   (SHA-256 `0969EEBA59BC3C9E51143CB1A0C99A6FC0BD299BD6D094DDB9DBA0D189BDA9B8`).
+
+Failure record — 2026-08-06 (r9-r11 base series rejected; r11 final)
+-------------------------------------------------------------------
+
+- r11 loaded by the client: "完全的失敗案例，底部支架和泵與Motor完全
+  分離" (complete failure: the base support and the pump/motor are
+  completely separated). No further modification requested; r11 is the
+  archived failed revision case.
+- r9 (PUMP006 copy) and r10 (physical-logic anchors/stand) were rejected
+  earlier the same day for floating parts, missing support chain and
+  misplaced bolts.
+- The base optimisation thread is CLOSED until the client supplies new
+  direction. The only accepted work of 2026-08-06 remains the negative
+  primitive (NCYLI) series (r2-r5: owner-relative POS, NAPPFLAG 2, hole
+  containment -- VERIFIED in skill/knowledge/pml1-reference.md).
