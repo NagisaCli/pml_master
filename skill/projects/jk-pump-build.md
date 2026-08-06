@@ -619,6 +619,50 @@ Lessons promoted:
   under the casing: shifting a stand past the frame end puts its bottom in
   mid-air above the baseplate (20 mm gap), which reads as floating.
 
+### r11 — bridge-bracket supports 横-斜-平-斜-横 (same day, client rejection of r10)
+
+The client rejected the PYRAMID gussets + through-foot anchors: the
+diagonals and screws intersected at the same position, the diagonals were
+too short to connect to the upper platform, and a bolted auxiliary block
+was required at the diagonals' bottom. The requested support cross-section
+is a bridge: 横-斜-平-斜-横 (bottom block, diagonal web, middle plate,
+diagonal web, upper platform). r11 discards the old gusset/anchor
+architecture and emits, under every pump foot and motor pad:
+
+- bottom auxiliary block (12 mm) on the frame top, fixed by 2 screws at
+  its transverse edges (nut on the block top, shank into frame/baseplate);
+- lower diagonal web: EXTRUSION with a parallelogram (slanted) profile
+  from the block top to the middle plate bottom;
+- middle horizontal plate (8 mm);
+- upper diagonal web from the middle plate top to the platform bottom,
+  full-width contact -- the diagonals visibly connect to the upper
+  platform;
+- the two webs lean in opposite directions (bridge look); the webs are
+  transversely narrower than the block (W_p - 2*(hex+18)) so the block-edge
+  screws sit beside them with zero intersection; small platforms scale all
+  heights proportionally and shrink the nut hex (>=6 mm).
+
+Verification (`tools/verify_r11.py`): hierarchy 30/360; non-base blocks
+byte-identical to r8; 0 PYRAMIDs; 240 auxiliary blocks + 240 middle plates
+fully seated; 480 diagonal webs with the exact chain
+block->web1->middle->web2->platform (contact within 0.51 mm); 480 screws
+(8 per pump BASE + 8 DRIVER) with nut on the block top and no screw/nut x
+web intersection (exact parallelogram-box test, not AABB); support-chain
+audit 0 floating; large cross-SUBE overlap set identical to r8.
+
+Lessons promoted:
+- A bracket's "essence" is the support chain AND the clearance of its
+  fasteners: when diagonals and bolts share a plan position, move the
+  bolts to a zone the webs never occupy (transverse edges with narrower
+  webs) rather than shrinking the webs everywhere.
+- Slanted EXTRUSION webs have AABBs that overestimate their corners; an
+  AABB clash test reports false positives against bolts. Use an exact
+  parallelogram-vs-box intersection test for slanted webs.
+- Every new part needs a visible purpose: a bolt with its nut beside the
+  plate, or a diagonal that stops short of the platform, reads as a
+  mistake. The 横-斜-平-斜-横 profile gives each part a neighbour it
+  supports and a neighbour that supports it.
+
 ### Outstanding
 
 - A fresh E3D visual reload is required before this revision can be called

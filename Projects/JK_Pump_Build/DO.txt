@@ -338,3 +338,33 @@ Client physical-logic correction — 2026-08-06 (r10)
 - Constraints unchanged: baseplates, nozzles, pump/motor body, NCYLI holes
   and all non-base geometry byte-identical to r8; bearing heights kept.
 - r10 deliverable: `output/JK_Pump_Build_refined_20260805_r10.pml`.
+
+Client bridge-bracket correction — 2026-08-06 (r11)
+---------------------------------------------------
+
+- The client rejected r10's PYRAMID gussets + through-foot anchors: the
+  diagonal plates and screws intersected, the diagonals were too short to
+  connect to the upper platform, and the diagonals needed a bolted
+  auxiliary block at their bottom. The requested support-plate
+  cross-section reads like a bridge: 横-斜-平-斜-横 (bottom block, diagonal
+  web, middle plate, diagonal web, upper platform). The old gusset/anchor
+  architecture is discarded.
+- r11 replaces every foot/pad support with a bridge bracket:
+  - bottom auxiliary block on the frame top (12 mm, full platform
+    footprint), fixed by 2 screws at its transverse edges (nut on the
+    block top, shank into the frame/baseplate);
+  - lower diagonal web (EXTRUSION, parallelogram profile) from the block
+    top to the middle plate bottom;
+  - middle horizontal plate (8 mm);
+  - upper diagonal web from the middle plate top to the platform bottom
+    (full-width contact -- the diagonals now visibly connect to the upper
+    platform);
+  - the two webs lean in opposite directions (bridge look); the webs are
+    transversely narrower than the block so the screws sit beside them
+    with zero intersection (verified with exact parallelogram-box tests);
+  - small platforms scale block/middle/web heights proportionally.
+- PYRAMID count is 0; BASE/DRIVER fasteners are 8 screws each per pump.
+- Constraints unchanged: baseplates, nozzles, pump/motor body, NCYLI holes
+  and all non-base geometry byte-identical to r8; bearing heights kept.
+- r11 deliverable: `output/JK_Pump_Build_refined_20260805_r11.pml`
+  (SHA-256 `0969EEBA59BC3C9E51143CB1A0C99A6FC0BD299BD6D094DDB9DBA0D189BDA9B8`).

@@ -1,22 +1,24 @@
 """Rebuild every pump base to the DBOutput.txt (P1502B / PUMP006) style,
-with physical support logic (r10).
+with physical support logic (r11).
 
 Starting point: JK_Pump_Build_refined_20260805_r8.pml (accepted baseline).
-Output: JK_Pump_Build_refined_20260805_r10.pml
+Output: JK_Pump_Build_refined_20260805_r11.pml
 
 Only the base scope changes:
   - SUPPORT_FRAME   -> 5-member longitudinal frame (2 outer rails + 2 inner
                        rails + centre plate), pump-end stand (2 vertical side
                        plates carrying a pump-end sole plate + 1 cross-beam
-                       EXTRUSION), reference-style PYRAMID gussets (one large
-                       + one small per foot/pad). The former transverse
-                       cross plates are removed.
-  - BASE_FASTENERS  -> 8 anchors through the pump feet (2 per foot, at the
-                       quarter points; shank + hex washer on the baseplate
-                       top + hex nut on the sole-plate top).
-  - DRIVER_FASTENERS-> 8 anchors through the motor pads (same stack).
+                       EXTRUSION), and bridge brackets under each pump foot
+                       and motor pad: bottom auxiliary block (bolted) +
+                       diagonal web + middle plate + diagonal web, carrying
+                       the existing sole plate / pad. Side cross-section
+                       reads 横-斜-平-斜-横 (a bridge).
+  - BASE_FASTENERS  -> 8 screws fixing the four pump-foot auxiliary blocks
+                       (2 per block at its transverse edges; shank + hex
+                       washer + hex nut on the block top).
+  - DRIVER_FASTENERS-> 8 screws fixing the four motor-pad blocks (same).
   - DRIVER          -> motor mounting pads keep their position/size; their
-                       PYRAMID gussets are rebuilt reference-style.
+                       supports are rebuilt as bridge brackets.
 
 Everything outside the base scope (baseplates, nozzles, CATR pass, casing,
 motor body, NCYLI holes, service details) is preserved byte-for-byte.
@@ -42,7 +44,7 @@ SRC = Path(
 )
 OUT = Path(
     r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
-    r"\JK_Pump_Build_refined_20260805_r10.pml"
+    r"\JK_Pump_Build_refined_20260805_r11.pml"
 )
 
 PRIM_RE = re.compile(
@@ -527,64 +529,136 @@ class PumpFrame:
                     p[1] + r, p[2] + h)
         return None
 
-    def gussets_for(self, g: tuple, kind: str) -> list[str]:
-        p, d = g
-        e, n, u = p
-        zl = d["ZLEN"]
-        bottom = u - zl / 2
-        h = bottom - self.frame_top
-        if h < 10.0:
-            return []
-        long_dim = d["XLEN"] if self.long_axis == "E" else d["YLEN"]
-        short_dim = d["YLEN"] if self.long_axis == "E" else d["XLEN"]
-        t = self._t_of(g)
-        sign = -1.0 if t < (self.t1 + self.t2) / 2 else 1.0
-        # large gusset: base spans the sole-plate long dimension
+    def diag_web_text(self, l_c: float, t0: float, u0: float, L_p: float,
+                      W_web: float, h: float, dx: float, sign: str,
+                      kind: str) -> list[str]:
+        """One diagonal web: a slanted flat plate (parallelogram profile in
+        the longitudinal-vertical plane) extruded across the transverse
+        width. sign '+' leans one way, '-' the other (bridge look)."""
         if self.long_axis == "N":
-            # YBOT spans N (default axes)
-            out = pyramid_text(e, n, self.frame_top, 20.0, long_dim, 20.0,
-                               long_dim * 0.66, h, xoff=-sign * 0.25 * short_dim,
-                               comment=f"large {kind} gusset")
-            # small gusset: long axis = transverse (E), offset toward centre
-            small_ori = "ORI Y is E and Z is U" if sign < 0 else "ORI Y is W and Z is U"
-            out += pyramid_text(e, n, self.frame_top, 20.0, short_dim * 0.75, 20.0,
-                                short_dim * 0.22, h, yoff=-sign * 0.25 * short_dim,
-                                ori=small_ori, comment=f"small {kind} gusset")
+            pe, pn, pu = t0, l_c - L_p / 2, u0
+            ori = "ORI Y is U and Z is E"
+
+            def vert(x: float, y: float) -> str:
+                return f"POS E 0mm {signed('N', x)} {r1(abs(x))}mm {signed('U', y)} {r1(abs(y))}mm"
         else:
-            # big gusset long axis = E
-            big_ori = "ORI Y is E and Z is U"
-            out = pyramid_text(e, n, self.frame_top, 20.0, long_dim, 20.0,
-                               long_dim * 0.66, h, xoff=sign * 0.25 * short_dim,
-                               ori=big_ori,
-                               comment=f"large {kind} gusset")
-            small_ori = "ORI Y is N and Z is U"
-            out += pyramid_text(e, n, self.frame_top, 20.0, short_dim * 0.75, 20.0,
-                                short_dim * 0.22, h, yoff=-sign * 0.25 * short_dim,
-                                ori=small_ori, comment=f"small {kind} gusset")
+            pe, pn, pu = l_c - L_p / 2, t0, u0
+            ori = "ORI Y is U and Z is N"
+
+            def vert(x: float, y: float) -> str:
+                return f"POS {signed('E', x)} {r1(abs(x))}mm N 0mm {signed('U', y)} {r1(abs(y))}mm"
+        s = dx if sign == "+" else -dx
+        l0 = 0.15 * L_p
+        l1 = 0.85 * L_p
+        pts = [(l0, 0.0), (l1, 0.0), (l1 + s, h), (l0 + s, h)]
+        out = [
+            f"-- Refined: {kind} diagonal web (bridge bracket, 横斜平斜横, Reference Value)",
+            "NEW EXTRUSION",
+            pos_text(pe, pn, pu),
+            ori,
+            f"HEIG {r1(W_web)}mm",
+            "",
+            "NEW LOOP",
+            "",
+        ]
+        for x, y in pts:
+            out += ["NEW VERTEX", vert(x, y), "END"]
+        out += ["END", "END", ""]
         return out
 
-    def anchor_texts(self, g: tuple, kind: str, diam: float) -> list[str]:
-        """Two anchors per foot/pad at the quarter points of the long axis,
-        centred on the foot/pad (the reference P1502B pattern: bolts through
-        the foot plate with the nut on its top)."""
+    def bridge_bracket_text(self, g: tuple, kind: str) -> list[str]:
+        """Bridge-shaped support under one platform (foot sole or motor pad):
+
+        platform (existing sole plate / pad)
+          diagonal web 2 (\\)
+          middle horizontal plate
+          diagonal web 1 (/)
+          bottom auxiliary block, bolted to the frame
+
+        Side cross-section reads 横-斜-平-斜-横 (a bridge). The diagonal
+        webs touch the platform bottom and the middle plate, and the block
+        carries the lower web. The old PYRAMID gussets are not used.
+        """
         p, d = g
-        e, n, u = p
         zl = d["ZLEN"]
-        long_dim = d["XLEN"] if self.long_axis == "E" else d["YLEN"]
+        bottom = p[2] - zl / 2
+        gap = bottom - self.frame_top
+        if gap < 12.0:
+            return []
+        L_p = d["XLEN"] if self.long_axis == "E" else d["YLEN"]
+        W_p = d["YLEN"] if self.long_axis == "E" else d["XLEN"]
         l = self._l_of(g)
         t = self._t_of(g)
-        sole_top = u + zl / 2
-        nut_heig = 10.6
-        shank_bottom = self.base_top - 8.7
+        block_h, mid_h = self.bracket_heights(gap)
+        block_top = self.frame_top + block_h
+        remaining = gap - block_h - mid_h
+        web1_h = remaining / 2.0
+        web2_h = remaining / 2.0
+        mid_bottom = block_top + web1_h
+        mid_top = mid_bottom + mid_h
+        hex_side, W_web = self.bracket_web_span(W_p)
+        dx = 0.10 * L_p
+
         out: list[str] = []
-        for dl in (-0.25, 0.25):
-            ae, an, _ = self.to_world(l + dl * long_dim, t, 0.0)
-            shank_top = sole_top + nut_heig
-            out += shank_text(ae, an, shank_bottom, shank_top, diam)
-            out += hex_text(ae, an, self.base_top, 20.0, self.hex_side,
-                            f"{kind} anchor washer")
-            out += hex_text(ae, an, sole_top, nut_heig, self.hex_side * 0.8,
-                            f"{kind} anchor nut")
+        # bottom auxiliary block (bolted to the frame)
+        e, n, u = self.to_world(l, t, self.frame_top + block_h / 2.0)
+        xl, yl = (W_p, L_p) if self.long_axis == "N" else (L_p, W_p)
+        out += box_text(e, n, u, xl, yl, block_h,
+                        f"{kind} auxiliary block (bolted)")
+        # lower diagonal web: block top -> middle plate bottom
+        t0 = t - W_web / 2.0
+        out += self.diag_web_text(l, t0, block_top, L_p, W_web, web1_h, dx,
+                                  "+", kind)
+        # middle horizontal plate (same longitudinal band as the webs)
+        e, n, u = self.to_world(l, t, (mid_bottom + mid_top) / 2.0)
+        mid_l = 0.7 * L_p
+        xl, yl = (W_web, mid_l) if self.long_axis == "N" else (mid_l, W_web)
+        out += box_text(e, n, u, xl, yl, mid_h, f"{kind} middle plate")
+        # upper diagonal web: middle plate top -> platform bottom
+        out += self.diag_web_text(l, t0, mid_top, L_p, W_web, web2_h, dx,
+                                  "-", kind)
+        return out
+
+    def bracket_web_span(self, W_p: float) -> tuple[float, float]:
+        """(hex side, web transverse width) so the block-edge screws (at
+        W_p/2-16 from the centre) sit beside the webs, clear of them."""
+        if W_p >= 90.0:
+            hex_side = min(self.hex_side * 0.8, 11.0)
+            W_web = max(20.0, W_p - 2.0 * (hex_side + 18.0))
+        else:
+            W_web = 20.0
+            hex_side = min(11.0, max(6.0, W_p / 2.0 - 28.0))
+        return hex_side, W_web
+
+    def bracket_heights(self, gap: float) -> tuple[float, float]:
+        """(block height, middle-plate height) scaled to the available gap
+        so even short supports keep the 横-斜-平-斜-横 profile."""
+        if gap >= 40.0:
+            return 12.0, 8.0
+        block = max(6.0, gap * 0.35)
+        mid = max(4.0, gap * 0.15)
+        return block, mid
+
+    def screw_texts(self, g: tuple, kind: str, diam: float) -> list[str]:
+        """Two screws fixing the bottom auxiliary block at its longitudinal
+        ends (clear of the diagonal webs), nut on the block top."""
+        p, d = g
+        W_p = d["YLEN"] if self.long_axis == "E" else d["XLEN"]
+        l = self._l_of(g)
+        t = self._t_of(g)
+        gap = p[2] - d["ZLEN"] / 2 - self.frame_top
+        block_h, _ = self.bracket_heights(gap)
+        block_top = self.frame_top + block_h
+        shank_bottom = self.base_top - 8.7
+        nut_heig = 10.6
+        hex_side, _ = self.bracket_web_span(W_p)
+        out: list[str] = []
+        for ds in (-1.0, 1.0):
+            at = t + ds * (W_p / 2.0 - 16.0)
+            ae, an, _ = self.to_world(l, at, 0.0)
+            out += shank_text(ae, an, shank_bottom, block_top + nut_heig, diam)
+            out += hex_text(ae, an, block_top, nut_heig, hex_side,
+                            f"{kind} block nut")
         return out
 
 
@@ -633,7 +707,7 @@ def main() -> None:
                 for sb in sole_blocks:
                     new += lines[sb["start"]:sb["end"] + 1] + [""]
                     g = block_geom(sb)
-                    new += pf.gussets_for(g, "pump")
+                    new += pf.bridge_bracket_text(g, "pump")
                 ops.append((i + 1, end - 1, new))
                 break
 
@@ -644,7 +718,7 @@ def main() -> None:
                 new: list[str] = []
                 diam = block_geom(pf.bf_shanks[0])[1].get("DIAM", 17.0) if pf.bf_shanks else 17.0
                 for g in sorted(pf.pump_soles, key=lambda x: (x[0][0], x[0][1])):
-                    new += pf.anchor_texts(g, "BASE", diam)
+                    new += pf.screw_texts(g, "BASE", diam)
                 ops.append((i + 1, end - 1, new))
                 break
 
@@ -655,7 +729,7 @@ def main() -> None:
                 new = []
                 diam = block_geom(pf.df_shanks[0])[1].get("DIAM", 17.0) if pf.df_shanks else 17.0
                 for g in sorted(pf.motor_pads, key=lambda x: (x[0][0], x[0][1])):
-                    new += pf.anchor_texts(g, "DRIVER", diam)
+                    new += pf.screw_texts(g, "DRIVER", diam)
                 ops.append((i + 1, end - 1, new))
                 break
 
@@ -663,7 +737,7 @@ def main() -> None:
         pad_blocks = pf.pad_blocks
         for pb in pad_blocks:
             g = block_geom(pb)
-            new = lines[pb["start"]:pb["end"] + 1] + [""] + pf.gussets_for(g, "motor")
+            new = lines[pb["start"]:pb["end"] + 1] + [""] + pf.bridge_bracket_text(g, "motor")
             ops.append((pb["start"], pb["end"], new))
         for pb in pf.pyr_dr_blocks:
             ops.append((pb["start"], pb["end"], []))
