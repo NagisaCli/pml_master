@@ -7,6 +7,15 @@ Current studies:
 - PML-STUDY-SCREW-001 — refined fastener set: primitive selection per head
   form (EXTRUSION/DISH/BOX), CYLINDER bodies, CONE transitions and additive
   thread detail
+- PML-STUDY-EXTR-002 — complex refined EXTRUSION assembly: bolted channel
+  mounting frame (REJECTED 2026-08-05: too ordinary); current target:
+  high-fidelity end-suction pump — volute spiral, finned motor frame,
+  curved impeller/fan blades, star coupling elastomer, arc-strip grille,
+  H-beam base; candidate 03 pressure test: 1154 primitives,
+  950 EXTRUSION / 204 CYLINDER / 0 BOX, 23 712 profile vertices, internal
+  drive train (closed impeller, stepped shaft, seal stack, rolling
+  bearings, jaw coupling, squirrel-cage rotor, stator winding end coils),
+  floating-part audit clean; awaiting user E3D verdict
 
 User-supplied evidence:
 - C:\Users\A\Desktop\pipe.txt, described by the user as a native PIPE export.

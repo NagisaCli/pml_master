@@ -192,3 +192,149 @@ Client floating-geometry and nozzle-schedule correction — 2026-07-30
   `150Ib` through `179Ib`, not verified pressure classes. Do not alter the
   workbook silently; record the exception and use the receiving catalogue's
   verified `150lb_Ansi_Flanged` family pending client correction.
+
+Client refinement request — 2026-08-05
+---------------------------------------
+
+- Start from the native E3D export `C:\Users\A\Desktop\JK_PU.txt` (archived at
+  `imports/2026-08-05_JK_PU_native.txt`, SHA-256
+  `D59B89BB2E07CF25EF28A671F969ED1B38C62D6F556A0F040742CEC103AAB43F`) as the
+  working baseline.
+- Refine the pump models using the newly verified syntax (EXTRUSION bridge
+  brackets, hex nuts, profile end-plane POS).
+- Do NOT change baseplate sizes or positions, or nozzle positions,
+  orientations or sizes.
+- Convert the pump support feet and motor mounting pads to bridge-type
+  standard brackets wherever feasible.
+- Fix unreasonable structure and interpenetration conflicts.
+- Deliverable: `output/JK_Pump_Build_refined_20260805.pml` plus a report;
+  verify numerically (invariance, contact, seating, clash clearance) and
+  require a fresh E3D visual reload before claiming acceptance.
+
+Client follow-up — 2026-08-05 (r2)
+----------------------------------
+
+- Temporarily remove the `MC_AUXILIARY` subequipment from the five MC pumps
+  (203-PU-020, 205-PU-004, 205-PU-018, 205-PU-038, 205-PU-054); re-add later.
+- Learn and apply negative primitives: instead of modelling the gland stub
+  cylinder through the DRIVER terminal-box plate, add a `NCYLINDER` child to
+  the plate (BOX 21) carrying the stub's POS/ORI/DIAM/HEIG, and delete the
+  stub cylinder. Generalise this "negative primitive for holes" thinking to
+  future scenes.
+- r2 deliverable: `output/JK_Pump_Build_refined_20260805_r2.pml`.
+  NCYLI status: EXPERIMENTAL until the user confirms the holes in E3D.
+
+Client NCYLI test verdict — 2026-08-06 (r4)
+-------------------------------------------
+
+- Negative primitives must be children of a positive primitive; standalone
+  negatives at SUBE level fail with `(41,8) Cannot create a NCYL at this level`.
+- A negative child's `POS` is local to its owner; world coordinates load but
+  cut nothing.
+- `NAPPFLAG 2` is mandatory; the child's `ORI` is honoured.
+- r4 deliverable: `output/JK_Pump_Build_refined_20260805_r4.pml` with
+  owner-relative NCYLI positions; syntax promoted to VERIFIED in
+  `skill/knowledge/pml1-reference.md`.
+
+Client hole/verdict + base optimisation — 2026-08-06 (r5)
+---------------------------------------------------------
+
+- Holes now cut correctly; NCYLI rules are the settled approach for future
+  negative-primitive work.
+- Some holes were not adapted per pump and opened through the plate edge.
+  Fix: clamp each NCYLI U offset so the hole circle stays fully inside its
+  plate with a 2 mm rim (`|dz| + DIAM/2 <= ZLEN/2 - 2`).
+- Optimise the pump bases from the JK_PU.txt baseline: convert the two solid
+  skid rails to standard C-channel EXTRUSIONs (same envelope, position,
+  length, bearing heights). Do not change baseplate sizes, coordinates,
+  nozzles or any pump-specific attribute.
+- r5 deliverable: `output/JK_Pump_Build_refined_20260805_r5.pml`.
+
+Client base-reference correction — 2026-08-06 (r6)
+--------------------------------------------------
+
+- The intended base structure is the reference export
+  `C:\Users\A\Desktop\底座结构学习.txt` (P1501A-BASE, archived at
+  `Projects/E3D_Syntax_Lab/imports/2026-08-05_base_structure_reference.txt`):
+  rectangular bar rails, equipment sole plates, trapezoid gussets, hex
+  EXTRUSION washers and anchor bolts. The r5 C-channel rails were not wanted.
+- r6: revert rails to rectangular bars (envelope/position/length unchanged;
+  rail height stays locked by the pump support chain), upgrade every anchor
+  washer to a hex EXTRUSION washer (across-flats = original washer diameter,
+  same thickness/position). Baseplates, coordinates, nozzles and all
+  pump-specific attributes remain untouched.
+
+Client direction — 2026-08-06 (r7)
+----------------------------------
+
+- "底座整体直接重构，大小和位置适配就行": rebuild the base wholesale to
+  the P1501A-BASE reference structure, adapting sizes and positions to each
+  pump's own attributes.
+- r7: solid skid rails become built-up I-sections (lower flange 20 + web 8 +
+  upper flange 20, same outer envelope/centre/length/bearing heights);
+  BASE_FASTENERS anchors get thick hex washers (12 mm, seated on the
+  baseplate top), extended shanks to the nut top and nuts raised onto the
+  washer top; DRIVER_FASTENERS washers become hex 12 mm (nuts stay on the
+  shank top). Baseplates, coordinates, nozzles and pump-specific attributes
+  remain untouched.
+
+Client "直接照抄" — 2026-08-06 (r8)
+-----------------------------------
+
+- Reference confirmed identical to the earlier P1501A-BASE export
+  (`C:\Users\A\Desktop\E3D_model_TRAIN\euip\pump.txt` vs
+  `底座结构学习.txt`; only the export timestamp differs).
+- Copy the reference base structure directly, adapting sizes/positions to
+  each pump: flat-bar rails (20 mm) on the baseplate top; PYRAMID solid
+  trapezoid gussets under the sole plates (original bearing heights kept);
+  20 mm hex washers, extended shanks and nuts seated on the washer top for
+  BASE anchors (DRIVER nuts stay on the shank top).
+- r8 deliverable: `output/JK_Pump_Build_refined_20260805_r8.pml`.
+
+Client base-reference correction — 2026-08-06 (r9, DBOutput / PUMP006)
+---------------------------------------------------------------------
+
+- The client clarified that r5–r8 did not change the bases enough visually,
+  and designated `C:\Users\A\Desktop\DBOutput.txt` (P1502B, template
+  `/STD/PUMP006`) as THE base reference (archived at
+  `imports/2026-08-06_P1502B_PUMP006_DBOutput.txt`, SHA-256
+  `E6EF37E6A5FFCDC497821C42B998EB6306D63EFBDA55CB6C1CE71030A057A221`).
+  The earlier pump.txt / PUMP005 reference is superseded for base work.
+- Rebuild every pump's base to the PUMP006 structure, adapting sizes and
+  positions to each pump: 5-member longitudinal frame (2 outer rails + 2
+  inner rails + centre plate) seated on the baseplate top; pump-end stand
+  (2 vertical side plates + 1 cross-beam EXTRUSION) in the centre gap under
+  the pump-end feet; one large + one small PYRAMID gusset per pump foot and
+  per motor pad; anchors moved from the baseplate corners to the feet/pads
+  (4 BASE + 4 DRIVER), each a shank through the foot/pad with a hex washer
+  on the baseplate top and a hex nut on the sole/pad top.
+- Constraints: baseplate sizes/coordinates, nozzles, pump body, motor body,
+  NCYLI holes and everything outside the base scope remain unchanged;
+  bearing heights (sole-plate/pad tops) are preserved.
+- r9 deliverable: `output/JK_Pump_Build_refined_20260805_r9.pml` (SHA-256
+  `6A14EE816229B0C68AE4A9DD941104B1B41BEC0CB4D72CB7772BCB396ED13B34`).
+
+Client physical-logic correction — 2026-08-06 (r10)
+---------------------------------------------------
+
+- The client rejected r9: base parts floated, there was no visual support
+  chain, and the anchors were misplaced ("學了，但是沒有學到精髓"). The
+  essence of the reference base is that every part carries or is carried:
+  frame on baseplate, sole plates/gussets on frame, pump-end plate on side
+  plates, anchors through the feet with the nut on the foot top.
+- r10 rebuilds the base with that logic:
+  - anchors moved to the FOOT/PAD CENTRES: 2 per pump foot and 2 per motor
+    pad (8 BASE + 8 DRIVER), each a shank through the foot/pad, hex washer
+    on the baseplate top, hex nut on the sole/pad top;
+  - the pump-end stand is emitted ONLY where its full stack fits inside the
+    frame and clear of casing/fasteners/nozzles: 2 side plates on the frame
+    top, a pump-end sole plate CARRIED by them at the foot elevation, and a
+    cross-beam tie between the side plates; otherwise the stand is skipped
+    (never a floating stand). 13 pumps receive the stand, 17 are blocked by
+    real low casing details/drain pipes and keep the clean frame+gusset+
+    anchor construction;
+  - every new base element must have a supporter below: verified 0 floating
+    base elements.
+- Constraints unchanged: baseplates, nozzles, pump/motor body, NCYLI holes
+  and all non-base geometry byte-identical to r8; bearing heights kept.
+- r10 deliverable: `output/JK_Pump_Build_refined_20260805_r10.pml`.

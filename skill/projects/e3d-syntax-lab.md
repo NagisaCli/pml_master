@@ -58,6 +58,72 @@ closed.
 For the EXTRUSION study, a matching measurement pack is at
 `PML-STUDY-EXTR-001/queries/01_measure_extrusions.mac`.
 
+## PML-STUDY-EXTR-002 (2026-08-05)
+
+Newest study: EXTRUSION pushed to its intended role — any constant
+non-rectangular section becomes one solid. Candidate 01 (a bolted channel
+frame) was **rejected by the user on 2026-08-05** as too ordinary and not
+detailed enough, with the explicit instruction that EXTRUSION should be
+used to reproduce irregular detail instead of stacking basic solids.
+Candidate 02 answers with one high-fidelity end-suction pump: 185
+primitives, 128 EXTRUSION / 57 CYLINDER / **0 BOX**. The irregular forms are
+all single EXTRUSION profiles: the volute casing is an Archimedean spiral
+with a radial cutwater slit (19 vertices), the motor frame is a circle plus
+12 cast cooling fins in one LOOP (48 vertices), the impeller and fan use
+curved swept blade bands, the coupling elastomer is a 16-tooth star, the
+fan shroud grille is 12 arc strips, the base uses H-section beams,
+corner-cut plates and rounded anchor pads. CYLINDER is reserved for bodies
+of revolution (shaft, necks, studs, bosses, fan hub). Local validation is
+clean: PML1-only, occupied ranges re-derived per element datum, shaft
+centreline N 0 / U 400, full contact chain, lowest point U 0. Study-level
+lessons recorded: right-handed local frame (X = Y x Z), and for a negative
+extrusion axis (`Z IS W`) the POS sits on the inner face because the solid
+sweeps toward -E. Awaiting the user E3D verdict; nothing is promoted to
+`skill/` before it.
+
+**Candidate 03 (2026-08-05) — pressure test after user bug report.** The
+user reported four defects in 02: profile resolution too low, two terminal
+box ears floating, four volute ribs floating, and an unexplained cross
+beam. Every defect was root-caused numerically (see BUG_REVIEW_02.md): the
+ears sat 5.3 mm above the frame's curved top; the ribs used a spiral radius
+formula that omitted the 90-degree start offset, so they missed the wall;
+the cross beams were the same height as the main beams with no lap; the
+profile resolution was 24-48 vertices per circle. Candidate 03 rebuilds the
+pump at 1154 primitives (950 EXTRUSION / 204 CYLINDER / 0 BOX) with
+23 712 profile vertices: 96-vertex volute, 24-fin motor frame, closed
+impeller, stepped shaft, mechanical seal stack, rolling bearings with
+rollers, jaw coupling with star spider, squirrel-cage rotor (144 bars, end
+rings, cast fan blades), stator (32 lamination discs, 180 winding end
+coils, 72 slot wedges), terminal box seated on four pads embedded in the
+frame top, 36 volute ribs embedded 6 mm, lower lapped cross beams. A new
+floating-part audit proves every one of the 1154 primitives intersects at
+least one neighbour (1 mm tolerance). Local validation clean; awaiting the
+user E3D verdict.
+
+**Candidate 03 round 2 (2026-08-05) — physics fixes accepted.** After the
+user loaded the cleaned candidate in E3D, three defects remained: the eight
+pedestal nuts floated at the stud tip (U 170..186 vs plate top U 140), the
+two junction boxes did not display as boxes (20-vertex rounded extrusions),
+and both nozzle connections had open gaps (top pipe U 745..835 vs volute
+dome peak U 700; discharge pipe X -208..-168 vs volute face X -150). The
+user also edited the export themselves (deleted two casing rounded plates
+and one bearing breather cylinder) and returned it as the new baseline. The
+fixes, all reproduced numerically in BUG_REVIEW_03.md: nuts seated
+U 140..156; junction boxes rebuilt as native BOX; top nozzle embedded into
+the dome (U 678..835, dome at r 85 ≈ U 682, no rim gap); discharge nozzle
+extended flush to X -150. Final file: 46,455 lines, 1,104 primitives,
+balanced parse, envelope unchanged. The user accepted the result as a
+modeling pressure test ("基本可以了"), explicitly not as a standard.
+
+**Candidate lessons recorded (not promoted):** a nut's bottom face must
+equal the bearing face top; a part that must read as a rectangular box
+should use the BOX primitive; a flat-ended nozzle plugged into a curved
+shell must be embedded below the shell surface at its own rim radius
+(touching the peak leaves a visible rim gap); body-to-nozzle continuity
+should be checked numerically before finishing an assembly. These remain
+candidate-only until reproduced on another task, reviewed and
+regression-tested.
+
 ## PML-STUDY-SCREW-001 (2026-08-05)
 
 Newest study: a refined fastener set that exercises primitive selection

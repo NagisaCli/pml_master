@@ -140,6 +140,44 @@ rectangular or crowned features. A model exceeds this specimen by improving
 proportion, contact, hierarchy and recognisable construction—not by maximizing
 EXTRUSION count.
 
+### Bridge-type support brackets — RECOMMENDED (JK_Pump_Build 2026-08-05)
+
+For foot-mounted horizontal pumps, a solid rectangular mounting block under
+each pump foot or motor pad can be refined into a bridge-type standard
+bracket without changing any bearing surface:
+
+- one sole plate (BOX) at the old pad top height;
+- two trapezoid gusset plates (EXTRUSION, 4-vertex profile in the pad
+  cross-section plane) at the two ends of the pad's long axis;
+- gusset bottom at the old pad bottom (baseplate top or rail top); gusset top
+  flush with the sole-plate bottom; sole-plate footprint equal to the old pad.
+
+Keep the pad footprint, bottom face and top bearing height identical so the
+support chain (baseplate -> rail -> bracket -> casing/motor foot) is
+unchanged. Fastener caps may be upgraded to true hex EXTRUSION nuts with
+across-flats equal to the old cap diameter; the EXTRUSION POS for a Z=U nut is
+its bottom face, which must seat on the washer or shank top.
+
+### MC auxiliary vessel placement — RECOMMENDED (JK_Pump_Build 2026-08-05)
+
+An MC separator/degassing vessel must have a valid footprint. Before placing
+it beside the pump, check it against the casing body, the cover cone and any
+flange ring on that side; on a small skid the discharge side may be entirely
+occupied while the motor-side corner is free. Verify with an AABB clash search
+after any relocation, and keep the vessel's outlet pipe inside the skid or
+document the protrusion as a nozzle projection.
+
+### Negative primitives for real holes — EXPERIMENTAL (JK_Pump_Build r2 2026-08-05)
+
+When a small cylinder visually crosses a plate to suggest a gland or conduit
+opening, prefer a true hole: nest a `NCYLINDER` inside the plate `BOX` with
+the cylinder's own POS/ORI/DIAM/HEIG and delete the stub. The form is backed by
+the client's native listings and AVEVA's PMLLIB, but is EXPERIMENTAL on this
+project until the user confirms the holes render in E3D. Apply the same idea
+to any future "part passes through plate" feature (cable glands, sight
+glasses, pipe sleeves, bolt clearance holes) instead of adding a positive
+stub.
+
 > **User-corrected 2026-07-29 (JK_Pump_Build).**
 
 The final connection-flange arrangement below was reloaded in E3D and visually

@@ -307,3 +307,340 @@ verification report. None is presented as vendor-confirmed data.
 - Promoted the connected-motor lesson: full-circumference ribs, round-barrel
   foot contact, open additive grilles and proportion checks are required;
   primitive count alone is not evidence of realism.
+
+## 2026-08-05 — Bridge brackets, hex nuts and clash fixes
+
+The user supplied the accepted model as a fresh native E3D data listing
+(`Projects/JK_Pump_Build/imports/2026-08-05_JK_PU_native.txt`); numeric
+comparison against the accepted combined macro showed identical geometry —
+only representation differs (native POS-first attribute order, omitted default
+ORI, trailing CATR pass).
+
+### What was delivered
+
+- `output/JK_Pump_Build_refined_20260805.pml` (55,843 lines) + report + two
+  repeatable tools (`tools/refine_bridge_brackets.py`, `tools/verify_refined.py`).
+- All 30 pumps: the four solid pump support feet and the four solid motor
+  mounting pads were replaced by bridge-type standard brackets — one sole
+  plate (BOX) plus two trapezoid gusset plates (EXTRUSION, profile end-plane
+  POS). Footprints, bottom faces and bearing heights are unchanged
+  (0 mm deviation, all 480 gussets contact their sole plate).
+- All 328 circular fastener caps in BASE_FASTENERS / DRIVER_FASTENERS were
+  upgraded to true hex nuts (6-vertex EXTRUSION, across-flats equal to the
+  original cap diameter, seated on the washer/shand).
+- Clash fixes: 205-PU-054 MC separator train moved clear of the casing and
+  the separator vessel relocated to the only free skid position; 205-PU-038
+  separators seated on the support feet; 205-PU-060/061 splash plate lowered
+  clear of the casing.
+
+### Lessons
+
+- A bridge bracket reads correctly as a sole plate carried by two trapezoid
+  gussets; keep the gusset bottom at the old pad bottom and the sole-plate top
+  at the old pad top so the bearing chain is untouched.
+- EXTRUSION `POS` is the profile end plane: a Z=U hex nut's POS is its bottom
+  face, not its centre — subtracting half the height double-shifts it.
+- When a modelled vessel has no valid footprint on the side where it was
+  placed (it overlaps casing, cover cone and a flange ring, and the remaining
+  space is smaller than the vessel), the drawing or a numeric placement search
+  must decide; here the only feasible position was the motor-side corner.
+- Native data listings use POS-first attribute order; `validate_pml`'s
+  ORI-before-POS rule targets generator macros and does not apply to this
+  loading path.
+- Verification properties that caught real bugs: gusset-bottom == pad bottom
+  (the first version floated 40 mm), gusset-top == sole-plate bottom,
+  nut bottom == washer/shand top, baseplate/nozzle/CATR invariance, and
+  targeted clash-pair clearance.
+
+### r2 — MC aux removal and negative-primitive holes (same day)
+
+The client asked to (1) temporarily remove the MC_AUXILIARY subequipment from
+the five MC pumps and (2) learn negative primitives: replace the gland-stub
+cylinder through each DRIVER terminal-box plate with a `NCYLINDER` child that
+carries the stub's own POS/ORI/DIAM/HEIG, then delete the stub. r2 delivers
+this for all 30 pumps (one hole each) and removes the five MC subequipment
+blocks.
+
+Evidence gathered before emitting: the client's own native listing contains
+`NEW NCYLINDER` nested inside positive CYLINDER blocks (inherited pose), and
+AVEVA's PMLLIB (`mmmcounterweight.pmlobj`, `mmmconveyortakeup.pmlobj`) creates
+nested NBOX/NCYLINDER children with explicit position/orientation. The
+knowledge base previously marked NCYLI/NBOX "VERIFIED to fail" for `$M` macro
+mode; the r2 form targets the native INPUT data-listing path and is recorded
+as EXPERIMENTAL until the user reloads and confirms the holes.
+
+Implementation detail worth keeping: a cylinder's bounding box is symmetric
+about its centre for every axis direction (E3D centre datum), so a verifier
+that treats POS as an end face for W/S axes silently reverses the AABB and
+falsely reports holes "not intersecting" their plates — the verify script was
+fixed to use centre-symmetric extents.
+
+### r2 hotfix — "Cannot create a EQUI at this level" (same evening)
+
+The user's E3D load of r2 aborted at `NEW EQUIPMENT /203_PU_026` with
+`(41,8) Cannot create a EQUI at this level`. Root cause: in a native INPUT
+data listing every SUBEQUIPMENT and EQUIPMENT block ends with its own `END`
+(unlike a generated macro where the next NEW closes the block). Deleting the
+five MC_AUXILIARY subequipment blocks removed headers and primitives but left
+each subequipment's closing END behind; the stray ENDs closed the EQUIPMENT
+and then the ZONE, so the fifth EQUI could not be created. Fix: delete the
+subequipment's closing END with the block, and replay the INPUT block stack in
+the verifier (EQUI only inside ZONE, SUBE only inside EQUI, primitives only
+inside SUBE/primitive, no residual stack, END never pops the INPUT level).
+Registered as F-18 in diagnosing-failures.md.
+
+### r3 — NCYLI loaded but cut no hole: NAPPFLAG is the gate
+
+After the hierarchy fix the NCYLI holes loaded cleanly but did not cut; the
+user proved their own primitive+negative pair does cut. Root cause: a
+negative primitive only subtracts when its negative-application flag is 2.
+AVEVA's own hole code (`hmcontrol.pmlobj` `.createHoleNegativeExtrusion`)
+creates the negative and immediately sets `!!ce.nappflag = 2`;
+`strSctnGensec.pmlobj` defaults `NAPPFLAG -1` to 2. r3 emits `NAPPFLAG 2` on
+every NCYLINDER. Placement semantics (world POS/ORI vs inherited pose vs
+standalone at SUBE level) are isolated in `PML-STUDY-NCYL-001` with the
+desktop copy `C:\Users\A\Desktop\NCYLI_test.pml`; the client's verdict on
+candidates C1–C4 will promote the exact form to VERIFIED.
+
+### r4 — negative-child POS is local to its owner (user verdict 2026-08-06)
+
+The client loaded the four-candidate test (`PML-STUDY-NCYL-001`, desktop
+`NCYLI_test.pml`):
+
+- C2 (child, no POS/ORI) and C3 (child, POS E 0 N 0 U 0 + ORI) cut correctly;
+- C1 (child, world-coordinate POS) loaded but cut nothing — a negative
+  child's POS is local to the owner, so the world value displaced the hole;
+- C4 (standalone NCYLINDER at SUBE level) failed with
+  `(41,8) Cannot create a NCYL at this level.`
+
+r4 therefore emits every NCYLINDER with `POS` = removed stub world position
+minus the BOX21 owner centre (`POS E 0 N 0 U <dz>`, same ORI/DIAM/HEIG,
+`NAPPFLAG 2`). The verifier adds the owner centre back before geometry checks
+and asserts the recomposed position equals the removed stub. All 30 pass.
+The NCYLI child form is now VERIFIED in pml1-reference.md (F-19/F-20 in
+diagnosing-failures.md).
+
+### r5 — hole containment per pump + C-channel skid rails (same day)
+
+The client confirmed the holes cut ("完美挖孔") and settled the NCYLI rules,
+then reported that some holes were not adapted per pump and opened through
+the plate edge. A per-pump check found 10 pumps whose hole circle exceeded
+the BOX21 plate in U (0.10–2.15 mm). Fix: clamp the NCYLI local U offset so
+`|dz| + DIAM/2 <= ZLEN/2 - 2 mm`; the axis, diameter and through-length are
+unchanged. All 30 holes now sit fully inside their plates.
+
+The client also asked to study the base structure and optimise the pump
+bases (JK_PU.txt baseline) without touching any pump-specific attribute.
+r5 converts the two solid rectangular skid rails of every SUPPORT_FRAME into
+standard C-channel EXTRUSIONs with the identical outer envelope, position,
+length and top/bottom elevations (web 8 mm, flange 10 mm Reference Values),
+with the channel openings facing the pump centre. Cross beams, bridge
+brackets, hex nuts, baseplate and anchors are unchanged. 60 rail EXTRUSIONs
+pass the 8-vertex LOOP structure check; no new clashes, lowest point still
+U 0.
+
+Lesson: when a feature is repeated across a family with varying geometry
+(here: a gland hole in plates of different sizes), the containment must be
+checked per instance, not once for the template — a formula that fits one
+pump silently opens a hole through the plate edge on another.
+
+### r6 — base reworked to the client's reference (P1501A-BASE)
+
+The client supplied the intended base reference
+(`底座结构学习.txt` → archived `PML-STUDY-NCYL-001` sibling import
+`2026-08-05_base_structure_reference.txt`): a fabricated pump base with
+rectangular bar rails, equipment sole plates, trapezoid gussets, hex
+EXTRUSION washers and anchor bolts. The r5 C-channel rails did not match it.
+
+r6 reverts the skid rails to rectangular bars (outer envelope, position and
+length unchanged; the rail height is locked by the pump support chain, so the
+reference's 20 mm flat-bar height cannot be adopted without raising the whole
+train) and upgrades every circular anchor washer in BASE_FASTENERS /
+DRIVER_FASTENERS to a hex EXTRUSION washer (across-flats = original diameter,
+same thickness, end-plane POS). Nuts seat on the washer top or the shank top,
+depending on the original stack layout. 1136 EXTRUSIONs (480 gussets + 328
+washers + 328 nuts) all pass structure checks.
+
+Lesson: when the client says "学习这个的底座结构", ask for or archive the
+reference export before changing rails — a plausible standard section (C
+channel) can be the wrong family even when it fits geometrically.
+
+### r7 — base rebuilt wholesale to the reference (same day)
+
+The client directed a full rebuild: "底座整体直接重构，大小和位置适配就行".
+Every solid skid rail is now a built-up I-section (lower flange 20 mm + web
+8 mm + upper flange 20 mm, Reference Values) with the identical outer
+envelope, centre, length and top/bottom elevations, so the pump support
+chain is untouched but the rail reads as a standard fabricated I-beam.
+Base anchors were reworked to the reference style: hex washer 12 mm seated on
+the baseplate top, shank extended to the nut top, nut raised onto the washer
+top; driver washers are hex 12 mm with the nut remaining on the shank top.
+Verification: rail envelopes/bearing heights preserved, 328 washers and 328
+nuts seated, 30 holes closed, baseplates/nozzles/CATR unchanged, no new
+clashes, lowest point U 0.
+
+Lesson: when the client says "整体重构", rebuild the visible structure (rail
+section, anchor hardware), not just the tiny parts — small upgrades read as
+"no change" in E3D.
+
+### r8 — base copied directly from the reference template (same day)
+
+The client confirmed the intended base is the P1501A-BASE export verbatim
+(`pump.txt` is byte-identical to the earlier reference except the export
+timestamp) and directed a direct copy with per-pump size/position
+adaptation. r8 replaces the SUPPORT_FRAME with the reference construction:
+
+- flat-bar rails (20 mm) seated on the baseplate top, keeping the original
+  rail footprint/length;
+- PYRAMID solid trapezoid gussets (480 total, 2 per pump/motor foot) from
+  the flange-bar top to the sole plates, with the original bearing heights
+  preserved;
+- 20 mm hex EXTRUSION washers: BASE anchors seated on the baseplate top with
+  shanks extended to the nut top and nuts on the washer top; DRIVER washers
+  seated on the motor pad top with nuts on the shank top.
+
+Verification now understands PYRAMID (hierarchy, AABB, contact, bearing
+chain) and confirms: 480 gussets touch their sole plates, 328 washers and
+328 nuts seated, 30 holes closed, baseplates/nozzles/CATR unchanged, no new
+clashes, lowest point U 0.
+
+Lesson: "直接照抄" means copy the reference elements themselves (PYRAMID
+gussets, flat-bar rails, thick hex washers), not an interpreted equivalent —
+the client can tell the difference in E3D.
+
+### r8 re-verification against `pump.txt` (same day)
+
+The client re-issued the adaptation request with the explicit reference path
+`C:\Users\A\Desktop\E3D_model_TRAIN\euip\pump.txt` (SHA-256
+`AECEBFBB...A77B7`; byte-identical to the archived P1501A-BASE reference
+except the export timestamp). A per-pump audit of r8 confirmed the requested
+scope is already fully applied on all 30 pumps:
+
+- 60 flat-bar rails (20 mm thick, ZLEN=20) seated on the baseplate top,
+  keeping each pump's original rail footprint and length;
+- 480 PYRAMID gussets (16 per pump) standing on the rail top (U 70) with
+  their top face exactly at the sole-plate bottom (0/480 float);
+- 328 hex EXTRUSION washers (208 BASE + 120 DRIVER, 20 mm thick) and 328 hex
+  nuts, all seated (BASE nuts on washer top, DRIVER nuts on shank top);
+- BASE anchor shanks extended to the nut top; DRIVER shanks unchanged;
+- outside the base scope (SUPPORT_FRAME / BASE_FASTENERS /
+  DRIVER_FASTENERS / motor pad + gusset blocks) r8 is byte-identical to r7;
+  baseplates, nozzles and the CATR pass unchanged; lowest point U 0.
+
+No new revision was needed: r8 is the deliverable for this request. A fresh
+E3D visual reload remains the only open item (IR-11d).
+
+### r9 — bases rebuilt to the DBOutput (PUMP006) reference (same day)
+
+The client clarified that the earlier base passes "did not change much"
+visually and designated `C:\Users\A\Desktop\DBOutput.txt` (P1502B, template
+`/STD/PUMP006`) as the base reference — superseding pump.txt (PUMP005).
+DBOutput was archived at
+`Projects/JK_Pump_Build/imports/2026-08-06_P1502B_PUMP006_DBOutput.txt`
+(SHA-256 `E6EF37E6...`).
+
+`tools/rebuild_base_pump006.py` rebuilds each pump's base (SUPPORT_FRAME,
+BASE_FASTENERS, DRIVER_FASTENERS and the motor mounting pads' gussets) to
+the PUMP006 construction, adapted per pump:
+
+- 5-member longitudinal frame (2 outer rails + 2 inner rails + centre
+  plate), 20 mm tall, seated on the baseplate top with the original rail
+  footprint/length; the former transverse cross plates are removed;
+- pump-end stand: 2 vertical side plates in the centre gap between the
+  pump feet plus 1 cross-beam EXTRUSION spanning between them, height
+  capped below the casing/fastener underside (some casings embed into the
+  foot plates already); the stand is shifted outward if a low drain/pipe
+  blocks its footprint;
+- one large (long-axis, XOFF toward centre) + one small (transverse-axis)
+  PYRAMID gusset per pump foot and per motor pad — the PUMP006 "big + small"
+  pattern from P1502B-BASE;
+- anchors: 4 BASE anchors at the pump feet + 4 DRIVER anchors at the motor
+  pads (moved from the baseplate corners), each a shank through the
+  foot/pad with a 20 mm hex washer on the baseplate top and a hex nut on
+  the sole/pad top.
+
+Verification (`tools/verify_r9.py`): hierarchy 30 EQUI / 360 SUBE;
+non-base blocks byte-identical to r8 (3365 blocks); baseplates/nozzles/CATR
+unchanged; 150 frame members seated; 60 side plates + 30 beams present,
+clear of casing/fasteners/suction/discharge; 480 PYRAMIDs bottomed on the
+frame top and touching their sole/pad; 240 anchors fully seated with
+plausible hex sizes; lowest point U 0; EXTRUSION structure valid; the
+large cross-SUBE overlap set is identical to r8 (no new clashes).
+
+Lessons:
+- A "reference base" is template-specific: PUMP005 and PUMP006 are
+  different constructions, and copying the wrong one produces "no visible
+  change" against the client's expectation. Always record the template ID
+  (`/STD/PUMP005` vs `/STD/PUMP006`) with the reference.
+- When placing new structure under a pump, the casing underside is not a
+  flat plane: small drain/seal-flush cylinders and flange fasteners hang
+  below the casing and must be treated as footprint-specific blockers
+  (union AABB of CASING / CASING_FASTENERS / SUCTION / DISCHARGE), with
+  outward trial shifts when the gap is too small.
+- A verifier that only checks positions can pass giant hexes: when copying
+  reference-sized parts, add physical bounds (hex across-flats < 200 mm);
+  the first r9 generated hexes with side length equal to a world anchor
+  coordinate (14 m) because the size extraction regex matched the
+  EXTRUSION's own POS line instead of the VERTEX profile points.
+
+### r10 — physical support logic (same day, client rejection of r9)
+
+The client rejected r9: "底座物件之間懸空，沒有視覺支撐，螺絲錯位；總之
+就是沒有物理邏輯，學了，但是沒有學到精髓" (parts float, no visual
+support chain, bolts misplaced -- the reference's physical logic was not
+captured). r10 corrects the base construction:
+
+- anchors now pass through the FOOT/PAD CENTRES: 2 per pump foot and 2 per
+  motor pad at the quarter points of the long axis (8 BASE + 8 DRIVER =
+  480 shanks + 480 hex washers + 480 hex nuts), with the nut seated on the
+  sole/pad top and the washer on the baseplate top. r9 had placed the
+  anchors at the foot outer edges, so the nuts floated beside the plates;
+- the pump-end stand is emitted only when its full stack fits inside the
+  frame and is clear of casing/fasteners/suction/discharge: two side plates
+  standing on the frame top, a pump-end sole plate CARRIED by them at the
+  foot elevation, and a cross-beam tie between the side plates. r9 emitted
+  stands capped below the sole plates or shifted outside the frame, leaving
+  orphaned parts. 13 pumps receive the stand; 17 are blocked by genuine low
+  casing details (drains at U 89.9-180.6, casing fastener rings) and
+  correctly skip it;
+- support-chain audit: every base element's bottom face rests on a
+  supporter (baseplate, frame top, gusset top, side-plate top) within
+  0.51 mm -- 0 floating base elements across all 30 pumps.
+
+Lessons promoted:
+- "學到精髓" for a fabricated pump base means the support chain reads
+  physically: nothing may be emitted merely because it resembles the
+  reference. If a feature cannot both carry something and be carried, it
+  must not be emitted at all.
+- Anchors belong through the foot/pad plate (nut on top), not beside it;
+  a bolt whose nut floats next to a plate is the fastest way to lose the
+  reference look.
+- A stand/riser must be verified inside the FRAME footprint as well as
+  under the casing: shifting a stand past the frame end puts its bottom in
+  mid-air above the baseplate (20 mm gap), which reads as floating.
+
+### Outstanding
+
+- A fresh E3D visual reload is required before this revision can be called
+  accepted (IR-11d). Confirm the 205-PU-054 separator position against its
+  top view (moot while MC_AUXILIARY is removed; re-check when re-added).
+- The previous r2 load failed at pump 5; the regenerated r2 passes the
+  hierarchy-balance replay and needs a fresh load.
+- r3 needs the client's E3D verdict: do the 30 holes now cut (NAPPFLAG 2),
+  and which candidate form (C1–C4) matches the expected position/direction?
+- r4 (owner-relative NCYLI positions) awaits the client's E3D reload; if the
+  holes appear at the terminal-box plates, close this thread.
+- r5 (hole containment + C-channel skid rails) awaits the client's E3D
+  reload; if another reference base structure was meant by "学习这个的底座
+  结构和模型", supply its path and the rails will be reworked to match.
+- r6 (reference-style base: rectangular rails + hex washers) awaits the
+  client's E3D reload.
+- r7 (built-up I-section rails + thick hex anchor washers) awaits the
+  client's E3D reload.
+- r8 (reference-copy base: flat-bar rails + PYRAMID gussets + 20 mm hex
+  washers) awaits the client's E3D reload.
+- MC_AUXILIARY is temporarily absent on the five MC pumps and must be re-added
+  later (its previous clash fixes are moot while removed).
+- The 30 NCYLI holes are EXPERIMENTAL pending the user's E3D confirmation;
+  after confirmation, promote in pml1-reference.md and reuse negative
+  primitives for future hole features.

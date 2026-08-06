@@ -274,6 +274,69 @@ Boolean/negative primitives are unavailable in macro mode, which is why models
 here are built additively. This is an advantage, not a limitation: additive
 models stay editable and maintainable downstream.
 
+> **User-instructed 2026-08-05 (JK_Pump_Build).** The client requested the
+> opposite: use `NCYLINDER` to cut a real hole through a plate instead of
+> modelling the gland stub that visually crosses it. Two evidence paths make
+> this plausible in the **native INPUT data-listing path** (not `$M` macro
+> mode, where the earlier failure stands):
+>
+> - The client's own native E3D listing
+>   (`Projects/JK-Tank_Build/imports/2026-08-04_WSB_TA.txt`) contains
+>   `NEW NCYLINDER` blocks nested inside positive `NEW CYLINDER` blocks with
+>   only `DIAM`/`HEIG` (position/orientation inherited from the parent).
+> - AVEVA's installed PMLLIB creates negative children with their **own**
+>   position and orientation:
+>   `mmmcounterweight.pmlobj` (`NEW NBOX` + `!!ce.position` + `Orientation ...`
+>   inside an open `NEW BOX` block) and `mmmconveyortakeup.pmlobj` (`NEW
+>   NCYLINDER` inside an open `NEW EXTRUSION`).
+>
+> The JK_Pump_Build r2 file emits, inside each DRIVER terminal-box plate
+> (`BOX`), a nested `NEW NCYLINDER` carrying the removed stub's own
+> `POS`/`ORI`/`DIAM`/`HEIG`. Status: **EXPERIMENTAL** — native- and
+> source-backed, pending a fresh E3D visual load of the r2 file. When the
+> client confirms the holes render, promote to VERIFIED and replace the
+> `NCYLI`/`NBOX` table rows with the two loading paths (`$M` fails, INPUT
+> works).
+>
+> **User-tested 2026-08-05 (r3):** the r2 holes loaded but did not cut.
+> Root cause found in AVEVA's own code: a negative primitive only subtracts
+> when its negative-application flag is set. `hmcontrol.pmlobj`
+> (`.createHoleNegativeExtrusion`) creates the negative and immediately sets
+> `!!ce.nappflag = 2`; `strSctnGensec.pmlobj` (`.tmplRestore`) collects
+> negatives with `NAPPFLAG eq -1` and defaults them to `NAPPFLAG 2`. r3 emits
+> `NAPPFLAG 2` on every NCYLINDER. Placement semantics (world POS/ORI vs
+> inherited vs standalone) are isolated in `PML-STUDY-NCYL-001`.
+>
+> **VERIFIED 2026-08-06 (PML-STUDY-NCYL-001, user E3D verdict):**
+>
+> - The negative must be a **child of a positive primitive**. A standalone
+>   `NEW NCYLINDER` at SUBE level fails with
+>   `(41,8) Cannot create a NCYL at this level.`
+> - The child's `POS` is **local to its owner** (owner centre + offset);
+>   writing world coordinates silently places the hole off the plate —
+>   the element loads (visible in Explorer) but cuts nothing.
+> - The child's `ORI` is honoured (a horizontal hole was cut with
+>   `ORI Y is U and Z is E`).
+> - `NAPPFLAG 2` is mandatory for the subtraction.
+>
+> Production form used by JK_Pump_Build r4:
+>
+> ```pml
+> NEW BOX
+> POS E 13971mm N 13734.4mm U 533.9mm
+> XLEN 17.9mm
+> YLEN 78.9mm
+> ZLEN 58mm
+> NEW NCYLINDER
+> POS E 0mm N 0mm U 16.3mm      -- offset from the BOX centre
+> ORI Y is U and Z is W
+> DIAM 24.2mm
+> HEIG 30.4mm
+> NAPPFLAG 2
+> END
+> END
+> ```
+
 ---
 
 ## Structure — VERIFIED
@@ -291,6 +354,16 @@ NEW CYLI
 - **No** `END EQUI`, **no** `ENDS`. The next `NEW EQUI` closes the block.
 - Names cannot contain hyphens.
 - Comment token is `--`.
+
+**Native INPUT data listings are the opposite:** every `EQUIPMENT` and every
+`SUBEQUIPMENT` block carries its own trailing `END` line, and negative
+primitives are nested inside their positive parent with their own `END`.
+Deleting a `SUBEQUIPMENT` from such a listing therefore requires removing its
+header, its primitives **and its closing `END`** — leaving the `END` behind
+closes the owning `EQUIPMENT` and then the `ZONE`, so the next `NEW EQUIPMENT`
+fails with `(41,8) Cannot create a EQUI at this level` (JK_Pump_Build
+2026-08-05, F-18). Verify data listings with a block-stack replay, not by
+counting `NEW` lines.
 
 ---
 

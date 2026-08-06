@@ -1,0 +1,687 @@
+"""Rebuild every pump base to the DBOutput.txt (P1502B / PUMP006) style,
+with physical support logic (r10).
+
+Starting point: JK_Pump_Build_refined_20260805_r8.pml (accepted baseline).
+Output: JK_Pump_Build_refined_20260805_r10.pml
+
+Only the base scope changes:
+  - SUPPORT_FRAME   -> 5-member longitudinal frame (2 outer rails + 2 inner
+                       rails + centre plate), pump-end stand (2 vertical side
+                       plates carrying a pump-end sole plate + 1 cross-beam
+                       EXTRUSION), reference-style PYRAMID gussets (one large
+                       + one small per foot/pad). The former transverse
+                       cross plates are removed.
+  - BASE_FASTENERS  -> 8 anchors through the pump feet (2 per foot, at the
+                       quarter points; shank + hex washer on the baseplate
+                       top + hex nut on the sole-plate top).
+  - DRIVER_FASTENERS-> 8 anchors through the motor pads (same stack).
+  - DRIVER          -> motor mounting pads keep their position/size; their
+                       PYRAMID gussets are rebuilt reference-style.
+
+Everything outside the base scope (baseplates, nozzles, CATR pass, casing,
+motor body, NCYLI holes, service details) is preserved byte-for-byte.
+
+Reference: C:\\Users\\A\\Desktop\\DBOutput.txt  (/P1502B-BASE, TMPLATE
+/STD/PUMP006). Geometry is adapted to each pump's own envelope; every new
+dimension is a Reference Value. Physical logic: nothing floats -- every
+element either carries something above it or is carried by something below
+(frame on baseplate, gussets/side plates on frame, sole plates on gussets
+or side plates, anchors through feet with nut on the sole/pad top).
+"""
+
+from __future__ import annotations
+
+import math
+import re
+from collections import defaultdict
+from pathlib import Path
+
+SRC = Path(
+    r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
+    r"\JK_Pump_Build_refined_20260805_r8.pml"
+)
+OUT = Path(
+    r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
+    r"\JK_Pump_Build_refined_20260805_r10.pml"
+)
+
+PRIM_RE = re.compile(
+    r"^NEW (CYLINDER|CYLI|NCYLINDER|NCYLI|NBOX|CONE|BOX|NOZZLE|EXTRUSION|DISH|PYRAMID)\b",
+    re.IGNORECASE,
+)
+EQUI_RE = re.compile(r"^NEW (EQUIPMENT|EQUI)\s+(\S+)", re.IGNORECASE)
+SUBE_RE = re.compile(r"^NEW (SUBEQUIPMENT|SUBE)\s+(\S+)", re.IGNORECASE)
+END_RE = re.compile(r"^END\s*$", re.IGNORECASE)
+POS_RE = re.compile(
+    r"^POS ([EW])\s+([-\d.]+)[a-z]*\s+([NS])\s+([-\d.]+)[a-z]*\s+"
+    r"([UD])\s+([-\d.]+)[a-z]*$",
+    re.IGNORECASE,
+)
+KV_RE = re.compile(r"^([A-Z]+)\s+(.+)$", re.IGNORECASE)
+
+
+def r1(v: float) -> str:
+    return "%g" % round(v, 1)
+
+
+def signed(axis: str, v: float) -> str:
+    if axis == "E":
+        return "E" if v >= 0 else "W"
+    if axis == "N":
+        return "N" if v >= 0 else "S"
+    return "U" if v >= 0 else "D"
+
+
+def pos_text(e: float, n: float, u: float) -> str:
+    return (
+        f"POS {signed('E', e)} {r1(abs(e))}mm "
+        f"{signed('N', n)} {r1(abs(n))}mm "
+        f"{signed('U', u)} {r1(abs(u))}mm"
+    )
+
+
+def to_number(text: str) -> float:
+    text = text.strip()
+    for suffix in ("mm", "degC", "pascal", "degree"):
+        if text.lower().endswith(suffix):
+            text = text[: -len(suffix)]
+    return float(text)
+
+
+def parse(lines: list[str]) -> list[dict]:
+    blocks: list[dict] = []
+    cur: dict | None = None
+    cur_equi: str | None = None
+    cur_sub: str | None = None
+    for i, line in enumerate(lines):
+        s = line.strip()
+        m = EQUI_RE.match(s)
+        if m and cur is None:
+            cur_equi = m.group(2)
+            continue
+        m = SUBE_RE.match(s)
+        if m and cur is None:
+            cur_sub = m.group(2)
+            continue
+        m = PRIM_RE.match(s)
+        if m and cur is None:
+            raw = m.group(1).upper()
+            if raw == "CYLI":
+                raw = "CYLINDER"
+            elif raw == "NCYLI":
+                raw = "NCYLINDER"
+            cur = {
+                "type": raw,
+                "attrs": [s],
+                "start": i,
+                "end": None,
+                "equi": cur_equi,
+                "sub": cur_sub,
+            }
+            continue
+        if cur is not None:
+            if s:
+                cur["attrs"].append(s)
+            if END_RE.match(s):
+                cur["end"] = i
+                blocks.append(cur)
+                cur = None
+    return blocks
+
+
+def block_geom(block: dict) -> tuple:
+    pos: tuple[float, float, float] | None = None
+    dims: dict[str, float] = {}
+    for a in block["attrs"]:
+        m = POS_RE.match(a)
+        if m:
+            e, n, u = to_number(m.group(2)), to_number(m.group(4)), to_number(m.group(6))
+            if m.group(1).upper() == "W":
+                e = -e
+            if m.group(3).upper() == "S":
+                n = -n
+            if m.group(5).upper() == "D":
+                u = -u
+            pos = (e, n, u)
+            continue
+        m = KV_RE.match(a)
+        if m and m.group(1).upper() in (
+            "DIAM", "HEIG", "XLEN", "YLEN", "ZLEN", "DTOP", "DBOT",
+            "XBOT", "YBOT", "XTOP", "YTOP", "XOFF", "YOFF",
+        ):
+            dims[m.group(1).upper()] = to_number(m.group(2))
+    return pos, dims
+
+
+def box_text(e: float, n: float, u: float, xl: float, yl: float, zl: float,
+             comment: str, ori: str | None = None) -> list[str]:
+    out = [f"-- Refined: {comment} (PUMP006 reference style, Reference Value)"]
+    out += ["NEW BOX", pos_text(e, n, u)]
+    if ori:
+        out.append(ori)
+    out += [f"XLEN {r1(xl)}mm", f"YLEN {r1(yl)}mm", f"ZLEN {r1(zl)}mm", "", "END", ""]
+    return out
+
+
+def pyramid_text(e: float, n: float, u: float, xbot: float, ybot: float,
+                 xtop: float, ytop: float, heig: float,
+                 xoff: float = 0.0, yoff: float = 0.0,
+                 ori: str | None = None, comment: str = "PYRAMID gusset") -> list[str]:
+    out = [f"-- Refined: {comment} (PUMP006 reference style, copied form)"]
+    out += ["NEW PYRAMID", pos_text(e, n, u)]
+    if ori:
+        out.append(ori)
+    out += [
+        f"XBOT {r1(xbot)}mm",
+        f"YBOT {r1(ybot)}mm",
+        f"XTOP {r1(xtop)}mm",
+        f"YTOP {r1(ytop)}mm",
+        f"HEIG {r1(heig)}mm",
+    ]
+    if xoff:
+        out.append(f"XOFF {r1(xoff)}mm")
+    if yoff:
+        out.append(f"YOFF {r1(yoff)}mm")
+    out += ["", "END", ""]
+    return out
+
+
+def hex_vertex_text(x: float, y: float) -> str:
+    return (
+        f"POS {signed('E', x)} {r1(abs(x))}mm "
+        f"{signed('N', y)} {r1(abs(y))}mm U 0mm"
+    )
+
+
+def hex_text(e: float, n: float, u_bottom: float, heig: float,
+             side: float, comment: str) -> list[str]:
+    """Hexagonal EXTRUSION, profile end plane at u_bottom, swept +U."""
+    r = side * math.sqrt(3.0) / 2.0
+    pts = [
+        (side, 0.0),
+        (side / 2, r),
+        (-side / 2, r),
+        (-side, 0.0),
+        (-side / 2, -r),
+        (side / 2, -r),
+    ]
+    out = [f"-- Refined: {comment} (PUMP006 reference style, VERIFIED form)"]
+    out += ["NEW EXTRUSION", pos_text(e, n, u_bottom), "ORI Y is N and Z is U",
+            f"HEIG {r1(heig)}mm", "", "NEW LOOP", ""]
+    for px, py in pts:
+        out += ["NEW VERTEX", hex_vertex_text(px, py), "END"]
+    out += ["END", "END", ""]
+    return out
+
+
+def beam_text(l0: float, t0: float, u0: float, span: float, length: float,
+              height: float, long_axis: str) -> list[str]:
+    """Cross-beam EXTRUSION between the pump-end side plates.
+
+    Sweep axis = transverse axis; profile plane = (longitudinal, U).
+    """
+    if long_axis == "N":
+        pe, pn, pu = t0, l0 - length / 2, u0
+        ori = "ORI Y is U and Z is E"
+
+        def vert(x: float, y: float) -> str:
+            return f"POS E 0mm {signed('N', x)} {r1(abs(x))}mm {signed('U', y)} {r1(abs(y))}mm"
+    else:
+        pe, pn, pu = l0 - length / 2, t0, u0
+        ori = "ORI Y is U and Z is N"
+
+        def vert(x: float, y: float) -> str:
+            return f"POS {signed('E', x)} {r1(abs(x))}mm N 0mm {signed('U', y)} {r1(abs(y))}mm"
+    pts = [(0.0, 0.0), (0.0, height), (length, height), (length, 0.0)]
+    out = [
+        "-- Refined: pump-end cross beam EXTRUSION (PUMP006 reference style, Reference Value)",
+        "NEW EXTRUSION",
+        pos_text(pe, pn, pu),
+        ori,
+        f"HEIG {r1(span)}mm",
+        "",
+        "NEW LOOP",
+        "",
+    ]
+    for x, y in pts:
+        out += ["NEW VERTEX", vert(x, y), "END"]
+    out += ["END", "END", ""]
+    return out
+
+
+def shank_text(e: float, n: float, bottom: float, top: float,
+               diam: float) -> list[str]:
+    return [
+        "-- Refined: anchor shank through foot/pad (PUMP006 reference style, Reference Value)",
+        "NEW CYLINDER",
+        pos_text(e, n, (bottom + top) / 2),
+        f"DIAM {r1(diam)}mm",
+        f"HEIG {r1(top - bottom)}mm",
+        "",
+        "END",
+        "",
+    ]
+
+
+class PumpFrame:
+    """Per-pump geometry in a local (long, trans, U) frame."""
+
+    def __init__(self, blocks: list[dict], equi: str):
+        self.equi = equi
+        by = defaultdict(list)
+        for b in blocks:
+            by[b["sub"]].append(b)
+        self.by_sub = by
+        bp = [b for b in by[equi + "_BASEPLATE"] if b["type"] == "BOX"][0]
+        self.bp_pos, self.bp_dims = block_geom(bp)
+        self.base_top = self.bp_pos[2] + self.bp_dims["ZLEN"] / 2
+        self.frame_bottom = self.base_top
+        self.frame_top = self.base_top + 20.0
+
+        sf = by[equi + "_SUPPORT_FRAME"]
+        rails = [
+            b for b in sf if b["type"] == "BOX"
+            and abs(block_geom(b)[1].get("ZLEN", 0) - 20) < 0.01
+            and max(block_geom(b)[1].get("XLEN", 0), block_geom(b)[1].get("YLEN", 0)) > 500
+        ]
+        rails.sort(key=lambda b: block_geom(b)[0][0])
+        self.rails = [block_geom(b) for b in rails[:2]]
+        (p1, d1), (p2, d2) = self.rails
+        if d1["XLEN"] >= d1["YLEN"]:
+            self.long_axis = "E"
+            self.trans_axis = "N"
+            self.rail_len = d1["XLEN"]
+            self.rail_w = d1["YLEN"]
+            self.t1, self.t2 = sorted((p1[1], p2[1]))
+            self.lc = (p1[0] + p2[0]) / 2
+        else:
+            self.long_axis = "N"
+            self.trans_axis = "E"
+            self.rail_len = d1["YLEN"]
+            self.rail_w = d1["XLEN"]
+            self.t1, self.t2 = sorted((p1[0], p2[0]))
+            self.lc = (p1[1] + p2[1]) / 2
+
+        self.cross = [
+            b for b in sf if b["type"] == "BOX" and b not in rails
+            and block_geom(b)[1].get("ZLEN", 0) > 30
+        ]
+        self.pump_soles = [
+            block_geom(b) for b in sf if b["type"] == "BOX"
+            and b not in rails and b not in self.cross
+            and 9 <= block_geom(b)[1].get("ZLEN", 0) <= 17
+        ]
+        dr = by[equi + "_DRIVER"]
+        self.motor_pads = [
+            block_geom(b) for b in dr if b["type"] == "BOX"
+            and 9 <= block_geom(b)[1].get("ZLEN", 0) <= 17
+            and 90 < block_geom(b)[0][2] < 300
+        ]
+        self.pyr_sf_blocks = [b for b in sf if b["type"] == "PYRAMID"]
+        self.pyr_dr_blocks = [b for b in dr if b["type"] == "PYRAMID"]
+        self.pad_blocks = [
+            b for b in dr if b["type"] == "BOX"
+            and 9 <= block_geom(b)[1].get("ZLEN", 0) <= 17
+            and 90 < block_geom(b)[0][2] < 300
+        ]
+
+        # pump-end sign along the long axis
+        def l_of(g: tuple) -> float:
+            p, _ = g
+            return p[0] if self.long_axis == "E" else p[1]
+
+        pump_l = [l_of(g) for g in self.pump_soles]
+        motor_l = [l_of(g) for g in self.motor_pads]
+        self.pump_end = 1.0 if max(pump_l) > max(motor_l) else -1.0
+        self.pump_end_row = max(pump_l) if self.pump_end > 0 else min(pump_l)
+
+        bf = by[equi + "_BASE_FASTENERS"]
+        df = by[equi + "_DRIVER_FASTENERS"]
+        self.bf_shanks = [b for b in bf if b["type"] == "CYLINDER"]
+        self.df_shanks = [b for b in df if b["type"] == "CYLINDER"]
+        self.hex_side = 21.0  # default; replaced per pump below
+        for b in bf:
+            if b["type"] == "EXTRUSION":
+                for a in b["attrs"]:
+                    # VERTEX profile points sit at U 0 and are small; the
+                    # EXTRUSION's own POS carries the world anchor coordinate.
+                    m = re.match(
+                        r"^POS [EW]\s+([-\d.]+)[a-z]*\s+[NS]\s+([-\d.]+)[a-z]*\s+U\s+0(?:mm)?$",
+                        a,
+                        re.I,
+                    )
+                    if m and abs(to_number(m.group(1))) < 500.0:
+                        self.hex_side = abs(to_number(m.group(1)))
+                        break
+                break
+
+        # helper accessors
+        def t_of(g: tuple) -> float:
+            p, _ = g
+            return p[1] if self.long_axis == "E" else p[0]
+
+        def l_of_g(g: tuple) -> float:
+            p, _ = g
+            return p[0] if self.long_axis == "E" else p[1]
+
+        self._t_of, self._l_of = t_of, l_of_g
+
+    def to_world(self, l: float, t: float, u: float) -> tuple[float, float, float]:
+        if self.long_axis == "E":
+            return (l, t, u)
+        return (t, l, u)
+
+    # ------------------------------------------------------------------
+    def frame_members(self) -> list[str]:
+        out = ["-- Refined: 5-member longitudinal frame (PUMP006 reference style)"]
+        gap = self.t2 - self.t1 - 2 * self.rail_w
+        inner_w = min(self.rail_w, max(10.0, gap / 3.0))
+        centre_w = max(0.0, gap - 2 * inner_w)
+        members = [
+            (self.t1, self.rail_w, "outer rail"),
+            (self.t2, self.rail_w, "outer rail"),
+            (self.t1 + self.rail_w + inner_w / 2, inner_w, "inner rail"),
+            (self.t2 - self.rail_w - inner_w / 2, inner_w, "inner rail"),
+        ]
+        if centre_w >= 10.0:
+            members.append(((self.t1 + self.rail_w + self.t2 - self.rail_w) / 2,
+                            centre_w, "centre plate"))
+        for t, w, label in members:
+            e, n, u = self.to_world(self.lc, t, self.frame_bottom + 10.0)
+            xl, yl = (w, self.rail_len) if self.long_axis == "N" else (self.rail_len, w)
+            out += box_text(e, n, u, xl, yl, 20.0, f"frame {label}")
+        return out
+
+    def pump_end_stand(self) -> list[str]:
+        """Reference pump-end stand: two side plates + cross beam + a
+        pump-end sole plate CARRIED on top of the side plates.
+
+        The stand is emitted only where the full stack fits (side plates
+        from the frame top to the pump-end plate bottom, plate top at the
+        foot sole-plate top) without the casing/fasteners/nozzles intruding.
+        Otherwise it is skipped -- a stand that cannot carry its plate is
+        never emitted, so nothing floats.
+        """
+        cols = sorted({self._t_of(g) for g in self.pump_soles})
+        if len(cols) < 2:
+            return []
+        gap = cols[1] - cols[0]
+        if gap < 60.0:
+            return []
+        sole = [g for g in self.pump_soles if self._l_of(g) == self.pump_end_row][0]
+        _, sd = sole
+        sole_bottom = sole[0][2] - sd["ZLEN"] / 2
+        sole_top = sole[0][2] + sd["ZLEN"] / 2
+        short = sd["XLEN"] if self.long_axis == "E" else sd["YLEN"]
+        offset = max(15.0, (gap / 2.0) - (short / 2.0 + 15.0))
+        t_c = (cols[0] + cols[1]) / 2
+        plate_w = 2.0 * (offset + 15.0)
+        span = 2.0 * offset - 10.0
+        h = sole_bottom - self.frame_top
+        if h < 12.0:
+            return []
+
+        frame_l0 = self.lc - self.rail_len / 2.0
+        frame_l1 = self.lc + self.rail_len / 2.0
+        frame_end = frame_l1 if self.pump_end > 0 else frame_l0
+
+        def footprint(l_centre: float, length: float) -> tuple[float, float, float, float]:
+            """(t0, l0, t1, l1) of the stand incl. the carried plate."""
+            return (
+                t_c - offset - 15.0 - 2.0,
+                l_centre - length / 2 - 2.0,
+                t_c + offset + 15.0 + 2.0,
+                l_centre + length / 2 + 2.0,
+            )
+
+        length = min(188.0, self.rail_len * 0.35)
+        l_c = None
+        for length_try in (length, min(length, self.rail_len * 0.25),
+                           min(length, self.rail_len * 0.15)):
+            if length_try < 60.0:
+                break
+            for step in (0.0, 40.0, 80.0, 120.0, 160.0):
+                cand = frame_end - self.pump_end * (length_try / 2.0 + 2.0 + step)
+                if cand - length_try / 2.0 < frame_l0 + 1.0 or \
+                   cand + length_try / 2.0 > frame_l1 - 1.0:
+                    continue
+                fp = footprint(cand, length_try)
+                limit = float("inf")
+                for sub_name in (
+                    self.equi + "_CASING",
+                    self.equi + "_CASING_FASTENERS",
+                    self.equi + "_SUCTION",
+                    self.equi + "_DISCHARGE",
+                ):
+                    for b in self.by_sub.get(sub_name, []):
+                        lo = self.element_aabb(b)
+                        if lo is None:
+                            continue
+                        # overlap in the (long, trans) plane
+                        t0_fp, l0_fp, t1_fp, l1_fp = fp
+                        if self.long_axis == "N":
+                            l_range, t_range = (lo[1], lo[4]), (lo[0], lo[3])
+                        else:
+                            l_range, t_range = (lo[0], lo[3]), (lo[1], lo[4])
+                        lo_l, hi_l = min(l_range), max(l_range)
+                        lo_t, hi_t = min(t_range), max(t_range)
+                        if hi_l <= l0_fp or lo_l >= l1_fp or hi_t <= t0_fp or lo_t >= t1_fp:
+                            continue
+                        limit = min(limit, lo[2])
+                # The stack spans frame_top..sole_top. A part may rest ON the
+                # plate top (contact) but must not intrude more than 2 mm.
+                if limit >= sole_top - 2.0:
+                    l_c, length = cand, length_try
+                    break
+            if l_c is not None:
+                break
+        if l_c is None:
+            return []
+
+        out: list[str] = []
+        for side in (-1.0, 1.0):
+            t = t_c + side * offset
+            e, n, u = self.to_world(l_c, t, self.frame_top + h / 2)
+            if self.long_axis == "N":
+                xl, yl = 10.0, length
+            else:
+                xl, yl = length, 10.0
+            out += box_text(e, n, u, xl, yl, h, "pump-end side plate")
+        # cross beam between the side plates (cross tie, not a support)
+        beam_h = max(10.0, h - 5.0)
+        out += beam_text(l_c, t_c - offset + 5.0, self.frame_top,
+                         span, length, beam_h, self.long_axis)
+        # pump-end sole plate CARRIED by the two side plates
+        e, n, u = self.to_world(l_c, t_c, (sole_bottom + sole_top) / 2.0)
+        xl, yl = (plate_w, length) if self.long_axis == "N" else (length, plate_w)
+        out += box_text(e, n, u, xl, yl, 16.0,
+                        "pump-end sole plate (carried by side plates)")
+        return out
+
+    def element_aabb(self, b: dict) -> tuple | None:
+        """(x0, y0, z0, x1, y1, z1) AABB in world E/N/U."""
+        p, d = block_geom(b)
+        if p is None:
+            return None
+        t = b["type"]
+        if t == "BOX":
+            return (p[0] - d.get("XLEN", 0) / 2, p[1] - d.get("YLEN", 0) / 2,
+                    p[2] - d.get("ZLEN", 0) / 2, p[0] + d.get("XLEN", 0) / 2,
+                    p[1] + d.get("YLEN", 0) / 2, p[2] + d.get("ZLEN", 0) / 2)
+        if t in ("CYLINDER", "CYLI", "CONE"):
+            r = d.get("DIAM", 0) / 2
+            h = d.get("HEIG", 0) / 2
+            z_axis = "U"
+            for a in b["attrs"]:
+                m = re.match(r"^ORI\s+.*?\bZ\s+is\s+([EWNSUD])\b", a, re.I)
+                if m:
+                    z_axis = m.group(1).upper()
+                    break
+            if z_axis in ("E", "W"):
+                return (p[0] - h, p[1] - r, p[2] - r, p[0] + h,
+                        p[1] + r, p[2] + r)
+            if z_axis in ("N", "S"):
+                return (p[0] - r, p[1] - h, p[2] - r, p[0] + r,
+                        p[1] + h, p[2] + r)
+            return (p[0] - r, p[1] - r, p[2] - h, p[0] + r,
+                    p[1] + r, p[2] + h)
+        return None
+
+    def gussets_for(self, g: tuple, kind: str) -> list[str]:
+        p, d = g
+        e, n, u = p
+        zl = d["ZLEN"]
+        bottom = u - zl / 2
+        h = bottom - self.frame_top
+        if h < 10.0:
+            return []
+        long_dim = d["XLEN"] if self.long_axis == "E" else d["YLEN"]
+        short_dim = d["YLEN"] if self.long_axis == "E" else d["XLEN"]
+        t = self._t_of(g)
+        sign = -1.0 if t < (self.t1 + self.t2) / 2 else 1.0
+        # large gusset: base spans the sole-plate long dimension
+        if self.long_axis == "N":
+            # YBOT spans N (default axes)
+            out = pyramid_text(e, n, self.frame_top, 20.0, long_dim, 20.0,
+                               long_dim * 0.66, h, xoff=-sign * 0.25 * short_dim,
+                               comment=f"large {kind} gusset")
+            # small gusset: long axis = transverse (E), offset toward centre
+            small_ori = "ORI Y is E and Z is U" if sign < 0 else "ORI Y is W and Z is U"
+            out += pyramid_text(e, n, self.frame_top, 20.0, short_dim * 0.75, 20.0,
+                                short_dim * 0.22, h, yoff=-sign * 0.25 * short_dim,
+                                ori=small_ori, comment=f"small {kind} gusset")
+        else:
+            # big gusset long axis = E
+            big_ori = "ORI Y is E and Z is U"
+            out = pyramid_text(e, n, self.frame_top, 20.0, long_dim, 20.0,
+                               long_dim * 0.66, h, xoff=sign * 0.25 * short_dim,
+                               ori=big_ori,
+                               comment=f"large {kind} gusset")
+            small_ori = "ORI Y is N and Z is U"
+            out += pyramid_text(e, n, self.frame_top, 20.0, short_dim * 0.75, 20.0,
+                                short_dim * 0.22, h, yoff=-sign * 0.25 * short_dim,
+                                ori=small_ori, comment=f"small {kind} gusset")
+        return out
+
+    def anchor_texts(self, g: tuple, kind: str, diam: float) -> list[str]:
+        """Two anchors per foot/pad at the quarter points of the long axis,
+        centred on the foot/pad (the reference P1502B pattern: bolts through
+        the foot plate with the nut on its top)."""
+        p, d = g
+        e, n, u = p
+        zl = d["ZLEN"]
+        long_dim = d["XLEN"] if self.long_axis == "E" else d["YLEN"]
+        l = self._l_of(g)
+        t = self._t_of(g)
+        sole_top = u + zl / 2
+        nut_heig = 10.6
+        shank_bottom = self.base_top - 8.7
+        out: list[str] = []
+        for dl in (-0.25, 0.25):
+            ae, an, _ = self.to_world(l + dl * long_dim, t, 0.0)
+            shank_top = sole_top + nut_heig
+            out += shank_text(ae, an, shank_bottom, shank_top, diam)
+            out += hex_text(ae, an, self.base_top, 20.0, self.hex_side,
+                            f"{kind} anchor washer")
+            out += hex_text(ae, an, sole_top, nut_heig, self.hex_side * 0.8,
+                            f"{kind} anchor nut")
+        return out
+
+
+def sube_span(lines: list[str], header_index: int) -> int:
+    """Index of the SUBE's own closing END line."""
+    i = header_index + 1
+    while i < len(lines):
+        s = lines[i].strip()
+        if s.upper().startswith("NEW SUBEQUIPMENT") or s.upper().startswith("NEW EQUIPMENT"):
+            j = i - 1
+            while j > header_index and not lines[j].strip():
+                j -= 1
+            if END_RE.match(lines[j].strip()):
+                return j
+            return j
+        i += 1
+    return len(lines) - 1
+
+
+def main() -> None:
+    lines = SRC.read_text(encoding="utf-8", errors="replace").splitlines()
+    blocks = parse(lines)
+    by_sub = defaultdict(list)
+    for b in blocks:
+        by_sub[(b["equi"], b["sub"])].append(b)
+
+    equis = sorted({b["equi"] for b in blocks})
+    frames = {eq: PumpFrame(blocks, eq) for eq in equis}
+    ops: list[tuple[int, int, list[str]]] = []
+
+    for eq in equis:
+        pf = frames[eq]
+        # ---- SUPPORT_FRAME ----
+        for i, ln in enumerate(lines):
+            if ln.strip().upper().startswith("NEW SUBEQUIPMENT") and eq + "_SUPPORT_FRAME" in ln:
+                end = sube_span(lines, i)
+                new = pf.frame_members() + pf.pump_end_stand()
+                # keep the sole plates in their original order, rebuild gussets
+                sole_blocks = sorted(
+                    [b for b in by_sub[(eq, eq + "_SUPPORT_FRAME")]
+                     if b["type"] == "BOX"
+                     and 9 <= block_geom(b)[1].get("ZLEN", 0) <= 17
+                     and block_geom(b)[0][2] > 90],
+                    key=lambda b: b["start"],
+                )
+                for sb in sole_blocks:
+                    new += lines[sb["start"]:sb["end"] + 1] + [""]
+                    g = block_geom(sb)
+                    new += pf.gussets_for(g, "pump")
+                ops.append((i + 1, end - 1, new))
+                break
+
+        # ---- BASE_FASTENERS ----
+        for i, ln in enumerate(lines):
+            if ln.strip().upper().startswith("NEW SUBEQUIPMENT") and eq + "_BASE_FASTENERS" in ln:
+                end = sube_span(lines, i)
+                new: list[str] = []
+                diam = block_geom(pf.bf_shanks[0])[1].get("DIAM", 17.0) if pf.bf_shanks else 17.0
+                for g in sorted(pf.pump_soles, key=lambda x: (x[0][0], x[0][1])):
+                    new += pf.anchor_texts(g, "BASE", diam)
+                ops.append((i + 1, end - 1, new))
+                break
+
+        # ---- DRIVER_FASTENERS ----
+        for i, ln in enumerate(lines):
+            if ln.strip().upper().startswith("NEW SUBEQUIPMENT") and eq + "_DRIVER_FASTENERS" in ln:
+                end = sube_span(lines, i)
+                new = []
+                diam = block_geom(pf.df_shanks[0])[1].get("DIAM", 17.0) if pf.df_shanks else 17.0
+                for g in sorted(pf.motor_pads, key=lambda x: (x[0][0], x[0][1])):
+                    new += pf.anchor_texts(g, "DRIVER", diam)
+                ops.append((i + 1, end - 1, new))
+                break
+
+        # ---- DRIVER: replace pad gussets ----
+        pad_blocks = pf.pad_blocks
+        for pb in pad_blocks:
+            g = block_geom(pb)
+            new = lines[pb["start"]:pb["end"] + 1] + [""] + pf.gussets_for(g, "motor")
+            ops.append((pb["start"], pb["end"], new))
+        for pb in pf.pyr_dr_blocks:
+            ops.append((pb["start"], pb["end"], []))
+
+    # delete old SUPPORT_FRAME gussets and cross plates (inside replaced range)
+    # apply ops bottom-up
+    ops.sort(key=lambda x: x[0], reverse=True)
+    out_lines = list(lines)
+    for start, end, text in ops:
+        if end < start:
+            continue
+        out_lines[start:end + 1] = text
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text("\n".join(out_lines) + "\n", encoding="utf-8")
+    print(f"Wrote {OUT}")
+    print(f"Line count: {len(lines)} -> {len(out_lines)}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,17 @@
+-- PML-STUDY-EXTR-002 / query pack 01
+-- Required E3D observations for candidate 01.
+--
+-- How to run:
+--   1. Load candidate 01 under a writable ZONE.
+--   2. Make each SUBEQUIPMENT current in turn and run:
+--        $M <this file>
+--   3. Record the Q output and screenshot the visible result.
+--
+-- What to capture per SUBEQUIPMENT:
+--   - Q ATT on each primitive: EXTRUSION HEIG, CYLINDER DIAM/HEIG, BOX
+--     lengths exactly as E3D stored them.
+--   - In Design Explorer, confirm the VERTEX children of each EXTRUSION:
+--     rail 8, cleats 6, hex nuts 6.
+--   - Visible confirmation that every part touches its neighbour and the
+--     lowest point of the frame sits at U 0.
+Q ATT

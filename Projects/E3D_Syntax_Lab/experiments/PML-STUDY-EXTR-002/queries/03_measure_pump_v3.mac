@@ -1,0 +1,20 @@
+-- PML-STUDY-EXTR-002 / query pack 03
+-- Required E3D observations for candidate 03 (high-fidelity pump v3).
+--
+-- How to run:
+--   1. Load candidate 03 under a writable ZONE.
+--   2. Make each SUBEQUIPMENT current in turn and run:
+--        $M <this file>
+--   3. Record the Q output and screenshot the visible result.
+--
+-- What to capture per SUBEQUIPMENT:
+--   - Q ATT on the casing volute EXTRUSION: HEIG 300mm, 97 VERTEX children.
+--   - Q ATT on the motor frame EXTRUSION: HEIG 560mm, 144 VERTEX children.
+--   - In Design Explorer confirm: rotor bars 144, stator winding coils 180,
+--     fan-shroud grille bars 72, coupling guard bars 60, hex nuts 6 each.
+--   - Confirm the whole pump reads as one connected machine: base frame,
+--     pump feet, volute, suction/discharge connections, mechanical seal,
+--     bearing housing, coupling with star spider, motor with terminal box
+--     seated on its four frame pads, fan and shroud. Nothing floats.
+--   - Confirm the lowest point sits at U 0.
+Q ATT
