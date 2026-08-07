@@ -43,7 +43,6 @@ zero; if it inherited a position the whole tank would shift by that amount.
 from __future__ import annotations
 
 import math
-import re
 from typing import List, Optional, Sequence, Tuple
 
 from .schema import (
@@ -55,6 +54,11 @@ from .schema import (
     TankSpec,
 )
 from .pml_builder import PMLBuilder, PMLValidationError
+from .pml_parser import parse_primitives
+
+#: Positional tolerance (mm). Coordinates are emitted to 0.1 mm, so anything
+#: above rounding is a real error.
+_TOLERANCE_MM = 0.2
 
 __all__ = ["TankBuilder", "build_tank", "verify_bottom_centre"]
 
@@ -1200,104 +1204,14 @@ def verify_bottom_centre(spec: TankSpec, script: str) -> List[str]:
     return problems
 
 
-#: Positional tolerance (mm). Coordinates are emitted to 0.1 mm, so anything
-#: above rounding is a real error.
-_TOLERANCE_MM = 0.2
-
-#: Axis extracted from an ORI line: the primitive extends along its Z axis.
-_ORI_RE = re.compile(r"^ORI\s+Z\s+IS\s+([UDENSW])\b", re.IGNORECASE)
-_POS_RE = re.compile(
-    r"^POS\s+E\s+(-?[\d.]+)\s+N\s+(-?[\d.]+)\s+U\s+(-?[\d.]+)", re.IGNORECASE
-)
-
-
-#: Element types that carry geometry. EQUI and SUBE are grouping elements: they
-#: own a position but occupy no space, so they must never be treated as
-#: geometry when computing a tank's extent.
-_GEOMETRY_KINDS = frozenset({"CYLI", "CONE", "DISH", "BOX"})
-
-
 def _parse_primitives(script: str, tag: str) -> List[dict]:
     """
-    Extract the primitives belonging to one tag, with their true extents.
+    Primitives belonging to one tank, with the lowest point each occupies.
 
-    Each returned dict carries the emitted datum and the lowest elevation it
-    actually occupies, derived from E3D's element-specific datum (centre for
-    CYLI/CONE/BOX, rim plane for DISH) and the primitive's own dimensions.
-    This keeps the check independent of the builder's internal bookkeeping.
-
-    Membership follows the tree: everything from a tank's ``NEW EQUI`` up to the
-    next one belongs to that tank, which covers the vessel body and every nozzle
-    SUBE beneath it.
+    A thin adapter over :func:`wsb.pml_parser.parse_primitives`. Tank tags use
+    the hyphen-only name rule, and this verifier needs ``u_min`` rather than
+    full bounds, so those choices are pinned here while the parsing itself is
+    shared with the composite and pump verifiers -- see :mod:`wsb.pml_parser`
+    for why it lives in one place.
     """
-    prefix = tag.replace("-", "_")
-    prims: List[dict] = []
-    in_tag = False
-    cur: dict = {}
-
-    for raw in script.split("\n"):
-        line = raw.strip()
-        if line.startswith("NEW EQUI /"):
-            # An EQUI opens a new item of equipment and closes the previous one.
-            in_tag = line[len("NEW EQUI /"):] == prefix
-            cur = {}
-            continue
-        if not in_tag:
-            continue
-
-        if line.startswith("NEW "):
-            kind = line[4:].strip().upper()
-            # Skip grouping elements: a SUBE's POS would otherwise be read as a
-            # zero-sized primitive sitting at the tank's origin.
-            cur = {"kind": kind, "axis": "U"} if kind in _GEOMETRY_KINDS else {}
-            continue
-        if not cur:
-            continue
-
-        for attr in ("DIAM", "HEIG", "XLEN", "YLEN", "ZLEN", "DTOP", "DBOT"):
-            if line.startswith(attr + " "):
-                cur[attr.lower()] = float(line.split()[1])
-
-        ori = _ORI_RE.match(line)
-        if ori:
-            cur["axis"] = ori.group(1).upper()
-            continue
-
-        pos = _POS_RE.match(line)
-        if pos:
-            east, north, up = (float(g) for g in pos.groups())
-            cur.update(east=east, north=north, up=up)
-            cur["u_min"] = _lowest_point(cur)
-            prims.append(cur)
-            cur = {}
-
-    return prims
-
-
-def _lowest_point(prim: dict) -> float:
-    """
-    The lowest elevation a primitive occupies, given its E3D datum.
-
-    For a BOX that is the centre less half its vertical size. For an oriented
-    primitive it depends on the axis: one aligned with U extends half its height
-    below the centre, while a horizontal one only extends half its diameter.
-    """
-    up = prim["up"]
-    kind = prim["kind"]
-
-    if kind == "BOX":
-        return up - prim.get("zlen", 0.0) / 2.0
-
-    height = prim.get("heig", 0.0)
-    diameter = max(
-        prim.get("diam", 0.0), prim.get("dbot", 0.0), prim.get("dtop", 0.0)
-    )
-    if kind == "DISH":
-        if prim["axis"] == "D":
-            return up - height
-        if prim["axis"] == "U":
-            return up
-        return up - diameter / 2.0
-    if prim["axis"] in ("U", "D"):
-        return up - height / 2.0
-    return up - diameter / 2.0
+    return parse_primitives(script, tag, simple_tag=True, with_lowest_point=True)

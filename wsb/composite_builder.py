@@ -10,12 +10,19 @@ check real occupied bounds.
 from __future__ import annotations
 
 import math
-import re
 from datetime import datetime
 from typing import Iterable, List, Optional, Sequence, Tuple
 
 from .composite_schema import Bounds, EquipmentModel, PrimitiveSpec
 from .pml_builder import PMLBuilder, nozzle_component_path
+from .pml_parser import (
+    AXIS_VECTOR,
+    bounds_of,
+    equipment_name_to_element,
+    parse_nozzles,
+    parse_plan_direction,
+    parse_primitives,
+)
 
 __all__ = [
     "build_combined_macro",
@@ -27,26 +34,9 @@ __all__ = [
 
 
 _TOLERANCE_MM = 0.2
-_ORI_RE = re.compile(r"^ORI\s+Z\s+IS\s+([UDENSW])\b", re.IGNORECASE)
-_NOZZLE_ORI_RE = re.compile(
-    r"^ORI\s+P1\s+IS\s+([UDENSW])\b", re.IGNORECASE
-)
-_BOX_PLAN_ORI_RE = re.compile(
-    r"^ORI\s+Z\s+IS\s+U\s+AND\s+X\s+IS\s+(.+)$", re.IGNORECASE
-)
-_POS_RE = re.compile(
-    r"^POS\s+E\s+(-?[\d.]+)\s+N\s+(-?[\d.]+)\s+U\s+(-?[\d.]+)",
-    re.IGNORECASE,
-)
-_GEOMETRY = frozenset({"CYLI", "CONE", "DISH", "BOX"})
-_AXIS_VECTOR = {
-    "U": (0.0, 0.0, 1.0),
-    "D": (0.0, 0.0, -1.0),
-    "E": (1.0, 0.0, 0.0),
-    "W": (-1.0, 0.0, 0.0),
-    "N": (0.0, 1.0, 0.0),
-    "S": (0.0, -1.0, 0.0),
-}
+#: Axis unit vectors, re-exported from the shared parser so the emitter and
+#: the verifier cannot disagree about what an axis letter means.
+_AXIS_VECTOR = AXIS_VECTOR
 
 
 def _world_point(
@@ -58,27 +48,7 @@ def _world_point(
 
 def _parse_plan_direction(direction: str) -> float:
     """Inverse of the builder's cardinal/quadrant BOX bearing formatter."""
-    tokens = direction.upper().split()
-    cardinal = {"E": 0.0, "N": 90.0, "W": 180.0, "S": 270.0}
-    if len(tokens) == 1 and tokens[0] in cardinal:
-        return cardinal[tokens[0]]
-    if len(tokens) != 3:
-        raise ValueError(f"Unsupported BOX plan direction {direction!r}")
-    first, angle_text, second = tokens
-    angle = float(angle_text)
-    quadrant_start = {
-        ("E", "N"): 0.0,
-        ("N", "W"): 90.0,
-        ("W", "S"): 180.0,
-        ("S", "E"): 270.0,
-    }
-    try:
-        start = quadrant_start[(first, second)]
-    except KeyError:
-        raise ValueError(f"Unsupported BOX plan direction {direction!r}") from None
-    if not 0.0 < angle < 90.0:
-        raise ValueError(f"BOX quadrant angle must be 0..90, got {angle}")
-    return start + angle
+    return parse_plan_direction(direction)
 
 
 def _plan_rotation_difference(first: float, second: float) -> float:
@@ -289,155 +259,18 @@ def validate_equipment_model(model: EquipmentModel) -> None:
 
 
 def _parsed_bounds(primitive: dict) -> Bounds:
-    e = primitive["east"]
-    n = primitive["north"]
-    u = primitive["up"]
-    if primitive["kind"] == "BOX":
-        angle = math.radians(primitive.get("plan_rotation_deg", 0.0))
-        cosine = abs(math.cos(angle))
-        sine = abs(math.sin(angle))
-        half_e = (
-            cosine * primitive["xlen"] / 2.0
-            + sine * primitive["ylen"] / 2.0
-        )
-        half_n = (
-            sine * primitive["xlen"] / 2.0
-            + cosine * primitive["ylen"] / 2.0
-        )
-        return (
-            e - half_e,
-            e + half_e,
-            n - half_n,
-            n + half_n,
-            u - primitive["zlen"] / 2.0,
-            u + primitive["zlen"] / 2.0,
-        )
-
-    diameter = max(
-        primitive.get("diam", 0.0),
-        primitive.get("dbot", 0.0),
-        primitive.get("dtop", 0.0),
-    )
-    radius = diameter / 2.0
-    de, dn, du = _AXIS_VECTOR[primitive["axis"]]
-    if primitive["kind"] == "DISH":
-        # DISH POS is the flat rim / tangent plane, not a geometric centre.
-        start = (e, n, u)
-        end = (
-            e + de * primitive["heig"],
-            n + dn * primitive["heig"],
-            u + du * primitive["heig"],
-        )
-    else:
-        half = primitive["heig"] / 2.0
-        axis_half = (de * half, dn * half, du * half)
-        start = (e - axis_half[0], n - axis_half[1], u - axis_half[2])
-        end = (e + axis_half[0], n + axis_half[1], u + axis_half[2])
-    e_min, e_max = sorted((start[0], end[0]))
-    n_min, n_max = sorted((start[1], end[1]))
-    u_min, u_max = sorted((start[2], end[2]))
-    if de == 0.0:
-        e_min -= radius
-        e_max += radius
-    if dn == 0.0:
-        n_min -= radius
-        n_max += radius
-    if du == 0.0:
-        u_min -= radius
-        u_max += radius
-    return (e_min, e_max, n_min, n_max, u_min, u_max)
+    """The world extent of a parsed primitive, honouring its E3D datum."""
+    return bounds_of(primitive)
 
 
 def _parse_primitives(script: str, equipment_name: str) -> List[dict]:
-    """Parse actual E3D element datums from one EQUI block."""
-    expected = re.sub(r"[^A-Za-z0-9_/]", "_", equipment_name.strip())
-    expected = re.sub(r"_{2,}", "_", expected).strip("_")
-    in_equipment = False
-    current: dict = {}
-    primitives: List[dict] = []
-
-    for raw in script.splitlines():
-        line = raw.strip()
-        if line.startswith("NEW EQUI /"):
-            in_equipment = line[len("NEW EQUI /") :] == expected
-            current = {}
-            continue
-        if not in_equipment:
-            continue
-        if line.startswith("NEW "):
-            kind = line[4:].split()[0].upper()
-            current = {"kind": kind, "axis": "U"} if kind in _GEOMETRY else {}
-            continue
-        if not current:
-            continue
-        for attribute in (
-            "DIAM",
-            "HEIG",
-            "XLEN",
-            "YLEN",
-            "ZLEN",
-            "DTOP",
-            "DBOT",
-        ):
-            if line.startswith(attribute + " "):
-                current[attribute.lower()] = float(line.split()[1])
-        box_orientation = _BOX_PLAN_ORI_RE.match(line)
-        if box_orientation and current.get("kind") == "BOX":
-            current["plan_rotation_deg"] = _parse_plan_direction(
-                box_orientation.group(1)
-            )
-        orientation = _ORI_RE.match(line)
-        if orientation:
-            current["axis"] = orientation.group(1).upper()
-        position = _POS_RE.match(line)
-        if position:
-            current["east"], current["north"], current["up"] = (
-                float(value) for value in position.groups()
-            )
-            current["bounds"] = _parsed_bounds(current)
-            primitives.append(current)
-            current = {}
-    return primitives
+    """Parse actual E3D element datums from one EQUI block, with bounds."""
+    return parse_primitives(script, equipment_name, with_bounds=True)
 
 
 def _parse_nozzles(script: str, equipment_name: str) -> List[dict]:
     """Parse native NOZZLE blocks from one EQUI for independent verification."""
-    expected = re.sub(r"[^A-Za-z0-9_/]", "_", equipment_name.strip())
-    expected = re.sub(r"_{2,}", "_", expected).strip("_")
-    in_equipment = False
-    current: dict = {}
-    nozzles: List[dict] = []
-
-    for raw in script.splitlines():
-        line = raw.strip()
-        if line.startswith("NEW EQUI /"):
-            in_equipment = line[len("NEW EQUI /") :] == expected
-            current = {}
-            continue
-        if not in_equipment:
-            continue
-        if line.startswith("NEW NOZZLE /"):
-            current = {"name": line[len("NEW NOZZLE /") :]}
-            continue
-        if line.startswith("NEW "):
-            current = {}
-            continue
-        if not current:
-            continue
-        if line.startswith("CATR SPCOMPONENT "):
-            current["catref"] = line[len("CATR SPCOMPONENT ") :]
-        position = _POS_RE.match(line)
-        if position:
-            current["face"] = tuple(float(value) for value in position.groups())
-        orientation = _NOZZLE_ORI_RE.match(line)
-        if orientation:
-            current["axis"] = orientation.group(1).upper()
-        if line.startswith("HEIG "):
-            current["height"] = float(line.split()[1])
-        if line == "END":
-            nozzles.append(current)
-            current = {}
-    return nozzles
+    return parse_nozzles(script, equipment_name)
 
 
 def _bounds_close(actual: Bounds, expected: Bounds) -> bool:
@@ -511,12 +344,9 @@ def verify_equipment_macro(model: EquipmentModel, script: str) -> List[str]:
     for index, (actual, expected_nozzle) in enumerate(
         zip(actual_nozzles, expected_nozzles), start=1
     ):
-        expected_name = re.sub(
-            r"[^A-Za-z0-9_/]",
-            "_",
-            f"{model.name}_{expected_nozzle.name}_NOZZ",
+        expected_name = equipment_name_to_element(
+            f"{model.name}_{expected_nozzle.name}_NOZZ"
         )
-        expected_name = re.sub(r"_{2,}", "_", expected_name).strip("_")
         if actual.get("name") != expected_name:
             problems.append(
                 f"{model.display_name} nozzle {index}: expected name "

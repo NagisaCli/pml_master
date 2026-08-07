@@ -39,7 +39,7 @@ from .pump_schema import (
     PumpFamily,
     PumpSpec,
 )
-from .tank_builder import _parse_primitives
+from .pml_parser import parse_labelled, parse_primitives, plan_half_extents
 
 __all__ = [
     "DerivedPumpGeometry",
@@ -1711,20 +1711,8 @@ class PumpBuilder:
 
 
 def _world_plan_half_extents(primitive: dict) -> Tuple[float, float]:
-    kind = primitive["kind"]
-    if kind == "BOX":
-        return primitive.get("xlen", 0.0) / 2.0, primitive.get("ylen", 0.0) / 2.0
-    diameter = max(
-        primitive.get("diam", 0.0),
-        primitive.get("dbot", 0.0),
-        primitive.get("dtop", 0.0),
-    )
-    axis = primitive.get("axis", "U")
-    if axis in ("E", "W"):
-        return primitive.get("heig", 0.0) / 2.0, diameter / 2.0
-    if axis in ("N", "S"):
-        return diameter / 2.0, primitive.get("heig", 0.0) / 2.0
-    return diameter / 2.0, diameter / 2.0
+    """Half the primitive's East/North footprint, for the baseplate check."""
+    return plan_half_extents(primitive)
 
 
 def _nozzle_direction(script: str, nozzle_name: str) -> str:
@@ -1742,75 +1730,18 @@ def _nozzle_direction(script: str, nozzle_name: str) -> str:
 
 
 def _labeled_cylinders(script: str, label_fragment: str) -> List[dict]:
-    """Parse CYLIs immediately following a selected generated comment label."""
-    cylinders: List[dict] = []
-    lines = script.splitlines()
-    for index, raw in enumerate(lines):
-        if not raw.startswith("-- ") or label_fragment not in raw:
-            continue
-        block = "\n".join(lines[index + 1 : index + 8])
-        match = re.search(
-            r"(?m)^NEW CYLI\n"
-            r"DIAM (-?[\d.]+)\n"
-            r"HEIG (-?[\d.]+)\n"
-            r"ORI Z IS ([ENSWUD]) AND Y IS [ENSWUD]\n"
-            r"POS E (-?[\d.]+) N (-?[\d.]+) U (-?[\d.]+)$",
-            block,
-        )
-        if match:
-            diameter, length, axis, east, north, up = match.groups()
-            cylinders.append(
-                {
-                    "diam": float(diameter),
-                    "heig": float(length),
-                    "axis": axis,
-                    "east": float(east),
-                    "north": float(north),
-                    "up": float(up),
-                }
-            )
-    return cylinders
+    """Parse CYLIs introduced by a generated comment label."""
+    return parse_labelled(script, label_fragment, "CYLI")
 
 
 def _labeled_boxes(script: str, label_fragment: str) -> List[dict]:
-    """Parse BOXes immediately following a selected generated comment label."""
-    boxes: List[dict] = []
-    lines = script.splitlines()
-    for index, raw in enumerate(lines):
-        if not raw.startswith("-- ") or label_fragment not in raw:
-            continue
-        block = "\n".join(lines[index + 1 : index + 8])
-        match = re.search(
-            r"(?m)^NEW BOX\n"
-            r"XLEN (-?[\d.]+)\n"
-            r"YLEN (-?[\d.]+)\n"
-            r"ZLEN (-?[\d.]+)\n"
-            r"POS E (-?[\d.]+) N (-?[\d.]+) U (-?[\d.]+)$",
-            block,
-        )
-        if match:
-            xlen, ylen, zlen, east, north, up = match.groups()
-            boxes.append(
-                {
-                    "xlen": float(xlen),
-                    "ylen": float(ylen),
-                    "zlen": float(zlen),
-                    "east": float(east),
-                    "north": float(north),
-                    "up": float(up),
-                }
-            )
-    return boxes
+    """Parse BOXes introduced by a generated comment label."""
+    return parse_labelled(script, label_fragment, "BOX")
 
 
-def verify_pump(spec: PumpSpec, script: str) -> List[str]:
-    """
-    Numerically verify immutable data, footprint, hierarchy and orientations.
-
-    The baseplate check parses the BOX and computes its underside from E3D's
-    centre datum. It never passes merely because a matching POS string exists.
-    """
-    problems = list(validate_pml(script))
+def _check_hierarchy(spec: PumpSpec, script: str) -> List[str]:
+    """One EQUI for the pump, and every detail SUBE the builder promises."""
+    problems: List[str] = []
     safe = spec.safe_tag
     equi_lines = [
         line.strip()
@@ -1847,10 +1778,20 @@ def verify_pump(spec: PumpSpec, script: str) -> List[str]:
     if missing_subes:
         problems.append(f"{spec.tag}: missing detail SUBEs {missing_subes}")
 
-    prims = _parse_primitives(script, spec.tag)
-    if not prims:
-        return problems + [f"{spec.tag}: no primitives parsed"]
+    return problems
 
+
+def _check_footprint(
+    spec: PumpSpec, prims: List[dict]
+) -> List[str]:
+    """
+    Baseplate datum and foundation bearing plane.
+
+    The baseplate's underside is computed from E3D's centre datum rather than
+    matched as a POS string, so a model whose every element is half a height
+    too low fails here instead of passing.
+    """
+    problems: List[str] = []
     expected_x, expected_y, expected_z = spec.world_baseplate_dimensions
     east, north, up = spec.position
     baseplates = [
@@ -1887,7 +1828,15 @@ def verify_pump(spec: PumpSpec, script: str) -> List[str]:
             f"datum U {up:.1f}"
         )
 
-    forward = _AXIS_VECTOR[spec.layout_axis]
+    return problems
+
+
+def _check_on_baseplate(
+    spec: PumpSpec, prims: List[dict], forward: Tuple[float, float]
+) -> List[str]:
+    """Every primitive must stay within the baseplate footprint in plan."""
+    problems: List[str] = []
+    east, north, _ = spec.position
     cross = (-forward[1], forward[0])
     for primitive in prims:
         half_e, half_n = _world_plan_half_extents(primitive)
@@ -1912,6 +1861,13 @@ def verify_pump(spec: PumpSpec, script: str) -> List[str]:
                 f"footprint by {abs(local_t) + half_t - spec.width / 2.0:.1f} mm"
             )
 
+    return problems
+
+
+def _check_nozzle_directions(spec: PumpSpec, script: str) -> List[str]:
+    """Suction and discharge must be aimed as the datasheet specifies."""
+    problems: List[str] = []
+    safe = spec.safe_tag
     suction_direction = _nozzle_direction(script, f"{safe}_SUCTION_NOZZLE")
     if suction_direction != spec.suction_axis.upper():
         problems.append(
@@ -1925,6 +1881,34 @@ def verify_pump(spec: PumpSpec, script: str) -> List[str]:
             f"{discharge_direction or 'missing'}, expected "
             f"{spec.discharge_axis.upper()}"
         )
+
+    return problems
+
+
+def verify_pump(spec: PumpSpec, script: str) -> List[str]:
+    """
+    Numerically verify immutable data, footprint, hierarchy and orientations.
+
+    The baseplate check parses the BOX and computes its underside from E3D's
+    centre datum. It never passes merely because a matching POS string exists.
+    """
+    problems = list(validate_pml(script))
+    safe = spec.safe_tag
+    problems.extend(_check_hierarchy(spec, script))
+
+    prims = parse_primitives(
+        script, spec.tag, simple_tag=True, with_lowest_point=True
+    )
+    if not prims:
+        return problems + [f"{spec.tag}: no primitives parsed"]
+
+    east, north, up = spec.position
+    problems.extend(_check_footprint(spec, prims))
+
+    forward = _AXIS_VECTOR[spec.layout_axis]
+    cross = (-forward[1], forward[0])
+    problems.extend(_check_on_baseplate(spec, prims, forward))
+    problems.extend(_check_nozzle_directions(spec, script))
 
     g = derive_pump_geometry(spec)
     motor_front_l = g.motor_centre_l + g.motor_length / 2.0

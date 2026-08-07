@@ -1,81 +1,97 @@
-# 项目状态审查清单 — 2026-08-04
+# Project Status Review Checklist — 2026-08-04
 
-供逐一审查使用。测试基线：**264 passed / 2 skipped**。
+For item-by-item review. Test baseline: **288 passed / 2 skipped**.
 
-## 0. 工作区卫生
+## 0. Workspace hygiene
 
-- 当前 git 有大量未提交改动 + 未跟踪目录（`Projects/E3D_Syntax_Lab/`、
-  `Projects/JK-Tank_Build/`、`Projects/JK_Cooking_Tank_Build/`、
-  `Projects/JK_Pump_Build/` 的新文件、新 builder/测试/知识文件）。
-- 审查完成后建议整体提交一次，作为本轮工作快照。
+- The git working tree currently has many uncommitted changes plus untracked
+  directories (`Projects/E3D_Syntax_Lab/`, `Projects/JK-Tank_Build/`,
+  `Projects/JK_Cooking_Tank_Build/`, `Projects/JK_Pump_Build/` new files,
+  new builders/tests/knowledge files).
+- After the review, commit once as a snapshot of this round of work.
 
-## 1. E3D_Syntax_Lab — 语法实验室（已实质完成）
+## 1. E3D_Syntax_Lab — syntax laboratory (substantially complete)
 
-### EXTRUSION 研究 — 已闭环
+### EXTRUSION study — closed loop
 
-| 候选 | 结论 | 证据 |
+| Candidate | Conclusion | Evidence |
 |---|---|---|
-| 01 | VERIFIED：POS=轮廓端面，HEIG 沿 +Z | 用户实测 U 1000–1800 |
-| 02 | 已测：同轴；上头比原生高 10 mm | Q ATT + 原生对照 |
-| 03 | VERIFIED：POS→ORI 与 ORI→POS 顺序无关 | 占用范围一致 |
-| 04 | VERIFIED：双头接触契约（下头内缩 10 mm、上头齐平） | 用户目视“EXTR完美” |
+| 01 | VERIFIED: POS = profile end plane, HEIG along +Z | user measured U 1000–1800 |
+| 02 | Measured: coaxial; upper head 10 mm proud of native | Q ATT + native comparison |
+| 03 | VERIFIED: POS→ORI and ORI→POS order-independent | occupied ranges identical |
+| 04 | VERIFIED: two-head contact contract (lower head inset 10 mm, upper head flush) | user visual "EXTR perfect" |
 
-### PIPE 研究 — 核心与高级家族全部有实测结论
+### PIPE study — core and advanced families all measured
 
-| 候选 | 内容 | 结论 |
+| Candidate | Content | Conclusion |
 |---|---|---|
-| 01–07 | 直管、斜管 1:100、弯头、变径、TEE/B2 互引 | 轮次 1–2 VERIFIED |
-| 08 | 组合平衡簇（四路由同 ZONE） | 重提 VERIFIED（“不复杂”）；崩溃=应用/插件级 |
-| 09/10 | 崩溃隔离两半 | VERIFIED（09 Q ATT 全对、10 HBore/TBore=100/80） |
-| 11 | 高密度全组件 | 隔离（/FIRE 未定义、组件未成路由）→ 由 14–17 取代 |
-| 13 | TEE CREF + GASKET 查询套件 | VERIFIED：CREF=/CODEX-Q13-TEE/B2；GASKET Height 0mm 零厚度标记 |
-| 14 | FILTER/CLOSURE/FBLIND/COUPLING/WELD | VERIFIED（导入正常、组件显示） |
-| 15 | BEND/OLET/PTAPPING+PIPCARTESIAN | VERIFIED（含 45° 弯头、/General-Tappings 解析成功） |
-| 16 | B1/B2/B3 网络 + TEE2/OLET 互引（连接优先） | VERIFIED |
-| 17 | CAP（/FIRE） | GATED：`(2,109) Undefined name /FIRE`，与预期一致；等项目补 /FIRE |
+| 01–07 | straight pipe, 1:100 slope, elbow, reducer, TEE/B2 reciprocal references | rounds 1–2 VERIFIED |
+| 08 | combined balanced cluster (four routes in the same ZONE) | re-submitted VERIFIED ("not complex"); crash = application/add-in level |
+| 09/10 | crash-isolation halves | VERIFIED (09 Q ATT all correct, 10 HBore/TBore=100/80) |
+| 11 | high-density full-component | isolated (/FIRE undefined, components not routed) → superseded by 14–17 |
+| 13 | TEE CREF + GASKET query kit | VERIFIED: CREF=/CODEX-Q13-TEE/B2; GASKET Height 0mm zero-thickness marker |
+| 14 | FILTER/CLOSURE/FBLIND/COUPLING/WELD | VERIFIED (imports normally, components display) |
+| 15 | BEND/OLET/PTAPPING+PIPCARTESIAN | VERIFIED (incl. 45° elbow, /General-Tappings resolved) |
+| 16 | B1/B2/B3 network + TEE2/OLET reciprocal refs (connection-first) | VERIFIED |
+| 17 | CAP (/FIRE) | GATED: `(2,109) Undefined name /FIRE`, as predicted; await project supplying /FIRE |
 
-剩余证据缺口（需要新的原生样本，非写宏可补）：
-`VTWAY`、路由平面/Router 命令、保温绝缘继承、`INPRTR/OUPRTR` 元数据。
+Remaining evidence gaps (need new native samples; cannot be closed by writing
+macros): `VTWAY`, routing plane/Router commands, insulation inheritance,
+`INPRTR/OUPRTR` metadata.
 
-## 2. JK-Tank_Build — WSB 罐区（22 台）
+## 2. JK-Tank_Build — WSB tank farm (22 units)
 
-- 历史基线：22 台、451 primitives、114 nozzles（JK-Project）。
-- **dropleg 外观改造 R3 — 已确认（2026-08-04）**
-  - 交付：`Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r3.txt`
-  - R1→R3：四段筒体（总高 9986）+ 每台新增东向 DN200 下管口；
-    R2 删除 ACCESS 与原有管口；R3 修正管口 ORI 为 `Y is S and Z is U`。
-  - 顶部管口超高与侧向管口悬空：由用户手动调整并确认，项目无遗留问题。
+- Historical baseline: 22 units, 451 primitives, 114 nozzles (JK-Project).
+- **dropleg appearance retrofit R3 — confirmed (2026-08-04)**
+  - Deliverable: `Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r3.txt`
+  - R1→R3: four-section shell (total height 9986) + new east-facing DN200
+    lower nozzle per unit; R2 deleted ACCESS and the original nozzles; R3
+    corrected the nozzle ORI to `Y is S and Z is U`.
+  - Over-height top nozzles and floating side nozzles: adjusted manually by
+    the user and confirmed; no outstanding project issues.
 
-## 3. JK_Cooking_Tank_Build — 煮浆罐（15 台）
+## 3. JK_Cooking_Tank_Build — cooking tanks (15 units)
 
-- R5（2026-07-30）目视接受，为已接受基线。
-- **R6 原生导出改造 — 已确认（2026-08-04）**
-  - 14 台加 50 mm 底座板（直径=筒体+300）；10 台精简支撑、348 颗螺栓内移；
-    ACCUMULATOR/AID_1/AID_2 保留裙座；4 台未动。
-  - 注意：三个改造脚本对当前文件重跑会损坏，需先恢复归档备份。
+- R5 (2026-07-30) visually accepted; that is the accepted baseline.
+- **R6 native-export retrofit — confirmed (2026-08-04)**
+  - 14 units get a 50 mm base plate (diameter = shell + 300); 10 units get
+    simplified supports, 348 bolts moved inward; ACCUMULATOR/AID_1/AID_2
+    keep skirts; 4 units untouched.
+  - Note: re-running the three retrofit scripts on the current file will
+    corrupt it; restore the archived backup first.
 
-## 4. JK_Pump_Build — 泵批（30 台）
+## 4. JK_Pump_Build — pump batch (30 units)
 
-- 2026-07-29 组合宏已加载并目视确认（当前基线）。
-- **2026-07-30 修正版 — 已确认（2026-08-04 E3D 重载接受）**
-  - 每台删除 BEARING_FRAME 末两个浮空件 + COUPLING 末两个支撑脚（共 4 个）；
-  - 60 个管口按实测开口映射到目录 DN（见 `JK_Pump_Build_nozzle_mapping.md`）；
-  - 静态/数值校验通过，E3D 重载已确认。
-- 3 台缺俯视图（203-PU-020 / 205-PU-004 / 205-PU-032）→ 保持 UNCONFIRMED。
-- 源工作簿 `Generic Type` 151Ib–179Ib 自动填充异常：已记录、未改源。
+- 2026-07-29 combined macro loaded and visually confirmed (current baseline).
+- **2026-07-30 revision — confirmed (2026-08-04 E3D reload accepted)**
+  - Per unit: removed the last two floating parts of BEARING_FRAME plus the
+    last two support feet of COUPLING (4 total);
+  - 60 nozzles mapped to catalogue DNs from the measured openings (see
+    `JK_Pump_Build_nozzle_mapping.md`);
+  - static/numeric checks pass; E3D reload confirmed.
+- 3 units lack top views (203-PU-020 / 205-PU-004 / 205-PU-032) → remain
+  UNCONFIRMED.
+- Source workbook `Generic Type` 151Ib–179Ib autofill anomaly: recorded,
+  source unchanged.
 
-## 5. 待你提供的输入
+## 5. Inputs awaiting you
 
-- 无（桌面 `泵中线基准.txt` 等未提及文件按约定忽略，不纳入系统工作）。
+- None (unmentioned desktop files such as the pump centreline reference
+  `PUMP_MID_LINE.txt` are ignored by convention and kept out of system work).
 
-## 6. 工作约定（2026-08-04 起）
+## 6. Working conventions (from 2026-08-04)
 
-1. **默认没问题**：用户未主动提出问题 = 交付被接受；不来回确认。
-2. **删除纪律**：原生导出/手工基线的延续工作中，疑似多余的部分先保留并
-   提交审查，只有用户明确要求删除时才删。
-3. 未提及的桌面/外部文件不纳入工作范围，专注仓库内系统工作。
+1. **No news is good news**: if the user does not raise a problem, the
+   deliverable is accepted; do not loop back for confirmation.
+2. **Deletion discipline**: in continuation work on native exports / manual
+   baselines, parts that look redundant are kept and submitted for review
+   first; delete only when the user explicitly asks.
+3. Unmentioned desktop/external files are out of scope; focus on in-repo
+   system work.
 
-## 7. 建议的下一步
+## 7. Suggested next steps
 
-1. 本轮工作提交（git commit）——三项目确认已全部写回，工作区待提交。
-2. E3D_Syntax_Lab 保持完成状态；CAP（q17）待项目补 `/FIRE` 后再收。
+1. Commit this round's work (git commit) — all three project confirmations
+   have been written back; the working tree awaits commit.
+2. Keep E3D_Syntax_Lab complete; CAP (q17) waits for the project to supply
+   `/FIRE`.

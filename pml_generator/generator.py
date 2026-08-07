@@ -8,12 +8,70 @@ Syntax specification: PML1 (E3D 3.1 $M macro mode)
 Banned: !!Alert $P ENDS END EQUI NAME = DESC = !var = COLLECT UNSET !!CE !!WORLD
 """
 
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 import re
 from datetime import datetime
 
 from ..drawing_parser import DesignIntent, DesignElement
 from ..pml_knowledge import PMLKnowledgeBase
+
+
+def _centre_from_bottom(
+    east: float, north: float, up: float, height: float, axis: str = "U"
+) -> Tuple[float, float, float]:
+    """
+    Convert a bottom-face centre point to the geometric centre E3D wants.
+
+    Iron Rule: ``CYLI`` and ``CONE`` are positioned by their **geometric
+    centre**, while engineering drawings dimension a vessel from its bottom
+    face. Emitting the drawing's point directly puts the element half its
+    height too low, with no error from E3D.
+
+    ``wsb.pml_builder.PMLBuilder._position`` is the authoritative
+    implementation and does this for the production pipeline; this is the same
+    conversion for the sketch-grade path, which does not share that builder.
+    Verified against AVEVA's own PML (``pipeEditor.pmlfrm:7807``)::
+
+        !cylinderPosition = !position.offset(!direction, !height / 2)
+
+    ``BOX`` is not converted: E3D positions it by geometric centre, which is
+    what ``ZLEN`` is measured about, so its point passes through unchanged.
+    """
+    half = height / 2.0
+    if axis == "U":
+        return east, north, up + half
+    if axis == "D":
+        return east, north, up - half
+    if axis == "E":
+        return east + half, north, up
+    if axis == "W":
+        return east - half, north, up
+    if axis == "N":
+        return east, north + half, up
+    if axis == "S":
+        return east, north - half, up
+    return east, north, up
+
+
+def _unpositioned_note(elem: DesignElement) -> List[str]:
+    """
+    Flag an element that carries no coordinates.
+
+    Neither ``SVGParser`` nor ``NaturalLanguageParser`` populates
+    ``east``/``north``/``up``, so an element reaching here almost always sits
+    at the origin. That is a legitimate starting sketch, but it must not be
+    mistaken for a positioned model: every item lands inside every other item.
+    Marking it in the macro keeps the reviewer honest about what this path
+    does and does not deliver.
+    """
+    if elem.east or elem.north or elem.up:
+        return []
+    return [
+        f"-- Reference Value: no coordinates parsed for {elem.name}; "
+        f"placed at the zone origin.",
+        "-- Set its true position in E3D, or model it through the wsb "
+        "pipeline, which verifies coordinates numerically.",
+    ]
 
 
 class PMLGenerator:
@@ -165,6 +223,11 @@ class PMLGenerator:
         n = elem.north or 0
         u = elem.up or 0
 
+        # No parser populates east/north/up yet, so every element resolves to
+        # the origin. Say so in the macro rather than letting a stack of
+        # equipment at 0,0,0 read as a modelled layout.
+        lines.extend(_unpositioned_note(elem))
+
         if primitive == 'CYLI':
             d = elem.width or 1000
             h = elem.height or 2000
@@ -174,8 +237,14 @@ class PMLGenerator:
             # Iron Rule 1: ORI must precede POS. With the reverse order E3D
             # rotates the position vector and the element drifts silently.
             lines.append("ORI Z IS U AND Y IS N")
-            lines.append(f"POS E {e} N {n} U {u}")
+            # A CYLI is positioned by its geometric centre; elem.up is the
+            # bottom-face elevation a drawing gives. Convert, or the vessel
+            # sits half its height underground.
+            ce, cn, cu = _centre_from_bottom(e, n, u, h, "U")
+            lines.append(f"POS E {ce} N {cn} U {cu}")
         else:
+            # BOX is positioned by geometric centre, which is what ZLEN is
+            # measured about, so the point passes through unconverted.
             lines.append("NEW BOX")
             lines.append(f"XLEN {elem.width or 1000}")
             lines.append(f"YLEN {elem.depth or 1000}")
@@ -205,15 +274,24 @@ class PMLGenerator:
         """Generate nozzle geometry (PML1: NEW EQUI + NEW CYLI)."""
         name = elem.name.replace(' ', '_').replace('-', '_')
         d = elem.bore or 150
+        length = 200
+        # This nozzle is drawn as a plain CYLI, not a catalogue NOZZLE element.
+        # A real NOZZLE needs a CATR SPCOMPONENT binding or it draws nothing;
+        # see skill/knowledge/catalogue-elements.md. A CYLI is the honest
+        # sketch-grade stand-in and needs the same centre conversion, here
+        # along the horizontal axis the ORI line just established.
+        ce, cn, cu = _centre_from_bottom(
+            elem.east or 0, elem.north or 0, elem.up or 0, length, "E"
+        )
         return [
-            f"-- Nozzle: {elem.name}",
+            f"-- Nozzle: {elem.name} (representative CYLI, not a catalogue NOZZLE)",
             f"NEW EQUI /{name}",
             "NEW CYLI",
             f"DIAM {d}",
-            f"HEIG 200",
+            f"HEIG {length}",
             # Iron Rule 1: ORI before POS, or the nozzle drifts off the vessel.
             "ORI Z IS E AND Y IS U",
-            f"POS E {elem.east or 0} N {elem.north or 0} U {elem.up or 0}",
+            f"POS E {ce} N {cn} U {cu}",
         ]
 
     def _generate_structure(self, elem: DesignElement) -> List[str]:
