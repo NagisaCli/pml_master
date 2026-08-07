@@ -1,0 +1,25 @@
+# Line-ending policy
+# =================
+# This repository is developed on Windows with core.autocrlf=true, which
+# rewrites line endings on checkout. That is harmless for source, but it makes
+# a byte-for-byte hash of a text file irreproducible: the bytes on disk depend
+# on the checkout, not on what was committed.
+#
+# Two file classes here are hashed or fed to E3D verbatim, so their bytes must
+# survive a round trip unchanged.
+
+# Verbatim user evidence. These files record what the user observed in a real
+# E3D session and are the basis of every VERIFIED claim in skill/knowledge/.
+# tests/test_extrusion_study.py asserts their SHA-256. Never normalised, never
+# translated, never reformatted -- see SKILL.md, "Writing language".
+Projects/**/results/evidence/** -text
+
+# Generated macros and native E3D exports. E3D's macro reader is sensitive to
+# stray CR characters, and wsb/pml_compare.py diffs exports line by line.
+*.pml -text
+*.mac -text
+
+# Binary project data, listed explicitly so Git never attempts a text merge.
+*.xlsx binary
+*.dwg  binary
+*.png  binary

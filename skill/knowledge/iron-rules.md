@@ -623,6 +623,53 @@ nozzle still invisible.
 If the generator can emit the working command, emit it. A comment is for
 explaining a command, never for standing in place of one.
 
+### 11f — A verifier that parses nothing reports nothing
+
+The pump verifier identified detail features by matching a fixed six-line block
+with one regex, which encoded the *order* the attributes were emitted in:
+
+```
+^NEW CYLI\nDIAM …\nHEIG …\nORI Z IS …\nPOS E … N … U …$
+```
+
+Reorder any attribute in the builder and that regex matches nothing. It then
+collects zero primitives, finds zero discrepancies, and reports a clean model —
+the check does not fail, it goes *silent*. A broken safety net is
+indistinguishable from a passing one in the output.
+
+**A verifier must fail loudly when it cannot find what it is checking.** Assert
+that the parse returned something before trusting that it found no problems, and
+never make a check depend on emission order it does not actually care about.
+Parsing now lives once in `wsb/pml_parser.py` so a change to emission breaks one
+parser visibly instead of quietly disabling three.
+
+---
+
+## IR-12 — Verbatim records are evidence; editing one destroys it
+
+A round of "write everything in standard English" translated
+`Projects/E3D_Syntax_Lab/.../2026-08-04_EXTR02_user_report.txt` — a file holding
+the user's own words describing what they saw in E3D. It is the evidence behind
+a VERIFIED claim, and its whole value is that nobody rewrote it.
+
+The damage was caught only because a test asserts the file's SHA-256. That test
+then exposed a second problem: the hash matched neither the committed file nor
+the working copy, because `core.autocrlf=true` with no `.gitattributes` rewrites
+line endings on checkout, so a byte hash of a text file was never reproducible.
+
+Two rules follow:
+
+- **Never edit a verbatim record** — not to translate it, reformat it, fix its
+  spelling, or wrap its lines. If an English rendering is wanted, write a
+  *separate* file beside it. This covers `results/evidence/`, native E3D
+  exports, and any file captured from a user's session.
+- **If you hash a file, pin its bytes.** `.gitattributes` marks these paths
+  `-text` so the checkout cannot rewrite them.
+
+A knowledge base is only as trustworthy as the evidence under it. A rule whose
+evidence was quietly edited is worse than a rule with no evidence at all,
+because it still reads as certain.
+
 ---
 
 ## Pre-delivery checklist
@@ -649,6 +696,8 @@ Run through this before returning any macro:
 - [ ] Every "verified" claim traced to code that writes it, not sample data (IR-11c)
 - [ ] No fix reported as complete before the user has loaded it (IR-11d)
 - [ ] No command emitted commented-out in place of doing the work (IR-11e)
+- [ ] Verifier proven to have parsed something before its silence is trusted (IR-11f)
+- [ ] No verbatim user record edited, translated or reformatted (IR-12)
 - [ ] Every `EQUI` explicitly at `POS E 0 N 0 U 0`; no hyphens in names (IR-7)
 - [ ] One EQUI per tag; one SUBE per nozzle (IR-8)
 - [ ] No `DISH` used as a flat plate (IR-9)

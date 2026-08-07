@@ -101,6 +101,23 @@ delivered to the user as deliverables (e.g. a Chinese revision report). Chinese
 strings that are functional data — such as natural-language input patterns the
 parser must recognise — are preserved as code behaviour, not as documentation.
 
+### Verbatim records are exempt — do not translate them
+
+**`Projects/**/results/evidence/` is outside this rule entirely.** Those files
+record what the user actually observed in an E3D session, in the words they
+used. They are the evidence behind every VERIFIED claim in `skill/knowledge/`,
+and their worth is that they are unedited. Translating, reformatting or
+re-wrapping one destroys the evidence and silently weakens every rule that
+cites it.
+
+This is enforced, not merely advised: `tests/test_extrusion_study.py` asserts
+the SHA-256 of the round-1 report, and `.gitattributes` marks the directory
+`-text` so `core.autocrlf` cannot rewrite the bytes on checkout.
+
+A round of English enforcement translated one of these files on 2026-08-04 and
+broke that hash. If a verbatim record needs an English rendering, add a
+*separate* summary file beside it and leave the original untouched.
+
 ---
 
 ## The evolution loop — this is the point of the skill
@@ -174,6 +191,18 @@ centre points verified numerically. See
 
 Verify geometry numerically, never by string-matching a `POS` line — a textual
 check passes a model in which every element has the wrong datum.
+
+**Emission and parsing each live in one place.** `wsb/pml_builder.py` writes the
+macro; `wsb/pml_parser.py` reads it back for verification. Every verifier —
+tank, composite and pump — parses through that one module.
+
+This matters more than ordinary tidiness. The verifiers previously kept three
+copies of the parser, and the pump copy matched a fixed block of six lines in a
+set attribute order. Any reordering inside the builder would have made it match
+*nothing* — and a verifier that parses nothing reports no problems. The safety
+net would have gone quiet rather than failing, which looks exactly like a clean
+model. Keep parsing shared so an emission change breaks one parser loudly
+instead of silently disabling a check.
 
 ---
 

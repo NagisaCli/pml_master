@@ -8,6 +8,11 @@ User-supplied report files archived under `results/evidence/`:
 |---|---|
 | `evidence/2026-08-04_EXTR02_user_report.txt` | `418D0B31C0FB58467480C8EA518A007F4292E49747C6FFF60DE51B7D82EDE6C8` |
 
+The report closes with a Chinese observation; an English rendering is kept
+beside it as `evidence/2026-08-04_EXTR02_user_report.en.md`. The `.txt` is the
+evidence and the thing to cite — the rendering is a reading aid, and per IR-12
+the original is never translated in place.
+
 Chat-confirmed results on the same date:
 
 - Candidate 01: occupied U 1000..1800 for `POS U 1000` / `HEIG 800` —
