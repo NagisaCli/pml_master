@@ -372,10 +372,10 @@ class NaturalLanguageParser:
         (r'clarifier|thickener', 'CLARIFIER', 'CLARIFIER'),
         (r'boiler|steam boiler|cfb', 'BOILER', 'BOILER'),
         (r'turbo.?generator|turbine generator', 'TURBOGEN', 'TURBOGEN'),
-        (r'tank|vessel|silo|储罐|贮罐|料仓|槽', 'VESSEL', 'VESSEL'),
-        (r'pump|泵', 'PUMP', 'PUMP'),
-        (r'valve|阀', 'VALVE', 'VALVE'),
-        (r'pipe|piping|pipeline|header|管道|管线', 'PIPE', 'PIPE'),
+        (r'tank|vessel|silo|storage tank|storage vessel|hopper|bin', 'VESSEL', 'VESSEL'),
+        (r'pump', 'PUMP', 'PUMP'),
+        (r'valve', 'VALVE', 'VALVE'),
+        (r'pipe|piping|pipeline|header', 'PIPE', 'PIPE'),
     ]
 
     @staticmethod
@@ -392,50 +392,43 @@ class NaturalLanguageParser:
                                               "fourdrinier", "digester", "stock prep"]):
             intent.project = "AvevaPlantSample"
 
-        # Detect zone name. Chinese descriptions put the marker after the
-        # name (e.g. "AREA_100 <zone-marker>"), English before it
-        # ("in AREA_100 zone"), so the Chinese pattern is tried first: an
-        # English-only regex matches the wrong token on Chinese input rather
-        # than failing outright.
-        zone_match = re.search(r'([A-Za-z0-9_\-]{2,})\s*(?:区域|区|车间)', description)
-        if not zone_match:
-            zone_match = re.search(
-                r'(?:in\s+)?(\S+)\s+(?:zone|area|hall)', description, re.IGNORECASE
-            )
+        # Detect zone name: the marker follows the name, e.g. "AREA_100 zone".
+        zone_match = re.search(
+            r'(?:in\s+)?(\S+)\s+(?:zone|area|hall)', description, re.IGNORECASE
+        )
         if zone_match:
             candidate = zone_match.group(1).strip()
             if len(candidate) < 20:
                 intent.zone = candidate.upper()
 
-        # Detect dimensions: diameter, width, height. Each pattern accepts the
-        # English keyword-first form and the Chinese keyword-then-value form,
-        # including the bare CJK unit characters for metre and millimetre.
+        # Detect dimensions: diameter, width, height. Each pattern accepts
+        # the English keyword-first form, e.g. "diameter 2 m".
         width = depth = height = 0.0
         _NUM = r'(\d+(?:\.\d+)?)'
-        _UNIT = r'\s*(毫米|mm|米|m)?'
+        _UNIT = r'\s*(mm|m)?'
 
         def _to_mm(value: str, unit: Optional[str]) -> float:
             """Normalize a parsed dimension to millimetres."""
             v = float(value)
-            if unit in ("mm", "毫米"):
+            if unit == "mm":
                 return v
-            if unit in ("m", "米"):
+            if unit == "m":
                 return v * 1000
             # Unit omitted: values under 100 are metres by convention, since no
             # plant dimension is 100 mm or less at equipment scale.
             return v * 1000 if v < 100 else v
 
         dim_match = re.search(
-            rf'(?:diameter|dia\.?|直径){_UNIT}?\s*{_NUM}{_UNIT}', description, re.IGNORECASE
+            rf'(?:diameter|dia\.?){_UNIT}?\s*{_NUM}{_UNIT}', description, re.IGNORECASE
         )
         if dim_match:
             width = depth = _to_mm(dim_match.group(2), dim_match.group(3) or dim_match.group(1))
 
-        w_match = re.search(rf'(?:width|宽度|宽)\s*{_NUM}{_UNIT}', description, re.IGNORECASE)
+        w_match = re.search(rf'(?:width)\s*{_NUM}{_UNIT}', description, re.IGNORECASE)
         if w_match:
             width = _to_mm(w_match.group(1), w_match.group(2))
 
-        h_match = re.search(rf'(?:height|高度|高)\s*{_NUM}{_UNIT}', description, re.IGNORECASE)
+        h_match = re.search(rf'(?:height)\s*{_NUM}{_UNIT}', description, re.IGNORECASE)
         if h_match:
             height = _to_mm(h_match.group(1), h_match.group(2))
 

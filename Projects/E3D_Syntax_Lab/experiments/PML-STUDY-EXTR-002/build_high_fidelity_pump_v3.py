@@ -1,12 +1,12 @@
 """Generate the high-fidelity EXTRUSION pump v3 certification candidate.
 
 PML-STUDY-EXTR-002 / candidate 03. User feedback on candidate 02:
-1. profile resolution too low ("面数太低...粗糙"),
+1. profile resolution too low ("face count too low... rough"),
 2. two terminal-box ears float beside the motor,
 3. four volute ribs float around the casing,
 4. the cross beam has no visible purpose,
 5. model the internal drive train and true appearance, 1000-5000 solids,
-   "好料要用在适合的地方".
+   "good material should be used where it is suitable".
 
 See BUG_REVIEW_02.md for the numerical root cause of each item. This build:
 

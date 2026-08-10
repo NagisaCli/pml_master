@@ -2,8 +2,7 @@
 
 Status: **FAILED REVISION CASE** (client verdict 2026-08-06).
 
-Client verdict: "完全的失敗案例，底部支架和泵與Motor完全分離" -- the
-base support and the pump/motor are completely separated. The bridge
+Client verdict: "complete failure: the base support and the pump/motor are completely separated". The bridge
 brackets did not connect to the pump/motor as intended. No further
 modification requested; this revision is archived for reference only.
 Today's base revisions r9-r11 are all rejected; the only accepted work of
@@ -25,7 +24,7 @@ the day is the negative-primitive (NCYLI) series (r2-r5 rules, VERIFIED).
 
 - Old PYRAMID gussets and through-foot anchors removed (PYRAMID count 0).
 - Every pump foot and motor pad now has a bridge bracket with the side
-  cross-section 横-斜-平-斜-横: bolted bottom auxiliary block (12 mm) on
+  cross-section horizontal-diagonal-flat-diagonal-horizontal: bolted bottom auxiliary block (12 mm) on
   the frame top, lower diagonal web (slanted EXTRUSION), middle plate
   (8 mm), upper diagonal web, and the existing sole plate / pad on top.
 - The upper web reaches the platform bottom across its full width (the
@@ -48,4 +47,4 @@ the day is the negative-primitive (NCYLI) series (r2-r5 rules, VERIFIED).
 ## Open item
 
 - E3D visual reload and client confirmation (IR-11d): check the
-  横-斜-平-斜-横 profile, web-to-platform contact, and screw/web clearance.
+  horizontal-diagonal-flat-diagonal-horizontal profile, web-to-platform contact, and screw/web clearance.

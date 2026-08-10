@@ -17,7 +17,7 @@ print("=" * 60)
 
 # -- Test 1: natural language -> PML --------------------------------
 print("\n## Test 1: natural-language description -> PML generation\n")
-nl = "在 AREA_100 区域创建一台直径2米高5米的立式储罐 T-101"
+nl = "Create a vertical storage tank T-101 with diameter 2 m and height 5 m in AREA_100 zone"
 intent = NaturalLanguageParser.parse(nl)
 print(f"  description: {nl}")
 print(f"  elements identified: {len(intent.elements)}")
@@ -59,7 +59,7 @@ else:
 
 # -- Test 3: knowledge-base retrieval ---------------------------------
 print("\n## Test 3: PML knowledge-base retrieval\n")
-for query in ["创建设备", "管道建模", "NEW EQUIPMENT"]:
+for query in ["create equipment", "piping modeling", "NEW EQUIPMENT"]:
     results = agent.query_knowledge(query)
     print(f"  query '{query}': {len(results)} results")
     for r in results[:1]:

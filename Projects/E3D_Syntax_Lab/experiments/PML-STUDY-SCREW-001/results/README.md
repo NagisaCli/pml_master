@@ -10,6 +10,6 @@ Run: 2026-08-05, `build_candidates.py`.
 - Geometry verification: clean — 56 primitives parsed; face-to-face contacts,
   thread-ridge containment, positive bounds, screw axes and lowest-point U 0
   all checked numerically from the emitted text.
-- E3D verdict: **user-accepted 2026-08-05 ("可以的")** — candidate loaded
+- E3D verdict: **user-accepted 2026-08-05 ("OK")** — candidate loaded
   and accepted; detailed Q ATT measurement pack remains available but
   optional.

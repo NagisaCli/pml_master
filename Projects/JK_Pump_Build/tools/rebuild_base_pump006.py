@@ -12,7 +12,7 @@ Only the base scope changes:
                        and motor pad: bottom auxiliary block (bolted) +
                        diagonal web + middle plate + diagonal web, carrying
                        the existing sole plate / pad. Side cross-section
-                       reads 横-斜-平-斜-横 (a bridge).
+                       reads horizontal-diagonal-flat-diagonal-horizontal (a bridge).
   - BASE_FASTENERS  -> 8 screws fixing the four pump-foot auxiliary blocks
                        (2 per block at its transverse edges; shank + hex
                        washer + hex nut on the block top).
@@ -552,7 +552,7 @@ class PumpFrame:
         l1 = 0.85 * L_p
         pts = [(l0, 0.0), (l1, 0.0), (l1 + s, h), (l0 + s, h)]
         out = [
-            f"-- Refined: {kind} diagonal web (bridge bracket, 横斜平斜横, Reference Value)",
+            f"-- Refined: {kind} diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)",
             "NEW EXTRUSION",
             pos_text(pe, pn, pu),
             ori,
@@ -575,7 +575,7 @@ class PumpFrame:
           diagonal web 1 (/)
           bottom auxiliary block, bolted to the frame
 
-        Side cross-section reads 横-斜-平-斜-横 (a bridge). The diagonal
+        Side cross-section reads horizontal-diagonal-flat-diagonal-horizontal (a bridge). The diagonal
         webs touch the platform bottom and the middle plate, and the block
         carries the lower web. The old PYRAMID gussets are not used.
         """
@@ -632,7 +632,7 @@ class PumpFrame:
 
     def bracket_heights(self, gap: float) -> tuple[float, float]:
         """(block height, middle-plate height) scaled to the available gap
-        so even short supports keep the 横-斜-平-斜-横 profile."""
+        so even short supports keep the horizontal-diagonal-flat-diagonal-horizontal profile."""
         if gap >= 40.0:
             return 12.0, 8.0
         block = max(6.0, gap * 0.35)

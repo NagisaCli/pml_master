@@ -1,12 +1,47 @@
-1.在e3d_agent项目文件夹中，根据agent_要求，结合"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\Pump_details.xlsx"文件中每个泵的代号对应的信息来生成泵列表的E3D建模；
-2.首先是位置和方向要求，每个泵对应的坐标信息属于每个泵下的矩形底板的底边中心点的坐标；要按照这个坐标将对应的泵本身放到对应的位置上去；坐标一定不能错，地板可以给一个合适的厚度，文件中的长宽都是指的底板长宽；
-3.然后是朝向要求：每个泵都有一个入口一个出口，其中大部分出口都是朝上的，也就是将介质向上运输，而入口的朝向就决定了泵的朝向，文件中提到泵的入口都是位于长边方向和发动机相对的那个部分，入口朝北，那泵整体就朝北，入口-泵-发动机-这三个部分都是和整体泵的长边对齐的，不确定的时候可以识别图片确定方向；
-4.然后是针对每一个泵的建模，首先建模的语法一定要参考e3d_agent中的相关内容，保证语法结构的正确和通过；然后每个泵的精细化建模首先参考对应的俯视图视角，保证能和俯视图大致对的上，然后结合泵的大致名称搜集相关知识了解作用，然后建立基本的泵的空间结构认知，针对每一个泵的结构进行精细化合理化建模；然后对于缺少信息的部分，也可以参考由E3D原生导出的标准水平泵的模型"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\Horizontal_Pump_Example.txt"，注意仅仅参考E3D空间结构认知，不参考具体的参数，大致的参数（特别是底板的朝向、大小、坐标）都应该严格依据表格参数来设定相关参数；泵的主体俯视图一般不超过底板对应的范围（具体见相应参考图）；每个泵的细节结构在无资料的情况下应自主搜集建立合理的可工程使用的具体参数并构建合理精细模型；
+1. In the e3d_agent project folder, per the agent requirements, use the
+   information corresponding to each pump tag in
+   "C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\Pump_details.xlsx"
+   to generate the E3D models for the pump list.
+2. Position and orientation requirements first: the coordinate for each pump
+   is the geometric centre of the bottom edge of the pump's rectangular
+   baseplate. Place each pump itself at that coordinate; the coordinates must
+   not be wrong. The baseplate may be given a suitable thickness; the Length
+   and Width in the file are the baseplate length and width.
+3. Orientation requirements: each pump has one inlet and one outlet; most
+   outlets point up, i.e. the medium is transported upward, and the inlet
+   direction determines the pump orientation. The file states that the pump
+   inlets sit on the part opposite the motor along the long dimension. If the
+   inlet faces North, the whole pump faces North. Inlet, pump and motor are
+   all aligned with the pump's long axis; when uncertain, identify the
+   direction from the image.
+4. For each pump's modelling, first make sure the modelling syntax follows
+   the relevant content in e3d_agent so the syntax structure is correct and
+   passes. Then, for the refined modelling of each pump, first reference the
+   corresponding top view so the model roughly matches it, then use the pump's
+   general name to gather relevant knowledge of its function, build a basic
+   spatial understanding of the pump, and model each pump's structure with
+   reasonable detail. For missing information, the native E3D export of the
+   standard horizontal pump
+   "C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\Horizontal_Pump_Example.txt"
+   may be referenced for E3D spatial-structure understanding only, never for
+   its parameters. General parameters (especially baseplate orientation, size
+   and coordinates) must be set strictly from the spreadsheet. The pump body's
+   top view generally stays within the baseplate footprint (see the
+   corresponding reference drawings). Where no data exists for a pump's detail
+   structure, independently gather reasonable, engineering-usable parameters
+   and build a reasonably detailed model.
 
 
 
-JK_Pump_Build_All_Pumps项目修改：
-1.把每一个泵的BEARING_FRAME的最后两个基本体（BOX和CYLI)给删除，在视觉和物理上无意义，是一个浮空小块；
-2.把每一个泵COUPLING下面的后两个BOX删除，物理上起不到支撑效果且视觉上浮空；
-3.根据"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\pump_nozzle_modify.xlsx"中对应的管口大小以及spc规格和法兰大小来修改变更每个泵的管口，对于没有对应管口大小的，可以针对性取最接近的，但是要给出对应表，好方便查阅和修改；
-注意只修改以上两个部分，别的部分不要修改；
+JK_Pump_Build_All_Pumps project changes:
+1. Delete the last two primitives (BOX and CYLI) of every pump's
+   BEARING_FRAME; they are visually and physically meaningless — floating
+   small blocks.
+2. Delete the last two BOXes under every pump's COUPLING; they provide no
+   physical support and visually float.
+3. Use "C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\pump_nozzle_modify.xlsx"
+   to revise each pump's nozzles per the corresponding nozzle sizes, SPC
+   specifications and flange sizes. Where no matching nozzle size exists,
+   deliberately take the nearest one, but provide a mapping table for easy
+   lookup and revision.
+Note: modify only the above parts; do not modify anything else.

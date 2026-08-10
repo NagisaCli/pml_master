@@ -113,7 +113,7 @@ U 140..156; junction boxes rebuilt as native BOX; top nozzle embedded into
 the dome (U 678..835, dome at r 85 ≈ U 682, no rim gap); discharge nozzle
 extended flush to X -150. Final file: 46,455 lines, 1,104 primitives,
 balanced parse, envelope unchanged. The user accepted the result as a
-modeling pressure test ("基本可以了"), explicitly not as a standard.
+modeling pressure test ("basically OK"), explicitly not as a standard.
 
 **Candidate lessons recorded (not promoted):** a nut's bottom face must
 equal the bearing face top; a part that must read as a rectangular box
@@ -136,7 +136,7 @@ range, so nothing is detached), and CONE forms the head fillets and tip
 chamfers. Candidate 01 was generated from individually VERIFIED forms,
 passes `validate_pml` and a numeric geometry parse (face-to-face contacts,
 ridge containment, bounds, lowest point U 0), and the user accepted it in
-E3D on 2026-08-05 ("可以的"). The assembly contract — head primitive chosen
+E3D on 2026-08-05 ("OK"). The assembly contract — head primitive chosen
 by head form, CYLINDER body/root, additive thread ridges, CONE transitions —
 is promoted to `skill/knowledge/pml-spatial-lookup.md` as VERIFIED, because
 every element form it uses was already individually VERIFIED and the set was

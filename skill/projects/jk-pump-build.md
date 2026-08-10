@@ -422,7 +422,7 @@ diagnosing-failures.md).
 
 ### r5 — hole containment per pump + C-channel skid rails (same day)
 
-The client confirmed the holes cut ("完美挖孔") and settled the NCYLI rules,
+The client confirmed the holes cut ("holes cut perfectly") and settled the NCYLI rules,
 then reported that some holes were not adapted per pump and opened through
 the plate edge. A per-pump check found 10 pumps whose hole circle exceeded
 the BOX21 plate in U (0.10–2.15 mm). Fix: clamp the NCYLI local U offset so
@@ -447,7 +447,7 @@ pump silently opens a hole through the plate edge on another.
 ### r6 — base reworked to the client's reference (P1501A-BASE)
 
 The client supplied the intended base reference
-(`底座结构学习.txt` → archived `PML-STUDY-NCYL-001` sibling import
+(archived as the `PML-STUDY-NCYL-001` sibling import
 `2026-08-05_base_structure_reference.txt`): a fabricated pump base with
 rectangular bar rails, equipment sole plates, trapezoid gussets, hex
 EXTRUSION washers and anchor bolts. The r5 C-channel rails did not match it.
@@ -461,13 +461,13 @@ same thickness, end-plane POS). Nuts seat on the washer top or the shank top,
 depending on the original stack layout. 1136 EXTRUSIONs (480 gussets + 328
 washers + 328 nuts) all pass structure checks.
 
-Lesson: when the client says "学习这个的底座结构", ask for or archive the
+Lesson: when the client says "study this base structure", ask for or archive the
 reference export before changing rails — a plausible standard section (C
 channel) can be the wrong family even when it fits geometrically.
 
 ### r7 — base rebuilt wholesale to the reference (same day)
 
-The client directed a full rebuild: "底座整体直接重构，大小和位置适配就行".
+The client directed a full rebuild: "rebuild the base wholesale; just adapt the size and position".
 Every solid skid rail is now a built-up I-section (lower flange 20 mm + web
 8 mm + upper flange 20 mm, Reference Values) with the identical outer
 envelope, centre, length and top/bottom elevations, so the pump support
@@ -479,7 +479,7 @@ Verification: rail envelopes/bearing heights preserved, 328 washers and 328
 nuts seated, 30 holes closed, baseplates/nozzles/CATR unchanged, no new
 clashes, lowest point U 0.
 
-Lesson: when the client says "整体重构", rebuild the visible structure (rail
+Lesson: when the client says "rebuild wholesale", rebuild the visible structure (rail
 section, anchor hardware), not just the tiny parts — small upgrades read as
 "no change" in E3D.
 
@@ -504,7 +504,7 @@ chain) and confirms: 480 gussets touch their sole plates, 328 washers and
 328 nuts seated, 30 holes closed, baseplates/nozzles/CATR unchanged, no new
 clashes, lowest point U 0.
 
-Lesson: "直接照抄" means copy the reference elements themselves (PYRAMID
+Lesson: "copy directly" means copy the reference elements themselves (PYRAMID
 gussets, flat-bar rails, thick hex washers), not an interpreted equivalent —
 the client can tell the difference in E3D.
 
@@ -585,10 +585,8 @@ Lessons:
 
 ### r10 — physical support logic (same day, client rejection of r9)
 
-The client rejected r9: "底座物件之間懸空，沒有視覺支撐，螺絲錯位；總之
-就是沒有物理邏輯，學了，但是沒有學到精髓" (parts float, no visual
-support chain, bolts misplaced -- the reference's physical logic was not
-captured). r10 corrects the base construction:
+The client rejected r9: "parts float, there is no visual support, and the bolts are misplaced; in short
+there is no physical logic - studied, but the essence was not captured". r10 corrects the base construction:
 
 - anchors now pass through the FOOT/PAD CENTRES: 2 per pump foot and 2 per
   motor pad at the quarter points of the long axis (8 BASE + 8 DRIVER =
@@ -608,7 +606,7 @@ captured). r10 corrects the base construction:
   0.51 mm -- 0 floating base elements across all 30 pumps.
 
 Lessons promoted:
-- "學到精髓" for a fabricated pump base means the support chain reads
+- "capture the essence" for a fabricated pump base means the support chain reads
   physically: nothing may be emitted merely because it resembles the
   reference. If a feature cannot both carry something and be carried, it
   must not be emitted at all.
@@ -619,13 +617,13 @@ Lessons promoted:
   under the casing: shifting a stand past the frame end puts its bottom in
   mid-air above the baseplate (20 mm gap), which reads as floating.
 
-### r11 — bridge-bracket supports 横-斜-平-斜-横 (same day, client rejection of r10)
+### r11 — bridge-bracket supports horizontal-diagonal-flat-diagonal-horizontal (same day, client rejection of r10)
 
 The client rejected the PYRAMID gussets + through-foot anchors: the
 diagonals and screws intersected at the same position, the diagonals were
 too short to connect to the upper platform, and a bolted auxiliary block
 was required at the diagonals' bottom. The requested support cross-section
-is a bridge: 横-斜-平-斜-横 (bottom block, diagonal web, middle plate,
+is a bridge: horizontal-diagonal-flat-diagonal-horizontal (bottom block, diagonal web, middle plate,
 diagonal web, upper platform). r11 discards the old gusset/anchor
 architecture and emits, under every pump foot and motor pad:
 
@@ -660,14 +658,13 @@ Lessons promoted:
   parallelogram-vs-box intersection test for slanted webs.
 - Every new part needs a visible purpose: a bolt with its nut beside the
   plate, or a diagonal that stops short of the platform, reads as a
-  mistake. The 横-斜-平-斜-横 profile gives each part a neighbour it
+  mistake. The horizontal-diagonal-flat-diagonal-horizontal profile gives each part a neighbour it
   supports and a neighbour that supports it.
 
 ### FAILURE RECORD — r11 rejected, base thread closed (same day)
 
-Client verdict on r11 after loading: "完全的失敗案例，底部支架和泵與
-Motor完全分離" (complete failure: the base support and the pump/motor are
-completely separated). No modification requested. r9-r11 are all recorded
+Client verdict on r11 after loading: "complete failure: the base support and the pump/
+motor are completely separated". No modification requested. r9-r11 are all recorded
 as rejected base revisions; the base optimisation thread is CLOSED until
 new direction arrives. The day's accepted work is the negative-primitive
 (NCYLI) series only (r2-r5 rules VERIFIED: child-only, owner-relative POS,
@@ -683,8 +680,135 @@ casing/motor). Any future base work must verify the SUPPORT-TO-PUMP/
 MOTOR bearing surfaces against the actual casing/motor foot datums, not
 only internal bracket contacts.
 
+### r12 — foundation repair, rebased on r8 (2026-08-07)
+
+The client asked for the foundation defects and physical-representation
+errors to be repaired, with pump positions, nozzle locations and baseplate
+overall dimensions held fixed.
+
+Two separate findings, both established by measurement rather than by
+re-reading the reference:
+
+1. **Why r11 failed.** Measured footprint-aware, r8 has 0/30 defective
+   bearing interfaces and r11 has 30/30, with the base ending 40.7–112.6 mm
+   below the machine. r11's bracket stack was shorter than the sole plate it
+   replaced and never reached the casing/motor foot. Its verifier passed it
+   because it only tested contacts *inside* the base assembly — the blind
+   spot the r11 failure record had already named. r12 therefore rebases on
+   **r8**, not r11.
+2. **The genuine inherited defect.** In r8 (and so in every later revision)
+   all 60 support interfaces had a **void of 10.5–54.3 mm** between the
+   gusset top and the bearing plate above it, and 59 of 60 gussets were
+   **buried** below the frame top. The machine sat correctly on its plates;
+   the plates rested on nothing.
+
+r12 replaces the 480 decorative PYRAMID gussets with 240 fabricated
+plate-girder pedestals — bottom flange seated on the frame top, two vertical
+web plates at full clear height, one transverse stiffener — sized per foot
+from the measured plate underside, so pump-end and motor-end heights differ
+naturally. 480 hold-down anchors run from inside the frame through the plate
+with the hex nut on the plate top. **The bearing plates themselves are never
+moved**; moving them is what destroyed r11.
+
+Result: voids 60 → 0, buried elements 59 → 0, 240 bearing interfaces in
+contact within 0.6 mm, non-base geometry byte-identical to r8
+(`a08d84df…cceba`), 288 tests pass. Awaits E3D reload (IR-12a).
+
+`PUMP_MID_LINE.txt` shaft-centreline values (840/640/640 mm for 203-PU-020,
+205-PU-018, 205-PU-038) are **reported, not applied**: reaching them needs
+248–562 mm of extra pedestal, which would move the casing, shaft and both
+nozzles against the standing instruction. `204-PU-028` and `205-PU-056` are
+not in the 30-pump scope.
+
+Lessons promoted:
+
+- A support chain verified only inside the base assembly proves nothing;
+  anchor every bearing test to the machine being carried.
+- Bearing checks must be footprint-aware — drain/flush stubs hang below a
+  pump barrel and invent interference that is not there, masking the real
+  defect. (This corrected an initial "casing embeds 7–26 mm" reading that
+  was an artefact.)
+- "Nothing floats" and "everything is connected" are different properties:
+  r8 had no floating elements by its own test, yet all 60 of its support
+  interfaces were voids.
+- After a run of rejected revisions, re-measure the last accepted baseline
+  before extending the newest attempt.
+
+### r13 — casing feet + clash-free hold-downs (2026-08-07)
+
+The client loaded r12 and reported two bugs: (1) the bolts collide with the
+support legs, and (2) it is not an effective support — the base should match
+the pump geometry with a precise interface to the pump body.
+
+Both were reproduced numerically before any change: 1,700 fastener/structure
+intersections, and bearing plates meeting the round casing barrel on a tangent
+line (the plates sit ≈0.91·R either side of the barrel axis, under its curved
+flank, with nothing bringing the casting down to a flat face).
+
+r13 adds 120 cast **casing feet** — a machined sole pad matching the pedestal
+plate footprint exactly, plus a rib rising to the computed barrel surface at
+its own lateral offset so it merges into the casting — and re-places every
+hold-down by searching for a plan position clear of all vertical steel,
+falling back from four bolts to two flanking the machine foot on small pads.
+Collisions: 1,700 → 0. Pedestals, bearing elevations and SUPPORT_FRAME are
+byte-identical to r12; voids remain 0; 288 tests pass.
+
+The client then flagged the bolt **positions**. A positional audit of that
+first attempt found 84 bolts hanging off the plate edge, 180 off-centre groups
+(worst: four bolts crammed into the top 15 mm of a 160 mm plate) and 3 mixed
+patterns — all caused by letting the placement search slide off-centre to dodge
+steel while scoring only "widest spread". Patterns are now symmetric about the
+plate centre by construction, fully contained, with a ≥1.5·d edge distance.
+
+That alone dropped coverage to 48/120, which exposed the real constraint:
+measured across all 30 pumps, the r12 pedestal webs run to within **4 mm of the
+bearing-plate ends** and span its full width — there is physically nowhere on
+that plate for a 17 mm bolt. The hold-downs were therefore moved to the
+pedestal's **bottom flange**, which projects ~8 mm beyond the plate on all four
+sides and is clear of the webs, which is what real fabricated pedestals do.
+Final: 928 bolts, 234/240 flanges, 0 collisions, 0 off-edge, 0 off-centre.
+
+An intermediate attempt to shorten the webs instead was **reverted** — it
+reopened 44 mm voids under the plates.
+
+Lessons promoted:
+
+- **"Clash-free" is not "correct".** A bolt can miss every member and still
+  hang off an edge or bunch at one end. Fasteners need positional properties
+  of their own (inside the part, symmetric, sane edge distance, uniform
+  pattern), and those are now verified rather than assumed.
+- **When a placement search keeps needing exceptions, the host geometry is
+  wrong, not the search.** Measuring the available space first would have
+  pointed at the projecting flange immediately.
+- **Do not trade away a property already proved to buy a new one** — the
+  web-shortening fix bought bolt room and silently lost the support chain.
+
+- **Sign-check a clearance parameter against a known interference.**
+  `overlap > clear` reads naturally and is exactly backwards — it let a 1.9 mm
+  interference pass a 2.0 mm clearance check, silently permitting every
+  near-miss the test existed to catch. The first "fix" therefore changed
+  nothing measurable.
+- **A generator and its verifier must import one definition of the property
+  they argue about.** Two copies of `is_vertical` (40 mm vs 60 mm) meant the
+  generator thought a member harmless while the verifier flagged it.
+- **A flat plate under a round barrel is not a support.** Bearing needs a
+  matched flat face on both sides; a tangent line satisfies a naive contact
+  test but reads as floating in E3D — which is precisely what the client saw.
+- **Derive clash obstacles from the geometry actually emitted**, not from a
+  parallel recomputation that can drift from it.
+
 ### Outstanding
 
+- r13 needs an E3D visual reload (IR-13a): confirm each pump foot has a cast
+  foot with a flat pad on its pedestal, and that the hold-downs sit
+  symmetrically on the projecting pedestal flange, clear of every web.
+- 203-PU-020: 6 pedestal flanges unbolted, blocked by a low casing detail.
+- r12 needs an E3D visual reload (IR-12a): confirm each pump foot and motor
+  pad now stands on a visible pedestal reaching the frame, nut on the plate
+  top. This supersedes the r9–r11 base thread.
+- A decision is needed on `PUMP_MID_LINE.txt`: if the pumps are genuinely to
+  be raised to those centrelines, nozzle elevations and connected piping
+  must move with them.
 - A fresh E3D visual reload is required before this revision can be called
   accepted (IR-11d). Confirm the 205-PU-054 separator position against its
   top view (moot while MC_AUXILIARY is removed; re-check when re-added).
@@ -695,8 +819,8 @@ only internal bracket contacts.
 - r4 (owner-relative NCYLI positions) awaits the client's E3D reload; if the
   holes appear at the terminal-box plates, close this thread.
 - r5 (hole containment + C-channel skid rails) awaits the client's E3D
-  reload; if another reference base structure was meant by "学习这个的底座
-  结构和模型", supply its path and the rails will be reworked to match.
+  reload; if another reference base structure was meant by "study this base
+  structure and model", supply its path and the rails will be reworked to match.
 - r6 (reference-style base: rectangular rails + hex washers) awaits the
   client's E3D reload.
 - r7 (built-up I-section rails + thick hex anchor washers) awaits the

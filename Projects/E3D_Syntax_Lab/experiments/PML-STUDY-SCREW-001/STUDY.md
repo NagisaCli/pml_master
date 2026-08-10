@@ -52,7 +52,7 @@ is modelled below U 0.
 
 | Candidate | SHA-256 | Status |
 |---|---|---|
-| `candidate/01_refined_screw_set.pml` | `4EC02396EBD54D7F42E957A5091F9895246B521B64AD23EAE7363CED677D0923` | **VERIFIED — user-accepted in E3D 2026-08-05 ("可以的")**; local PML1 + geometry verification clean |
+| `candidate/01_refined_screw_set.pml` | `4EC02396EBD54D7F42E957A5091F9895246B521B64AD23EAE7363CED677D0923` | **VERIFIED — user-accepted in E3D 2026-08-05 ("OK")**; local PML1 + geometry verification clean |
 
 One `EQUIPMENT` named `/CODEX_SCREW_001` under the current writable ZONE, with
 one `SUBEQUIPMENT` per screw. 56 primitives: hex bolt 21, button screw 16,
@@ -87,7 +87,7 @@ python Projects/E3D_Syntax_Lab/experiments/PML-STUDY-SCREW-001/build_candidates.
    `$M`) and record the `Q ATT` output; screenshot the set.
 5. Report any element that does not display or any face that does not touch.
 
-Observations 1-3 were accepted by the user on 2026-08-05 ("可以的").
+Observations 1-3 were accepted by the user on 2026-08-05 ("OK").
 Observation 4 remains optional: the Q ATT pack is ready for a detailed
 attribute record.
 

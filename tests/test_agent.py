@@ -12,9 +12,9 @@ agent = E3DAgent()
 print(agent.summary())
 print()
 
-# Test 1: natural language -> PML (Chinese input is functional test data)
+# Test 1: natural language -> PML
 print("=== Test: natural language -> PML ===")
-result = agent.run("在 AREA_100 区域创建一台直径2米高5米的立式储罐 T-101")
+result = agent.run("Create a vertical storage tank T-101 with diameter 2 m and height 5 m in AREA_100 zone")
 print(f"element count: {result['elements_count']}")
 script = result['pml_script']
 # Show only the key lines
@@ -26,7 +26,7 @@ print()
 
 # Test 2: knowledge-base query
 print("=== Test: knowledge-base query ===")
-results = agent.query_knowledge("如何创建管道")
+results = agent.query_knowledge("how to create piping")
 for r in results[:2]:
     print(f"  [{r['source']}] relevance={r['relevance']}")
 print()

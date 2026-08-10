@@ -1,7 +1,7 @@
 """Generate the high-fidelity EXTRUSION pump certification candidate.
 
 PML-STUDY-EXTR-002 / candidate 02. The user rejected candidate 01 as too
-ordinary ("太普通了细节也一般，也没有充分发挥拉伸体的特色") and asked for
+ordinary ("too ordinary, not enough detail, and it did not make full use of the EXTRUSION capability") and asked for
 a physically detailed pump with no primitive-count ceiling. This candidate
 answers with one end-suction centrifugal pump whose irregular solids are
 built from EXTRUSION profiles wherever a custom section exists:

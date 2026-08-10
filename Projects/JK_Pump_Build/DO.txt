@@ -254,7 +254,7 @@ Client base-reference correction — 2026-08-06 (r6)
 --------------------------------------------------
 
 - The intended base structure is the reference export
-  `C:\Users\A\Desktop\底座结构学习.txt` (P1501A-BASE, archived at
+  (P1501A-BASE, since removed from the desktop; archived at
   `Projects/E3D_Syntax_Lab/imports/2026-08-05_base_structure_reference.txt`):
   rectangular bar rails, equipment sole plates, trapezoid gussets, hex
   EXTRUSION washers and anchor bolts. The r5 C-channel rails were not wanted.
@@ -267,7 +267,7 @@ Client base-reference correction — 2026-08-06 (r6)
 Client direction — 2026-08-06 (r7)
 ----------------------------------
 
-- "底座整体直接重构，大小和位置适配就行": rebuild the base wholesale to
+- "rebuild the base wholesale; just adapt the size and position": rebuild the base wholesale to
   the P1501A-BASE reference structure, adapting sizes and positions to each
   pump's own attributes.
 - r7: solid skid rails become built-up I-sections (lower flange 20 + web 8 +
@@ -278,12 +278,12 @@ Client direction — 2026-08-06 (r7)
   shank top). Baseplates, coordinates, nozzles and pump-specific attributes
   remain untouched.
 
-Client "直接照抄" — 2026-08-06 (r8)
+Client "copy directly" — 2026-08-06 (r8)
 -----------------------------------
 
 - Reference confirmed identical to the earlier P1501A-BASE export
-  (`C:\Users\A\Desktop\E3D_model_TRAIN\euip\pump.txt` vs
-  `底座结构学习.txt`; only the export timestamp differs).
+  (`C:\Users\A\Desktop\E3D_model_TRAIN\euip\pump.txt` vs the archived
+  base-structure reference; only the export timestamp differs).
 - Copy the reference base structure directly, adapting sizes/positions to
   each pump: flat-bar rails (20 mm) on the baseplate top; PYRAMID solid
   trapezoid gussets under the sole plates (original bearing heights kept);
@@ -318,7 +318,7 @@ Client physical-logic correction — 2026-08-06 (r10)
 ---------------------------------------------------
 
 - The client rejected r9: base parts floated, there was no visual support
-  chain, and the anchors were misplaced ("學了，但是沒有學到精髓"). The
+  chain, and the anchors were misplaced ("studied, but the essence was not captured"). The
   essence of the reference base is that every part carries or is carried:
   frame on baseplate, sole plates/gussets on frame, pump-end plate on side
   plates, anchors through the feet with the nut on the foot top.
@@ -346,7 +346,7 @@ Client bridge-bracket correction — 2026-08-06 (r11)
   diagonal plates and screws intersected, the diagonals were too short to
   connect to the upper platform, and the diagonals needed a bolted
   auxiliary block at their bottom. The requested support-plate
-  cross-section reads like a bridge: 横-斜-平-斜-横 (bottom block, diagonal
+  cross-section reads like a bridge: horizontal-diagonal-flat-diagonal-horizontal (bottom block, diagonal
   web, middle plate, diagonal web, upper platform). The old gusset/anchor
   architecture is discarded.
 - r11 replaces every foot/pad support with a bridge bracket:
@@ -372,9 +372,8 @@ Client bridge-bracket correction — 2026-08-06 (r11)
 Failure record — 2026-08-06 (r9-r11 base series rejected; r11 final)
 -------------------------------------------------------------------
 
-- r11 loaded by the client: "完全的失敗案例，底部支架和泵與Motor完全
-  分離" (complete failure: the base support and the pump/motor are
-  completely separated). No further modification requested; r11 is the
+- r11 loaded by the client: "complete failure: the base support and the pump/motor are completely separated". No further modification requested; r11 is the
+
   archived failed revision case.
 - r9 (PUMP006 copy) and r10 (physical-logic anchors/stand) were rejected
   earlier the same day for floating parts, missing support chain and

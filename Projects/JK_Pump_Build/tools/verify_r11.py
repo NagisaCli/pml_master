@@ -5,7 +5,7 @@ with bridge-shaped supports: 5-member longitudinal frame, pump-end stand
 (2 side plates carrying a pump-end sole plate + cross-beam EXTRUSION), and
 per foot/pad a bridge bracket (bottom bolted auxiliary block + diagonal
 web + middle plate + diagonal web) carrying the existing sole plate / pad
--- side cross-section 横-斜-平-斜-横. The old PYRAMID gussets and through-
+-- side cross-section horizontal-diagonal-flat-diagonal-horizontal. The old PYRAMID gussets and through-
 foot anchors are gone; the block screws sit at the block edges, clear of
 the webs. Nothing floats: every element's bottom face is carried by the
 element below. Everything outside the base scope must be byte-identical

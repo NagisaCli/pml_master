@@ -1,4 +1,4 @@
-﻿$S-  -- Synonym translation OFF
+$S-  -- Synonym translation OFF
 -- ----------------------------------------------------------------
 -- Data Listing    Date : 05 Aug 2026 20:34
 
@@ -442,7 +442,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14098mm N 14591.5mm U 82mm
 ORI Y is U and Z is E
@@ -474,7 +474,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14098mm N 14591.5mm U 114.9mm
 ORI Y is U and Z is E
@@ -514,7 +514,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13791.2mm N 14591.5mm U 82mm
 ORI Y is U and Z is E
@@ -546,7 +546,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13791.2mm N 14591.5mm U 114.9mm
 ORI Y is U and Z is E
@@ -586,7 +586,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14098mm N 14813.7mm U 82mm
 ORI Y is U and Z is E
@@ -618,7 +618,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14098mm N 14813.7mm U 114.9mm
 ORI Y is U and Z is E
@@ -658,7 +658,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13791.2mm N 14813.7mm U 82mm
 ORI Y is U and Z is E
@@ -690,7 +690,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13791.2mm N 14813.7mm U 114.9mm
 ORI Y is U and Z is E
@@ -1315,7 +1315,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14126mm N 13312mm U 82mm
 ORI Y is U and Z is E
@@ -1347,7 +1347,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14126mm N 13312mm U 108.5mm
 ORI Y is U and Z is E
@@ -1401,7 +1401,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13751.2mm N 13312mm U 82mm
 ORI Y is U and Z is E
@@ -1433,7 +1433,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13751.2mm N 13312mm U 108.5mm
 ORI Y is U and Z is E
@@ -1487,7 +1487,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14126mm N 13716.8mm U 82mm
 ORI Y is U and Z is E
@@ -1519,7 +1519,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14126mm N 13716.8mm U 108.5mm
 ORI Y is U and Z is E
@@ -1573,7 +1573,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13751.2mm N 13716.8mm U 82mm
 ORI Y is U and Z is E
@@ -1605,7 +1605,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13751.2mm N 13716.8mm U 108.5mm
 ORI Y is U and Z is E
@@ -2552,7 +2552,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16264.6mm N 14552.2mm U 82mm
 ORI Y is U and Z is E
@@ -2584,7 +2584,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16264.6mm N 14552.2mm U 116.9mm
 ORI Y is U and Z is E
@@ -2624,7 +2624,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15956mm N 14552.2mm U 82mm
 ORI Y is U and Z is E
@@ -2656,7 +2656,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15956mm N 14552.2mm U 116.9mm
 ORI Y is U and Z is E
@@ -2696,7 +2696,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16264.6mm N 14765mm U 82mm
 ORI Y is U and Z is E
@@ -2728,7 +2728,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16264.6mm N 14765mm U 116.9mm
 ORI Y is U and Z is E
@@ -2768,7 +2768,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15956mm N 14765mm U 82mm
 ORI Y is U and Z is E
@@ -2800,7 +2800,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15956mm N 14765mm U 116.9mm
 ORI Y is U and Z is E
@@ -3376,7 +3376,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16292.8mm N 13301.3mm U 82mm
 ORI Y is U and Z is E
@@ -3408,7 +3408,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16292.8mm N 13301.3mm U 108.3mm
 ORI Y is U and Z is E
@@ -3462,7 +3462,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15915.8mm N 13301.3mm U 82mm
 ORI Y is U and Z is E
@@ -3494,7 +3494,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15915.8mm N 13301.3mm U 108.3mm
 ORI Y is U and Z is E
@@ -3548,7 +3548,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16292.8mm N 13693mm U 82mm
 ORI Y is U and Z is E
@@ -3580,7 +3580,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16292.8mm N 13693mm U 108.3mm
 ORI Y is U and Z is E
@@ -3634,7 +3634,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15915.8mm N 13693mm U 82mm
 ORI Y is U and Z is E
@@ -3666,7 +3666,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15915.8mm N 13693mm U 108.3mm
 ORI Y is U and Z is E
@@ -4592,7 +4592,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17801.4mm N 528.9mm U 82mm
 ORI Y is U and Z is E
@@ -4624,7 +4624,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17801.4mm N 528.9mm U 108.4mm
 ORI Y is U and Z is E
@@ -4664,7 +4664,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17527.8mm N 528.9mm U 82mm
 ORI Y is U and Z is E
@@ -4696,7 +4696,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17527.8mm N 528.9mm U 108.4mm
 ORI Y is U and Z is E
@@ -4736,7 +4736,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17801.4mm N 697.3mm U 82mm
 ORI Y is U and Z is E
@@ -4768,7 +4768,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17801.4mm N 697.3mm U 108.4mm
 ORI Y is U and Z is E
@@ -4808,7 +4808,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17527.8mm N 697.3mm U 82mm
 ORI Y is U and Z is E
@@ -4840,7 +4840,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17527.8mm N 697.3mm U 108.4mm
 ORI Y is U and Z is E
@@ -5375,7 +5375,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17826.5mm S 458.1mm U 82mm
 ORI Y is U and Z is E
@@ -5407,7 +5407,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17826.5mm S 458.1mm U 103mm
 ORI Y is U and Z is E
@@ -5461,7 +5461,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17492.1mm S 458.1mm U 82mm
 ORI Y is U and Z is E
@@ -5493,7 +5493,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17492.1mm S 458.1mm U 103mm
 ORI Y is U and Z is E
@@ -5547,7 +5547,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17826.5mm S 154.3mm U 82mm
 ORI Y is U and Z is E
@@ -5579,7 +5579,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17826.5mm S 154.3mm U 103mm
 ORI Y is U and Z is E
@@ -5633,7 +5633,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17492.1mm S 154.3mm U 82mm
 ORI Y is U and Z is E
@@ -5665,7 +5665,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17492.1mm S 154.3mm U 103mm
 ORI Y is U and Z is E
@@ -6577,7 +6577,7 @@ ZLEN 7.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16901mm N 5801.4mm U 77.3mm
 ORI Y is U and Z is N
@@ -6609,7 +6609,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16901mm N 5801.4mm U 86.2mm
 ORI Y is U and Z is N
@@ -6649,7 +6649,7 @@ ZLEN 7.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16901mm N 5527.8mm U 77.3mm
 ORI Y is U and Z is N
@@ -6681,7 +6681,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16901mm N 5527.8mm U 86.2mm
 ORI Y is U and Z is N
@@ -6721,7 +6721,7 @@ ZLEN 7.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16764.8mm N 5801.4mm U 77.3mm
 ORI Y is U and Z is N
@@ -6753,7 +6753,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16764.8mm N 5801.4mm U 86.2mm
 ORI Y is U and Z is N
@@ -6793,7 +6793,7 @@ ZLEN 7.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16764.8mm N 5527.8mm U 77.3mm
 ORI Y is U and Z is N
@@ -6825,7 +6825,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 16764.8mm N 5527.8mm U 86.2mm
 ORI Y is U and Z is N
@@ -7491,7 +7491,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17413.2mm N 5826.5mm U 82mm
 ORI Y is U and Z is N
@@ -7523,7 +7523,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17413.2mm N 5826.5mm U 102.9mm
 ORI Y is U and Z is N
@@ -7577,7 +7577,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17413.2mm N 5492.1mm U 82mm
 ORI Y is U and Z is N
@@ -7609,7 +7609,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17413.2mm N 5492.1mm U 102.9mm
 ORI Y is U and Z is N
@@ -7663,7 +7663,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17217.2mm N 5826.5mm U 82mm
 ORI Y is U and Z is N
@@ -7695,7 +7695,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17217.2mm N 5826.5mm U 102.9mm
 ORI Y is U and Z is N
@@ -7749,7 +7749,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17217.2mm N 5492.1mm U 82mm
 ORI Y is U and Z is N
@@ -7781,7 +7781,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 17217.2mm N 5492.1mm U 102.9mm
 ORI Y is U and Z is N
@@ -8701,7 +8701,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13651.8mm S 162.7mm U 82mm
 ORI Y is U and Z is E
@@ -8733,7 +8733,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13651.8mm S 162.7mm U 114.1mm
 ORI Y is U and Z is E
@@ -8773,7 +8773,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13925.4mm S 162.7mm U 82mm
 ORI Y is U and Z is E
@@ -8805,7 +8805,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13925.4mm S 162.7mm U 114.1mm
 ORI Y is U and Z is E
@@ -8845,7 +8845,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13651.8mm S 327.6mm U 82mm
 ORI Y is U and Z is E
@@ -8877,7 +8877,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13651.8mm S 327.6mm U 114.1mm
 ORI Y is U and Z is E
@@ -8917,7 +8917,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13925.4mm S 327.6mm U 82mm
 ORI Y is U and Z is E
@@ -8949,7 +8949,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13925.4mm S 327.6mm U 114.1mm
 ORI Y is U and Z is E
@@ -9560,7 +9560,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13616.1mm N 904.7mm U 82mm
 ORI Y is U and Z is E
@@ -9592,7 +9592,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13616.1mm N 904.7mm U 103.3mm
 ORI Y is U and Z is E
@@ -9646,7 +9646,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13950.5mm N 904.7mm U 82mm
 ORI Y is U and Z is E
@@ -9678,7 +9678,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13950.5mm N 904.7mm U 103.3mm
 ORI Y is U and Z is E
@@ -9732,7 +9732,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13616.1mm N 569.2mm U 82mm
 ORI Y is U and Z is E
@@ -9764,7 +9764,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13616.1mm N 569.2mm U 103.3mm
 ORI Y is U and Z is E
@@ -9818,7 +9818,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13950.5mm N 569.2mm U 82mm
 ORI Y is U and Z is E
@@ -9850,7 +9850,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 13950.5mm N 569.2mm U 103.3mm
 ORI Y is U and Z is E
@@ -10861,7 +10861,7 @@ ZLEN 13.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14984.4mm S 227.9mm U 83.3mm
 ORI Y is U and Z is E
@@ -10893,7 +10893,7 @@ ZLEN 5.7mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14984.4mm S 227.9mm U 98.4mm
 ORI Y is U and Z is E
@@ -10933,7 +10933,7 @@ ZLEN 13.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15211.6mm S 227.9mm U 83.3mm
 ORI Y is U and Z is E
@@ -10965,7 +10965,7 @@ ZLEN 5.7mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15211.6mm S 227.9mm U 98.4mm
 ORI Y is U and Z is E
@@ -11005,7 +11005,7 @@ ZLEN 13.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14984.4mm S 354.9mm U 83.3mm
 ORI Y is U and Z is E
@@ -11037,7 +11037,7 @@ ZLEN 5.7mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14984.4mm S 354.9mm U 98.4mm
 ORI Y is U and Z is E
@@ -11077,7 +11077,7 @@ ZLEN 13.3mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15211.6mm S 354.9mm U 83.3mm
 ORI Y is U and Z is E
@@ -11109,7 +11109,7 @@ ZLEN 5.7mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15211.6mm S 354.9mm U 98.4mm
 ORI Y is U and Z is E
@@ -11672,7 +11672,7 @@ ZLEN 11.9mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14952.8mm N 603.3mm U 81.9mm
 ORI Y is U and Z is E
@@ -11704,7 +11704,7 @@ ZLEN 5.1mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14952.8mm N 603.3mm U 95.5mm
 ORI Y is U and Z is E
@@ -11758,7 +11758,7 @@ ZLEN 11.9mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15230.3mm N 603.3mm U 81.9mm
 ORI Y is U and Z is E
@@ -11790,7 +11790,7 @@ ZLEN 5.1mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15230.3mm N 603.3mm U 95.5mm
 ORI Y is U and Z is E
@@ -11844,7 +11844,7 @@ ZLEN 11.9mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14952.8mm N 344.4mm U 81.9mm
 ORI Y is U and Z is E
@@ -11876,7 +11876,7 @@ ZLEN 5.1mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 14952.8mm N 344.4mm U 95.5mm
 ORI Y is U and Z is E
@@ -11930,7 +11930,7 @@ ZLEN 11.9mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15230.3mm N 344.4mm U 81.9mm
 ORI Y is U and Z is E
@@ -11962,7 +11962,7 @@ ZLEN 5.1mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 15230.3mm N 344.4mm U 95.5mm
 ORI Y is U and Z is E
@@ -12960,7 +12960,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20289.6mm S 8269.5mm U 82mm
 ORI Y is U and Z is E
@@ -12992,7 +12992,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20289.6mm S 8269.5mm U 115.2mm
 ORI Y is U and Z is E
@@ -13032,7 +13032,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19981mm S 8269.5mm U 82mm
 ORI Y is U and Z is E
@@ -13064,7 +13064,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19981mm S 8269.5mm U 115.2mm
 ORI Y is U and Z is E
@@ -13104,7 +13104,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20289.6mm S 8035mm U 82mm
 ORI Y is U and Z is E
@@ -13136,7 +13136,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20289.6mm S 8035mm U 115.2mm
 ORI Y is U and Z is E
@@ -13176,7 +13176,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19981mm S 8035mm U 82mm
 ORI Y is U and Z is E
@@ -13208,7 +13208,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19981mm S 8035mm U 115.2mm
 ORI Y is U and Z is E
@@ -13896,7 +13896,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20317.8mm S 9571.1mm U 82mm
 ORI Y is U and Z is E
@@ -13928,7 +13928,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20317.8mm S 9571.1mm U 109.1mm
 ORI Y is U and Z is E
@@ -13982,7 +13982,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19940.8mm S 9571.1mm U 82mm
 ORI Y is U and Z is E
@@ -14014,7 +14014,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19940.8mm S 9571.1mm U 109.1mm
 ORI Y is U and Z is E
@@ -14068,7 +14068,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20317.8mm S 9155.8mm U 82mm
 ORI Y is U and Z is E
@@ -14100,7 +14100,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20317.8mm S 9155.8mm U 109.1mm
 ORI Y is U and Z is E
@@ -14154,7 +14154,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19940.8mm S 9155.8mm U 82mm
 ORI Y is U and Z is E
@@ -14186,7 +14186,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19940.8mm S 9155.8mm U 109.1mm
 ORI Y is U and Z is E
@@ -15227,7 +15227,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20385.9mm N 19052.8mm U 82mm
 ORI Y is U and Z is N
@@ -15259,7 +15259,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20385.9mm N 19052.8mm U 106mm
 ORI Y is U and Z is N
@@ -15299,7 +15299,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20385.9mm N 19326.4mm U 82mm
 ORI Y is U and Z is N
@@ -15331,7 +15331,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20385.9mm N 19326.4mm U 106mm
 ORI Y is U and Z is N
@@ -15371,7 +15371,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20568.3mm N 19052.8mm U 82mm
 ORI Y is U and Z is N
@@ -15403,7 +15403,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20568.3mm N 19052.8mm U 106mm
 ORI Y is U and Z is N
@@ -15443,7 +15443,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20568.3mm N 19326.4mm U 82mm
 ORI Y is U and Z is N
@@ -15475,7 +15475,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20568.3mm N 19326.4mm U 106mm
 ORI Y is U and Z is N
@@ -16191,7 +16191,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.5mm N 19017.1mm U 82mm
 ORI Y is U and Z is N
@@ -16223,7 +16223,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.5mm N 19017.1mm U 103.6mm
 ORI Y is U and Z is N
@@ -16277,7 +16277,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.5mm N 19351.5mm U 82mm
 ORI Y is U and Z is N
@@ -16309,7 +16309,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.5mm N 19351.5mm U 103.6mm
 ORI Y is U and Z is N
@@ -16363,7 +16363,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19682.3mm N 19017.1mm U 82mm
 ORI Y is U and Z is N
@@ -16395,7 +16395,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19682.3mm N 19017.1mm U 103.6mm
 ORI Y is U and Z is N
@@ -16449,7 +16449,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19682.3mm N 19351.5mm U 82mm
 ORI Y is U and Z is N
@@ -16481,7 +16481,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19682.3mm N 19351.5mm U 103.6mm
 ORI Y is U and Z is N
@@ -17458,7 +17458,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20382.7mm N 17252.8mm U 82mm
 ORI Y is U and Z is N
@@ -17490,7 +17490,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20382.7mm N 17252.8mm U 108.3mm
 ORI Y is U and Z is N
@@ -17530,7 +17530,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20382.7mm N 17526.4mm U 82mm
 ORI Y is U and Z is N
@@ -17562,7 +17562,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20382.7mm N 17526.4mm U 108.3mm
 ORI Y is U and Z is N
@@ -17602,7 +17602,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20564mm N 17252.8mm U 82mm
 ORI Y is U and Z is N
@@ -17634,7 +17634,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20564mm N 17252.8mm U 108.3mm
 ORI Y is U and Z is N
@@ -17674,7 +17674,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20564mm N 17526.4mm U 82mm
 ORI Y is U and Z is N
@@ -17706,7 +17706,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 20564mm N 17526.4mm U 108.3mm
 ORI Y is U and Z is N
@@ -18346,7 +18346,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.7mm N 17217.1mm U 82mm
 ORI Y is U and Z is N
@@ -18378,7 +18378,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.7mm N 17217.1mm U 103.7mm
 ORI Y is U and Z is N
@@ -18432,7 +18432,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.7mm N 17551.5mm U 82mm
 ORI Y is U and Z is N
@@ -18464,7 +18464,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19359.7mm N 17551.5mm U 103.7mm
 ORI Y is U and Z is N
@@ -18518,7 +18518,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19680.2mm N 17217.1mm U 82mm
 ORI Y is U and Z is N
@@ -18550,7 +18550,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19680.2mm N 17217.1mm U 103.7mm
 ORI Y is U and Z is N
@@ -18604,7 +18604,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19680.2mm N 17551.5mm U 82mm
 ORI Y is U and Z is N
@@ -18636,7 +18636,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 19680.2mm N 17551.5mm U 103.7mm
 ORI Y is U and Z is N
@@ -19662,7 +19662,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22640.2mm N 14573.2mm U 82mm
 ORI Y is U and Z is E
@@ -19694,7 +19694,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22640.2mm N 14573.2mm U 115.5mm
 ORI Y is U and Z is E
@@ -19734,7 +19734,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22329.6mm N 14573.2mm U 82mm
 ORI Y is U and Z is E
@@ -19766,7 +19766,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22329.6mm N 14573.2mm U 115.5mm
 ORI Y is U and Z is E
@@ -19806,7 +19806,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22640.2mm N 14795.5mm U 82mm
 ORI Y is U and Z is E
@@ -19838,7 +19838,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22640.2mm N 14795.5mm U 115.5mm
 ORI Y is U and Z is E
@@ -19878,7 +19878,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22329.6mm N 14795.5mm U 82mm
 ORI Y is U and Z is E
@@ -19910,7 +19910,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22329.6mm N 14795.5mm U 115.5mm
 ORI Y is U and Z is E
@@ -20535,7 +20535,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22668.8mm N 13294.4mm U 82mm
 ORI Y is U and Z is E
@@ -20567,7 +20567,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22668.8mm N 13294.4mm U 109mm
 ORI Y is U and Z is E
@@ -20621,7 +20621,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22288.9mm N 13294.4mm U 82mm
 ORI Y is U and Z is E
@@ -20653,7 +20653,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22288.9mm N 13294.4mm U 109mm
 ORI Y is U and Z is E
@@ -20707,7 +20707,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22668.8mm N 13699.1mm U 82mm
 ORI Y is U and Z is E
@@ -20739,7 +20739,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22668.8mm N 13699.1mm U 109mm
 ORI Y is U and Z is E
@@ -20793,7 +20793,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22288.9mm N 13699.1mm U 82mm
 ORI Y is U and Z is E
@@ -20825,7 +20825,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 22288.9mm N 13699.1mm U 109mm
 ORI Y is U and Z is E
@@ -21822,7 +21822,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28340.6mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -21854,7 +21854,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28340.6mm N 14568.9mm U 115.2mm
 ORI Y is U and Z is E
@@ -21894,7 +21894,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28032mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -21926,7 +21926,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28032mm N 14568.9mm U 115.2mm
 ORI Y is U and Z is E
@@ -21966,7 +21966,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28340.6mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -21998,7 +21998,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28340.6mm N 14790.4mm U 115.2mm
 ORI Y is U and Z is E
@@ -22038,7 +22038,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28032mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -22070,7 +22070,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28032mm N 14790.4mm U 115.2mm
 ORI Y is U and Z is E
@@ -22695,7 +22695,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28368.8mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -22727,7 +22727,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28368.8mm N 13293.6mm U 108.8mm
 ORI Y is U and Z is E
@@ -22781,7 +22781,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 27991.8mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -22813,7 +22813,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 27991.8mm N 13293.6mm U 108.8mm
 ORI Y is U and Z is E
@@ -22867,7 +22867,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28368.8mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -22899,7 +22899,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28368.8mm N 13697.1mm U 108.8mm
 ORI Y is U and Z is E
@@ -22953,7 +22953,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 27991.8mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -22985,7 +22985,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 27991.8mm N 13697.1mm U 108.8mm
 ORI Y is U and Z is E
@@ -23932,7 +23932,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25930.4mm N 14652.9mm U 82mm
 ORI Y is U and Z is E
@@ -23964,7 +23964,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25930.4mm N 14652.9mm U 108.4mm
 ORI Y is U and Z is E
@@ -24004,7 +24004,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25656.8mm N 14652.9mm U 82mm
 ORI Y is U and Z is E
@@ -24036,7 +24036,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25656.8mm N 14652.9mm U 108.4mm
 ORI Y is U and Z is E
@@ -24076,7 +24076,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25930.4mm N 14821.3mm U 82mm
 ORI Y is U and Z is E
@@ -24108,7 +24108,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25930.4mm N 14821.3mm U 108.4mm
 ORI Y is U and Z is E
@@ -24148,7 +24148,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25656.8mm N 14821.3mm U 82mm
 ORI Y is U and Z is E
@@ -24180,7 +24180,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25656.8mm N 14821.3mm U 108.4mm
 ORI Y is U and Z is E
@@ -24715,7 +24715,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25955.5mm N 13665.9mm U 82mm
 ORI Y is U and Z is E
@@ -24747,7 +24747,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25955.5mm N 13665.9mm U 103mm
 ORI Y is U and Z is E
@@ -24801,7 +24801,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25621.1mm N 13665.9mm U 82mm
 ORI Y is U and Z is E
@@ -24833,7 +24833,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25621.1mm N 13665.9mm U 103mm
 ORI Y is U and Z is E
@@ -24887,7 +24887,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25955.5mm N 13969.6mm U 82mm
 ORI Y is U and Z is E
@@ -24919,7 +24919,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25955.5mm N 13969.6mm U 103mm
 ORI Y is U and Z is E
@@ -24973,7 +24973,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25621.1mm N 13969.6mm U 82mm
 ORI Y is U and Z is E
@@ -25005,7 +25005,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 25621.1mm N 13969.6mm U 103mm
 ORI Y is U and Z is E
@@ -25917,7 +25917,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28636.4mm N 774.9mm U 82mm
 ORI Y is U and Z is E
@@ -25949,7 +25949,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28636.4mm N 774.9mm U 108.4mm
 ORI Y is U and Z is E
@@ -25989,7 +25989,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28362.8mm N 774.9mm U 82mm
 ORI Y is U and Z is E
@@ -26021,7 +26021,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28362.8mm N 774.9mm U 108.4mm
 ORI Y is U and Z is E
@@ -26061,7 +26061,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28636.4mm N 943.8mm U 82mm
 ORI Y is U and Z is E
@@ -26093,7 +26093,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28636.4mm N 943.8mm U 108.4mm
 ORI Y is U and Z is E
@@ -26133,7 +26133,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28362.8mm N 943.8mm U 82mm
 ORI Y is U and Z is E
@@ -26165,7 +26165,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28362.8mm N 943.8mm U 108.4mm
 ORI Y is U and Z is E
@@ -26700,7 +26700,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28661.5mm S 214.9mm U 82mm
 ORI Y is U and Z is E
@@ -26732,7 +26732,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28661.5mm S 214.9mm U 103mm
 ORI Y is U and Z is E
@@ -26786,7 +26786,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28327.1mm S 214.9mm U 82mm
 ORI Y is U and Z is E
@@ -26818,7 +26818,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28327.1mm S 214.9mm U 103mm
 ORI Y is U and Z is E
@@ -26872,7 +26872,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28661.5mm N 89.8mm U 82mm
 ORI Y is U and Z is E
@@ -26904,7 +26904,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28661.5mm N 89.8mm U 103mm
 ORI Y is U and Z is E
@@ -26958,7 +26958,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28327.1mm N 89.8mm U 82mm
 ORI Y is U and Z is E
@@ -26990,7 +26990,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 28327.1mm N 89.8mm U 103mm
 ORI Y is U and Z is E
@@ -27952,7 +27952,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30591.4mm S 10737.2mm U 78mm
 ORI Y is U and Z is N
@@ -27984,7 +27984,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30591.4mm S 10737.2mm U 87.4mm
 ORI Y is U and Z is N
@@ -28024,7 +28024,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30591.4mm S 10463.6mm U 78mm
 ORI Y is U and Z is N
@@ -28056,7 +28056,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30591.4mm S 10463.6mm U 87.4mm
 ORI Y is U and Z is N
@@ -28096,7 +28096,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30860.6mm S 10737.2mm U 78mm
 ORI Y is U and Z is N
@@ -28128,7 +28128,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30860.6mm S 10737.2mm U 87.4mm
 ORI Y is U and Z is N
@@ -28168,7 +28168,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30860.6mm S 10463.6mm U 78mm
 ORI Y is U and Z is N
@@ -28200,7 +28200,7 @@ ZLEN 4mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30860.6mm S 10463.6mm U 87.4mm
 ORI Y is U and Z is N
@@ -28916,7 +28916,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 29790.5mm S 10772.9mm U 82mm
 ORI Y is U and Z is N
@@ -28948,7 +28948,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 29790.5mm S 10772.9mm U 103.4mm
 ORI Y is U and Z is N
@@ -29002,7 +29002,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 29790.5mm S 10438.5mm U 82mm
 ORI Y is U and Z is N
@@ -29034,7 +29034,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 29790.5mm S 10438.5mm U 103.4mm
 ORI Y is U and Z is N
@@ -29088,7 +29088,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30073.8mm S 10772.9mm U 82mm
 ORI Y is U and Z is N
@@ -29120,7 +29120,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30073.8mm S 10772.9mm U 103.4mm
 ORI Y is U and Z is N
@@ -29174,7 +29174,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30073.8mm S 10438.5mm U 82mm
 ORI Y is U and Z is N
@@ -29206,7 +29206,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 30073.8mm S 10438.5mm U 103.4mm
 ORI Y is U and Z is N
@@ -30154,7 +30154,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33237.2mm N 14465.8mm U 82mm
 ORI Y is U and Z is E
@@ -30186,7 +30186,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33237.2mm N 14465.8mm U 134.3mm
 ORI Y is U and Z is E
@@ -30226,7 +30226,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32789mm N 14465.8mm U 82mm
 ORI Y is U and Z is E
@@ -30258,7 +30258,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32789mm N 14465.8mm U 134.3mm
 ORI Y is U and Z is E
@@ -30298,7 +30298,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33237.2mm N 14757.9mm U 82mm
 ORI Y is U and Z is E
@@ -30330,7 +30330,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33237.2mm N 14757.9mm U 134.3mm
 ORI Y is U and Z is E
@@ -30370,7 +30370,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32789mm N 14757.9mm U 82mm
 ORI Y is U and Z is E
@@ -30402,7 +30402,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32789mm N 14757.9mm U 134.3mm
 ORI Y is U and Z is E
@@ -31125,7 +31125,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33278.2mm N 12799.7mm U 82mm
 ORI Y is U and Z is E
@@ -31157,7 +31157,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33278.2mm N 12799.7mm U 123.1mm
 ORI Y is U and Z is E
@@ -31211,7 +31211,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32730.4mm N 12799.7mm U 82mm
 ORI Y is U and Z is E
@@ -31243,7 +31243,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32730.4mm N 12799.7mm U 123.1mm
 ORI Y is U and Z is E
@@ -31297,7 +31297,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33278.2mm N 13336.4mm U 82mm
 ORI Y is U and Z is E
@@ -31329,7 +31329,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 33278.2mm N 13336.4mm U 123.1mm
 ORI Y is U and Z is E
@@ -31383,7 +31383,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32730.4mm N 13336.4mm U 82mm
 ORI Y is U and Z is E
@@ -31415,7 +31415,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 32730.4mm N 13336.4mm U 123.1mm
 ORI Y is U and Z is E
@@ -32390,7 +32390,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31682.4mm N 14684.1mm U 82mm
 ORI Y is U and Z is E
@@ -32422,7 +32422,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31682.4mm N 14684.1mm U 114.5mm
 ORI Y is U and Z is E
@@ -32462,7 +32462,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31408.8mm N 14684.1mm U 82mm
 ORI Y is U and Z is E
@@ -32494,7 +32494,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31408.8mm N 14684.1mm U 114.5mm
 ORI Y is U and Z is E
@@ -32534,7 +32534,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31682.4mm N 14845.5mm U 82mm
 ORI Y is U and Z is E
@@ -32566,7 +32566,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31682.4mm N 14845.5mm U 114.5mm
 ORI Y is U and Z is E
@@ -32606,7 +32606,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31408.8mm N 14845.5mm U 82mm
 ORI Y is U and Z is E
@@ -32638,7 +32638,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31408.8mm N 14845.5mm U 114.5mm
 ORI Y is U and Z is E
@@ -33179,7 +33179,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31707.5mm N 13645.2mm U 82mm
 ORI Y is U and Z is E
@@ -33211,7 +33211,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31707.5mm N 13645.2mm U 103.1mm
 ORI Y is U and Z is E
@@ -33265,7 +33265,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31373.1mm N 13645.2mm U 82mm
 ORI Y is U and Z is E
@@ -33297,7 +33297,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31373.1mm N 13645.2mm U 103.1mm
 ORI Y is U and Z is E
@@ -33351,7 +33351,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31707.5mm N 13980.7mm U 82mm
 ORI Y is U and Z is E
@@ -33383,7 +33383,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31707.5mm N 13980.7mm U 103.1mm
 ORI Y is U and Z is E
@@ -33437,7 +33437,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31373.1mm N 13980.7mm U 82mm
 ORI Y is U and Z is E
@@ -33469,7 +33469,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 31373.1mm N 13980.7mm U 103.1mm
 ORI Y is U and Z is E
@@ -34466,7 +34466,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35381.6mm N 5168.9mm U 82mm
 ORI Y is U and Z is N
@@ -34498,7 +34498,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35381.6mm N 5168.9mm U 103.8mm
 ORI Y is U and Z is N
@@ -34538,7 +34538,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35381.6mm N 4790.5mm U 82mm
 ORI Y is U and Z is N
@@ -34570,7 +34570,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35381.6mm N 4790.5mm U 103.8mm
 ORI Y is U and Z is N
@@ -34610,7 +34610,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35059.8mm N 5168.9mm U 82mm
 ORI Y is U and Z is N
@@ -34642,7 +34642,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35059.8mm N 5168.9mm U 103.8mm
 ORI Y is U and Z is N
@@ -34682,7 +34682,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35059.8mm N 4790.5mm U 82mm
 ORI Y is U and Z is N
@@ -34714,7 +34714,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 35059.8mm N 4790.5mm U 103.8mm
 ORI Y is U and Z is N
@@ -35472,7 +35472,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36387.8mm N 5203.6mm U 82mm
 ORI Y is U and Z is N
@@ -35504,7 +35504,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36387.8mm N 5203.6mm U 117.5mm
 ORI Y is U and Z is N
@@ -35558,7 +35558,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36387.8mm N 4741.2mm U 82mm
 ORI Y is U and Z is N
@@ -35590,7 +35590,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36387.8mm N 4741.2mm U 117.5mm
 ORI Y is U and Z is N
@@ -35644,7 +35644,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36046mm N 5203.6mm U 82mm
 ORI Y is U and Z is N
@@ -35676,7 +35676,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36046mm N 5203.6mm U 117.5mm
 ORI Y is U and Z is N
@@ -35730,7 +35730,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36046mm N 4741.2mm U 82mm
 ORI Y is U and Z is N
@@ -35762,7 +35762,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 36046mm N 4741.2mm U 117.5mm
 ORI Y is U and Z is N
@@ -36724,7 +36724,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41360.8mm N 139.3mm U 82mm
 ORI Y is U and Z is E
@@ -36756,7 +36756,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41360.8mm N 139.3mm U 114.1mm
 ORI Y is U and Z is E
@@ -36796,7 +36796,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41634.4mm N 139.3mm U 82mm
 ORI Y is U and Z is E
@@ -36828,7 +36828,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41634.4mm N 139.3mm U 114.1mm
 ORI Y is U and Z is E
@@ -36868,7 +36868,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41360.8mm S 25.6mm U 82mm
 ORI Y is U and Z is E
@@ -36900,7 +36900,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41360.8mm S 25.6mm U 114.1mm
 ORI Y is U and Z is E
@@ -36940,7 +36940,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41634.4mm S 25.6mm U 82mm
 ORI Y is U and Z is E
@@ -36972,7 +36972,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41634.4mm S 25.6mm U 114.1mm
 ORI Y is U and Z is E
@@ -37583,7 +37583,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41325.1mm N 1206.7mm U 82mm
 ORI Y is U and Z is E
@@ -37615,7 +37615,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41325.1mm N 1206.7mm U 103.3mm
 ORI Y is U and Z is E
@@ -37669,7 +37669,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41659.5mm N 1206.7mm U 82mm
 ORI Y is U and Z is E
@@ -37701,7 +37701,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41659.5mm N 1206.7mm U 103.3mm
 ORI Y is U and Z is E
@@ -37755,7 +37755,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41325.1mm N 871.2mm U 82mm
 ORI Y is U and Z is E
@@ -37787,7 +37787,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41325.1mm N 871.2mm U 103.3mm
 ORI Y is U and Z is E
@@ -37841,7 +37841,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41659.5mm N 871.2mm U 82mm
 ORI Y is U and Z is E
@@ -37873,7 +37873,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41659.5mm N 871.2mm U 103.3mm
 ORI Y is U and Z is E
@@ -38885,7 +38885,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42345.6mm S 8120.1mm U 82mm
 ORI Y is U and Z is E
@@ -38917,7 +38917,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42345.6mm S 8120.1mm U 115.2mm
 ORI Y is U and Z is E
@@ -38957,7 +38957,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42037mm S 8120.1mm U 82mm
 ORI Y is U and Z is E
@@ -38989,7 +38989,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42037mm S 8120.1mm U 115.2mm
 ORI Y is U and Z is E
@@ -39029,7 +39029,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42345.6mm S 7884.9mm U 82mm
 ORI Y is U and Z is E
@@ -39061,7 +39061,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42345.6mm S 7884.9mm U 115.2mm
 ORI Y is U and Z is E
@@ -39101,7 +39101,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42037mm S 7884.9mm U 82mm
 ORI Y is U and Z is E
@@ -39133,7 +39133,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42037mm S 7884.9mm U 115.2mm
 ORI Y is U and Z is E
@@ -39821,7 +39821,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42373.8mm S 9425.4mm U 82mm
 ORI Y is U and Z is E
@@ -39853,7 +39853,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42373.8mm S 9425.4mm U 109.1mm
 ORI Y is U and Z is E
@@ -39907,7 +39907,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41996.8mm S 9425.4mm U 82mm
 ORI Y is U and Z is E
@@ -39939,7 +39939,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41996.8mm S 9425.4mm U 109.1mm
 ORI Y is U and Z is E
@@ -39993,7 +39993,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42373.8mm S 9008.9mm U 82mm
 ORI Y is U and Z is E
@@ -40025,7 +40025,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42373.8mm S 9008.9mm U 109.1mm
 ORI Y is U and Z is E
@@ -40079,7 +40079,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41996.8mm S 9008.9mm U 82mm
 ORI Y is U and Z is E
@@ -40111,7 +40111,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41996.8mm S 9008.9mm U 109.1mm
 ORI Y is U and Z is E
@@ -41165,7 +41165,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40996.2mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -41197,7 +41197,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40996.2mm N 14568.9mm U 115.5mm
 ORI Y is U and Z is E
@@ -41237,7 +41237,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40685.6mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -41269,7 +41269,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40685.6mm N 14568.9mm U 115.5mm
 ORI Y is U and Z is E
@@ -41309,7 +41309,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40996.2mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -41341,7 +41341,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40996.2mm N 14790.4mm U 115.5mm
 ORI Y is U and Z is E
@@ -41381,7 +41381,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40685.6mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -41413,7 +41413,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40685.6mm N 14790.4mm U 115.5mm
 ORI Y is U and Z is E
@@ -42038,7 +42038,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41024.8mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -42070,7 +42070,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41024.8mm N 13293.6mm U 109mm
 ORI Y is U and Z is E
@@ -42124,7 +42124,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40644.9mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -42156,7 +42156,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40644.9mm N 13293.6mm U 109mm
 ORI Y is U and Z is E
@@ -42210,7 +42210,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41024.8mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -42242,7 +42242,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 41024.8mm N 13697.1mm U 109mm
 ORI Y is U and Z is E
@@ -42296,7 +42296,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40644.9mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -42328,7 +42328,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 40644.9mm N 13697.1mm U 109mm
 ORI Y is U and Z is E
@@ -43325,7 +43325,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38043.6mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -43357,7 +43357,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38043.6mm N 14568.9mm U 115.2mm
 ORI Y is U and Z is E
@@ -43397,7 +43397,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37735mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -43429,7 +43429,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37735mm N 14568.9mm U 115.2mm
 ORI Y is U and Z is E
@@ -43469,7 +43469,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38043.6mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -43501,7 +43501,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38043.6mm N 14790.4mm U 115.2mm
 ORI Y is U and Z is E
@@ -43541,7 +43541,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37735mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -43573,7 +43573,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37735mm N 14790.4mm U 115.2mm
 ORI Y is U and Z is E
@@ -44198,7 +44198,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38071.8mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -44230,7 +44230,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38071.8mm N 13293.6mm U 108.8mm
 ORI Y is U and Z is E
@@ -44284,7 +44284,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37694.8mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -44316,7 +44316,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37694.8mm N 13293.6mm U 108.8mm
 ORI Y is U and Z is E
@@ -44370,7 +44370,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38071.8mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -44402,7 +44402,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 38071.8mm N 13697.1mm U 108.8mm
 ORI Y is U and Z is E
@@ -44456,7 +44456,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37694.8mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -44488,7 +44488,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 37694.8mm N 13697.1mm U 108.8mm
 ORI Y is U and Z is E
@@ -45435,7 +45435,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39534.9mm N 14673.1mm U 82mm
 ORI Y is U and Z is E
@@ -45467,7 +45467,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39534.9mm N 14673.1mm U 114.8mm
 ORI Y is U and Z is E
@@ -45507,7 +45507,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39259.6mm N 14673.1mm U 82mm
 ORI Y is U and Z is E
@@ -45539,7 +45539,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39259.6mm N 14673.1mm U 114.8mm
 ORI Y is U and Z is E
@@ -45579,7 +45579,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39534.9mm N 14829.9mm U 82mm
 ORI Y is U and Z is E
@@ -45611,7 +45611,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39534.9mm N 14829.9mm U 114.8mm
 ORI Y is U and Z is E
@@ -45651,7 +45651,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39259.6mm N 14829.9mm U 82mm
 ORI Y is U and Z is E
@@ -45683,7 +45683,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39259.6mm N 14829.9mm U 114.8mm
 ORI Y is U and Z is E
@@ -46224,7 +46224,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39560.2mm N 13663.7mm U 82mm
 ORI Y is U and Z is E
@@ -46256,7 +46256,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39560.2mm N 13663.7mm U 103.4mm
 ORI Y is U and Z is E
@@ -46310,7 +46310,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39223.6mm N 13663.7mm U 82mm
 ORI Y is U and Z is E
@@ -46342,7 +46342,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39223.6mm N 13663.7mm U 103.4mm
 ORI Y is U and Z is E
@@ -46396,7 +46396,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39560.2mm N 13989.6mm U 82mm
 ORI Y is U and Z is E
@@ -46428,7 +46428,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39560.2mm N 13989.6mm U 103.4mm
 ORI Y is U and Z is E
@@ -46482,7 +46482,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39223.6mm N 13989.6mm U 82mm
 ORI Y is U and Z is E
@@ -46514,7 +46514,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 39223.6mm N 13989.6mm U 103.4mm
 ORI Y is U and Z is E
@@ -47511,7 +47511,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42776.4mm N 5165.9mm U 82mm
 ORI Y is U and Z is N
@@ -47543,7 +47543,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42776.4mm N 5165.9mm U 103.8mm
 ORI Y is U and Z is N
@@ -47583,7 +47583,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42776.4mm N 4787.5mm U 82mm
 ORI Y is U and Z is N
@@ -47615,7 +47615,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42776.4mm N 4787.5mm U 103.8mm
 ORI Y is U and Z is N
@@ -47655,7 +47655,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42455.1mm N 5165.9mm U 82mm
 ORI Y is U and Z is N
@@ -47687,7 +47687,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42455.1mm N 5165.9mm U 103.8mm
 ORI Y is U and Z is N
@@ -47727,7 +47727,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42455.1mm N 4787.5mm U 82mm
 ORI Y is U and Z is N
@@ -47759,7 +47759,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 42455.1mm N 4787.5mm U 103.8mm
 ORI Y is U and Z is N
@@ -48447,7 +48447,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43777.8mm N 5200.6mm U 82mm
 ORI Y is U and Z is N
@@ -48479,7 +48479,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43777.8mm N 5200.6mm U 117.5mm
 ORI Y is U and Z is N
@@ -48533,7 +48533,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43777.8mm N 4738.2mm U 82mm
 ORI Y is U and Z is N
@@ -48565,7 +48565,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43777.8mm N 4738.2mm U 117.5mm
 ORI Y is U and Z is N
@@ -48619,7 +48619,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43436.4mm N 5200.6mm U 82mm
 ORI Y is U and Z is N
@@ -48651,7 +48651,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43436.4mm N 5200.6mm U 117.5mm
 ORI Y is U and Z is N
@@ -48705,7 +48705,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43436.4mm N 4738.2mm U 82mm
 ORI Y is U and Z is N
@@ -48737,7 +48737,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 43436.4mm N 4738.2mm U 117.5mm
 ORI Y is U and Z is N
@@ -49699,7 +49699,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45337.4mm N 14661.4mm U 82mm
 ORI Y is U and Z is E
@@ -49731,7 +49731,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45337.4mm N 14661.4mm U 107.3mm
 ORI Y is U and Z is E
@@ -49771,7 +49771,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45063.8mm N 14661.4mm U 82mm
 ORI Y is U and Z is E
@@ -49803,7 +49803,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45063.8mm N 14661.4mm U 107.3mm
 ORI Y is U and Z is E
@@ -49843,7 +49843,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45337.4mm N 14833.3mm U 82mm
 ORI Y is U and Z is E
@@ -49875,7 +49875,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45337.4mm N 14833.3mm U 107.3mm
 ORI Y is U and Z is E
@@ -49915,7 +49915,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45063.8mm N 14833.3mm U 82mm
 ORI Y is U and Z is E
@@ -49947,7 +49947,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45063.8mm N 14833.3mm U 107.3mm
 ORI Y is U and Z is E
@@ -50524,7 +50524,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45362.5mm N 13661.7mm U 82mm
 ORI Y is U and Z is E
@@ -50556,7 +50556,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45362.5mm N 13661.7mm U 103.1mm
 ORI Y is U and Z is E
@@ -50610,7 +50610,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45028.1mm N 13661.7mm U 82mm
 ORI Y is U and Z is E
@@ -50642,7 +50642,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45028.1mm N 13661.7mm U 103.1mm
 ORI Y is U and Z is E
@@ -50696,7 +50696,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45362.5mm N 13971.9mm U 82mm
 ORI Y is U and Z is E
@@ -50728,7 +50728,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45362.5mm N 13971.9mm U 103.1mm
 ORI Y is U and Z is E
@@ -50782,7 +50782,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45028.1mm N 13971.9mm U 82mm
 ORI Y is U and Z is E
@@ -50814,7 +50814,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45028.1mm N 13971.9mm U 103.1mm
 ORI Y is U and Z is E
@@ -51719,7 +51719,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46748.2mm N 14552.2mm U 82mm
 ORI Y is U and Z is E
@@ -51751,7 +51751,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46748.2mm N 14552.2mm U 117.3mm
 ORI Y is U and Z is E
@@ -51791,7 +51791,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46437.6mm N 14552.2mm U 82mm
 ORI Y is U and Z is E
@@ -51823,7 +51823,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46437.6mm N 14552.2mm U 117.3mm
 ORI Y is U and Z is E
@@ -51863,7 +51863,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46748.2mm N 14765mm U 82mm
 ORI Y is U and Z is E
@@ -51895,7 +51895,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46748.2mm N 14765mm U 117.3mm
 ORI Y is U and Z is E
@@ -51935,7 +51935,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46437.6mm N 14765mm U 82mm
 ORI Y is U and Z is E
@@ -51967,7 +51967,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46437.6mm N 14765mm U 117.3mm
 ORI Y is U and Z is E
@@ -52543,7 +52543,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46776.8mm N 13301.3mm U 82mm
 ORI Y is U and Z is E
@@ -52575,7 +52575,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46776.8mm N 13301.3mm U 108.6mm
 ORI Y is U and Z is E
@@ -52629,7 +52629,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46396.9mm N 13301.3mm U 82mm
 ORI Y is U and Z is E
@@ -52661,7 +52661,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46396.9mm N 13301.3mm U 108.6mm
 ORI Y is U and Z is E
@@ -52715,7 +52715,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46776.8mm N 13693mm U 82mm
 ORI Y is U and Z is E
@@ -52747,7 +52747,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46776.8mm N 13693mm U 108.6mm
 ORI Y is U and Z is E
@@ -52801,7 +52801,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46396.9mm N 13693mm U 82mm
 ORI Y is U and Z is E
@@ -52833,7 +52833,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46396.9mm N 13693mm U 108.6mm
 ORI Y is U and Z is E
@@ -53809,7 +53809,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48349.2mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -53841,7 +53841,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48349.2mm N 14568.9mm U 115.5mm
 ORI Y is U and Z is E
@@ -53881,7 +53881,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48038.6mm N 14568.9mm U 82mm
 ORI Y is U and Z is E
@@ -53913,7 +53913,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48038.6mm N 14568.9mm U 115.5mm
 ORI Y is U and Z is E
@@ -53953,7 +53953,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48349.2mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -53985,7 +53985,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48349.2mm N 14790.4mm U 115.5mm
 ORI Y is U and Z is E
@@ -54025,7 +54025,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48038.6mm N 14790.4mm U 82mm
 ORI Y is U and Z is E
@@ -54057,7 +54057,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48038.6mm N 14790.4mm U 115.5mm
 ORI Y is U and Z is E
@@ -54682,7 +54682,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48377.8mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -54714,7 +54714,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48377.8mm N 13293.6mm U 109mm
 ORI Y is U and Z is E
@@ -54768,7 +54768,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 47997.9mm N 13293.6mm U 82mm
 ORI Y is U and Z is E
@@ -54800,7 +54800,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 47997.9mm N 13293.6mm U 109mm
 ORI Y is U and Z is E
@@ -54854,7 +54854,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48377.8mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -54886,7 +54886,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48377.8mm N 13697.1mm U 109mm
 ORI Y is U and Z is E
@@ -54940,7 +54940,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 47997.9mm N 13697.1mm U 82mm
 ORI Y is U and Z is E
@@ -54972,7 +54972,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 47997.9mm N 13697.1mm U 109mm
 ORI Y is U and Z is E
@@ -55919,7 +55919,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49790.4mm N 14684.1mm U 82mm
 ORI Y is U and Z is E
@@ -55951,7 +55951,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49790.4mm N 14684.1mm U 114.5mm
 ORI Y is U and Z is E
@@ -55991,7 +55991,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49516.8mm N 14684.1mm U 82mm
 ORI Y is U and Z is E
@@ -56023,7 +56023,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49516.8mm N 14684.1mm U 114.5mm
 ORI Y is U and Z is E
@@ -56063,7 +56063,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49790.4mm N 14845.5mm U 82mm
 ORI Y is U and Z is E
@@ -56095,7 +56095,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49790.4mm N 14845.5mm U 114.5mm
 ORI Y is U and Z is E
@@ -56135,7 +56135,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49516.8mm N 14845.5mm U 82mm
 ORI Y is U and Z is E
@@ -56167,7 +56167,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49516.8mm N 14845.5mm U 114.5mm
 ORI Y is U and Z is E
@@ -56708,7 +56708,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49815.5mm N 13645.2mm U 82mm
 ORI Y is U and Z is E
@@ -56740,7 +56740,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49815.5mm N 13645.2mm U 103.1mm
 ORI Y is U and Z is E
@@ -56794,7 +56794,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49481.1mm N 13645.2mm U 82mm
 ORI Y is U and Z is E
@@ -56826,7 +56826,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49481.1mm N 13645.2mm U 103.1mm
 ORI Y is U and Z is E
@@ -56880,7 +56880,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49815.5mm N 13980.7mm U 82mm
 ORI Y is U and Z is E
@@ -56912,7 +56912,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49815.5mm N 13980.7mm U 103.1mm
 ORI Y is U and Z is E
@@ -56966,7 +56966,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49481.1mm N 13980.7mm U 82mm
 ORI Y is U and Z is E
@@ -56998,7 +56998,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49481.1mm N 13980.7mm U 103.1mm
 ORI Y is U and Z is E
@@ -57945,7 +57945,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49001.3mm N 4911.4mm U 82mm
 ORI Y is U and Z is E
@@ -57977,7 +57977,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49001.3mm N 4911.4mm U 103.6mm
 ORI Y is U and Z is E
@@ -58017,7 +58017,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48624.7mm N 4911.4mm U 82mm
 ORI Y is U and Z is E
@@ -58049,7 +58049,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48624.7mm N 4911.4mm U 103.6mm
 ORI Y is U and Z is E
@@ -58089,7 +58089,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49001.3mm N 5235.8mm U 82mm
 ORI Y is U and Z is E
@@ -58121,7 +58121,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49001.3mm N 5235.8mm U 103.6mm
 ORI Y is U and Z is E
@@ -58161,7 +58161,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48624.7mm N 5235.8mm U 82mm
 ORI Y is U and Z is E
@@ -58193,7 +58193,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48624.7mm N 5235.8mm U 103.6mm
 ORI Y is U and Z is E
@@ -58937,7 +58937,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49035.8mm N 3949.2mm U 82mm
 ORI Y is U and Z is E
@@ -58969,7 +58969,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49035.8mm N 3949.2mm U 117.3mm
 ORI Y is U and Z is E
@@ -59023,7 +59023,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48575.6mm N 3949.2mm U 82mm
 ORI Y is U and Z is E
@@ -59055,7 +59055,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48575.6mm N 3949.2mm U 117.3mm
 ORI Y is U and Z is E
@@ -59109,7 +59109,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49035.8mm N 4293.9mm U 82mm
 ORI Y is U and Z is E
@@ -59141,7 +59141,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 49035.8mm N 4293.9mm U 117.3mm
 ORI Y is U and Z is E
@@ -59195,7 +59195,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48575.6mm N 4293.9mm U 82mm
 ORI Y is U and Z is E
@@ -59227,7 +59227,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 48575.6mm N 4293.9mm U 117.3mm
 ORI Y is U and Z is E
@@ -60204,7 +60204,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 11011.2mm U 82mm
 ORI Y is U and Z is N
@@ -60236,7 +60236,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 11011.2mm U 110.3mm
 ORI Y is U and Z is N
@@ -60276,7 +60276,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 10737.6mm U 82mm
 ORI Y is U and Z is N
@@ -60308,7 +60308,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 10737.6mm U 110.3mm
 ORI Y is U and Z is N
@@ -60348,7 +60348,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 11011.2mm U 82mm
 ORI Y is U and Z is N
@@ -60380,7 +60380,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 11011.2mm U 110.3mm
 ORI Y is U and Z is N
@@ -60420,7 +60420,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 10737.6mm U 82mm
 ORI Y is U and Z is N
@@ -60452,7 +60452,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 10737.6mm U 110.3mm
 ORI Y is U and Z is N
@@ -61168,7 +61168,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 11046.9mm U 82mm
 ORI Y is U and Z is N
@@ -61200,7 +61200,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 11046.9mm U 103.6mm
 ORI Y is U and Z is N
@@ -61254,7 +61254,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 10712.5mm U 82mm
 ORI Y is U and Z is N
@@ -61286,7 +61286,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 10712.5mm U 103.6mm
 ORI Y is U and Z is N
@@ -61340,7 +61340,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 11046.9mm U 82mm
 ORI Y is U and Z is N
@@ -61372,7 +61372,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 11046.9mm U 103.6mm
 ORI Y is U and Z is N
@@ -61426,7 +61426,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 10712.5mm U 82mm
 ORI Y is U and Z is N
@@ -61458,7 +61458,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 10712.5mm U 103.6mm
 ORI Y is U and Z is N
@@ -62406,7 +62406,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 8413.2mm U 82mm
 ORI Y is U and Z is N
@@ -62438,7 +62438,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 8413.2mm U 110.3mm
 ORI Y is U and Z is N
@@ -62478,7 +62478,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 8139.6mm U 82mm
 ORI Y is U and Z is N
@@ -62510,7 +62510,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46538.3mm S 8139.6mm U 110.3mm
 ORI Y is U and Z is N
@@ -62550,7 +62550,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 8413.2mm U 82mm
 ORI Y is U and Z is N
@@ -62582,7 +62582,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 8413.2mm U 110.3mm
 ORI Y is U and Z is N
@@ -62622,7 +62622,7 @@ ZLEN 12mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 8139.6mm U 82mm
 ORI Y is U and Z is N
@@ -62654,7 +62654,7 @@ ZLEN 8mm
 
 END
 
--- Refined: pump diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: pump diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 46717.2mm S 8139.6mm U 110.3mm
 ORI Y is U and Z is N
@@ -63370,7 +63370,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 8448.9mm U 82mm
 ORI Y is U and Z is N
@@ -63402,7 +63402,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 8448.9mm U 103.6mm
 ORI Y is U and Z is N
@@ -63456,7 +63456,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 8114.5mm U 82mm
 ORI Y is U and Z is N
@@ -63488,7 +63488,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45513.5mm S 8114.5mm U 103.6mm
 ORI Y is U and Z is N
@@ -63542,7 +63542,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 8448.9mm U 82mm
 ORI Y is U and Z is N
@@ -63574,7 +63574,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 8448.9mm U 103.6mm
 ORI Y is U and Z is N
@@ -63628,7 +63628,7 @@ ZLEN 12mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 8114.5mm U 82mm
 ORI Y is U and Z is N
@@ -63660,7 +63660,7 @@ ZLEN 8mm
 
 END
 
--- Refined: motor diagonal web (bridge bracket, 横斜平斜横, Reference Value)
+-- Refined: motor diagonal web (bridge bracket, horizontal-diagonal-flat-diagonal-horizontal, Reference Value)
 NEW EXTRUSION
 POS E 45836.3mm S 8114.5mm U 103.6mm
 ORI Y is U and Z is N

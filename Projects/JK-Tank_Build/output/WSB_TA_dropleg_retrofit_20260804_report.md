@@ -1,83 +1,102 @@
-# WSB_TA.txt — DROPLEG 外观改造报告（2026-08-04）
+# WSB_TA.txt — DROPLEG Appearance Retrofit Report (2026-08-04)
 
-## 文件
+## Files
 
-- 交付文件：`C:\Users\A\Desktop\WSB_TA.txt`（已就地改造）
-- 交付副本：`Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804.txt`
-- 原始备份（未改动，SHA-256 已核对）：
+- Deliverable: `C:\Users\A\Desktop\WSB_TA.txt` (retrofitted in place)
+- Delivery copy: `Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804.txt`
+- Original backup (unchanged, SHA-256 verified):
   `Projects/JK-Tank_Build/imports/2026-08-04_WSB_TA.txt`
   `26A99DD4BB7B19B96F3C7CE1486B185C161FB7D858A68F4EC72599FB00A4B45B`
 
-## 改动范围
+## Scope of changes
 
-只改 5 台 DROPLEG 的外观（SUPPORT/SHELL 几何）并新增 DN200 下部管口；
-其余 17 台设备及目标设备的原有管口（N1–N3/M1）、ACCESS、目录绑定均未改动。
+Only the appearance of the 5 DROPLEG units was changed (SUPPORT/SHELL
+geometry) and a DN200 lower nozzle added per unit; the other 17 units and the
+target units' original nozzles (N1–N3/M1), ACCESS and catalogue bindings were
+not modified.
 
-| 设备 | 底部中心（不变） | 新增管口 |
+| Equipment | Bottom centre (unchanged) | New nozzle |
 |---|---|---|
-| 203_TA_019 | E 15445 / N 6415 / U 0 | N6（DN200） |
-| 204_TA_021 | E 23650 / N 6000 / U 0 | N4（DN200） |
-| 205_TA_016 | E 33833 / N 6000 / U 0 | N4（DN200） |
-| 205_TA_036 | E 41833 / N 6000 / U 0 | N4（DN200） |
-| 205_TA_052 | E 49838 / N 6000 / U 0 | N4（DN200） |
+| 203_TA_019 | E 15445 / N 6415 / U 0 | N6 (DN200) |
+| 204_TA_021 | E 23650 / N 6000 / U 0 | N4 (DN200) |
+| 205_TA_016 | E 33833 / N 6000 / U 0 | N4 (DN200) |
+| 205_TA_036 | E 41833 / N 6000 / U 0 | N4 (DN200) |
+| 205_TA_052 | E 49838 / N 6000 / U 0 | N4 (DN200) |
 
-## 新外观：四个圆柱自下而上
+## New appearance: four cylinders from bottom to top
 
-| 段 | 直径 mm | 高度 mm | 区间 U | 中心 U（POS） |
+| Section | Diameter mm | Height mm | U range | Centre U (POS) |
 |---|---|---|---|---|
-| 1 底座 | 1246 | 100 | 0–100 | 50 |
-| 2 下筒体 | 1006 | 4991 | 100–5091 | 2595.5 |
-| 3 过渡环 | 1044 | 10 | 5091–5101 | 5096 |
-| 4 上筒体 | 610 | 4885 | 5101–9986 | 7543.5 |
+| 1 base | 1246 | 100 | 0–100 | 50 |
+| 2 lower shell | 1006 | 4991 | 100–5091 | 2595.5 |
+| 3 transition ring | 1044 | 10 | 5091–5101 | 5096 |
+| 4 upper shell | 610 | 4885 | 5101–9986 | 7543.5 |
 
-几何已按 CYLI 几何中心 POS 规则写入；五台设备均验证：
-底部 U=0、四段连续无缝隙、轴线 E/N 与原坐标一致、总高 9986。
+Geometry written per the CYLI geometric-centre POS rule; all five units
+verified: bottom U=0, four sections continuous without gaps, axis E/N
+identical to the original coordinates, total height 9986.
 
-## 新增 DN200 管口
+## New DN200 nozzle
 
-- 方位：东向（90°），下部筒体（D1006）上，标高 U 500
-- 法兰面坐标：每台设备为 `中心 E + 753 / 中心 N / U 500`
-  （D1006 半径 503 + 突出 250；HEIG 350，埋入 100，符合 IR-9a）
-- 参数默认：DN200，HEIG 350，150 lb ANSI 法兰
+- Direction: east (90°), on the lower shell (D1006), elevation U 500
+- Flange-face coordinate: per unit `centre E + 753 / centre N / U 500`
+  (D1006 radius 503 + projection 250; HEIG 350, penetration 100, per IR-9a)
+- Default parameters: DN200, HEIG 350, 150 lb ANSI flange
   `CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0TT`
-- 配套加强垫板：D420 × 30，与文件内既有垫板一致
-- 目录绑定按本文件原生导出格式加在结尾 OLD 段
+- Matching reinforcing pad: D420 × 30, consistent with existing pads in the
+  file
+- Catalogue binding appended in the trailing OLD pass per this file's native
+  export format
 
-## Reference Values（假设值）
+## Reference Values (assumptions)
 
-1. 新管口标高 U500、东向：用户仅要求“下部合适处”，此位置为选定值。
-2. 管口“默认参数”：沿用项目生成器默认——DN200/HEIG 350/150lb ANSI/垫板 D420×30。
-3. 过渡环按用户给定 D1044×10 原样建模，未另加顶盖、锥体等无尺寸依据的细节。
+1. New nozzle elevation U500, east-facing: the user only asked for "a suitable
+   lower location"; this position is the selected value.
+2. Nozzle "default parameters": inherited from the project generator
+   defaults — DN200/HEIG 350/150lb ANSI/pad D420×30.
+3. Transition ring modelled as given by the user (D1044×10); no top cover,
+   cone or other detail without a dimensional basis was added.
 
-## 需要确认的问题
+## Issues to confirm
 
-**已解决（2026-08-04，用户确认）。** 顶部管口超出新筒体（203 N5 高 514；
-204/205 N1/N3 高 2154/2714）与侧向管口按原 D2000 半径布置导致的悬空，由
-用户手动调整完成；ACCESS 与原有管口的删除是用户明确指示的（R2）。
+**Resolved (2026-08-04, user confirmed).** Top nozzles exceeding the new
+shell (203 N5 height 514; 204/205 N1/N3 heights 2154/2714) and side nozzles
+floating because they were laid out at the original D2000 radius were
+manually adjusted by the user and confirmed; the ACCESS and original-nozzle
+deletions were explicitly instructed by the user (R2).
 
-> 约定（2026-08-04 起）：后续遇到“看似被新几何取代”的部分，先保留并
-> 提交审查，只有在用户明确要求删除时才删除。
+> Convention (from 2026-08-04): for parts that look "superseded by new
+> geometry", keep them and submit for review first; delete only when the user
+> explicitly asks.
 
-## 载入方式
+## Loading
 
-保持原 Data Listing 格式（`INPUT BEGIN` / `INPUT FINISH`），按原有导入方式重新载入即可。
+Keep the original Data Listing format (`INPUT BEGIN` / `INPUT FINISH`) and
+re-load it the same way as before.
 
-## 修订 R2（2026-08-04，按用户后续指示）
+## Revision R2 (2026-08-04, per follow-up user instruction)
 
-- 删除 5 台 DROPLEG 的 ACCESS 子设备及除新增 DN200 外的全部原有管口：
-  - 203_TA_019：删除 N1–N5、M1、ACCESS，保留 N6（DN200）
-  - 204_TA_021 / 205_TA_016 / 205_TA_036 / 205_TA_052：删除 N1–N3、ACCESS，保留 N4（DN200）
-- 同步删除结尾 OLD 段中 17 条对应目录绑定（114 → 97，无重复）。
-- 每台设备现在只剩 SUPPORT、SHELL 和新增 DN200 三个子设备；筒体几何不变。
-- R2 交付副本：`Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r2.txt`
-- R1 版本保留在 `WSB_TA_dropleg_retrofit_20260804.txt`，可回退。
+- Deleted the ACCESS subequipment of the 5 DROPLEG units and all original
+  nozzles except the new DN200:
+  - 203_TA_019: delete N1–N5, M1, ACCESS; keep N6 (DN200)
+  - 204_TA_021 / 205_TA_016 / 205_TA_036 / 205_TA_052: delete N1–N3, ACCESS;
+    keep N4 (DN200)
+- Deleted the corresponding 17 catalogue bindings in the trailing OLD pass
+  (114 → 97, no duplicates).
+- Each unit now has only SUPPORT, SHELL and the new DN200 subequipment; shell
+  geometry unchanged.
+- R2 delivery copy: `Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r2.txt`
+- R1 version retained at `WSB_TA_dropleg_retrofit_20260804.txt`, rollback
+  possible.
 
-## 修订 R3（2026-08-04，管口朝向修正）
+## Revision R3 (2026-08-04, nozzle orientation correction)
 
-新 DN200 管口（203_TA_019_N6 / 204_TA_021_N4 / 205_TA_016_N4 /
-205_TA_036_N4 / 205_TA_052_N4）的 ORI 由 `Y is E and Z is U` 改为
-`Y is S and Z is U`——本数据列表导出中侧向管口的 `Y` 是垂直于朝向的滚转
-参考：北向管口写 `Y is E`，东向管口应写 `Y is S`（与文件内 203_TA_019_N3
-一致）。位置（东侧、U500）不变，其余内容与 R2 完全一致。
+The new DN200 nozzles (203_TA_019_N6 / 204_TA_021_N4 / 205_TA_016_N4 /
+205_TA_036_N4 / 205_TA_052_N4) had their ORI changed from `Y is E and Z is U`
+to `Y is S and Z is U` — in this data-listing export, a side nozzle's `Y` is
+the roll reference perpendicular to the aim direction: north-facing nozzles
+use `Y is E`, east-facing nozzles should use `Y is S` (consistent with the
+file's 203_TA_019_N3). Position (east side, U500) unchanged; everything else
+identical to R2.
 
-R3 交付副本：`Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r3.txt`
+R3 delivery copy: `Projects/JK-Tank_Build/output/WSB_TA_dropleg_retrofit_20260804_r3.txt`

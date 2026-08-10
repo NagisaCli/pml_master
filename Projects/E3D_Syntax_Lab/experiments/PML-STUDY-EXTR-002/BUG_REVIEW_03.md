@@ -20,7 +20,7 @@ visual guess.
 
 1. The motor pedestal bolt nuts float in the air.
 2. The junction boxes are not displayed as boxes.
-3. The pump-to-top-nozzle connection is open — "连接部分都有一部分是空的",
+3. The pump-to-top-nozzle connection is open — "part of the connection is empty",
    the nozzle must plug into the pump.
 
 ---
@@ -95,7 +95,7 @@ touching only the peak leaves a visible rim gap.
 - Final file SHA-256 `04FE9886BB6BF5B5AB6C8CB07E074D51F7601141FB9C4FE0DB943EEC171AC5DC`
   (archived as `candidate/03_high_fidelity_pump_v3_physics_fixed_20260805.pml`).
 - cad-agent `scripts/verify.ps1` passed (0 errors).
-- User verdict: "基本可以了" — accepted as a modeling pressure test, not a
+- User verdict: "basically OK" — accepted as a modeling pressure test, not a
   production standard.
 
 ---

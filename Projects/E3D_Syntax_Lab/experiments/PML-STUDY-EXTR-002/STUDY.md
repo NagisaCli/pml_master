@@ -5,7 +5,7 @@
 Push EXTRUSION to its intended role: any constant, non-rectangular section
 that a 2D draughtsman could draw, E3D can extrude. Candidate 01 (a bolted
 channel frame) was rejected by the user on 2026-08-05 as too ordinary and
-not enough detail ("太普通了细节也一般，也没有充分发挥拉伸体的特色"). This
+not enough detail ("too ordinary, not enough detail, and it did not make full use of the EXTRUSION capability"). This
 study now targets one high-fidelity end-suction centrifugal pump with no
 primitive-count ceiling, where the irregular solids are EXTRUSION profiles
 and the basic solids are used only where they are the true form.
@@ -76,7 +76,7 @@ NDE disc -> NDE boss -> fan shroud; nuts seat on flange/plate faces.
 | `candidate/01_bolted_channel_frame.pml` | `70CE42874B505A4B739FEBB3C456CB4107DC2901659AC5DE670AA4F5BECB4094` | **REJECTED 2026-08-05** — user: too ordinary, not enough detail, under-uses EXTRUSION |
 | `candidate/02_high_fidelity_pump.pml` | `341D2E565A99E4BADEE951D790434FBC555E4FC943B9047A19F2517E0AF1B8F9` | Local validation clean; superseded by 03 after user bug report |
 | `candidate/03_high_fidelity_pump_v3.pml` | `1086C7E167FBC162F7F27F20EC459C9B674B698C72539D4B90796EFC5EBDD8A3` | **PRESSURE TEST** 1154 primitives (950 EXTRUSION / 204 CYLINDER / 0 BOX), 23 712 profile vertices, floating audit clean; user-verified in E3D |
-| `candidate/03_high_fidelity_pump_v3_physics_fixed_20260805.pml` | `04FE9886BB6BF5B5AB6C8CB07E074D51F7601141FB9C4FE0DB943EEC171AC5DC` | **USER-ACCEPTED 2026-08-05** ("基本可以了") physics-fixed working baseline from the user-edited native export; 1,104 primitives; see BUG_REVIEW_03.md |
+| `candidate/03_high_fidelity_pump_v3_physics_fixed_20260805.pml` | `04FE9886BB6BF5B5AB6C8CB07E074D51F7601141FB9C4FE0DB943EEC171AC5DC` | **USER-ACCEPTED 2026-08-05** ("basically OK") physics-fixed working baseline from the user-edited native export; 1,104 primitives; see BUG_REVIEW_03.md |
 
 ## Candidate 03 round 2 — physics fixes (2026-08-05)
 

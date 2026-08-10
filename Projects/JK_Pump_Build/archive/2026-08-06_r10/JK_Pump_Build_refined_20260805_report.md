@@ -1,96 +1,108 @@
-# JK_Pump_Build 泵模型细化报告（2026-08-05）
+# JK_Pump_Build Pump Model Refinement Report (2026-08-05)
 
-## 任务与约束
+## Task and constraints
 
-基于原生导出 `C:\Users\A\Desktop\JK_PU.txt`（已接受基线，SHA-256
-`D59B89BB2E07CF25EF28A671F969ED1B38C62D6F556A0F040742CEC103AAB43F`），结合已验证的新语法
-（EXTRUSION 拉伸体、六角螺母、端面 POS 语义）对 30 台泵模型做细节细化：
+Based on the native export `C:\Users\A\Desktop\JK_PU.txt` (accepted baseline,
+SHA-256
+`D59B89BB2E07CF25EF28A671F969ED1B38C62D6F556A0F040742CEC103AAB43F`), using
+the newly verified syntax (EXTRUSION solids, hex nuts, end-plane POS
+semantics), refine the 30 pump models in detail:
 
-- 不改变底板大小与坐标；
-- 不改变管嘴位置、朝向与大小；
-- 仅优化模型细节；将电机支架和泵支架改为桥型标准支架；
-- 修复结构不合理与穿模冲突。
+- do not change baseplate sizes or coordinates;
+- do not change nozzle positions, orientations or sizes;
+- optimise model detail only; convert the motor and pump supports to
+  bridge-type standard brackets;
+- fix unreasonable structure and interpenetration conflicts.
 
-## 交付文件
+## Deliverables
 
-- 细化后合并宏：
-  - r1：`Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805.pml`
-    （55,843 行）
-  - **r2（当前）**：`Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r2.pml`
-    （55,061 行）
-  - **r3（当前，NCYLI 修复版）**：
+- Refined combined macros:
+  - r1: `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805.pml`
+    (55,843 lines)
+  - **r2 (current)**: `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r2.pml`
+    (55,061 lines)
+  - **r3 (current, NCYLI fix)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r3.pml`
-    （55,086 行）
-  - **r4（当前，NCYLI 局部坐标版）**：
+    (55,086 lines)
+  - **r4 (current, NCYLI local-coordinate)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r4.pml`
-    （55,086 行）
-  - **r5（当前，孔边界适配 + C 型钢底座）**：
+    (55,086 lines)
+  - **r5 (current, hole-boundary adaptation + C-channel base)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r5.pml`
-    （56,766 行）
-  - **r6（当前，参考底座结构修正版）**：
+    (56,766 lines)
+  - **r6 (current, reference-base structure correction)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r6.pml`
-    （62,630 行）
-  - **r7（当前，底座整体重构版）**：
+    (62,630 lines)
+  - **r7 (current, wholesale base rebuild)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r7.pml`
-    （64,306 行）
-  - **r8（当前，参考底座照抄版）**：
+    (64,306 lines)
+  - **r8 (current, direct reference-base copy)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r8.pml`
-    （57,406 行）
-  - **r9（当前，PUMP006/DBOutput 底座重构版）**：
+    (57,406 lines)
+  - **r9 (current, PUMP006/DBOutput base rebuild)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r9.pml`
-    （53,784 行）
-  - **r10（当前，物理承托逻辑修正版）**：
+    (53,784 lines)
+  - **r10 (current, physical-support logic correction)**:
     `Projects/JK_Pump_Build/output/JK_Pump_Build_refined_20260805_r10.pml`
-    （69,044 行）
-- 底座参考归档：
+    (69,044 lines)
+- Base reference archive:
   `Projects/E3D_Syntax_Lab/imports/2026-08-05_base_structure_reference.txt`
-  （P1501A-BASE，SHA-256 `0347E0072EB044608B867A866BD03629FFE996BE5A25EED49F621893197DAC7F`）
-- **PUMP006 底座参考归档（r9）**：
+  (P1501A-BASE, SHA-256
+  `0347E0072EB044608B867A866BD03629FFE996BE5A25EED49F621893197DAC7F`)
+- **PUMP006 base reference archive (r9)**:
   `Projects/JK_Pump_Build/imports/2026-08-06_P1502B_PUMP006_DBOutput.txt`
-  （P1502B-BASE，SHA-256
-  `E6EF37E6A5FFCDC497821C42B998EB6306D63EFBDA55CB6C1CE71030A057A221`）
-- 原生导入归档：
+  (P1502B-BASE, SHA-256
+  `E6EF37E6A5FFCDC497821C42B998EB6306D63EFBDA55CB6C1CE71030A057A221`)
+- Native import archive:
   `Projects/JK_Pump_Build/imports/2026-08-05_JK_PU_native.txt`
-- 报错归档：
+- Error archive:
   `Projects/JK_Pump_Build/imports/2026-08-05_SIR_Cannot_create_EQUI.txt`
-- 转换脚本：`Projects/JK_Pump_Build/tools/refine_bridge_brackets.py`
-- 数值验证脚本：`Projects/JK_Pump_Build/tools/verify_refined.py`
+- Conversion script: `Projects/JK_Pump_Build/tools/refine_bridge_brackets.py`
+- Numerical verification script: `Projects/JK_Pump_Build/tools/verify_refined.py`
 
-## r2 追加变更（2026-08-05 第二次指示）
+## r2 additional changes (second instruction on 2026-08-05)
 
-在 r1 基础上按用户最新指示追加两项：
+Two items added per the user's latest instruction on top of r1:
 
-### D. 暂时移除 MC_AUXILIARY 模块（5 台泵）
+### D. Temporarily remove the MC_AUXILIARY subequipment (5 pumps)
 
-`203_PU_020`、`205_PU_004`、`205_PU_018`、`205_PU_038`、`205_PU_054` 的
-`MC_AUXILIARY` 子设备整体移除（几何、层级头全部删除），待后续补充。
-移除后数值验证：全文件 `MC_AUXILIARY` 残留为 0；其余子设备（底板、泵架、
-壳体、轴承架、联轴器、电机等）不受影响。
+The `MC_AUXILIARY` subequipment of `203_PU_020`, `205_PU_004`, `205_PU_018`,
+`205_PU_038` and `205_PU_054` was removed wholesale (geometry and hierarchy
+headers fully deleted), to be re-added later. Numerical verification after
+removal: 0 `MC_AUXILIARY` residue in the whole file; the other subequipment
+(baseplate, pump frame, casing, bearing frame, coupling, motor, etc.) is
+unaffected.
 
-### E. 负基本体挖孔（NCYLINDER，学习性应用）
+### E. Negative-primitive hole cutting (NCYLINDER, learning application)
 
-按用户建议，用负圆柱替代“上方连接片 + 穿过它的圆柱”的旧表达：
+Per the user's suggestion, use a negative cylinder instead of the old
+"top connecting plate + cylinder passing through it" expression:
 
-- 每台泵 `DRIVER` 的 BOX21（接线盒安装连接片）内嵌一个
-  `NEW NCYLINDER` 子元素，携带原 CYLI 的 POS / ORI / DIAM / HEIG；
-- 原来的穿片圆柱（CYLI25–36，视泵而定）已删除；
-- 共 30 个 NCYLI 孔（每泵 1 个），全部与所属 BOX21 相交
-  （30/30 通过），BOX21 中心处不再有残留圆柱（0 残留）。
+- each pump's `DRIVER` BOX21 (terminal-box mounting plate) embeds a
+  `NEW NCYLINDER` child carrying the original CYLI's POS / ORI / DIAM / HEIG;
+- the original through-plate cylinders (CYLI25–36, depending on the pump)
+  were deleted;
+- 30 NCYLI holes in total (1 per pump), all intersecting their BOX21 (30/30
+  pass); no residual cylinder remains at the BOX21 centre (0 residue).
 
-语法依据：
+Syntax basis:
 
-- 用户自己的 E3D 原生清单（`JK-Tank_Build/imports/2026-08-04_WSB_TA.txt`）
-  含嵌套在正 `CYLINDER` 内的 `NEW NCYLINDER`；
-- AVEVA 官方 PMLLIB（`mmmcounterweight.pmlobj`、`mmmconveyortakeup.pmlobj`）
-  在正基本体块内创建带自身 POS/ORI 的 NBOX / NCYLINDER。
+- the user's own native E3D listing
+  (`JK-Tank_Build/imports/2026-08-04_WSB_TA.txt`) contains `NEW NCYLINDER`
+  nested inside positive `CYLINDER`;
+- AVEVA's official PMLLIB (`mmmcounterweight.pmlobj`,
+  `mmmconveyortakeup.pmlobj`) creates NBOX / NCYLINDER with their own
+  POS/ORI inside positive primitive blocks.
 
-**状态：EXPERIMENTAL。** 该写法已在知识库中登记（负基本体此前仅在 `$M` 宏
-模式验证为不可用；本次为原生 INPUT 数据清单路径）。请加载 r2 后确认孔洞
-正确显示，通过后再提升为 VERIFIED 并推广到其他需要挖孔的场景。
+**Status: EXPERIMENTAL.** The form has been registered in the knowledge base
+(negative primitives were previously verified unavailable only in `$M` macro
+mode; this is the native INPUT data-listing path). Please load r2 and confirm
+the holes display correctly; once confirmed, promote to VERIFIED and
+generalise to other hole-cutting scenarios.
 
-## r2 加载报错与修复（同日晚间）
+## r2 load error and fix (same evening)
 
-用户加载 r2 后报出罕见错误（SIR 文件已归档）：
+The user's load of r2 reported a rare error (SIR file archived):
 
 ```
 (41,8)  Cannot create a EQUI at this level.
@@ -98,304 +110,396 @@ In line 7121 of Macro ...JK_Pump_Build_refined_20260805_r2.pml
 Command: NEW EQUIPMENT /203_PU_026
 ```
 
-### 根因
+### Root cause
 
-原生 INPUT 数据清单中，每个 `SUBEQUIPMENT` 和每个 `EQUIPMENT` 块都有自己的
-收尾 `END` 行（与生成宏“下一个 NEW 隐式关闭”不同）。r2 删除 5 台泵的
-`MC_AUXILIARY` 时，删除了子设备头与图元块，却把子设备自己的收尾 `END`
-遗留了下来。多出的 `END` 先关闭了 EQUIPMENT，再关闭了 ZONE，导致第 5 台泵
-（203_PU_026）的 `NEW EQUIPMENT` 在 ZONE 之外执行而失败——因此前 4 台能
-加载、后续全部缺失。
+In a native INPUT data listing, every `SUBEQUIPMENT` and `EQUIPMENT` block has
+its own closing `END` line (unlike generated macros where the next NEW
+implicitly closes the block). When r2 deleted the `MC_AUXILIARY` of the 5
+pumps, it removed the subequipment headers and primitive blocks but left each
+subequipment's own closing `END` behind. The extra `END`s closed the
+EQUIPMENT and then the ZONE, so pump 5 (203_PU_026) `NEW EQUIPMENT` ran
+outside the ZONE and failed — the first 4 pumps loaded, everything after was
+missing.
 
-### 修复
+### Fix
 
-- 删除范围扩展为“子设备头 ～ 最后一个图元 END 之后紧跟的 SUBE END”；
-- 验证脚本新增 **INPUT 块栈回放检查**：EQUI 只能出现在 ZONE 内、SUBE 只能
-  出现在 EQUI 内、图元只能出现在 SUBE/父图元内、END 不得越界、文件结束无
-  残留栈——该检查在交付前即可捕获此类层级错误；
-- r2 重新生成（55,056 行）：EQUI 30/30 全部在正确层级创建、SUBE 360 个
-  （源 365 − 5）、图元 5233 个、END 无越界、无残留栈。
+- The deletion range was extended to "subequipment header through the SUBE
+  END that immediately follows the last primitive's END";
+- the verification script gained an **INPUT block-stack replay check**: EQUI
+  only inside ZONE, SUBE only inside EQUI, primitives only inside
+  SUBE/parent primitive, END never out of bounds, no residual stack at EOF —
+  this catches such hierarchy errors before delivery;
+- r2 regenerated (55,056 lines): EQUI 30/30 created at the correct hierarchy
+  level, 360 SUBEs (source 365 − 5), 5,233 primitives, no out-of-bounds END,
+  no residual stack.
 
-已按 skill 流程登记为 F-18（诊断手册），并把“数据清单中 SUBE/EQUI 显式
-END、删除 SUBE 必须连同 END 一起删”写入 pml1-reference 结构条目。
+Registered as F-18 in the skill process (diagnostics manual), and "data
+listings use explicit SUBE/EQUI END; deleting a SUBE must delete its END too"
+was written into the pml1-reference structure entries.
 
-## r3 — NCYLI 不出孔修复（NAPPFLAG 2）
+## r3 — NCYLI no-hole fix (NAPPFLAG 2)
 
-用户确认 r2 加载成功但 30 个 NCYLI 均未切出孔洞，并自测“基本体+负基本体”
-可正常挖孔（排除系统设置问题）。排查结论：
+The user confirmed r2 loaded but none of the 30 NCYLI cut holes, and
+self-tested that "positive primitive + negative primitive" does cut
+(excluding system settings). Findings:
 
-**根因：负基本体缺少“负应用标志”。** AVEVA 官方打孔代码
-（`hmcontrol.pmlobj` 的 `createHoleNegativeExtrusion`）在创建负拉伸体后
-立即设置 `!!ce.nappflag = 2`；`strSctnGensec.pmlobj` 也会把 `NAPPFLAG -1`
-修正为 2。负基本体只有在该标志为 2 时才参与布尔减——r2 的 NCYLINDER 没有
-该属性，所以加载成功但不生效。
+**Root cause: the negative primitive lacked the negative-application flag.**
+AVEVA's official hole code (`hmcontrol.pmlobj`
+`createHoleNegativeExtrusion`) sets `!!ce.nappflag = 2` immediately after
+creating the negative extrusion; `strSctnGensec.pmlobj` also corrects
+`NAPPFLAG -1` to 2. A negative primitive only participates in Boolean
+subtraction when this flag is 2 — r2's NCYLINDER did not have the attribute,
+so it loaded but had no effect.
 
-**修复：** 每个 `NCYLINDER` 块增加 `NAPPFLAG 2`（r3，30/30 通过验证）。
+**Fix:** add `NAPPFLAG 2` to every `NCYLINDER` block (r3, 30/30 verified).
 
-**仍在验证：** 负子元素的 POS/ORI 语义（世界坐标 vs 继承父体 vs 相对偏移，
-以及 SUBE 层独立负元素是否可用）。已生成最小对照实验宏
-`PML-STUDY-NCYL-001`（桌面副本 `C:\Users\A\Desktop\NCYLI_test.pml`，4 个
-候选 C1–C4），加载后按实验说明反馈哪个候选出孔、孔的位置/方向，即可最终
-锁定写法并把 NCYLI 提升为 VERIFIED。
+**Still under verification:** the POS/ORI semantics of negative children
+(world coordinates vs inherited owner pose vs relative offset, and whether
+standalone negatives at SUBE level work). A minimal comparison experiment
+macro `PML-STUDY-NCYL-001` was generated (desktop copy
+`C:\Users\A\Desktop\NCYLI_test.pml`, 4 candidates C1–C4); after loading,
+report which candidate cuts holes and the hole position/direction per the
+experiment notes, and the form can be locked and NCYLI promoted to VERIFIED.
 
-## r4 — 负子元素局部坐标语义修复（用户实验确认）
+## r4 — negative-child local-coordinate semantics fix (user experiment confirmed)
 
-用户加载对照实验宏 `PML-STUDY-NCYL-001`（桌面 `NCYLI_test.pml`）后结论：
+After the user loaded the comparison experiment `PML-STUDY-NCYL-001` (desktop
+`NCYLI_test.pml`), conclusions:
 
-- C2（子元素、无 POS/ORI、继承父体）与 C3（子元素、POS 零偏移 + 水平
-  ORI）均正常挖孔；
-- C1（子元素、世界坐标 POS）元素加载成功但在建模中无作用——子元素的 POS
-  是**相对父体的局部坐标**，世界坐标被当作局部偏移后孔落到板外；
-- C4（SUBE 层独立 NCYLINDER）报
-  `(41,8) Cannot create a NCYL at this level.`——负基本体只能是正基本体的
-  子元素，不能独立创建。
+- C2 (child, no POS/ORI, inherits owner) and C3 (child, POS zero offset +
+  horizontal ORI) both cut correctly;
+- C1 (child, world-coordinate POS) loaded but had no modelling effect — a
+  child's POS is **local to its owner**; the world coordinates were treated
+  as a local offset and the hole fell outside the plate;
+- C4 (standalone NCYLINDER at SUBE level) reported
+  `(41,8) Cannot create a NCYL at this level.` — negative primitives can only
+  be children of positive primitives, never standalone.
 
-**r4 修复：** 每个 `NCYLINDER` 的 POS 由原 CYLI 的世界坐标改为相对 BOX21
-中心的偏移（如 203-PU-008：`POS E 0mm N 0mm U 16.3mm`），ORI / DIAM /
-HEIG 不变，NAPPFLAG 2 保留。验证：30/30 的“父体中心 + 局部偏移”与原 CYLI
-世界位置一致（local-pos mismatch 0），孔全部与 BOX21 相交，底板/管嘴/
-CATR 及其余检查全部通过。
+**r4 fix:** each `NCYLINDER`'s POS changed from the original CYLI world
+coordinate to an offset relative to the BOX21 centre (e.g. 203-PU-008:
+`POS E 0mm N 0mm U 16.3mm`); ORI / DIAM / HEIG unchanged; NAPPFLAG 2 kept.
+Verification: 30/30 "owner centre + local offset" equal the original CYLI
+world position (local-pos mismatch 0); all holes intersect BOX21;
+baseplate/nozzle/CATR and all other checks pass.
 
-**NCYLI 语法已按实验结论提升为 VERIFIED**（pml1-reference：负基本体必须
-为正基本体子元素、POS 为相对父体局部坐标、ORI 生效、NAPPFLAG 2 必需）。
+**NCYLI syntax promoted to VERIFIED per the experiment conclusions**
+(pml1-reference: a negative primitive must be a child of a positive
+primitive, POS is local to the owner, ORI is honoured, NAPPFLAG 2 required).
 
-## r5 — 孔边界逐泵适配 + 底座型材优化（2026-08-06）
+## r5 — per-pump hole-boundary adaptation + base profile optimisation (2026-08-06)
 
-### A. 开放孔修复（逐泵适配）
+### A. Open-hole fix (per-pump adaptation)
 
-用户确认挖孔成功，但指出个别孔因未按各泵连接片单独适配而切穿板边形成
-“开放孔”。逐泵检查后确认 10 台泵的孔圆在 U 向超出 BOX21 边界
-（203-PU-011/020/031、204-PU-017/023、205-PU-012/018/032/038/054，超出
-0.10–2.15mm）。
+The user confirmed hole cutting works but noted that some holes were not
+adapted per pump's plate and cut through the plate edge, forming "open
+holes". Per-pump checks confirmed 10 pumps whose hole circle exceeded the
+BOX21 boundary in U (203-PU-011/020/031, 204-PU-017/023,
+205-PU-012/018/032/038/054; overshoot 0.10–2.15mm).
 
-修复规则：NCYLI 的 U 向局部偏移按每台泵的板厚与孔径收敛
-`|dz| + DIAM/2 ≤ ZLEN/2 − 2mm`，即孔圆完整落在板内并保留 2mm 边距；
-孔轴方向、直径、贯穿长度不变。008 等原孔几乎贴顶的泵也一并收敛到安全
-边距（如 203-PU-008：U 偏移 16.3 → 14.9mm，视觉不可察觉）。验证：
-30/30 孔圆完全包含于各自连接片（open/out-of-plate = 0）。
+Fix rule: clamp each NCYLI's U local offset per the pump's plate thickness
+and hole diameter so `|dz| + DIAM/2 ≤ ZLEN/2 − 2mm`, i.e. the hole circle
+sits fully inside the plate with a 2mm rim; the hole axis direction,
+diameter and through-length are unchanged. Pumps whose holes almost touched
+the top (e.g. 008) were also clamped to the safe rim (e.g. 203-PU-008: U
+offset 16.3 → 14.9mm, visually imperceptible). Verification: 30/30 hole
+circles fully contained in their plates (open/out-of-plate = 0).
 
-### B. 底座模型优化（规格/坐标不变）
+### B. Base model optimisation (sizes/coordinates unchanged)
 
-以每台泵自身属性为约束（底板尺寸/坐标、泵轴方向、支撑间距均不变），
-把 `SUPPORT_FRAME` 的两根实心矩形纵梁升级为标准 **C 型钢（槽钢）截面
-EXTRUSION**：
+Constrained by each pump's own attributes (baseplate size/coordinates, pump
+axis direction, support spacing all unchanged), upgrade the two solid
+rectangular skid rails of `SUPPORT_FRAME` to standard **C-channel
+EXTRUSIONs**:
 
-- 外形包络、中心位置、长度、顶/底面标高与原纵梁完全一致（如 203-PU-008：
-  68.2×63.9×1751.5，顶面仍为电机/桥架的承托面）；
-- 腹板厚 8mm、翼缘厚 10mm（Reference Value）；
-- 左右两根梁开口相对、朝向泵中心（标准槽钢底座布置）；
-- 横梁、桥型支架（座板+梯形立板）、六角螺母、底板与锚栓均保持。
+- outer envelope, centre position, length, top/bottom elevations identical
+  to the original rails (e.g. 203-PU-008: 68.2×63.9×1751.5; the top face
+  remains the motor/bridge bearing surface);
+- web 8mm, flange 10mm (Reference Value);
+- the two rails' openings face each other, toward the pump centre (standard
+  C-channel base layout);
+- cross beams, bridge brackets (sole plate + trapezoid gussets), hex nuts,
+  baseplate and anchors retained.
 
-验证：60 根 C 型钢 EXTRUSION（8 顶点 LOOP）结构合法、位置/包络与源纵梁
-一致、无新增穿模、最低点 U=0、底板/管嘴/CATR 不变。
+Verification: 60 C-channel EXTRUSIONs (8-vertex LOOP) structurally valid;
+position/envelope identical to the source rails; no new clashes; lowest point
+U=0; baseplates/nozzles/CATR unchanged.
 
-## r6 — 按参考底座结构修正（2026-08-06 用户提供参考文件）
+## r6 — correction to the reference base structure (reference file provided by user on 2026-08-06)
 
-用户提供标准底座参考（`底座结构学习.txt`，P1501A-BASE）后确认：r5 的
-C 型钢纵梁不符合预期，底座应按参考结构。参考底座要素：矩形扁钢纵梁 +
-设备座板 + 梯形立板 + **六角垫板** + 锚固螺栓（六边形 EXTRUSION 垫板与
-螺栓成对）。
+After the user provided the standard base reference
+(P1501A-BASE), it was confirmed that r5's C-channel rails
+were not as expected; the base should follow the reference structure.
+Reference base elements: rectangular flat-bar rails + equipment sole plates +
+trapezoid gussets + **hex washers** + anchor bolts (hexagonal EXTRUSION
+washers paired with bolts).
 
-r6 修正：
+r6 corrections:
 
-1. **纵梁恢复矩形**：撤掉 r5 的 C 型钢截面，纵梁恢复为矩形 BOX（外形、
-   位置、长度、顶/底面标高与泵属性一致——纵梁高度被泵体承高链锁定，
-   不能改为参考中 20mm 的扁钢高度）；
-2. **锚栓垫圈六角化**：`BASE_FASTENERS` / `DRIVER_FASTENERS` 全部圆形
-   垫圈升级为六角 EXTRUSION 垫板（对边 = 原垫圈直径、厚度不变、端面就位，
-   与参考底座六角垫板一致）；共 328 块；
-3. 泵脚/电机桥架（座板+梯形立板）、六角螺母、横梁、底板、挖孔保持。
+1. **Rails back to rectangular**: remove r5's C-channel section; rails revert
+   to rectangular BOXes (envelope, position, length, top/bottom elevations
+   consistent with each pump's attributes — the rail height is locked by the
+   pump's bearing-height chain and cannot be changed to the reference's 20mm
+   flat-bar height);
+2. **Anchor washers hexagonised**: all circular washers in
+   `BASE_FASTENERS` / `DRIVER_FASTENERS` upgraded to hex EXTRUSION washers
+   (across-flats = original washer diameter, same thickness, end-plane
+   seating, matching the reference base's hex washers); 328 total;
+3. pump-foot/motor bridge brackets (sole plate + trapezoid gussets), hex
+   nuts, cross beams, baseplate and holes retained.
 
-验证：1136 个 EXTRUSION（480 立板 + 328 六角垫板 + 328 六角螺母）结构
-合法；328 螺母全部就位（垫板顶或螺杆顶）；30 孔全部封闭；底板/管嘴/
-CATR 不变；无新增穿模；最低点 U=0。
+Verification: 1136 EXTRUSIONs (480 gussets + 328 hex washers + 328 hex nuts)
+structurally valid; 328 nuts all seated (washer top or shank top); 30 holes
+closed; baseplates/nozzles/CATR unchanged; no new clashes; lowest point U=0.
 
-## r7 — 底座整体重构（按参考 P1501A-BASE）
+## r7 — wholesale base rebuild (per reference P1501A-BASE)
 
-按用户指示“底座整体直接重构，大小和位置适配”，以参考底座
-（P1501A-BASE：工字组合截面 + 座板/立板 + 厚六角垫板 + 贯穿锚栓）为蓝本
-整体重构每台泵的 `SUPPORT_FRAME`：
+Per the user's instruction "rebuild the base wholesale; just adapt the size
+and position", rebuild each pump's `SUPPORT_FRAME` wholesale using the
+reference base (P1501A-BASE: built-up I-section + sole plates/gussets + thick
+hex washers + through anchors) as the blueprint:
 
-1. **纵梁 → 组合工字截面**：每根实心矩形纵梁重构为三件
-   （下翼缘 20 + 腹板 8 + 上翼缘 20，Reference Value），外轮廓、中心
-   位置、长度、顶/底面标高与原纵梁完全一致——从侧面看是标准工字梁，
-   视觉上明显区别于原实心矩形；
-2. **锚栓 → 参考风格大六角垫板 + 加长螺杆**：
-   - `BASE_FASTENERS`：六角垫板厚度 3.7→12mm、座面仍在底板顶；螺杆加长
-     至螺母顶（如 203-PU-008：HEIG 23→31.4mm）；六角螺母上移到垫板顶
-     就位；
-   - `DRIVER_FASTENERS`：六角垫板 3.9→12mm（座面在电机垫顶），螺母仍座
-     螺杆顶；
-3. 泵脚/电机桥架（座板+梯形立板）、横梁、底板、挖孔、管嘴保持不变。
+1. **Rails → built-up I-sections**: each solid rectangular rail rebuilt as
+   three pieces (lower flange 20 + web 8 + upper flange 20, Reference Value);
+   outer profile, centre position, length, top/bottom elevations identical to
+   the original rail — from the side it reads as a standard I-beam, visually
+   distinct from the original solid rectangle;
+2. **Anchors → reference-style thick hex washers + extended shanks**:
+   - `BASE_FASTENERS`: hex washer thickness 3.7→12mm, still seated on the
+     baseplate top; shank extended to the nut top (e.g. 203-PU-008: HEIG
+     23→31.4mm); hex nut raised onto the washer top;
+   - `DRIVER_FASTENERS`: hex washer 3.9→12mm (seated on the motor pad top);
+     nut still seated on the shank top;
+3. pump-foot/motor bridge brackets (sole plate + trapezoid gussets), cross
+   beams, baseplate, holes and nozzles unchanged.
 
-验证：每泵 2 根工字纵梁（6 块 BOX）外廓/承高与原梁一致；328 个六角垫板
-全部端面就位、328 螺母全部就位；30 孔封闭；底板/管嘴/CATR 不变；无新增
-穿模；最低点 U=0。
+Verification: each pump's 2 I-beam rails (6 BOXes) match the original outer
+profile/bearing height; 328 hex washers all seated on end planes, 328 nuts
+all seated; 30 holes closed; baseplates/nozzles/CATR unchanged; no new
+clashes; lowest point U=0.
 
-## r8 — 参考底座直接照抄（2026-08-06 用户确认参考）
+## r8 — direct copy of the reference base (2026-08-06, user confirmed the reference)
 
-用户确认 `C:\Users\A\Desktop\E3D_model_TRAIN\euip\pump.txt` 即参考
-（与 `底座结构学习.txt` 内容一致，仅导出时间戳不同），要求直接照抄
-P1501A-BASE 的结构，大小/位置按泵适配。r8 按参考原样重构底座：
+The user confirmed `C:\Users\A\Desktop\E3D_model_TRAIN\euip\pump.txt` is the
+reference (identical to the earlier base-structure reference except the
+export timestamp) and
+required a direct copy of the P1501A-BASE structure, with sizes/positions
+adapted per pump. r8 rebuilds the base exactly per the reference:
 
-1. **扁钢翼缘纵梁**（参考 105×20 扁钢的适配）：每根原纵梁改为 20mm 厚
-   扁钢条，座在底板顶面，位置/长度/宽度沿用原纵梁；
-2. **PYRAMID 实心梯形立板**（参考原语法，照抄）：泵脚/电机脚每处
-   2 块 PYRAMID 立板，底面在翼缘顶、顶面缩短（YBOT×0.7），承托座板；
-   共 480 块；
-3. **座板**：泵脚/电机脚座板顶面保持原承高不变；
-4. **20mm 六角垫板 + 贯穿螺杆 + 六角螺母**（参考垫板 20 厚、螺栓贯穿）：
-   BASE 锚栓垫板 20mm 座底板顶、螺杆加长到螺母顶、螺母座垫板顶；
-   DRIVER 垫板 20mm 座电机垫顶、螺母座螺杆顶；
-5. 横梁、底板、30 个挖孔、管嘴保持不变。
+1. **flat-bar flange rails** (adapted from the reference's 105×20 flat bar):
+   each original rail becomes a 20mm-thick flat bar seated on the baseplate
+   top; position/length/width follow the original rail;
+2. **PYRAMID solid trapezoid gussets** (reference's own syntax, copied): 2
+   PYRAMID gussets per pump-foot/motor-foot location, bottom on the
+   flange-bar top, top face shortened (YBOT×0.7), carrying the sole plate;
+   480 total;
+3. **sole plates**: pump-foot/motor-foot sole-plate tops keep the original
+   bearing heights;
+4. **20mm hex washers + through shanks + hex nuts** (reference washers 20
+   thick, bolts through): BASE anchor washers 20mm seated on the baseplate
+   top, shanks extended to the nut top, nuts seated on the washer top; DRIVER
+   washers 20mm seated on the motor pad top, nuts seated on the shank top;
+5. cross beams, baseplates, 30 holes and nozzles unchanged.
 
-验证：480 PYRAMID 全部与座板底面接触；328 六角垫板 + 328 螺母全部就位；
-30 孔封闭；底板/管嘴/CATR 不变；无新增穿模；最低点 U=0。
+Verification: 480 PYRAMIDs all touching the sole-plate bottoms; 328 hex
+washers + 328 nuts all seated; 30 holes closed; baseplates/nozzles/CATR
+unchanged; no new clashes; lowest point U=0.
 
-## r9 — 按 DBOutput（P1502B / PUMP006）重构底座（2026-08-06）
+## r9 — base rebuilt per DBOutput (P1502B / PUMP006) (2026-08-06)
 
-用户明确：r5–r8 底座改动视觉变化不大，指定 `C:\Users\A\Desktop\DBOutput.txt`
-（P1502B，模板 `/STD/PUMP006`）为底座参考，替代 pump.txt（PUMP005）。
-r9 按 PUMP006 结构对 30 台泵底座逐台适配重构，只改底座范围：
+The user stated that r5–r8 changed the base too little visually and
+designated `C:\Users\A\Desktop\DBOutput.txt` (P1502B, template
+`/STD/PUMP006`) as the base reference, replacing pump.txt (PUMP005). r9
+rebuilds all 30 pump bases per the PUMP006 structure, adapting per pump; only
+the base scope changes:
 
-1. **5 件式纵向框架**：每台泵由原来的 2 根扁钢轨 + 横撑，改为
-   2 外轨 + 2 内轨 + 中板共 5 件（20mm 高，座在底板顶面，保留原轨道
-   足迹/长度；原横撑移除）；共 150 件；
-2. **泵端立板 + 横梁**：在泵端两列支脚之间的空档立 2 块竖向侧板
-   （10×188mm），中间加 1 根贯穿横梁 EXTRUSION（4 顶点 LOOP）；
-   立板顶面按壳体/壳体紧固件/吸排口底面避让（部分泵壳体本身已嵌入
-   座板数毫米）；遇低位排液/密封冲洗管阻挡时整组向泵端外试移两档；
-   共 60 块侧板 + 30 根横梁；
-3. **大/小 PYRAMID 立板**：每个泵脚和电机垫改为参考式“一大一小”组合：
-   大立板沿支脚长轴（YBOT=脚长，向框架中心偏移），小立板沿横轴
-   （0.75×脚宽，向中心偏移）；共 480 块；
-4. **锚栓移入支脚**：BASE 4 根（泵脚外侧边）+ DRIVER 4 根（电机垫
-   外侧边），每根为“贯穿螺杆 + 底板顶 20mm 六角垫板 + 座板/垫顶
-   六角螺母”（共 240 螺杆 + 240 垫板 + 240 螺母）。
+1. **5-member longitudinal frame**: each pump's former 2 flat-bar rails +
+   cross braces become 2 outer rails + 2 inner rails + centre plate, 5
+   members total (20mm high, seated on the baseplate top, original rail
+   footprint/length kept; former cross braces removed); 150 members total;
+2. **pump-end side plates + cross beam**: 2 vertical side plates (10×188mm)
+   in the gap between the pump-end foot columns, plus 1 through cross-beam
+   EXTRUSION (4-vertex LOOP); side-plate tops clear the casing/casing
+   fasteners/suction-discharge bottoms (some casings already embed into the
+   sole plates by a few mm); when low drain/seal-flush pipes block the
+   footprint, the whole group is trial-shifted outward from the pump end by
+   two steps; 60 side plates + 30 cross beams;
+3. **large/small PYRAMID gussets**: each pump foot and motor pad becomes the
+   reference "one large + one small" pair: the large gusset along the foot's
+   long axis (YBOT=foot length, offset toward the frame centre), the small
+   one along the transverse axis (0.75×foot width, offset toward the
+   centre); 480 total;
+4. **anchors moved into the feet**: BASE 4 (pump-foot outer edges) + DRIVER 4
+   (motor-pad outer edges), each "through shank + 20mm hex washer on the
+   baseplate top + hex nut on the sole/pad top" (240 shanks + 240 washers +
+   240 nuts).
 
-保持不变：底板尺寸/坐标、60 个管嘴、尾部 CATR、泵体/电机本体、
-30 个 NCYLI 挖孔、层级与命名；最低点 U 0。
+Unchanged: baseplate sizes/coordinates, 60 nozzles, trailing CATR, pump/motor
+bodies, 30 NCYLI holes, hierarchy and naming; lowest point U 0.
 
-验证结果（`tools/verify_r9.py`）：
+Verification (`tools/verify_r9.py`):
 
-- 层级：30 EQUI / 360 SUBE / 5045 图元，END 无越界、无残留栈；
-- 非底座范围与 r8 逐块一致（3365 块）；底板/管嘴/CATR 不变；
-- 150 件框架全部座在底板顶（底 50 / 顶 70）；
-- 60 块侧板 + 30 根横梁全部就位，与壳体/紧固件/吸排口无碰撞；
-- 480 块 PYRAMID 底面在框架顶、顶面接触座板/电机垫底面；
-- 240 组锚栓（螺杆底嵌入底板 ≥40mm、垫板座底板顶、螺母座座板/垫顶、
-  螺杆顶=螺母顶）全部通过，六角尺寸合理（跨平面 <200mm）；
-- 大型跨子组交叠清单与 r8 完全一致（无新增穿模）。
+- hierarchy: 30 EQUI / 360 SUBE / 5045 primitives, no out-of-bounds END, no
+  residual stack;
+- non-base scope block-identical to r8 (3365 blocks); baseplates/nozzles/CATR
+  unchanged;
+- all 150 frame members seated on the baseplate top (bottom 50 / top 70);
+- 60 side plates + 30 cross beams all seated and clash-free against
+  casing/fasteners/suction-discharge;
+- 480 PYRAMIDs bottomed on the frame top, top faces touching the
+  sole-plate/motor-pad bottoms;
+- all 240 anchor sets pass (shank bottom embedded in the baseplate ≥40mm,
+  washer seated on the baseplate top, nut seated on the sole/pad top, shank
+  top = nut top), hex sizes plausible (across-flats <200mm);
+- large cross-SUBE overlap list identical to r8 (no new clashes).
 
-加载方式与 r8 相同（E3D 数据导入）；r9 仍需 E3D 目视复核
-（IR-11d）：重点看 5 件框架、泵端立板/横梁、大/小立板与贯穿锚栓
-是否呈现 PUMP006 底座形态。
+Loading is the same as r8 (E3D data import); r9 still needs an E3D visual
+review (IR-11d): check that the 5-member frame, pump-end side plates/cross
+beam, large/small gussets and through anchors read as the PUMP006 base.
 
-## r10 — 物理承托逻辑修正（2026-08-06，用户否决 r9）
+## r10 — physical support logic correction (2026-08-06, user rejected r9)
 
-用户反馈：r9 底座“物件懸空、沒有視覺支撐、螺絲錯位，沒有物理邏輯”。
-r10 按参考底座的承托本质重做，原则：**每个物件要么承托上面的东西，
-要么被下面的东西承托，不允许悬空件**。
+User feedback: r9's base has "floating parts, no visual support, misplaced
+bolts, no physical logic". r10 redoes the base around the reference's support
+essence. Principle: **every part either carries what is above it or is
+carried by what is below it; no floating parts allowed**.
 
-1. **锚栓穿入支脚中心**：每只泵脚/电机垫 2 根锚栓（长轴 1/4 与 3/4
-   处，横向居中），螺杆穿过脚板，六角垫板座底板顶，六角螺母座座板/
-   垫顶；共 480 螺杆 + 480 垫板 + 480 螺母。r9 把锚栓放在脚板外侧，
-   螺母悬在脚板旁边，已修正；
-2. **泵端结构只在能完整承托时生成**：2 块侧板立在框架顶、上面真正
-   托住一块泵端座板（与支脚座板同高），横梁作为侧板间拉结；整套必须
-   完全落在框架范围内、且避开壳体/紧固件/吸排口。13 台泵可生成；
-   其余 17 台因泵端有真实下探的小管/法兰件（最低 U 89.9–180.6mm）
-   无法容纳，整组不生成——不再出现“悬空的立板/横梁”；
-3. **承托链数值审计**：30 台泵全部底座元素底面均在 0.51mm 内落在
-   承托物上（底板顶/框架顶/立板顶/侧板顶），悬空数为 0。
+1. **Anchors through the foot/pad centres**: 2 anchors per pump foot/motor
+   pad (at 1/4 and 3/4 of the long axis, transversely centred); shank through
+   the foot plate, hex washer seated on the baseplate top, hex nut seated on
+   the sole/pad top; 480 shanks + 480 washers + 480 nuts. r9 placed anchors
+   at the foot outer edges, leaving nuts hanging beside the plates — fixed;
+2. **pump-end structure emitted only when it can be fully carried**: 2 side
+   plates stand on the frame top and genuinely carry a pump-end sole plate
+   (at the same height as the foot sole plates), with a cross beam tying the
+   side plates; the whole set must sit fully inside the frame footprint and
+   clear the casing/fasteners/suction-discharge. 13 pumps qualify; the other
+   17 cannot accommodate it because real low-hanging small pipes/flange parts
+   exist at the pump end (lowest U 89.9–180.6mm), so the whole group is
+   omitted — no more floating side plates/cross beams;
+3. **support-chain numerical audit**: all base elements of all 30 pumps have
+   their bottom faces on a supporter (baseplate top/frame top/gusset
+   top/side-plate top) within 0.51mm; floating count 0.
 
-保持不变：底板尺寸/坐标、60 个管嘴、CATR、泵体/电机本体、30 个 NCYLI
-挖孔、层级与命名；非底座范围与 r8 逐块一致；最低点 U 0；大型跨子组
-交叠清单与 r8 一致（无新增穿模）。
+Unchanged: baseplate sizes/coordinates, 60 nozzles, CATR, pump/motor bodies,
+30 NCYLI holes, hierarchy and naming; non-base scope block-identical to r8;
+lowest point U 0; large cross-SUBE overlap list identical to r8 (no new
+clashes).
 
-验证：`tools/verify_r10.py` 全绿（30 EQUI / 360 SUBE / 5727 图元；
-5 件框架 150 件；480 立板；锚栓 8+8/泵全部就位且位于脚板内；泵端结构
-支承链完整；EXTRUSION 973 块结构合法）。
+Verification: `tools/verify_r10.py` all green (30 EQUI / 360 SUBE / 5727
+primitives; 150 5-member frame members; 480 gussets; anchors 8+8 per pump all
+seated and inside the foot plates; pump-end support chain complete; 973
+EXTRUSIONs structurally valid).
 
-## 加载方式
+## Loading
 
-与 JK_PU.txt 相同：在可写 ZONE 中通过 E3D 数据导入方式加载
-`JK_Pump_Build_refined_20260805_r10.pml`。加载后请目视复核：
-框架—立板—座板—泵体的承托链是否连续、锚栓是否穿在脚板里且螺母压在
-座板上、泵端立板/座板是否真实承托（IR-11d）。
+Same as JK_PU.txt: load
+`JK_Pump_Build_refined_20260805_r10.pml` via E3D data import in a writable
+ZONE. After loading, visually review (IR-11d): whether the frame–gusset–sole
+plate–pump-body support chain is continuous, whether the anchors pass through
+the foot plates with the nuts pressing on the sole plates, and whether the
+pump-end side plates/sole plate genuinely carry.
 
-## 变更清单
+## Change list
 
-### A. 桥型标准支架（30 台泵）
+### A. Bridge-type standard brackets (30 pumps)
 
-每台泵的两处实心脚垫改为“桥型标准支架”——顶部座板 + 两侧梯形立板：
+The two solid foot pads of each pump become "bridge-type standard brackets" —
+top sole plate + two trapezoid gussets:
 
-- 泵支架（`SUPPORT_FRAME` 内 4 个实心脚垫）：每个脚垫替换为
-  1 块座板（BOX）+ 2 块梯形立板（EXTRUSION，沿脚垫长轴两端）；
-- 电机支架（`DRIVER` 内 4 个安装垫）：同样替换为 1 块座板 + 2 块梯形立板；
-- 原脚垫的平面足迹、底面标高、顶面承高全部保持不变（数值验证 0 偏差）；
-- 立板底部与原垫底面齐平、顶部与座板底面接触（0.5mm 容差内全部通过）。
+- pump brackets (4 solid foot pads in `SUPPORT_FRAME`): each pad replaced by
+  1 sole plate (BOX) + 2 trapezoid gussets (EXTRUSION, at the two ends along
+  the pad's long axis);
+- motor brackets (4 mounting pads in `DRIVER`): likewise replaced by 1 sole
+  plate + 2 trapezoid gussets;
+- the original pads' plan footprint, bottom elevation and top bearing height
+  are all unchanged (numerical verification 0 deviation);
+- gusset bottoms flush with the original pad bottom; gusset tops contact the
+  sole-plate bottoms (all within 0.5mm tolerance).
 
-新增尺寸均为 Reference Value：
+All new dimensions are Reference Values:
 
-| 项目 | 取值 | 依据 |
+| Item | Value | Basis |
 |------|------|------|
-| 座板厚度 | 原垫高的 42%，取 10–16mm | 按垫高比例，视觉合理 |
-| 立板厚度 | 10mm | 板式支架常用厚度（参考值） |
-| 立板收坡 | ≤24mm（每侧） | 梯形立板视觉比例（参考值） |
-| 六角螺母对边 | = 原圆帽直径 | 沿用原紧固件包络 |
+| Sole-plate thickness | 42% of the original pad height, 10–16mm | proportional to pad height, visually reasonable |
+| Gusset thickness | 10mm | common plate-bracket thickness (Reference Value) |
+| Gusset taper | ≤24mm (each side) | trapezoid-gusset visual proportion (Reference Value) |
+| Hex-nut across-flats | = original round-cap diameter | retains the original fastener envelope |
 
-### B. 六角螺母（EXTRUSION，新语法）
+### B. Hex nuts (EXTRUSION, new syntax)
 
-`BASE_FASTENERS` 与 `DRIVER_FASTENERS` 中共 328 个圆形帽体升级为真正的六角螺母：
+All 328 circular caps in `BASE_FASTENERS` and `DRIVER_FASTENERS` upgraded to
+true hex nuts:
 
-- 每个螺母为 6 顶点 EXTRUSION（VERIFIED 写法），端面 POS 位于原帽底面；
-- 与垫圈/螺杆顶面接触（328/328 通过 1mm 就位检查）；
-- 位置、高度、中心均与原帽一致，仅轮廓由圆改为六角。
+- each nut is a 6-vertex EXTRUSION (VERIFIED form) whose end-plane POS sits
+  at the original cap's bottom face;
+- contacts the washer/shank top (328/328 pass the 1mm seating check);
+- position, height and centre identical to the original cap; only the outline
+  changes from round to hex.
 
-### C. 穿模与结构修复
+### C. Clash and structural fixes
 
-1. **205-PU-054（MC 泵）**：
-   - 分离器柱组（`MC_AUXILIARY` 前 20 个图元）沿 -E 平移 30mm，脱离泵壳体；
-   - 分离器容器组（箱体、顶板、双头螺栓、支脚、出口管）原位置同时穿入壳体、
-     前盖锥体与排放法兰盘，且排放侧无可用净空；整体移至电机侧唯一可容纳位置
-     （E +60mm / N -1292mm），出口管随动并仍从箱体通至底板东侧边缘；
-   - 修复后与壳体、支撑架、壳体紧固件、排放子组、底板紧固件交叠全部为 0。
-2. **205-PU-038（MC 泵）**：分离器柱与容器箱体整体 +U 5mm，落座于泵支撑脚，
-   不再切入支撑脚顶面（交叠清零）。
-3. **205-PU-060 / 061（洗涤循环泵）**：`SERVICE_DETAILS` 防溅板下移 35mm，
-   脱离主壳体底部；保留的壳体-密封冲洗管交叠为有意连接（φ18 管进入壳体）。
+1. **205-PU-054 (MC pump)**:
+   - the separator column group (first 20 primitives of `MC_AUXILIARY`)
+     translated -E by 30mm, clear of the pump casing;
+   - the separator vessel group (box, top plate, studs, feet, outlet pipe)
+     previously interpenetrated the casing, front cover cone and discharge
+     flange disc simultaneously, with no usable clearance on the discharge
+     side; moved as a whole to the only viable motor-side position
+     (E +60mm / N -1292mm); the outlet pipe follows and still runs from the
+     box to the baseplate's east edge;
+   - after the fix, overlaps with casing, support frame, casing fasteners,
+     discharge subassembly and baseplate fasteners are all 0.
+2. **205-PU-038 (MC pump)**: separator columns and vessel box raised +U 5mm,
+   seated on the pump support feet, no longer cutting into the support-foot
+   tops (overlap cleared).
+3. **205-PU-060 / 061 (wash-water circulation pumps)**: `SERVICE_DETAILS`
+   splash plate lowered 35mm, clear of the main casing bottom; the retained
+   casing–seal-flush pipe overlap is an intentional connection (φ18 pipe
+   enters the casing).
 
-## 保持不变（已验证）
+## Unchanged (verified)
 
-- 30 块底板：逐块属性签名与源文件一致；
-- 60 个管嘴：POS / ORI / HEIG / TEMP / PRES / TPRESS 与源文件一致；
-- 尾部 60 条 `OLD NOZZLE ... CATR SPCOMPONENT ...` 绑定：逐字节一致；
-- EQUI/SUBE 层级与命名：未改动；
-- 其余未授权几何（壳体、轴承架、联轴器、电机本体、服务细节等）：未改动。
+- 30 baseplates: per-block attribute signatures identical to the source file;
+- 60 nozzles: POS / ORI / HEIG / TEMP / PRES / TPRESS identical to the source
+  file;
+- trailing 60 `OLD NOZZLE ... CATR SPCOMPONENT ...` bindings: byte-identical;
+- EQUI/SUBE hierarchy and naming: unchanged;
+- all other unauthorised geometry (casing, bearing frame, coupling, motor
+  body, service details, etc.): unchanged.
 
-## 数值验证结果
+## Numerical verification results
 
-- 底板签名一致：30/30；
-- 管嘴块一致：60/60；CATR 绑定一致：60/60；
-- 桥架立板：每泵 8 块（泵 4 + 电机 4），共 480 块，全部与座板接触；
-- EXTRUSION 结构：808 块，LOOP + 4/6 顶点，无结构错误；
-- 最低点：U = 0（无任何图元低于基础面）；
-- 承高保持：240 个替换垫 0 偏差；
-- 螺母就位：328/328；
-- 目标穿模对：054（5 组）、038（1 组）、060/061（2 组）全部清零；
-- 剩余大交叠均为既有有意接触：泵脚嵌入壳体底部、排放短管嵌入壳体、
-  轴承架与壳体座合（与源文件一致，未引入新交叠）。
+- baseplate signatures identical: 30/30;
+- nozzle blocks identical: 60/60; CATR bindings identical: 60/60;
+- bridge gussets: 8 per pump (4 pump + 4 motor), 480 total, all touching
+  their sole plates;
+- EXTRUSION structure: 808 blocks, LOOP + 4/6 vertices, no structural errors;
+- lowest point: U = 0 (no primitive below the foundation plane);
+- bearing heights preserved: 240 replacement pads 0 deviation;
+- nuts seated: 328/328;
+- targeted clash pairs: 054 (5 sets), 038 (1 set), 060/061 (2 sets) all
+  cleared;
+- remaining large overlaps are pre-existing intentional contacts: pump feet
+  embedded in the casing bottom, discharge stubs embedded in the casing,
+  bearing frame seated in the casing (consistent with the source file; no new
+  overlaps introduced).
 
-## 说明与未决事项
+## Notes and open items
 
-- 205-PU-054 分离器容器位移较大（约 1.3m），这是数值搜索下唯一既避开壳体/锥体、
-  又不出底板的摆放位置；请按该泵俯视图确认分离器侧布置是否符合图纸。
-- 205-PU-054 出口管外端伸出底板东边约 60mm，作为管嘴投影供管道连接（管嘴本身
-  不变）。
-- 205-PU-018 / 004 的 MC 辅助电机与主电机安装垫存在约 5–8mm 的嵌入式接触
-  （原模型即有，视觉为电机座入垫内），本次未改动；如需完全分离请提供俯视图依据。
-- 本文件为 E3D 原生数据清单格式（`INPUT BEGIN/END`），图元属性为 E3D 自身导出的
-  POS-first 写法；项目 `validate_pml` 针对生成宏的 ORI-before-POS 规则不适用于该
-  加载路径。
-- 所有桥架与螺母尺寸为 Reference Value，待厂商 GA/电机样本更新后可替换。
+- The 205-PU-054 separator vessel moved a large distance (about 1.3m); this
+  is the only placement found by the numerical search that both avoids the
+  casing/cone and stays on the baseplate; confirm the separator-side
+  arrangement against the pump's top view.
+- 205-PU-054's outlet pipe outer end protrudes about 60mm beyond the
+  baseplate's east edge as a nozzle projection for piping connection (the
+  nozzle itself is unchanged).
+- 205-PU-018 / 004 MC auxiliary motors have about 5–8mm embedded contact with
+  the main motor mounting pads (present in the original model; visually the
+  motor sits into the pad); not changed this round; provide a top-view basis
+  if full separation is required.
+- This file is an E3D native data-listing format (`INPUT BEGIN/END`);
+  primitive attributes use E3D's own POS-first export order; the project's
+  `validate_pml` ORI-before-POS rule targets generated macros and does not
+  apply to this loading path.
+- All bridge and nut dimensions are Reference Values and can be replaced when
+  vendor GA/motor samples are updated.

@@ -9,7 +9,7 @@ element's own datum; none of them is a visual guess.
 
 ## Bug 1 — Motor terminal-box mounting ears float above the frame
 
-**User symptom:** "motor最上面接线盒的两个小块" are detached / physically
+**User symptom:** "the two small pieces on top of the motor terminal box" are detached / physically
 impossible.
 
 **Numerical finding:**
@@ -38,7 +38,7 @@ four through-bolts pass through ear and pad.
 
 ## Bug 2 — Volute side ribs appear as floating chips
 
-**User symptom:** "casing周围也有四个浮空小块".
+**User symptom:** "there are also four small floating pieces around the casing".
 
 **Numerical finding:** the four ribs were emitted with their inner edge
 radius exactly equal to the volute wall radius at their angle
@@ -58,7 +58,7 @@ are also thicker (16 mm) and taller (70 mm), reading as cast stiffeners.
 
 ## Bug 3 — Cross beam floats as an unexplained block
 
-**User symptom:** "中间那个BEAM也不知道有什么用，就一块看的很奇怪".
+**User symptom:** "that BEAM in the middle has no obvious purpose and just looks odd as a block".
 
 **Numerical finding:** the three cross beams were identical H-sections at the
 same height as the longitudinal beams (U 0..100), running N -170..170. They
@@ -79,7 +79,7 @@ grid.
 
 ## Bug 4 — Profile resolution too low
 
-**User symptom:** "面数太低，导致有点粗糙".
+**User symptom:** "the face count is too low, which makes it look a bit rough".
 
 **Numerical finding:** circle profiles used 24 vertices, the volute spiral
 used 19, the motor frame used 48, grille bars 6. The total EXTRUSION vertex
