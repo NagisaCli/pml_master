@@ -266,3 +266,30 @@ Whenever project data is incomplete, adopt temporary engineering reference value
 
 
 **Note:** All terminology in this specification follows standard AVEVA E3D, EPC engineering, and pulp & paper industry conventions. Terms such as **Pulp Mill**, **Washing, Screening and Bleaching (WSB)**, **Tank-Type Equipment**, **Bottom Center Point**, **Skirt Support**, **Manway**, **Stiffening Ring**, **Piping Readiness**, and **Engineering Realism** are intentionally retained to align with international engineering documentation and vendor standards.
+
+
+--------------------------------------------------
+16. HEX-BOLT BOTTOM DETAIL — 2026-08-10
+--------------------------------------------------
+
+User direction on the native export `jk_tank_edited_by_me.txt` (zone
+/WSB_TA):
+
+- All tanks EXCEPT 203-TA-044, 203-TA-019, 204-TA-021, 205-TA-016,
+  205-TA-036 and 205-TA-052 receive bottom hex bolts ("底盘六角钉").
+- The bolt count scales with tank size (bottom plate / support base-ring
+  diameter): 8 / 12 / 16 / 20 / 24.
+- Anchor-bolt style: the hex nut sits flush ON the plate top ("螺帽要紧贴
+  底盘") and the stud is embedded below the plate into the foundation.
+- Nut size scales with tank size (M30–M48) for physical plausibility.
+- The bolt circle must lie on the exposed base-ring annulus OUTSIDE the
+  shell wall; the 底盘 is the widest short cylinder at the lowest elevation.
+- 205-TA-059 anchors on its OUTER base ring (DIAM 3000, SHELL) — not the
+  inner DIAM 1800 ring in SUPPORT; 16 × M36.
+- All other structure is preserved; only new bolt blocks are inserted inside
+  the existing SHELL/SUPPORT subequipment (one base ring added for
+  205-TA-056, which has no exposed annulus).
+
+Implementation and hashes: see
+`archive/2026-08-10_hexbolts/REVISION_RECORD.md`. Result:
+`output/WSB_TA_hexbolts_20260810_r3.txt` (pending E3D visual acceptance).

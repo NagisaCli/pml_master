@@ -121,6 +121,19 @@ An external anchor stud must pass through a baseplate or clamp chair tied back
 to the shell/skirt. A bolt standing beside the tank with no connecting plate has
 no physical restraining function.
 
+> **User-corrected 2026-08-10 (JK-Tank_Build / WSB).** For visual anchor bolts
+> on a tank bottom, the "底盘" (bearing plate) boundary is the **widest short
+> cylinder at the lowest elevation** — the exposed base ring or bottom plate
+> that overhangs the shell — not the thinnest or innermost plate. Anchor bolts
+> sit on that ring's exposed annulus, outside the shell wall, with the hex nut
+> flush on the plate top and the stud embedded below into the foundation.
+> Placing the bolt circle inside the shell footprint (or hanging the nut under
+> the plate) reads as wrong in visual review. Nut size should scale with the
+> tank (M30–M48 class), not stay a constant tiny fastener. Where a tank has
+> two base rings (an inner one under an inner skirt/shell and an outer one
+> under the outer shell), anchor on the OUTERMOST ring — the inner ring is
+> not the visible 底盘 boundary.
+
 For any baseplate, clamp, chair or gusset arranged around a circular shell, use
 the attachment's **local radial/tangential frame**: the plate's long axis points
 radially and the edge at the shell is tangential. Only the E/W/N/S locations can

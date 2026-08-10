@@ -218,3 +218,55 @@ in `REVISION_RECORD.md`); project time tree added at
 The duty-based configuration table in
 [tanks-and-vessels.md](../equipment/tanks-and-vessels.md) is this project's main
 reusable output.
+
+## 2026-08-10 — Bottom hex-bolt detail pass (R4)
+
+User supplied a new native export `jk_tank_edited_by_me.txt` (zone `/WSB_TA`)
+with manual edits on top of the R3 baseline, and asked for bottom hex bolts on
+every tank except 203-TA-044, 203-TA-019, 204-TA-021, 205-TA-016,
+205-TA-036 and 205-TA-052, with the nut flush against the bottom plate and
+counts scaled to tank size.
+
+r1 (under-plate nuts, bolt circle on the inner plate) was rejected in visual
+review with three corrections: the bottom-plate boundary had to be the widest
+lowest short cylinder (exposed base ring), the style had to be anchor bolts
+(nut flush on the plate top, stud embedded below), and the nut had to scale
+up to M30–M48 to read as physically plausible. r2 applies all three:
+260 anchor bolts inserted only into the 16 target SHELL/SUPPORT
+subequipments, on a bolt circle at plate/ring radius − 100 mm (>= 40 mm
+outside the shell wall, verified per tank). 205-TA-056 gained one base ring
+DIAM 10200 × 50 (it had no exposed annulus under its 9900 outer shell).
+Excluded tanks byte-identical; all user manual edits preserved. r3 fixes the
+one remaining placement error: 205-TA-059 now anchors on its OUTER base ring
+(DIAM 3000, SHELL, 16 × M36) instead of the inner DIAM 1800 ring in SUPPORT.
+Deliverable:
+`Projects/JK-Tank_Build/output/WSB_TA_hexbolts_20260810_r3.txt`; archive and
+hashes in `Projects/JK-Tank_Build/archive/2026-08-10_hexbolts/`.
+
+**User accepted r3 on 2026-08-10** ("可以，将错误原因记好"). The recorded
+error causes, kept for the next continuation:
+
+1. r1 — plate boundary read as the thinnest lowest cylinder instead of the
+   widest exposed base ring; bolt circle inside the shell footprint and nut
+   under the plate. Fix: anchor on the exposed annulus of the widest short
+   bottom cylinder, nut flush on the plate top.
+2. r2 — 205-TA-059's outer base ring (DIAM 3000) lives in the SHELL
+   subequipment under the 2700 outer shell, while SUPPORT only holds the
+   inner DIAM 1800 skirt ring; the schedule pointed at SUPPORT and anchored
+   on the inner ring. Fix: when a tank has two base rings, anchor on the
+   OUTERMOST one; check the SHELL subequipment for the outer ring, not just
+   the SUPPORT subequipment.
+
+Both causes and the general rule are recorded in
+[tanks-and-vessels.md](../equipment/tanks-and-vessels.md) and in
+`Projects/JK-Tank_Build/archive/2026-08-10_hexbolts/REVISION_RECORD.md`.
+
+Assumptions flagged in the record: size classes, count bands and embedment
+8×d / protrusion 1×d (anchor-bolt practice); the added 205-TA-056 base ring.
+
+No new lessons promoted: the hex `EXTRUSION` form was already VERIFIED and the
+workflow (preserve native export, insert-only patch, numeric verification)
+reused the existing rules unchanged. The one reusable refinement — "the 底盘
+boundary is the widest short cylinder at the lowest elevation, and anchor
+bolts go on its exposed annulus" — is captured in
+[tanks-and-vessels.md](../equipment/tanks-and-vessels.md) guidance below.
