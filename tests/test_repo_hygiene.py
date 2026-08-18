@@ -41,6 +41,25 @@ PROJECT_SCRIPTS = sorted(
     p for p in PROJECTS_ROOT.rglob("*.py") if "__pycache__" not in p.parts
 )
 
+
+def _is_superseded_archive(script: Path) -> bool:
+    """
+    True for a script archived as a historical record rather than as a tool.
+
+    An archive directory whose REVISION_RECORD.md declares it SUPERSEDED holds
+    files preserved *exactly as written*, defects included -- that is the whole
+    point of keeping them. Rewriting one to satisfy a present-day rule would
+    falsify the record it exists to be. Such scripts are still required to
+    parse; they are exempt only from the path rule.
+    """
+    for parent in script.parents:
+        if parent == PROJECTS_ROOT:
+            break
+        record = parent / "REVISION_RECORD.md"
+        if record.is_file() and "SUPERSEDED" in _text(record):
+            return True
+    return False
+
 # The repository root as an absolute path is what must never be hardcoded. A
 # path pointing *outside* the repository (a user's Desktop export) is legitimate
 # -- those inputs really do live there -- so only the self-referential form is
@@ -77,7 +96,13 @@ def test_no_hardcoded_repository_paths(script: Path):
 
         BASE = Path(__file__).resolve().parent.parent
         OUT  = BASE / "output" / "<macro>.pml"
+
+    Scripts in a SUPERSEDED archive are exempt: they are kept verbatim as
+    evidence, and editing one to satisfy this rule would falsify the record.
     """
+    if _is_superseded_archive(script):
+        pytest.skip("superseded archive: preserved verbatim as a historical record")
+
     offenders = [
         line.strip()
         for line in _text(script).splitlines()
