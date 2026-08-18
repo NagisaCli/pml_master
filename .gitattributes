@@ -14,6 +14,13 @@
 # translated, never reformatted -- see SKILL.md, "Writing language".
 Projects/**/results/evidence/** -text
 
+# Verbatim evidence also lives beside archived revisions, not only under
+# results/. Any directory named `evidence/` anywhere under Projects/ holds the
+# same class of file and gets the same byte-for-byte protection. Added
+# 2026-08-18 after Projects/JK-Tank_Build/archive/2026-08-10_top_handrails/
+# evidence/ was found uncovered by the results/-only pattern above.
+Projects/**/evidence/** -text
+
 # Generated macros and native E3D exports. E3D's macro reader is sensitive to
 # stray CR characters, and wsb/pml_compare.py diffs exports line by line.
 *.pml -text

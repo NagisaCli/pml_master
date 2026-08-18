@@ -1,0 +1,159 @@
+-- ====================================================================
+-- AVEVA E3D / PDMS PML2 Form: Professional Nozzle Manager & Converter
+-- Form Name: !!nozzleSpecConverter
+-- Standard: AVEVA Software Customisation Reference Manual (PML2)
+-- ====================================================================
+
+setup form !!nozzleSpecConverter dialog resizable
+  title 'E3D Comprehensive Nozzle Specification & Attribute Manager'
+  
+  member .nozzArray is ARRAY
+  member .selecList is ARRAY
+  member .spcoList is ARRAY
+  
+  -- ==================================================================
+  -- LEFT COLUMN: Scope, 3D Locator & Nozzles List
+  -- ==================================================================
+  frame .fLeft '1. Scope & Nozzles Browser' at xmin ymin
+    option .optScope 'Scope:' at xmin+1 ymin+1 width 15
+    button .btnScan 'Scan' at xmax+1 ymin width 7 callback '$M "C:\Users\A\Desktop\nozzle_scan.mac"'
+    button .btnReadCE 'Read CE' at xmax+1 ymin width 8 callback '$M "C:\Users\A\Desktop\nozzle_read_ce.mac"'
+    
+    list .lstNozzles '' at xmin+1 ymax+0.4 width 36 height 8
+    text .txtStatus 'Status:' at xmin+1 ymax+0.3 width 36 is STRING
+  exit
+  
+  -- ==================================================================
+  -- RIGHT COLUMN: Spec & All Attributes (Single Frame)
+  -- ==================================================================
+  frame .fRight '2. Target Spec & Attributes' at xmax+1 ymin
+    -- Row 1: Spec & Bore Selectors
+    option .optPreset 'Spec:' at xmin+1 ymin+1 width 14
+    button .btnQueryCata 'Query CATA' at xmax+1 ymin width 10 callback '$M "C:\Users\A\Desktop\nozzle_cata_scan.mac"'
+    option .optBore 'Bore:' at xmax+1 ymin width 14
+    
+    -- Row 2: Target SPCO String & Smart Mode Toggle
+    toggle .togApplyCatr 'Apply SPCO:' at xmin+1 ymax+0.4
+    text .txtSpec '' at xmax+1 ymin width 20 is STRING
+    toggle .togSmartBore 'Auto-Map Bore' at xmax+1 ymin
+    
+    -- Row 3: Height, Bore, Pres
+    toggle .togApplyHeig 'HEIG:' at xmin+1 ymax+0.4
+    text .txtHeight '' at xmax+1 ymin width 5 is REAL
+    toggle .togApplyBore 'BORD:' at xmax+1 ymin
+    text .txtBore '' at xmax+1 ymin width 5 is REAL
+    toggle .togApplyPres 'PRES:' at xmax+1 ymin
+    text .txtPres '' at xmax+1 ymin width 5 is REAL
+    
+    -- Row 4: Temp, Test Pres, Insul
+    toggle .togApplyTemp 'TEMP:' at xmin+1 ymax+0.4
+    text .txtTemp '' at xmax+1 ymin width 5 is REAL
+    toggle .togApplyTpres 'TPRES:' at xmax+1 ymin
+    text .txtTpres '' at xmax+1 ymin width 5 is REAL
+    toggle .togApplyInst 'INST:' at xmax+1 ymin
+    text .txtInst '' at xmax+1 ymin width 5 is REAL
+    
+    -- Row 5: Duty & Desc
+    toggle .togApplyDuty 'DUTY:' at xmin+1 ymax+0.4
+    option .optDuty '' at xmax+1 ymin width 10
+    toggle .togApplyDesc 'DESC:' at xmax+1 ymin
+    text .txtDesc '' at xmax+1 ymin width 12 is STRING
+  exit
+  
+  -- ==================================================================
+  -- BOTTOM BAR: Action Buttons
+  -- ==================================================================
+  button .btnApply 'Smart Batch Convert' at xmin+6 ymax+0.6 width 20 callback '$M "C:\Users\A\Desktop\nozzle_smart_apply.mac"'
+  button .btnNative 'Open Native Nozzle' at xmax+2 ymin width 18 callback '$M "C:\Users\A\Desktop\nozzle_open_native.mac"'
+  button .btnDismiss 'Close' at xmax+2 ymin width 8 cancel
+  
+exit
+
+-- --------------------------------------------------------------------
+-- Form Constructor Method
+-- --------------------------------------------------------------------
+define method .nozzleSpecConverter()
+  !this.nozzArray = object ARRAY()
+  !this.selecList = object ARRAY()
+  !this.spcoList = object ARRAY()
+  
+  -- Attach List Selection Callback
+  !this.lstNozzles.callback = '$M "C:\Users\A\Desktop\nozzle_locate_3d.mac"'
+  
+  -- Populate Scope Dropdown
+  !scopes = object ARRAY()
+  !scopes.append('Current Element (CE)')
+  !scopes.append('Current Equipment')
+  !scopes.append('Current Zone')
+  !scopes.append('Current Site')
+  !scopes.append('Entire World')
+  !this.optScope.dtext = !scopes
+  !this.optScope.val = 1
+  
+  -- Populate Preset Specs
+  !presets = object ARRAY()
+  !presets.append('150lb ANSI RF')
+  !presets.append('300lb ANSI RF')
+  !presets.append('600lb ANSI RF')
+  !presets.append('Custom')
+  !this.optPreset.dtext = !presets
+  !this.optPreset.val = 1
+  !this.optPreset.callback = '$M "C:\Users\A\Desktop\nozzle_spec_change.mac"'
+  
+  -- Populate Nominal Bores
+  !bores = object ARRAY()
+  !bores.append('DN50  (2in)  - AAZFBB0YY')
+  !bores.append('DN80  (3in)  - AAZFBB0LL')
+  !bores.append('DN100 (4in)  - AAZFBB0NN')
+  !bores.append('DN150 (6in)  - AAZFBB0RR')
+  !bores.append('DN200 (8in)  - AAZFBB0TT')
+  !bores.append('DN250 (10in) - AAZFBB0VV')
+  !bores.append('DN300 (12in) - AAZFBB0WW')
+  !bores.append('DN350 (14in) - AAZFBB0XX')
+  !bores.append('DN400 (16in) - AAZFBB011')
+  !bores.append('DN450 (18in) - AAZFBB022')
+  !bores.append('DN500 (20in) - AAZFBB0JJ')
+  !bores.append('DN600 (24in) - AAZFBB033')
+  !this.optBore.dtext = !bores
+  !this.optBore.val = 5
+  !this.optBore.callback = '$M "C:\Users\A\Desktop\nozzle_spec_change.mac"'
+  
+  -- Populate Duties
+  !duties = object ARRAY()
+  !duties.append('Process')
+  !duties.append('Suction')
+  !duties.append('Discharge')
+  !duties.append('Vent')
+  !duties.append('Drain')
+  !duties.append('Manway')
+  !duties.append('Overflow')
+  !duties.append('Instrument')
+  !this.optDuty.dtext = !duties
+  !this.optDuty.val = 1
+  
+  -- Default Values
+  !this.togApplyCatr.val = true
+  !this.togSmartBore.val = true
+  !this.txtSpec.val = '/150lb_Ansi_Flanged/AAZFBB0TT'
+  
+  !this.togApplyHeig.val = false
+  !this.txtHeight.val = 250.0
+  !this.togApplyBore.val = false
+  !this.txtBore.val = 200.0
+  
+  !this.togApplyPres.val = false
+  !this.txtPres.val = 16.0
+  !this.togApplyTemp.val = false
+  !this.txtTemp.val = 150.0
+  
+  !this.togApplyTpres.val = false
+  !this.txtTpres.val = 24.0
+  !this.togApplyInst.val = false
+  !this.txtInst.val = 50.0
+  
+  !this.togApplyDuty.val = false
+  !this.togApplyDesc.val = false
+  !this.txtDesc.val = 'Process Nozzle'
+  
+  !this.txtStatus.val = 'Ready. Select scope & Scan or Query CATA.'
+endmethod

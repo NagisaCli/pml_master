@@ -1,0 +1,78 @@
+Pump: 203-PU-008
+
+Source:
+  JSON: C:\Users\A\Desktop\pumps\203-PU-008.json
+  Metadata row: 2
+  Name: BLOW TANK DILUTION PUMP
+  Drawing: C:\Users\A\Desktop\SEAL\Ognized\all.dwg
+  Units: Millimetres
+
+CAD:
+  valid entities: 464
+  skipped entities: 0
+  bridged_joins: 60
+  chains: 82
+  circles: 1
+  duplicate_entities: 0
+  features: 70
+  input_entities: 464
+  open_paths: 81
+  polylines: 0
+  rectangles: 0
+  view: PLAN
+  view evidence: declared top view 'Top View - 203-PU-008' governs; outline 852x2135 is the baseplate seen from above (long side = pump axis, short side = transverse)
+  outline: 851.8 x 2134.8 mm
+
+Topology recovered (70 features):
+  cylinder: 12
+  disc_stack: 1
+  unclassified: 57
+    unclassified: 624 x 2146 mm - open path 624x2146, 13 vertices
+    unclassified: 593 x 2151 mm - open path 593x2151, 14 vertices
+    unclassified: 647 x 792 mm - open path 647x792, 8 vertices
+    unclassified: 264 x 857 mm - open path 264x857, 6 vertices
+    unclassified: 264 x 857 mm - open path 264x857, 6 vertices
+    unclassified: 420 x 350 mm - open path 420x350, 4 vertices
+    unclassified: 571 x 129 mm - open path 571x129, 6 vertices
+    cylinder: 54 x 1125 mm - parallel rail pair 1125 mm apart running 54 mm along x, a cylindrical body seen from the side
+    cylinder: 37 x 1395 mm - parallel rail pair 1395 mm apart running 37 mm along x, a cylindrical body seen from the side
+    unclassified: 232 x 210 mm - open path 232x210, 7 vertices
+    unclassified: 232 x 210 mm - open path 232x210, 7 vertices
+    cylinder: 49 x 861 mm - parallel rail pair 861 mm apart running 49 mm along x, a cylindrical body seen from the side
+    ... and 58 more
+
+Components:
+  BearingHousing: 340 x 32 mm [MEDIUM] - body 32x340 between the driver and the coupling, the bearing/adapter position
+  CouplingGuard: 264 x 857 mm [MEDIUM] - body 857x264 spanning the gap between driver and wet end, the coupling guard position
+  PumpCasing: 232 x 210 mm [MEDIUM] - compact body 210x232 at the wet end; no concentric circle group was drawn, so the volute envelope is taken from the largest compact wet-end body
+
+Transform:
+  Local origin: baseplate underside centre
+  World position: E 13971.0 N 14110.0 U 0.0
+  Orientation: layout axis N (90 deg CCW from +E)
+
+Model:
+  solids: 34
+  nozzles: 2
+    SUCTION DN200 axis N -> /150lb_Ansi_Flanged/AAZFBB0TT
+    DISCHARGE DN150 axis U -> /150lb_Ansi_Flanged/AAZFBB0RR
+
+Validation:
+  [PASS] base centre matches metadata: plate centre E13971.0 N14110.0 vs metadata E13971.0 N14110.0 (dE=0.000, dN=0.000)
+  [PASS] baseplate underside sits on the metadata elevation: plate centre U25.0, underside U0.0 vs metadata U0.0
+  [PASS] baseplate dimensions match metadata: plate 852.0x2136.0 vs metadata 852.0x2136.0 for layout axis N
+  [PASS] orientation follows the contractual suction direction: layout axis N, expected N (metadata inlet 'N')
+  [PASS] suction bore traceable to metadata: DN200 is the nearest catalogue bore to the measured 216 mm (nearest available: DN200)
+  [PASS] discharge bore traceable to metadata: DN150 is the nearest catalogue bore to the measured 151 mm (nearest available: DN150)
+  [PASS] top-view footprint matches the CAD extent: plate (13545,13042)-(14397,15178), model (13545,13042)-(14397,15178): drawn outline agrees with the contractual plate within 0.6 mm; stays inside the CAD extent
+  [PASS] component plan silhouettes follow the drawing: all main bodies match their drawn contours within 30 mm
+  [PASS] CAD linework is substantially consumed: 51/91 in-outline entities (56%) contribute to a modelled component; 373 out-of-outline entities are attached pipework and are deliberately not modelled
+  [PASS] PML passes syntax validation: no banned constructs
+  overall: PASS
+
+Warnings:
+  (none)
+
+Notes:
+  - suction: metadata bore 216 mm snapped to catalogue DN200 (nearest available in 'AAZFBB0TT'; catalogue max is DN600)
+  - discharge: metadata bore 151 mm snapped to catalogue DN150 (nearest available in 'AAZFBB0RR'; catalogue max is DN600)

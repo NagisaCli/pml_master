@@ -832,3 +832,199 @@ Lessons promoted:
 - The 30 NCYLI holes are EXPERIMENTAL pending the user's E3D confirmation;
   after confirmation, promote in pml1-reference.md and reuse negative
   primitives for future hole features.
+
+## 2026-08-13 — pumpcad plan rebuild from the JSON top views
+
+### What was delivered
+
+The client supplied `C:\Users\A\Desktop\pumps` (30 JSON exports + the same
+`Pump_details.xlsx`, SHA-256 `BE7E38…29C0`) and required the top view to
+strictly follow the JSON linework while the table supplies everything else,
+with maximum realistic detail.  This supersedes the first pumpcad pass,
+which had classified 24 of 30 drawings as elevations.
+
+- `pumpcad/` reconstruction pipeline corrected: `classify_view` now honours
+  the JSON's own `reference_top_view` (all 28 geometry-bearing files are
+  plans of horizontal pumps); the aspect-ratio "elevation" heuristic is
+  gone.
+- Out-of-outline linework (suction elbows, drain runs) is excluded from
+  component assembly but still measures horizontal nozzle reach.
+- Casing identification prefers the wet-end concentric disc stack, then the
+  roundest compact wet-end body, with the wet end anchored by the layout
+  axis so the driver can never be promoted to casing.
+- Enriched plan construction, every size traced to the drawn contour or
+  labelled as a bounded Reference Value: motor barrel + end bells +
+  360-degree cooling ribs + terminal box + gland + lifting lug + nameplate
+  + feet + hold-downs; volute + suction cover cone + shaft boss + split
+  flange + flange-face bolt ring + casing ribs + foot; bearing housing +
+  pedestal; coupling shaft + hubs + guard end plates.
+- 203-PU-020 and 205-PU-004 have no CAD and build a metadata-proportioned
+  horizontal body, flagged UNCONFIRMED.
+
+### Client refinement round (same day)
+
+- Hierarchy is one SUBE per major assembly - BASEPLATE / SUPPORT / CASING
+  / BEARING / COUPLING / DRIVER / AUXILIARY / SUCTION / DISCHARGE - not one
+  SUBE per primitive.
+- Nozzle datums: horizontal nozzles at the shaft centreline, top-discharge
+  at the casing crown, and the centreline is raised to clear the suction
+  flange radius so a DN600 suction can never dip below U 0.  Neck length
+  is bridged to the casing surface instead of a canned 120 mm.
+- Fasteners are true hex EXTRUSION nuts (verified native form), not
+  cylinders; motor cooling ribs are equal-angle axial rods around the full
+  stator; a drawn circle becomes a vertical cylinder, a closed polygon
+  (octagon/diamond/arc) becomes a vertical EXTRUSION of that polygon, and
+  only a drawn rectangle becomes a box or barrel cylinder.
+
+Deliverables under `Projects/JK_Pump_Build/output/pumpcad/`: per-pump
+macros and audits, `JK_Pump_Build_All_Pumps.pml` (30 independent EQUI,
+60 catalogue-bound NOZZLEs, 342 EXTRUSIONs, 1,640 box/cylinder/cones),
+the whole-assembly comparison set, the browser viewer and the batch
+report.  27/30 pumps pass every numeric check; 373 tests pass.
+
+### The failure this corrected
+
+The first pumpcad run reasoned "an outline taller than it is wide must be
+an elevation" and built 24 North/South pumps as stacked vertical machines
+on square baseplates, standing up to 3 m tall.  The JSON itself said
+`reference_top_view: "Top View - …"` on every file, and a horizontal
+pump whose long axis runs North legitimately has a taller-than-wide plan
+outline.  The client restated the requirement explicitly: the plan view
+is strict; only other quantities come from the table.
+
+### Verification
+
+Numeric, not textual: baseplate underside-centre vs Excel; plate L/W/T vs
+Excel; layout axis vs suction (with the client E-W override for
+205-PU-018/038); nearest-catalogue DN for all 60 nozzles; drawn outline vs
+contractual plate within 10 mm; model top-view bounds contained in the CAD
+extent; each main body's plan silhouette vs its drawn contour within
+30 mm; in-outline linework consumption; PML1 validity; ORI-before-POS,
+CATR-first nozzle binding and no geometry below U 0 across all 30 files.
+85 `pumpcad` tests pass.  **Awaiting a fresh E3D visual reload before this
+can be called accepted (IR-11d).**
+
+### Lessons
+
+- **A declared view field outranks any geometric heuristic.**  The
+  drawings were self-describing; the classifier ignored the label and
+  reasoned from aspect ratio, and got 24 of 28 wrong while every numeric
+  check stayed green.  Read the metadata that names the projection before
+  inferring it from the linework.
+- **The baseplate outline is the assembly boundary.**  Including pipework
+  drawn beyond the plate made one "motor" swallow 2 m of suction line;
+  excluding it left clean driver/coupling/casing bands on the same
+  drawings.
+- **Anchoring the wet end by the layout axis removes a chicken-and-egg.**
+  With both ends holding large bodies, "largest compact body at an end"
+  can crown the motor as the casing; the contractual suction/longitudinal
+  direction decides which end is the wet end without needing the casing
+  first.
+- **Plan fidelity is verifiable per component, not just as a batch
+  envelope.**  Mapping each body's drawn contour into the world frame and
+  comparing its own footprint catches a wrong-sized casing that a
+  whole-model bounds check cannot see.
+- **A sliver is not a body.**  The first fallback promoted a 340x16
+  feature to "casing"; a compactness ratio (min/max extent) rejects those
+  while accepting genuine round cover plates.
+- **The primitive must match the drawn silhouette, not merely its bounds.**
+  A bounding circle over a drawn rectangle passes an extent check and
+  still reads wrong in plan; a vertical cylinder for a circle, a vertical
+  EXTRUSION for a polygon and a barrel only for a rectangle is what makes
+  the plan "strict" in E3D rather than in the verifier.
+- **A nozzle's elevation is part of its datum.**  Everything had passed
+  while the suction flange sat at plate-plus-bore height: the flange face
+  was at U 240 with the shaft at U 400, which the client read as "the
+  nozzles fell on the ground".  Anchor horizontal nozzles to the shaft
+  centreline and vertical ones to the casing crown, then size the neck to
+  bridge the actual gap.
+- **Big bores own the centreline.**  The shaft height must be bounded from
+  below by half the suction flange diameter, or a DN600 flange projects
+  through the foundation while every other check stays green.
+- **Grouping is a downstream contract too.**  One SUBE per primitive makes
+  the tree unmaintainable for piping and structural designers; the
+  grouping belongs in the renderer, classified from the part label so
+  builders never have to thread a group tag through every emitter.
+- **Close what the draughtsman closed, and nothing else.**  The octagon
+  and arc silhouettes in these exports are mostly open strokes broken at
+  dimension ticks; bridging free chain ends within 8 mm recovers real
+  closed polygons, and a plausibility guard (aspect ratio, filled area)
+  keeps a chance bridge from becoming a nonsense EXTRUSION.  Where the
+  drawing stays open, the nearest legitimate primitive (vertical cylinder
+  for a circle, barrel for a rectangle) is used and the choice is stated
+  rather than fabricating a closed LOOP.
+- **A cover cone still obeys the plate.**  The suction cover closes toward
+  the wet end, but its reach must be capped at the plate/drawn extent or
+  it becomes an out-of-drawing spout that only the plan-containment check
+  ever sees.
+
+### Third client round (same day)
+
+- A nozzle is emitted as the catalogue NOZZLE alone; the previously added
+  neck/flange primitives were removed - the bound SPCO already draws the
+  barrel and face, and duplicating it reads as clutter at the connection.
+- Bottom supports are fabricated detail: sole plate on the baseplate top,
+  pedestal web, two triangular EXTRUSION gussets in the machine vertical
+  plane, and two hold-downs with hex nuts, with the bearing chain plate ->
+  sole -> pedestal -> machine body verified by construction.
+- The "twisted main body" fault was the casing fallback preferring the
+  roundest compact body, which crowned a 334x172 discharge boss as the
+  casing while the drawn 652x210 volute band stayed auxiliary.  The
+  fallback now takes the largest body inside the outer 30% of the plate,
+  which restores the real volute envelope on the eight large
+  filtrate/process pumps (203-PU-009, 204-PU-015/016, 205-PU-030/031/
+  047/048, 205-PU-027).
+- Curved corners are the drawing's own tessellated arcs: E3D's native
+  EXTRUSION VERTEX carries no radius attribute, so an arc is expressed as
+  the multi-vertex LOOP the drawing supplies - a many-sided approximation
+  of the same curve, never a fabricated fillet.
+
+## 2026-08-13 — custom 205-PU-012 scale variant (3504 x 1500 baseplate)
+
+The client supplied `C:\Users\A\Desktop\Custom_pump.txt`, a native E3D data
+listing of the accepted 205-PU-012, and asked for a variant with a
+3504 x 1500 mm baseplate, the rest of the pump enlarged proportionally, the
+construction/shape kept and the nozzle sizes kept.
+
+### What was delivered
+
+- Original archived byte-for-byte at
+  `imports/2026-08-13_Custom_pump.txt`
+  (SHA-256 `1C7EEC29388F41AA0F096BC5DC2875CA488C5DB8E720CEC24AB28A986A175D9F`).
+- `output/205-PU-012_3504x1500.txt` plus a Desktop copy
+  `Custom_pump_3504x1500.txt`, and repeatable tools
+  `tools/scale_pump_3504x1500.py` / `tools/verify_scale_3504x1500.py`.
+- Baseplate exactly 1500 (E) x 3504 (N) x 50, underside centre unchanged.
+- Superstructure scaled by one similarity factor `s = 3504/2701`: plan about
+  the plate centre, elevations about the plate top U=50.
+- Nozzles unchanged in size: CATR/HEIG/ORI/process attributes kept; barrel
+  roots scale with the machine and the unchanged HEIG is re-added, so both
+  nozzles stay attached.  The discharge boss keeps DIAM 135 / HEIG 28 and
+  moves with the scaled casing crown.
+
+### Defects found and fixed in the supplied file
+
+- The file contained the same pump exported twice back to back.  Loading both
+  would collide on the duplicate `/205_PU_012` name, so the deliverable keeps
+  exactly one EQUI block.
+- The native listing omitted `NAPPFLAG` on the nested NCYLINDER.  The
+  project-verified form requires `NAPPFLAG 2` for the hole to cut, so it was
+  re-added (native-listing omission is NATIVE-OBSERVED, not independently
+  re-certified in this exact listing).
+
+### Verification
+
+Numeric, not textual: 471-element inventory identical to the source block;
+every attribute independently re-predicted; 244 solid AABBs checked; no solid
+below U 0 or outside the new plate envelope; support-chain U spans scale
+invariantly about U=50; suction root meets the scaled casing crown and the
+discharge root stays inside the boss; NCYL hole keeps a >= 2 mm plate rim.
+**Awaits a fresh E3D visual reload before acceptance (IR-11d).**
+
+### Open decision
+
+A single uniform scale cannot satisfy both 3504 and 1500 from 2701 x 1245
+(3504 needs s=1.2973, 1500 needs s=1.2048).  The delivered variant is
+length-driven (s=1.2973) and treats 1500 as an explicit plate-width override.
+If the client prefers the width-driven factor or a non-uniform treatment, the
+tool only needs a new factor and a regeneration pass.

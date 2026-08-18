@@ -1,0 +1,81 @@
+Pump: 205-PU-013
+
+Source:
+  JSON: C:\Users\A\Desktop\pumps\205-PU-013.json
+  Metadata row: 17
+  Name: D0 WASHER WIRE WASH PUMP
+  Drawing: C:\Users\A\Desktop\SEAL\Ognized\all.dwg
+  Units: Millimetres
+
+CAD:
+  valid entities: 164
+  skipped entities: 0
+  bridged_joins: 24
+  chains: 41
+  circles: 1
+  duplicate_entities: 0
+  features: 36
+  input_entities: 164
+  open_paths: 34
+  polylines: 5
+  rectangles: 1
+  view: PLAN
+  view evidence: declared top view 'Top View - 205-PU-013' governs; outline 760x1720 is the baseplate seen from above (long side = pump axis, short side = transverse)
+  outline: 760.1 x 1719.7 mm
+
+Topology recovered (36 features):
+  cylinder: 3
+  disc_stack: 1
+  prism: 1
+  profile: 5
+  unclassified: 26
+    profile: 431 x 464 mm - closed polyline 431x464
+    profile: 226 x 275 mm - closed polyline 226x275
+    unclassified: 367 x 129 mm - open path 367x129, 5 vertices
+    unclassified: 291 x 146 mm - open path 291x146, 11 vertices
+    unclassified: 108 x 334 mm - open path 108x334, 5 vertices
+    unclassified: 377 x 75 mm - open path 377x75, 5 vertices
+    unclassified: 345 x 75 mm - open path 345x75, 5 vertices
+    unclassified: 59 x 415 mm - open path 59x415, 4 vertices
+    unclassified: 59 x 415 mm - open path 59x415, 4 vertices
+    profile: 129 x 167 mm - closed polyline 129x167
+    disc_stack: 146 x 146 mm - 1 concentric circle(s) on one axis, radii 73
+    cylinder: 86 x 210 mm - parallel rail pair 86 mm apart running 210 mm along y, a cylindrical body seen from the side
+    ... and 24 more
+
+Components:
+  BearingHousing: 377 x 410 mm [HIGH] - BearingHousing assembly 410 mm along the machine axis x 377 mm across, consolidated from 2 drawn sections (housing sections)
+  Motor: 474 x 679 mm [HIGH] - Motor assembly 679 mm along the machine axis x 474 mm across, consolidated from 3 drawn sections (body, fin bands, cowl)
+  Auxiliary: 173 x 22 mm [LOW] - body 22x173 at the wet end, outboard of the casing
+  Coupling: 86 x 210 mm [HIGH] - shaft/coupling: parallel rail pair 86 mm apart running 210 mm along y, a cylindrical body seen from the side; drawn on the machine centreline between driver and casing
+  PumpCasing: 323 x 280 mm [MEDIUM] - compact body 280x323 at the wet end; no concentric circle group was drawn, so the volute envelope is taken from the largest compact wet-end body
+
+Transform:
+  Local origin: baseplate underside centre
+  World position: E 31566.0 N 14294.0 U 0.0
+  Orientation: layout axis N (90 deg CCW from +E)
+
+Model:
+  solids: 77
+  nozzles: 2
+    SUCTION DN65 axis N -> /150lb_Ansi_Flanged/AAZFBB0KK
+    DISCHARGE DN150 axis U -> /150lb_Ansi_Flanged/AAZFBB0RR
+
+Validation:
+  [PASS] base centre matches metadata: plate centre E31566.0 N14294.0 vs metadata E31566.0 N14294.0 (dE=0.000, dN=0.000)
+  [PASS] baseplate underside sits on the metadata elevation: plate centre U25.0, underside U0.0 vs metadata U0.0
+  [PASS] baseplate dimensions match metadata: plate 760.0x1720.0 vs metadata 760.0x1720.0 for layout axis N
+  [PASS] orientation follows the contractual suction direction: layout axis N, expected N (metadata inlet 'N')
+  [PASS] suction bore traceable to metadata: DN65 is the nearest catalogue bore to the measured 65 mm (nearest available: DN65)
+  [PASS] discharge bore traceable to metadata: DN150 is the nearest catalogue bore to the measured 146 mm (nearest available: DN150)
+  [PASS] top-view footprint matches the CAD extent: plate (31186,13434)-(31946,15154), model (31186,13434)-(31946,15154): drawn outline agrees with the contractual plate within 0.2 mm; stays inside the CAD extent
+  [PASS] component plan silhouettes follow the drawing: all main bodies match their drawn contours within 30 mm
+  [PASS] CAD linework is substantially consumed: 123/164 in-outline entities (75%) contribute to a modelled component; 0 out-of-outline entities are attached pipework and are deliberately not modelled
+  [PASS] PML passes syntax validation: no banned constructs
+  overall: PASS
+
+Warnings:
+  (none)
+
+Notes:
+  - discharge: metadata bore 146 mm snapped to catalogue DN150 (nearest available in 'AAZFBB0RR'; catalogue max is DN600)

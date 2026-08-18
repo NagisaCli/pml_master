@@ -270,3 +270,66 @@ reused the existing rules unchanged. The one reusable refinement — "the 底盘
 boundary is the widest short cylinder at the lowest elevation, and anchor
 bolts go on its exposed annulus" — is captured in
 [tanks-and-vessels.md](../equipment/tanks-and-vessels.md) guidance below.
+
+## 2026-08-10 — Top platform handrails r3 (candidate, pending E3D acceptance)
+
+Continuing the R5 top-handrail job: r2 (native HANDRA + RPATH `CURTYP THRU` +
+RAILSET, no posts) loaded but rendered nothing the user could see; the user
+rejected it with "没有形成楼梯，放置的位置也不对；应是圆盘底座" (no handrail
+formed, wrong position, needs a circular disc base) and asked to continue the
+next day.
+
+r3 replaces the unverified HANDRA/RPATH template form with plain CYLI
+primitives inserted as one new SUBEQUIPMENT per tank
+(`/205_TA_001_TOP_PLATFORM`, `/205_TA_056_TOP_PLATFORM`) under the existing
+EQUIPMENT blocks:
+
+- circular platform disc closing the frustum top (DIAM 6000 x 12 at U 28200 /
+  DIAM 6500 x 12 at U 27700) — the 圆盘底座;
+- 20 / 24 posts (DIAM 48.3, spacing <= 1000 mm) on individual circular base
+  plates (DIAM 200 x 10) at the rail circle (platform rim inset 150 mm);
+- top rail at platform + 1100 mm and mid rail at + 550 mm, built from 80 / 96
+  short tangent CYLI segments per rail (sagitta 1.7–2.2 mm, visually smooth).
+
+Insertion-only: everything outside the two insertion points is byte-identical
+to the accepted R4 hex-bolt baseline; `validate_pml()` reports 0 new findings;
+NEW/END hierarchy balanced; geometry verified numerically (disc flush at the
+platform top, every post and rail segment on the rail circle).
+
+Deliverable: `Projects/JK-Tank_Build/output/WSB_TA_top_handrails_20260810_r3.txt`
+(desktop copy `jk_tank_edited_by_me_top_handrails_r3.txt`); archive and hashes
+in `Projects/JK-Tank_Build/archive/2026-08-10_top_handrails_r3/`.
+
+Reference values flagged in the record: tube OD 48.3 mm, base plate
+DIAM 200 x 10, disc thickness 12 mm, rail inset 150 mm, top/mid rail heights
+1100 / 550 mm. Open: confirm the second tank is 205-TA-056 (205-TA-006 does
+not exist), and confirm the user's "楼梯/扶梯" wording means the top platform
+handrail and not a spiral access stair up the shell.
+
+**Lesson recorded (F-22 in diagnosing-failures.md):** a HANDRA block with an
+RPATH of `CURTYP THRU` curves and no POSTSE/HRPOST loaded silently and rendered
+nothing — an unverified structural-template form must not be shipped as the
+sole representation. Primitives are the fallback until a native handrail block
+is proven in E3D.
+
+### 2026-08-10 — r4: handrail moved to the cylinder-top big circle (CONFIRMED)
+
+The user accepted that r3 rendered ("可以，楼梯正常出现") but corrected the
+position: the handrail must circle the shell-cylinder top big circle, not the
+frustum-top small circle; the frustum will be adjusted by the designer
+afterwards. r4 drops the platform disc and places the handrail on the cylinder
+top face at U 26400 — TA-001 rail circle R 5300 (36 posts), TA-056 rail circle
+R 4850 (32 posts), base plates flush at the rim, top rail +1100 mm, mid rail
++550 mm, 144/128 tangent CYLI segments. The cone surface near the rim passes
+through the post zone for ~30–40 mm until the frustum is re-sized; this is
+reported rather than hidden (user said "我再调整圆台大小").
+
+**User confirmed r4 on 2026-08-10** ("可以，干的漂亮"). The r4 file is the
+accepted working baseline for the next continuation.
+
+Deliverable:
+`Projects/JK-Tank_Build/output/WSB_TA_top_handrails_20260810_r4.txt`; archive
+and hashes in `Projects/JK-Tank_Build/archive/2026-08-10_top_handrails_r4/`.
+The reusable correction is recorded in
+[tanks-and-vessels.md](../equipment/tanks-and-vessels.md): a frustum-roof top
+handrail follows the shell-cylinder rim, not the frustum top.

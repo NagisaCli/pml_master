@@ -1,0 +1,1749 @@
+== /203_PU_008_CASING (line 838)
+   CYLINDER E 13971.0 N 14802.2 U 324.1                Y is U Z is N          DIAM=296.3 HEIG=52.3
+   CYLINDER E 13971.0 N 14959.1 U 324.1                Y is U Z is N          DIAM=336.7 HEIG=261.4
+   CYLINDER E 13971.0 N 15082.2 U 324.1                Y is U Z is N          DIAM=362.0 HEIG=15.3
+   CONE     E 13971.0 N 15094.8 U 324.1                Y is U Z is N          DTOP=191.9 DBOT=330.0 HEIG=10.0
+   CYLINDER E 13971.0 N 15090.05 U 324.1               Y is U Z is N          DIAM=202.0 HEIG=19.5
+   CYLINDER E 13971.0 N 14959.1 U 494.9                Y is U Z is N          DIAM=13.5 HEIG=177.8
+   CYLINDER E 14118.9 N 14959.1 U 238.7                Y is U Z is N          DIAM=13.5 HEIG=177.8
+   CYLINDER E 13823.1 N 14959.1 U 238.7                Y is U Z is N          DIAM=13.5 HEIG=177.8
+   BOX      E 14124.4 N 14876.3 U 164.8                ?                      XLEN=110.8 YLEN=160.2 ZLEN=18.0
+   BOX      E 14117.4 N 14876.3 U 201.28               ?                      XLEN=14.0 YLEN=72.1 ZLEN=54.86
+   BOX      E 13817.6 N 14876.3 U 164.8                ?                      XLEN=110.8 YLEN=160.2 ZLEN=18.0
+   BOX      E 13824.6 N 14876.3 U 201.28               ?                      XLEN=14.0 YLEN=72.1 ZLEN=54.86
+   BOX      E 14124.4 N 15098.5 U 164.8                ?                      XLEN=110.8 YLEN=160.2 ZLEN=18.0
+   BOX      E 14117.4 N 15098.5 U 190.75               ?                      XLEN=14.0 YLEN=72.1 ZLEN=33.8
+   BOX      E 13817.6 N 15098.5 U 164.8                ?                      XLEN=110.8 YLEN=160.2 ZLEN=18.0
+   BOX      E 13824.6 N 15098.5 U 190.75               ?                      XLEN=14.0 YLEN=72.1 ZLEN=33.8
+
+== /203_PU_008_CASING_FASTENERS (line 959)
+   CYLINDER E 13798.0 N 15094.7 U 324.1                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 13798.0 N 15091.5 U 324.1                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 13798.0 N 15097.5 U 324.1                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 13821.2 N 15094.7 U 410.6                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 13821.2 N 15091.5 U 410.6                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 13821.2 N 15097.5 U 410.6                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 13884.5 N 15094.7 U 473.9                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 13884.5 N 15091.5 U 473.9                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 13884.5 N 15097.5 U 473.9                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 13971.0 N 15094.7 U 497.1                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 13971.0 N 15091.5 U 497.1                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 13971.0 N 15097.5 U 497.1                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 14057.5 N 15094.7 U 473.9                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 14057.5 N 15091.5 U 473.9                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 14057.5 N 15097.5 U 473.9                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 14120.8 N 15094.7 U 410.6                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 14120.8 N 15091.5 U 410.6                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 14120.8 N 15097.5 U 410.6                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 14144.0 N 15094.7 U 324.1                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 14144.0 N 15091.5 U 324.1                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 14144.0 N 15097.5 U 324.1                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 14120.8 N 15094.7 U 237.6                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 14120.8 N 15091.5 U 237.6                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 14120.8 N 15097.5 U 237.6                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 14057.5 N 15094.7 U 174.3                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 14057.5 N 15091.5 U 174.3                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 14057.5 N 15097.5 U 174.3                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 13971.0 N 15094.7 U 151.1                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 13971.0 N 15091.5 U 151.1                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 13971.0 N 15097.5 U 151.1                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 13884.5 N 15094.7 U 174.3                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 13884.5 N 15091.5 U 174.3                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 13884.5 N 15097.5 U 174.3                Y is U Z is N          DIAM=26.1 HEIG=8.8
+   CYLINDER E 13821.2 N 15094.7 U 237.6                Y is U Z is N          DIAM=15.2 HEIG=14.4
+   CYLINDER E 13821.2 N 15091.5 U 237.6                Y is U Z is N          DIAM=31.8 HEIG=3.3
+   CYLINDER E 13821.2 N 15097.5 U 237.6                Y is U Z is N          DIAM=26.1 HEIG=8.8
+
+== /203_PU_008_SUCTION (line 1263)
+
+== /203_PU_008_DISCHARGE (line 1282)
+   CYLINDER E 13971.0 N 14993.9 U 496.1                ?                      DIAM=108.0 HEIG=24.0
+
+== /203_PU_009_CASING (line 3316)
+   CYLINDER E 16137.0 N 14809.35 U 317.7               Y is U Z is N          DIAM=278.0 HEIG=58.4
+   CYLINDER E 16137.0 N 14955.35 U 317.7               Y is U Z is N          DIAM=315.9 HEIG=233.7
+   CYLINDER E 16137.0 N 15064.95 U 317.7               Y is U Z is N          DIAM=331.7 HEIG=14.6
+   CONE     E 16137.0 N 15077.25 U 317.7               Y is U Z is N          DTOP=189.5 DBOT=309.6 HEIG=10.0
+   CYLINDER E 16137.0 N 15072.25 U 317.7               Y is U Z is N          DIAM=195.9 HEIG=20.0
+   CYLINDER E 16137.0 N 14955.35 U 477.9               Y is U Z is N          DIAM=12.6 HEIG=158.9
+   CYLINDER E 16137.0 N 14955.35 U 157.5               Y is U Z is N          DIAM=12.6 HEIG=158.9
+   BOX      E 16291.3 N 14876.15 U 168.8               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 16284.3 N 14876.15 U 211.0               ?                      XLEN=14.0 YLEN=71.9 ZLEN=66.3
+   BOX      E 15982.7 N 14876.15 U 168.8               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 15989.7 N 14876.15 U 211.0               ?                      XLEN=14.0 YLEN=71.9 ZLEN=66.3
+   BOX      E 16291.3 N 15088.95 U 168.8               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 16284.3 N 15088.95 U 203.05              ?                      XLEN=14.0 YLEN=71.9 ZLEN=50.41
+   BOX      E 15982.7 N 15088.95 U 168.8               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 15989.7 N 15088.95 U 203.05              ?                      XLEN=14.0 YLEN=71.9 ZLEN=50.41
+
+== /203_PU_009_CASING_FASTENERS (line 3430)
+   CYLINDER E 15976.7 N 15076.65 U 317.7               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 15976.7 N 15073.85 U 317.7               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 15976.7 N 15079.45 U 317.7               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16007.3 N 15076.65 U 411.9               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16007.3 N 15073.85 U 411.9               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16007.3 N 15079.45 U 411.9               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16087.5 N 15076.65 U 470.2               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16087.5 N 15073.85 U 470.2               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16087.5 N 15079.45 U 470.2               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16186.5 N 15076.65 U 470.2               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16186.5 N 15073.85 U 470.2               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16186.5 N 15079.45 U 470.2               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16266.7 N 15076.65 U 411.9               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16266.7 N 15073.85 U 411.9               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16266.7 N 15079.45 U 411.9               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16297.3 N 15076.65 U 317.7               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16297.3 N 15073.85 U 317.7               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16297.3 N 15079.45 U 317.7               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16266.7 N 15076.65 U 223.5               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16266.7 N 15073.85 U 223.5               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16266.7 N 15079.45 U 223.5               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16186.5 N 15076.65 U 165.2               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16186.5 N 15073.85 U 165.2               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16186.5 N 15079.45 U 165.2               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16087.5 N 15076.65 U 165.2               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16087.5 N 15073.85 U 165.2               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16087.5 N 15079.45 U 165.2               Y is U Z is N          DIAM=24.4 HEIG=8.2
+   CYLINDER E 16007.3 N 15076.65 U 223.5               Y is U Z is N          DIAM=14.2 HEIG=14.0
+   CYLINDER E 16007.3 N 15073.85 U 223.5               Y is U Z is N          DIAM=29.9 HEIG=3.1
+   CYLINDER E 16007.3 N 15079.45 U 223.5               Y is U Z is N          DIAM=24.4 HEIG=8.2
+
+== /203_PU_009_SUCTION (line 3685)
+
+== /203_PU_009_DISCHARGE (line 3703)
+   CYLINDER E 16137.0 N 14988.75 U 479.2               ?                      DIAM=108.0 HEIG=24.0
+
+== /203_PU_011_CASING (line 5716)
+   CYLINDER E 17685.0 N 736.0 U 278.5                  Y is U Z is N          DIAM=238.9 HEIG=46.2
+   CYLINDER E 17685.0 N 851.5 U 278.5                  Y is U Z is N          DIAM=271.5 HEIG=184.9
+   CYLINDER E 17685.0 N 938.2 U 278.5                  Y is U Z is N          DIAM=285.0 HEIG=11.6
+   CONE     E 17685.0 N 948.95 U 278.5                 Y is U Z is N          DTOP=162.9 DBOT=266.0 HEIG=10.0
+   CYLINDER E 17685.0 N 946.05 U 278.5                 Y is U Z is N          DIAM=168.3 HEIG=15.9
+   CYLINDER E 17685.0 N 851.5 U 416.2                  Y is U Z is N          DIAM=11.0 HEIG=125.8
+   CYLINDER E 17685.0 N 851.5 U 140.7                  Y is U Z is N          DIAM=11.0 HEIG=125.8
+   BOX      E 17821.8 N 788.8 U 151.8                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 17548.2 N 788.8 U 151.8                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 17821.8 N 957.2 U 151.8                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 17548.2 N 957.2 U 151.8                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+
+== /203_PU_011_CASING_FASTENERS (line 5802)
+   CYLINDER E 17547.2 N 948.2 U 278.5                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17547.2 N 945.5 U 278.5                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17547.2 N 951.1 U 278.5                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 17587.6 N 948.2 U 375.9                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17587.6 N 945.5 U 375.9                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17587.6 N 951.1 U 375.9                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 17685.0 N 948.2 U 416.2                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17685.0 N 945.5 U 416.2                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17685.0 N 951.1 U 416.2                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 17782.4 N 948.2 U 375.9                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17782.4 N 945.5 U 375.9                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17782.4 N 951.1 U 375.9                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 17822.8 N 948.2 U 278.5                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17822.8 N 945.5 U 278.5                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17822.8 N 951.1 U 278.5                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 17782.4 N 948.2 U 181.0                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17782.4 N 945.5 U 181.0                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17782.4 N 951.1 U 181.0                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 17685.0 N 948.2 U 140.7                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17685.0 N 945.5 U 140.7                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17685.0 N 951.1 U 140.7                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 17587.6 N 948.2 U 181.0                  Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 17587.6 N 945.5 U 181.0                  Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 17587.6 N 951.1 U 181.0                  Y is U Z is N          DIAM=24.1 HEIG=8.1
+
+== /203_PU_011_SUCTION (line 6015)
+
+== /203_PU_011_DISCHARGE (line 6033)
+   CYLINDER E 17685.0 N 878.0 U 417.8                  ?                      DIAM=108.0 HEIG=24.0
+
+== /203_PU_020_CASING (line 7729)
+   CYLINDER E 16981.0 N 5685.0 U 278.3                 Y is U Z is W          DIAM=301.5 HEIG=32.0
+   CYLINDER E 16887.7 N 5685.0 U 278.3                 Y is U Z is W          DIAM=342.6 HEIG=154.7
+   CYLINDER E 16815.3 N 5685.0 U 278.3                 Y is U Z is W          DIAM=376.9 HEIG=10.0
+   CONE     E 16770.3 N 5685.0 U 278.3                 Y is U Z is W          DTOP=164.5 DBOT=335.8 HEIG=80.0
+   CYLINDER E 16736.7 N 5685.0 U 278.3                 Y is U Z is W          DIAM=178.2 HEIG=12.8
+   CYLINDER E 16887.7 N 5685.0 U 452.1                 Y is U Z is W          DIAM=13.7 HEIG=105.2
+   CYLINDER E 16887.7 N 5858.8 U 278.3                 Y is U Z is W          DIAM=13.7 HEIG=105.2
+   CYLINDER E 16887.7 N 5685.0 U 104.5                 Y is U Z is W          DIAM=13.7 HEIG=105.2
+   CYLINDER E 16887.7 N 5511.2 U 278.3                 Y is U Z is W          DIAM=13.7 HEIG=105.2
+   CYLINDER E 16739.3 N 5685.0 U 278.3                 Y is U Z is W          DIAM=150.7 HEIG=18.0
+   BOX      E 16935.7 N 5821.8 U 116.0                 ?                      XLEN=69.5 YLEN=98.8 ZLEN=18.0
+   BOX      E 16935.7 N 5814.8 U 141.43                ?                      XLEN=31.3 YLEN=14.0 ZLEN=32.87
+   BOX      E 16935.7 N 5548.2 U 116.0                 ?                      XLEN=69.5 YLEN=98.8 ZLEN=18.0
+   BOX      E 16935.7 N 5555.2 U 141.43                ?                      XLEN=31.3 YLEN=14.0 ZLEN=32.87
+   BOX      E 16799.6 N 5821.8 U 116.0                 ?                      XLEN=69.5 YLEN=98.8 ZLEN=18.0
+   BOX      E 16799.6 N 5814.8 U 129.68                ?                      XLEN=31.3 YLEN=14.0 ZLEN=9.35
+   BOX      E 16799.6 N 5548.2 U 116.0                 ?                      XLEN=69.5 YLEN=98.8 ZLEN=18.0
+   BOX      E 16799.6 N 5555.2 U 129.68                ?                      XLEN=31.3 YLEN=14.0 ZLEN=9.35
+
+== /203_PU_020_CASING_FASTENERS (line 7864)
+   CYLINDER E 16805.3 N 5506.8 U 278.3                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5506.8 U 278.3                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5506.8 U 278.3                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5540.9 U 383.0                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5540.9 U 383.0                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5540.9 U 383.0                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5629.9 U 447.7                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5629.9 U 447.7                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5629.9 U 447.7                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5740.1 U 447.7                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5740.1 U 447.7                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5740.1 U 447.7                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5829.1 U 383.0                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5829.1 U 383.0                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5829.1 U 383.0                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5863.2 U 278.3                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5863.2 U 278.3                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5863.2 U 278.3                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5829.1 U 173.6                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5829.1 U 173.6                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5829.1 U 173.6                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5740.1 U 108.9                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5740.1 U 108.9                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5740.1 U 108.9                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5629.9 U 108.9                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5629.9 U 108.9                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5629.9 U 108.9                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+   CYLINDER E 16805.3 N 5540.9 U 173.6                 Y is U Z is W          DIAM=15.4 HEIG=14.6
+   CYLINDER E 16808.6 N 5540.9 U 173.6                 Y is U Z is W          DIAM=32.4 HEIG=3.4
+   CYLINDER E 16802.5 N 5540.9 U 173.6                 Y is U Z is W          DIAM=26.5 HEIG=8.9
+
+== /203_PU_020_SUCTION (line 8126)
+
+== /203_PU_020_DISCHARGE (line 8143)
+   CYLINDER E 16863.7 N 5685.0 U 453.8                 ?                      DIAM=135.0 HEIG=28.0
+
+== /203_PU_026_CASING (line 9605)
+   CYLINDER E 13809.0 N 187.5 U 285.6                  Y is U Z is S          DIAM=231.3 HEIG=51.7
+   CYLINDER E 13809.0 N 307.2 U 285.6                  Y is U Z is S          DIAM=262.8 HEIG=187.5
+   CYLINDER E 13809.0 N 395.3 U 285.6                  Y is U Z is S          DIAM=279.9 HEIG=11.3
+   CONE     E 13809.0 N 405.95 U 285.6                 Y is U Z is S          DTOP=120.9 DBOT=257.6 HEIG=10.0
+   CYLINDER E 13809.0 N 404.2 U 285.6                  Y is U Z is S          DIAM=131.4 HEIG=13.5
+   CYLINDER E 13809.0 N 307.2 U 419.0                  Y is U Z is S          DIAM=11.0 HEIG=127.5
+   CYLINDER E 13693.5 N 307.2 U 218.9                  Y is U Z is S          DIAM=11.0 HEIG=127.5
+   CYLINDER E 13924.5 N 307.2 U 218.9                  Y is U Z is S          DIAM=11.0 HEIG=127.5
+   CYLINDER E 13809.0 N 266.4 U 285.6                  Y is U Z is S          DIAM=272.0 HEIG=8.4
+   CYLINDER E 13809.0 N 352.6 U 285.6                  Y is U Z is S          DIAM=272.0 HEIG=8.4
+   BOX      E 13672.2 N 236.0 U 163.2                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 13945.8 N 236.0 U 163.2                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 13672.2 N 400.9 U 163.2                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 13945.8 N 400.9 U 163.2                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+
+== /203_PU_026_CASING_FASTENERS (line 9712)
+   CYLINDER E 13943.4 N 405.1 U 285.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13943.4 N 402.5 U 285.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13943.4 N 408.1 U 285.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13917.7 N 405.1 U 364.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13917.7 N 402.5 U 364.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13917.7 N 408.1 U 364.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13850.5 N 405.1 U 413.4                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13850.5 N 402.5 U 413.4                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13850.5 N 408.1 U 413.4                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13767.5 N 405.1 U 413.4                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13767.5 N 402.5 U 413.4                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13767.5 N 408.1 U 413.4                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13700.3 N 405.1 U 364.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13700.3 N 402.5 U 364.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13700.3 N 408.1 U 364.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13674.6 N 405.1 U 285.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13674.6 N 402.5 U 285.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13674.6 N 408.1 U 285.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13700.3 N 405.1 U 206.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13700.3 N 402.5 U 206.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13700.3 N 408.1 U 206.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13767.5 N 405.1 U 157.8                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13767.5 N 402.5 U 157.8                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13767.5 N 408.1 U 157.8                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13850.5 N 405.1 U 157.8                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13850.5 N 402.5 U 157.8                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13850.5 N 408.1 U 157.8                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 13917.7 N 405.1 U 206.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 13917.7 N 402.5 U 206.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 13917.7 N 408.1 U 206.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+
+== /203_PU_026_SUCTION (line 9981)
+
+== /203_PU_026_DISCHARGE (line 9999)
+   CYLINDER E 13809.0 N 323.3 U 420.6                  ?                      DIAM=108.0 HEIG=24.0
+
+== /203_PU_031_CASING (line 11743)
+   CYLINDER E 15108.0 N 243.45 U 238.9                 Y is U Z is S          DIAM=202.4 HEIG=39.8
+   CYLINDER E 15108.0 N 335.55 U 238.9                 Y is U Z is S          DIAM=230.0 HEIG=144.4
+   CYLINDER E 15108.0 N 402.75 U 238.9                 Y is U Z is S          DIAM=244.9 HEIG=10.0
+   CONE     E 15108.0 N 412.7 U 238.9                  Y is U Z is S          DTOP=105.8 DBOT=225.4 HEIG=10.0
+   CYLINDER E 15108.0 N 412.5 U 238.9                  Y is U Z is S          DIAM=115.0 HEIG=10.4
+   CYLINDER E 15108.0 N 335.55 U 355.9                 Y is U Z is S          DIAM=11.0 HEIG=98.2
+   CYLINDER E 15006.7 N 335.55 U 180.4                 Y is U Z is S          DIAM=11.0 HEIG=98.2
+   CYLINDER E 15209.3 N 335.55 U 180.4                 Y is U Z is S          DIAM=11.0 HEIG=98.2
+   CYLINDER E 15108.0 N 304.85 U 238.9                 Y is U Z is S          DIAM=238.0 HEIG=8.0
+   CYLINDER E 15108.0 N 371.25 U 238.9                 Y is U Z is S          DIAM=238.0 HEIG=8.0
+   BOX      E 14994.4 N 280.75 U 132.9                 ?                      XLEN=82.0 YLEN=101.5 ZLEN=18.0
+   BOX      E 15001.4 N 280.75 U 157.36                ?                      XLEN=14.0 YLEN=45.7 ZLEN=30.83
+   BOX      E 15221.6 N 280.75 U 132.9                 ?                      XLEN=82.0 YLEN=101.5 ZLEN=18.0
+   BOX      E 15214.6 N 280.75 U 157.36                ?                      XLEN=14.0 YLEN=45.7 ZLEN=30.83
+   BOX      E 14994.4 N 407.75 U 132.9                 ?                      XLEN=82.0 YLEN=101.5 ZLEN=18.0
+   BOX      E 15001.4 N 407.75 U 154.31                ?                      XLEN=14.0 YLEN=45.7 ZLEN=24.72
+   BOX      E 15221.6 N 407.75 U 132.9                 ?                      XLEN=82.0 YLEN=101.5 ZLEN=18.0
+   BOX      E 15214.6 N 407.75 U 154.31                ?                      XLEN=14.0 YLEN=45.7 ZLEN=24.72
+
+== /203_PU_031_CASING_FASTENERS (line 11878)
+   CYLINDER E 15225.6 N 411.95 U 238.9                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 15225.6 N 409.25 U 238.9                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 15225.6 N 414.85 U 238.9                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 15191.1 N 411.95 U 322.0                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 15191.1 N 409.25 U 322.0                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 15191.1 N 414.85 U 322.0                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 15108.0 N 411.95 U 356.5                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 15108.0 N 409.25 U 356.5                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 15108.0 N 414.85 U 356.5                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 15024.9 N 411.95 U 322.0                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 15024.9 N 409.25 U 322.0                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 15024.9 N 414.85 U 322.0                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 14990.4 N 411.95 U 238.9                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 14990.4 N 409.25 U 238.9                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 14990.4 N 414.85 U 238.9                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 15024.9 N 411.95 U 155.7                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 15024.9 N 409.25 U 155.7                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 15024.9 N 414.85 U 155.7                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 15108.0 N 411.95 U 121.3                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 15108.0 N 409.25 U 121.3                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 15108.0 N 414.85 U 121.3                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 15191.1 N 411.95 U 155.7                 Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 15191.1 N 409.25 U 155.7                 Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 15191.1 N 414.85 U 155.7                 Y is U Z is S          DIAM=24.1 HEIG=8.1
+
+== /203_PU_031_SUCTION (line 12098)
+
+== /203_PU_031_DISCHARGE (line 12116)
+   CYLINDER E 15108.0 N 347.95 U 357.5                 ?                      DIAM=108.0 HEIG=24.0
+
+== /204_PU_003_CASING (line 14159)
+   CYLINDER E 20162.0 N 8071.85 U 333.8                Y is U Z is N          DIAM=312.4 HEIG=46.0
+   CYLINDER E 20162.0 N 7901.65 U 333.8                Y is U Z is N          DIAM=355.0 HEIG=294.3
+   CYLINDER E 20162.0 N 7762.55 U 333.8                Y is U Z is N          DIAM=390.5 HEIG=16.1
+   CONE     E 20162.0 N 7749.52 U 333.8                Y is U Z is N          DTOP=220.1 DBOT=347.9 HEIG=10.05
+   CYLINDER E 20162.0 N 7754.1 U 333.8                 Y is U Z is N          DIAM=230.7 HEIG=19.1
+   CYLINDER E 20162.0 N 7901.65 U 513.8                Y is U Z is N          DIAM=14.2 HEIG=200.1
+   CYLINDER E 20333.2 N 7901.65 U 389.4                Y is U Z is N          DIAM=14.2 HEIG=200.1
+   CYLINDER E 20267.8 N 7901.65 U 188.1                Y is U Z is N          DIAM=14.2 HEIG=200.1
+   CYLINDER E 20056.2 N 7901.65 U 188.1                Y is U Z is N          DIAM=14.2 HEIG=200.1
+   CYLINDER E 19990.8 N 7901.65 U 389.4                Y is U Z is N          DIAM=14.2 HEIG=200.1
+   BOX      E 20316.3 N 7989.05 U 165.3                ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 20309.3 N 7989.05 U 199.19               ?                      XLEN=14.0 YLEN=71.9 ZLEN=49.77
+   BOX      E 20007.7 N 7989.05 U 165.3                ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 20014.7 N 7989.05 U 199.19               ?                      XLEN=14.0 YLEN=71.9 ZLEN=49.77
+   BOX      E 20316.3 N 7754.55 U 165.3                ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 20309.3 N 7754.55 U 185.66               ?                      XLEN=14.0 YLEN=71.9 ZLEN=22.71
+   BOX      E 20007.7 N 7754.55 U 165.3                ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 20014.7 N 7754.55 U 185.66               ?                      XLEN=14.0 YLEN=71.9 ZLEN=22.71
+
+== /204_PU_003_CASING_FASTENERS (line 14294)
+   CYLINDER E 19977.4 N 7749.35 U 333.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 19977.4 N 7752.75 U 333.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 19977.4 N 7746.35 U 333.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 19995.7 N 7749.35 U 413.9                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 19995.7 N 7752.75 U 413.9                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 19995.7 N 7746.35 U 413.9                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20046.9 N 7749.35 U 478.1                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20046.9 N 7752.75 U 478.1                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20046.9 N 7746.35 U 478.1                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20120.9 N 7749.35 U 513.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20120.9 N 7752.75 U 513.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20120.9 N 7746.35 U 513.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20203.1 N 7749.35 U 513.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20203.1 N 7752.75 U 513.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20203.1 N 7746.35 U 513.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20277.1 N 7749.35 U 478.1                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20277.1 N 7752.75 U 478.1                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20277.1 N 7746.35 U 478.1                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20328.3 N 7749.35 U 413.9                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20328.3 N 7752.75 U 413.9                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20328.3 N 7746.35 U 413.9                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20346.6 N 7749.35 U 333.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20346.6 N 7752.75 U 333.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20346.6 N 7746.35 U 333.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20328.3 N 7749.35 U 253.7                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20328.3 N 7752.75 U 253.7                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20328.3 N 7746.35 U 253.7                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20277.1 N 7749.35 U 189.5                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20277.1 N 7752.75 U 189.5                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20277.1 N 7746.35 U 189.5                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20203.1 N 7749.35 U 153.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20203.1 N 7752.75 U 153.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20203.1 N 7746.35 U 153.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20120.9 N 7749.35 U 153.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20120.9 N 7752.75 U 153.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20120.9 N 7746.35 U 153.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 20046.9 N 7749.35 U 189.5                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 20046.9 N 7752.75 U 189.5                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 20046.9 N 7746.35 U 189.5                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 19995.7 N 7749.35 U 253.7                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 19995.7 N 7752.75 U 253.7                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 19995.7 N 7746.35 U 253.7                Y is U Z is N          DIAM=27.5 HEIG=9.3
+
+== /204_PU_003_SUCTION (line 14647)
+
+== /204_PU_003_DISCHARGE (line 14665)
+   CYLINDER E 20162.0 N 7864.85 U 514.9                ?                      DIAM=108.0 HEIG=24.0
+
+== /204_PU_008_CASING (line 16736)
+   CYLINDER E 20540.4 N 19210.0 U 291.0                Y is U Z is E          DIAM=269.4 HEIG=35.8
+   CYLINDER E 20674.5 N 19210.0 U 291.0                Y is U Z is E          DIAM=306.1 HEIG=232.5
+   CYLINDER E 20784.5 N 19210.0 U 291.0                Y is U Z is E          DIAM=342.9 HEIG=12.5
+   CONE     E 20795.8 N 19210.0 U 291.0                Y is U Z is E          DTOP=183.7 DBOT=300.0 HEIG=10.0
+   CYLINDER E 20793.65 N 19210.0 U 291.0               Y is U Z is E          DIAM=199.0 HEIG=14.3
+   CYLINDER E 20674.5 N 19210.0 U 446.2                Y is U Z is E          DIAM=12.2 HEIG=158.1
+   CYLINDER E 20674.5 N 19062.3 U 338.9                Y is U Z is E          DIAM=12.2 HEIG=158.1
+   CYLINDER E 20674.5 N 19118.7 U 165.3                Y is U Z is E          DIAM=12.2 HEIG=158.1
+   CYLINDER E 20674.5 N 19301.3 U 165.3                Y is U Z is E          DIAM=12.2 HEIG=158.1
+   CYLINDER E 20674.5 N 19357.7 U 338.9                Y is U Z is E          DIAM=12.2 HEIG=158.1
+   CYLINDER E 20777.9 N 19210.0 U 291.0                Y is U Z is E          DIAM=347.5 HEIG=16.1
+   BOX      E 20604.8 N 19073.2 U 146.9                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 20604.8 N 19080.2 U 177.25               ?                      XLEN=58.1 YLEN=14.0 ZLEN=42.8
+   BOX      E 20604.8 N 19346.8 U 146.9                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 20604.8 N 19339.8 U 177.25               ?                      XLEN=58.1 YLEN=14.0 ZLEN=42.8
+   BOX      E 20787.2 N 19073.2 U 146.9                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 20787.2 N 19080.2 U 161.47               ?                      XLEN=58.1 YLEN=14.0 ZLEN=11.23
+   BOX      E 20787.2 N 19346.8 U 146.9                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 20787.2 N 19339.8 U 161.47               ?                      XLEN=58.1 YLEN=14.0 ZLEN=11.23
+
+== /204_PU_008_CASING_FASTENERS (line 16878)
+   CYLINDER E 20795.0 N 19370.7 U 291.0                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19370.7 U 291.0                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19370.7 U 291.0                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19349.2 U 371.3                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19349.2 U 371.3                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19349.2 U 371.3                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19290.4 U 430.1                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19290.4 U 430.1                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19290.4 U 430.1                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19210.0 U 451.7                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19210.0 U 451.7                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19210.0 U 451.7                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19129.6 U 430.1                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19129.6 U 430.1                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19129.6 U 430.1                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19070.8 U 371.3                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19070.8 U 371.3                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19070.8 U 371.3                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19049.3 U 291.0                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19049.3 U 291.0                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19049.3 U 291.0                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19070.8 U 210.6                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19070.8 U 210.6                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19070.8 U 210.6                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19129.6 U 151.8                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19129.6 U 151.8                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19129.6 U 151.8                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19210.0 U 130.2                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19210.0 U 130.2                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19210.0 U 130.2                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19290.4 U 151.8                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19290.4 U 151.8                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19290.4 U 151.8                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20795.0 N 19349.2 U 210.6                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20792.3 N 19349.2 U 210.6                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.9 N 19349.2 U 210.6                Y is U Z is E          DIAM=24.1 HEIG=8.1
+
+== /204_PU_008_SUCTION (line 17182)
+
+== /204_PU_008_DISCHARGE (line 17200)
+   CYLINDER E 20701.4 N 19210.0 U 447.6                ?                      DIAM=108.0 HEIG=24.0
+
+== /204_PU_006_CASING (line 19327)
+   CYLINDER E 20544.7 N 17410.0 U 292.7                Y is U Z is E          DIAM=264.3 HEIG=35.5
+   CYLINDER E 20676.1 N 17410.0 U 292.7                Y is U Z is E          DIAM=300.4 HEIG=227.4
+   CYLINDER E 20783.6 N 17410.0 U 292.7                Y is U Z is E          DIAM=330.4 HEIG=12.4
+   CONE     E 20794.9 N 17410.0 U 292.7                Y is U Z is E          DTOP=186.2 DBOT=294.3 HEIG=10.0
+   CYLINDER E 20792.5 N 17410.0 U 292.7                Y is U Z is E          DIAM=195.2 HEIG=14.8
+   CYLINDER E 20676.1 N 17410.0 U 445.1                Y is U Z is E          DIAM=12.0 HEIG=154.6
+   CYLINDER E 20676.1 N 17257.7 U 292.7                Y is U Z is E          DIAM=12.0 HEIG=154.6
+   CYLINDER E 20676.1 N 17410.0 U 140.4                Y is U Z is E          DIAM=12.0 HEIG=154.6
+   CYLINDER E 20676.1 N 17562.3 U 292.7                Y is U Z is E          DIAM=12.0 HEIG=154.6
+   BOX      E 20608.6 N 17273.2 U 151.6                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 20608.6 N 17280.2 U 182.88               ?                      XLEN=58.2 YLEN=14.0 ZLEN=44.66
+   BOX      E 20608.6 N 17546.8 U 151.6                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 20608.6 N 17539.8 U 182.88               ?                      XLEN=58.2 YLEN=14.0 ZLEN=44.66
+   BOX      E 20789.9 N 17273.2 U 151.6                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 20789.9 N 17280.2 U 170.87               ?                      XLEN=58.2 YLEN=14.0 ZLEN=20.65
+   BOX      E 20789.9 N 17546.8 U 151.6                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 20789.9 N 17539.8 U 170.87               ?                      XLEN=58.2 YLEN=14.0 ZLEN=20.65
+
+== /204_PU_006_CASING_FASTENERS (line 19455)
+   CYLINDER E 20794.1 N 17566.2 U 292.7                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17566.2 U 292.7                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17566.2 U 292.7                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17545.3 U 370.8                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17545.3 U 370.8                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17545.3 U 370.8                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17488.1 U 428.0                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17488.1 U 428.0                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17488.1 U 428.0                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17410.0 U 448.9                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17410.0 U 448.9                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17410.0 U 448.9                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17331.9 U 428.0                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17331.9 U 428.0                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17331.9 U 428.0                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17274.7 U 370.8                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17274.7 U 370.8                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17274.7 U 370.8                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17253.8 U 292.7                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17253.8 U 292.7                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17253.8 U 292.7                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17274.7 U 214.7                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17274.7 U 214.7                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17274.7 U 214.7                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17331.9 U 157.5                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17331.9 U 157.5                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17331.9 U 157.5                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17410.0 U 136.6                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17410.0 U 136.6                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17410.0 U 136.6                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17488.1 U 157.5                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17488.1 U 157.5                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17488.1 U 157.5                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 20794.1 N 17545.3 U 214.7                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 20791.4 N 17545.3 U 214.7                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 20797.0 N 17545.3 U 214.7                Y is U Z is E          DIAM=24.1 HEIG=8.1
+
+== /204_PU_006_SUCTION (line 19759)
+
+== /204_PU_006_DISCHARGE (line 19777)
+   CYLINDER E 20704.6 N 17410.0 U 446.5                ?                      DIAM=108.0 HEIG=24.0
+
+== /204_PU_015_CASING (line 21848)
+   CYLINDER E 22512.0 N 14795.25 U 327.7               Y is U Z is N          DIAM=300.1 HEIG=52.3
+   CYLINDER E 22512.0 N 14952.05 U 327.7               Y is U Z is N          DIAM=341.1 HEIG=261.3
+   CYLINDER E 22512.0 N 15075.05 U 327.7               Y is U Z is N          DIAM=366.6 HEIG=15.2
+   CONE     E 22512.0 N 15087.67 U 327.7               Y is U Z is N          DTOP=194.4 DBOT=334.2 HEIG=10.05
+   CYLINDER E 22512.0 N 15082.9 U 327.7                Y is U Z is N          DIAM=204.6 HEIG=19.5
+   CYLINDER E 22512.0 N 14952.05 U 500.7               Y is U Z is N          DIAM=13.6 HEIG=177.7
+   CYLINDER E 22661.8 N 14952.05 U 241.2               Y is U Z is N          DIAM=13.6 HEIG=177.7
+   CYLINDER E 22362.2 N 14952.05 U 241.2               Y is U Z is N          DIAM=13.6 HEIG=177.7
+   BOX      E 22667.3 N 14869.25 U 166.1               ?                      XLEN=112.2 YLEN=160.1 ZLEN=18.0
+   BOX      E 22660.3 N 14869.25 U 203.17              ?                      XLEN=14.0 YLEN=72.0 ZLEN=56.04
+   BOX      E 22356.7 N 14869.25 U 166.1               ?                      XLEN=112.2 YLEN=160.1 ZLEN=18.0
+   BOX      E 22363.7 N 14869.25 U 203.17              ?                      XLEN=14.0 YLEN=72.0 ZLEN=56.04
+   BOX      E 22667.3 N 15091.45 U 166.1               ?                      XLEN=112.2 YLEN=160.1 ZLEN=18.0
+   BOX      E 22660.3 N 15091.45 U 192.54              ?                      XLEN=14.0 YLEN=72.0 ZLEN=34.79
+   BOX      E 22356.7 N 15091.45 U 166.1               ?                      XLEN=112.2 YLEN=160.1 ZLEN=18.0
+   BOX      E 22363.7 N 15091.45 U 192.54              ?                      XLEN=14.0 YLEN=72.0 ZLEN=34.79
+
+== /204_PU_015_CASING_FASTENERS (line 21969)
+   CYLINDER E 22336.8 N 15087.65 U 327.7               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22336.8 N 15084.35 U 327.7               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22336.8 N 15090.55 U 327.7               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22360.3 N 15087.65 U 415.3               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22360.3 N 15084.35 U 415.3               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22360.3 N 15090.55 U 415.3               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22424.4 N 15087.65 U 479.4               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22424.4 N 15084.35 U 479.4               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22424.4 N 15090.55 U 479.4               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22512.0 N 15087.65 U 502.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22512.0 N 15084.35 U 502.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22512.0 N 15090.55 U 502.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22599.6 N 15087.65 U 479.4               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22599.6 N 15084.35 U 479.4               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22599.6 N 15090.55 U 479.4               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22663.7 N 15087.65 U 415.3               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22663.7 N 15084.35 U 415.3               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22663.7 N 15090.55 U 415.3               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22687.2 N 15087.65 U 327.7               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22687.2 N 15084.35 U 327.7               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22687.2 N 15090.55 U 327.7               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22663.7 N 15087.65 U 240.1               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22663.7 N 15084.35 U 240.1               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22663.7 N 15090.55 U 240.1               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22599.6 N 15087.65 U 175.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22599.6 N 15084.35 U 175.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22599.6 N 15090.55 U 175.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22512.0 N 15087.65 U 152.5               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22512.0 N 15084.35 U 152.5               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22512.0 N 15090.55 U 152.5               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22424.4 N 15087.65 U 175.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22424.4 N 15084.35 U 175.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22424.4 N 15090.55 U 175.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 22360.3 N 15087.65 U 240.1               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 22360.3 N 15084.35 U 240.1               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 22360.3 N 15090.55 U 240.1               Y is U Z is N          DIAM=26.4 HEIG=8.9
+
+== /204_PU_015_SUCTION (line 22273)
+
+== /204_PU_015_DISCHARGE (line 22291)
+   CYLINDER E 22512.0 N 14986.85 U 501.8               ?                      DIAM=108.0 HEIG=24.0
+
+== /204_PU_016_CASING (line 24325)
+   CYLINDER E 28213.0 N 14793.55 U 325.7               Y is U Z is N          DIAM=298.0 HEIG=52.1
+   CYLINDER E 28213.0 N 14949.95 U 325.7               Y is U Z is N          DIAM=338.7 HEIG=260.6
+   CYLINDER E 28213.0 N 15072.65 U 325.7               Y is U Z is N          DIAM=364.1 HEIG=15.2
+   CONE     E 28213.0 N 15085.25 U 325.7               Y is U Z is N          DTOP=193.1 DBOT=331.9 HEIG=10.0
+   CYLINDER E 28213.0 N 15080.5 U 325.7                Y is U Z is N          DIAM=203.2 HEIG=19.5
+   CYLINDER E 28213.0 N 14949.95 U 497.5               Y is U Z is N          DIAM=13.5 HEIG=177.2
+   CYLINDER E 28361.8 N 14949.95 U 239.8               Y is U Z is N          DIAM=13.5 HEIG=177.2
+   CYLINDER E 28064.2 N 14949.95 U 239.8               Y is U Z is N          DIAM=13.5 HEIG=177.2
+   BOX      E 28367.3 N 14867.45 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 28360.3 N 14867.45 U 202.15              ?                      XLEN=14.0 YLEN=71.9 ZLEN=55.41
+   BOX      E 28058.7 N 14867.45 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 28065.7 N 14867.45 U 202.15              ?                      XLEN=14.0 YLEN=71.9 ZLEN=55.41
+   BOX      E 28367.3 N 15088.95 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 28360.3 N 15088.95 U 191.57              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.24
+   BOX      E 28058.7 N 15088.95 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 28065.7 N 15088.95 U 191.57              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.24
+
+== /204_PU_016_CASING_FASTENERS (line 24446)
+   CYLINDER E 28039.0 N 15085.15 U 325.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28039.0 N 15081.85 U 325.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28039.0 N 15087.95 U 325.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28062.3 N 15085.15 U 412.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28062.3 N 15081.85 U 412.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28062.3 N 15087.95 U 412.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28126.0 N 15085.15 U 476.4               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28126.0 N 15081.85 U 476.4               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28126.0 N 15087.95 U 476.4               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28213.0 N 15085.15 U 499.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28213.0 N 15081.85 U 499.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28213.0 N 15087.95 U 499.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28300.0 N 15085.15 U 476.4               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28300.0 N 15081.85 U 476.4               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28300.0 N 15087.95 U 476.4               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28363.7 N 15085.15 U 412.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28363.7 N 15081.85 U 412.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28363.7 N 15087.95 U 412.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28387.0 N 15085.15 U 325.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28387.0 N 15081.85 U 325.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28387.0 N 15087.95 U 325.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28363.7 N 15085.15 U 238.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28363.7 N 15081.85 U 238.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28363.7 N 15087.95 U 238.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28300.0 N 15085.15 U 175.1               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28300.0 N 15081.85 U 175.1               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28300.0 N 15087.95 U 175.1               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28213.0 N 15085.15 U 151.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28213.0 N 15081.85 U 151.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28213.0 N 15087.95 U 151.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28126.0 N 15085.15 U 175.1               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28126.0 N 15081.85 U 175.1               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28126.0 N 15087.95 U 175.1               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 28062.3 N 15085.15 U 238.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 28062.3 N 15081.85 U 238.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 28062.3 N 15087.95 U 238.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+
+== /204_PU_016_SUCTION (line 24750)
+
+== /204_PU_016_DISCHARGE (line 24768)
+   CYLINDER E 28213.0 N 14984.65 U 498.7               ?                      DIAM=108.0 HEIG=24.0
+
+== /204_PU_017_CASING (line 26795)
+   CYLINDER E 25814.0 N 14860.0 U 278.5                Y is U Z is N          DIAM=238.9 HEIG=46.2
+   CYLINDER E 25814.0 N 14975.5 U 278.5                Y is U Z is N          DIAM=271.5 HEIG=184.9
+   CYLINDER E 25814.0 N 15062.2 U 278.5                Y is U Z is N          DIAM=285.0 HEIG=11.6
+   CONE     E 25814.0 N 15072.95 U 278.5               Y is U Z is N          DTOP=162.9 DBOT=266.0 HEIG=10.0
+   CYLINDER E 25814.0 N 15070.0 U 278.5                Y is U Z is N          DIAM=168.3 HEIG=15.9
+   CYLINDER E 25814.0 N 14975.5 U 416.2                Y is U Z is N          DIAM=11.0 HEIG=125.8
+   CYLINDER E 25814.0 N 14975.5 U 140.7                Y is U Z is N          DIAM=11.0 HEIG=125.8
+   BOX      E 25950.8 N 14912.8 U 151.8                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 25677.2 N 14912.8 U 151.8                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 25950.8 N 15081.2 U 151.8                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 25677.2 N 15081.2 U 151.8                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+
+== /204_PU_017_CASING_FASTENERS (line 26881)
+   CYLINDER E 25676.2 N 15072.2 U 278.5                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25676.2 N 15069.5 U 278.5                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25676.2 N 15075.1 U 278.5                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 25716.6 N 15072.2 U 375.9                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25716.6 N 15069.5 U 375.9                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25716.6 N 15075.1 U 375.9                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 25814.0 N 15072.2 U 416.2                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25814.0 N 15069.5 U 416.2                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25814.0 N 15075.1 U 416.2                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 25911.4 N 15072.2 U 375.9                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25911.4 N 15069.5 U 375.9                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25911.4 N 15075.1 U 375.9                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 25951.8 N 15072.2 U 278.5                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25951.8 N 15069.5 U 278.5                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25951.8 N 15075.1 U 278.5                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 25911.4 N 15072.2 U 181.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25911.4 N 15069.5 U 181.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25911.4 N 15075.1 U 181.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 25814.0 N 15072.2 U 140.7                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25814.0 N 15069.5 U 140.7                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25814.0 N 15075.1 U 140.7                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 25716.6 N 15072.2 U 181.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 25716.6 N 15069.5 U 181.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 25716.6 N 15075.1 U 181.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+
+== /204_PU_017_SUCTION (line 27094)
+
+== /204_PU_017_DISCHARGE (line 27112)
+   CYLINDER E 25814.0 N 15002.0 U 417.8                ?                      DIAM=108.0 HEIG=24.0
+
+== /204_PU_023_CASING (line 29112)
+   CYLINDER E 28520.0 N 983.0 U 278.5                  Y is U Z is N          DIAM=238.9 HEIG=46.4
+   CYLINDER E 28520.0 N 1099.0 U 278.5                 Y is U Z is N          DIAM=271.5 HEIG=185.5
+   CYLINDER E 28520.0 N 1185.9 U 278.5                 Y is U Z is N          DIAM=285.0 HEIG=11.6
+   CONE     E 28520.0 N 1196.73 U 278.5                Y is U Z is N          DTOP=162.9 DBOT=266.0 HEIG=10.05
+   CYLINDER E 28520.0 N 1193.75 U 278.5                Y is U Z is N          DIAM=168.3 HEIG=15.9
+   CYLINDER E 28520.0 N 1099.0 U 416.2                 Y is U Z is N          DIAM=11.0 HEIG=126.1
+   CYLINDER E 28520.0 N 1099.0 U 140.7                 Y is U Z is N          DIAM=11.0 HEIG=126.1
+   BOX      E 28656.8 N 1036.0 U 151.8                 ?                      XLEN=98.8 YLEN=129.4 ZLEN=18.0
+   BOX      E 28383.2 N 1036.0 U 151.8                 ?                      XLEN=98.8 YLEN=129.4 ZLEN=18.0
+   BOX      E 28656.8 N 1204.9 U 151.8                 ?                      XLEN=98.8 YLEN=129.4 ZLEN=18.0
+   BOX      E 28383.2 N 1204.9 U 151.8                 ?                      XLEN=98.8 YLEN=129.4 ZLEN=18.0
+
+== /204_PU_023_CASING_FASTENERS (line 29198)
+   CYLINDER E 28382.2 N 1195.9 U 278.5                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28382.2 N 1193.2 U 278.5                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28382.2 N 1198.8 U 278.5                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 28422.6 N 1195.9 U 375.9                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28422.6 N 1193.2 U 375.9                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28422.6 N 1198.8 U 375.9                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 28520.0 N 1195.9 U 416.2                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28520.0 N 1193.2 U 416.2                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28520.0 N 1198.8 U 416.2                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 28617.4 N 1195.9 U 375.9                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28617.4 N 1193.2 U 375.9                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28617.4 N 1198.8 U 375.9                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 28657.8 N 1195.9 U 278.5                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28657.8 N 1193.2 U 278.5                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28657.8 N 1198.8 U 278.5                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 28617.4 N 1195.9 U 181.0                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28617.4 N 1193.2 U 181.0                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28617.4 N 1198.8 U 181.0                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 28520.0 N 1195.9 U 140.7                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28520.0 N 1193.2 U 140.7                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28520.0 N 1198.8 U 140.7                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 28422.6 N 1195.9 U 181.0                 Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 28422.6 N 1193.2 U 181.0                 Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 28422.6 N 1198.8 U 181.0                 Y is U Z is N          DIAM=24.1 HEIG=8.1
+
+== /204_PU_023_SUCTION (line 29411)
+
+== /204_PU_023_DISCHARGE (line 29429)
+   CYLINDER E 28520.0 N 1125.4 U 417.8                 ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_004_CASING (line 31429)
+   CYLINDER E 30566.4 N 10580.0 U 287.0                Y is U Z is E          DIAM=313.8 HEIG=63.3
+   CYLINDER E 30751.1 N 10580.0 U 287.0                Y is U Z is E          DIAM=356.6 HEIG=306.2
+   CYLINDER E 30895.0 N 10580.0 U 287.0                Y is U Z is E          DIAM=392.3 HEIG=18.5
+   CONE     E 30983.4 N 10580.0 U 287.0                Y is U Z is E          DTOP=171.2 DBOT=349.5 HEIG=158.4
+   CYLINDER E 31051.6 N 10580.0 U 287.0                Y is U Z is E          DIAM=185.4 HEIG=22.0
+   CYLINDER E 30751.1 N 10580.0 U 467.9                Y is U Z is E          DIAM=14.3 HEIG=208.2
+   CYLINDER E 30751.1 N 10760.9 U 287.0                Y is U Z is E          DIAM=14.3 HEIG=208.2
+   CYLINDER E 30751.1 N 10580.0 U 106.2                Y is U Z is E          DIAM=14.3 HEIG=208.2
+   CYLINDER E 30751.1 N 10399.1 U 287.0                Y is U Z is E          DIAM=14.3 HEIG=208.2
+   CYLINDER E 31045.2 N 10580.0 U 287.0                Y is U Z is E          DIAM=156.9 HEIG=34.8
+   BOX      E 30656.1 N 10716.8 U 117.8                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 30656.1 N 10709.8 U 141.76               ?                      XLEN=58.2 YLEN=14.0 ZLEN=29.93
+   BOX      E 30656.1 N 10443.2 U 117.8                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 30656.1 N 10450.2 U 141.76               ?                      XLEN=58.2 YLEN=14.0 ZLEN=29.93
+   BOX      E 30925.3 N 10716.8 U 117.8                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 30925.3 N 10709.8 U 129.92               ?                      XLEN=58.2 YLEN=14.0 ZLEN=6.25
+   BOX      E 30925.3 N 10443.2 U 117.8                ?                      XLEN=129.4 YLEN=98.8 ZLEN=18.0
+   BOX      E 30925.3 N 10450.2 U 129.92               ?                      XLEN=58.2 YLEN=14.0 ZLEN=6.25
+
+== /205_PU_004_CASING_FASTENERS (line 31564)
+   CYLINDER E 30909.4 N 10394.6 U 287.0                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10394.6 U 287.0                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10394.6 U 287.0                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10419.4 U 379.8                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10419.4 U 379.8                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10419.4 U 379.8                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10487.3 U 447.6                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10487.3 U 447.6                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10487.3 U 447.6                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10580.0 U 472.5                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10580.0 U 472.5                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10580.0 U 472.5                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10672.7 U 447.6                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10672.7 U 447.6                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10672.7 U 447.6                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10740.6 U 379.8                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10740.6 U 379.8                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10740.6 U 379.8                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10765.4 U 287.0                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10765.4 U 287.0                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10765.4 U 287.0                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10740.6 U 194.3                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10740.6 U 194.3                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10740.6 U 194.3                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10672.7 U 126.5                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10672.7 U 126.5                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10672.7 U 126.5                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10580.0 U 101.6                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10580.0 U 101.6                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10580.0 U 101.6                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10487.3 U 126.5                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10487.3 U 126.5                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10487.3 U 126.5                Y is U Z is E          DIAM=27.6 HEIG=9.3
+   CYLINDER E 30909.4 N 10419.4 U 194.3                Y is U Z is E          DIAM=16.0 HEIG=15.2
+   CYLINDER E 30906.0 N 10419.4 U 194.3                Y is U Z is E          DIAM=33.7 HEIG=3.5
+   CYLINDER E 30912.4 N 10419.4 U 194.3                Y is U Z is E          DIAM=27.6 HEIG=9.3
+
+== /205_PU_004_SUCTION (line 31875)
+
+== /205_PU_004_DISCHARGE (line 31893)
+   CYLINDER E 30798.7 N 10580.0 U 469.5                ?                      DIAM=135.0 HEIG=28.0
+
+== /205_PU_012_CASING (line 33998)
+   CYLINDER E 33065.0 N 14676.6 U 450.0                Y is U Z is N          DIAM=449.6 HEIG=68.7
+   CYLINDER E 33065.0 N 14882.7 U 450.0                Y is U Z is N          DIAM=510.9 HEIG=343.6
+   CYLINDER E 33065.0 N 15044.5 U 450.0                Y is U Z is N          DIAM=549.3 HEIG=20.0
+   CONE     E 33065.0 N 15093.82 U 450.0               Y is U Z is N          DTOP=291.2 DBOT=500.7 HEIG=78.55
+   CYLINDER E 33065.0 N 15122.05 U 450.0               Y is U Z is N          DIAM=306.6 HEIG=22.0
+   CYLINDER E 33065.0 N 14882.7 U 709.2                Y is U Z is N          DIAM=20.4 HEIG=233.6
+   CYLINDER E 33324.2 N 14882.7 U 450.0                Y is U Z is N          DIAM=20.4 HEIG=233.6
+   CYLINDER E 33065.0 N 14882.7 U 190.8                Y is U Z is N          DIAM=20.4 HEIG=233.6
+   CYLINDER E 32805.8 N 14882.7 U 450.0                Y is U Z is N          DIAM=20.4 HEIG=233.6
+   BOX      E 33289.1 N 14773.9 U 203.6                ?                      XLEN=161.8 YLEN=202.6 ZLEN=18.0
+   BOX      E 33282.1 N 14773.9 U 258.15               ?                      XLEN=14.0 YLEN=91.2 ZLEN=91.1
+   BOX      E 32840.9 N 14773.9 U 203.6                ?                      XLEN=161.8 YLEN=202.6 ZLEN=18.0
+   BOX      E 32847.9 N 14773.9 U 258.15               ?                      XLEN=14.0 YLEN=91.2 ZLEN=91.1
+   BOX      E 33289.1 N 15066.0 U 203.6                ?                      XLEN=161.8 YLEN=202.6 ZLEN=18.0
+   BOX      E 33282.1 N 15066.0 U 242.35               ?                      XLEN=14.0 YLEN=91.2 ZLEN=59.51
+   BOX      E 32840.9 N 15066.0 U 203.6                ?                      XLEN=161.8 YLEN=202.6 ZLEN=18.0
+   BOX      E 32847.9 N 15066.0 U 242.35               ?                      XLEN=14.0 YLEN=91.2 ZLEN=59.51
+
+== /205_PU_012_CASING_FASTENERS (line 34126)
+   CYLINDER E 32802.5 N 15062.0 U 450.0                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 32802.5 N 15057.0 U 450.0                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 32802.5 N 15066.2 U 450.0                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 32822.5 N 15062.0 U 550.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 32822.5 N 15057.0 U 550.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 32822.5 N 15066.2 U 550.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 32879.4 N 15062.0 U 635.6                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 32879.4 N 15057.0 U 635.6                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 32879.4 N 15066.2 U 635.6                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 32964.5 N 15062.0 U 692.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 32964.5 N 15057.0 U 692.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 32964.5 N 15066.2 U 692.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33065.0 N 15062.0 U 712.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33065.0 N 15057.0 U 712.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33065.0 N 15066.2 U 712.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33165.5 N 15062.0 U 692.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33165.5 N 15057.0 U 692.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33165.5 N 15066.2 U 692.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33250.6 N 15062.0 U 635.6                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33250.6 N 15057.0 U 635.6                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33250.6 N 15066.2 U 635.6                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33307.5 N 15062.0 U 550.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33307.5 N 15057.0 U 550.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33307.5 N 15066.2 U 550.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33327.5 N 15062.0 U 450.0                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33327.5 N 15057.0 U 450.0                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33327.5 N 15066.2 U 450.0                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33307.5 N 15062.0 U 349.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33307.5 N 15057.0 U 349.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33307.5 N 15066.2 U 349.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33250.6 N 15062.0 U 264.4                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33250.6 N 15057.0 U 264.4                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33250.6 N 15066.2 U 264.4                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33165.5 N 15062.0 U 207.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33165.5 N 15057.0 U 207.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33165.5 N 15066.2 U 207.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 33065.0 N 15062.0 U 187.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 33065.0 N 15057.0 U 187.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 33065.0 N 15066.2 U 187.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 32964.5 N 15062.0 U 207.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 32964.5 N 15057.0 U 207.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 32964.5 N 15066.2 U 207.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 32879.4 N 15062.0 U 264.4                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 32879.4 N 15057.0 U 264.4                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 32879.4 N 15066.2 U 264.4                Y is U Z is N          DIAM=39.5 HEIG=13.3
+   CYLINDER E 32822.5 N 15062.0 U 349.5                Y is U Z is N          DIAM=23.0 HEIG=21.8
+   CYLINDER E 32822.5 N 15057.0 U 349.5                Y is U Z is N          DIAM=48.3 HEIG=5.1
+   CYLINDER E 32822.5 N 15066.2 U 349.5                Y is U Z is N          DIAM=39.5 HEIG=13.3
+
+== /205_PU_012_SUCTION (line 34521)
+
+== /205_PU_012_DISCHARGE (line 34539)
+   CYLINDER E 33065.0 N 14928.5 U 709.7                ?                      DIAM=135.0 HEIG=28.0
+
+== /205_PU_013_CASING (line 36594)
+   CYLINDER E 31566.0 N 14870.8 U 282.0                Y is U Z is N          DIAM=223.6 HEIG=47.5
+   CYLINDER E 31566.0 N 14981.5 U 282.0                Y is U Z is N          DIAM=254.1 HEIG=174.1
+   CYLINDER E 31566.0 N 15063.0 U 282.0                Y is U Z is N          DIAM=264.3 HEIG=11.1
+   CONE     E 31566.0 N 15073.55 U 282.0               Y is U Z is N          DTOP=137.2 DBOT=249.1 HEIG=10.0
+   CYLINDER E 31566.0 N 15070.95 U 282.0               Y is U Z is N          DIAM=147.4 HEIG=15.2
+   CYLINDER E 31566.0 N 14981.5 U 411.1                Y is U Z is N          DIAM=11.0 HEIG=118.4
+   CYLINDER E 31566.0 N 14981.5 U 153.0                Y is U Z is N          DIAM=11.0 HEIG=118.4
+   BOX      E 31702.8 N 14919.8 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 31429.2 N 14919.8 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 31702.8 N 15081.2 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 31429.2 N 15081.2 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+
+== /205_PU_013_CASING_FASTENERS (line 36680)
+   CYLINDER E 31437.7 N 15072.8 U 282.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31437.7 N 15070.1 U 282.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31437.7 N 15075.7 U 282.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 31475.2 N 15072.8 U 372.8                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31475.2 N 15070.1 U 372.8                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31475.2 N 15075.7 U 372.8                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 31566.0 N 15072.8 U 410.4                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31566.0 N 15070.1 U 410.4                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31566.0 N 15075.7 U 410.4                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 31656.8 N 15072.8 U 372.8                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31656.8 N 15070.1 U 372.8                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31656.8 N 15075.7 U 372.8                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 31694.3 N 15072.8 U 282.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31694.3 N 15070.1 U 282.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31694.3 N 15075.7 U 282.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 31656.8 N 15072.8 U 191.3                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31656.8 N 15070.1 U 191.3                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31656.8 N 15075.7 U 191.3                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 31566.0 N 15072.8 U 153.7                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31566.0 N 15070.1 U 153.7                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31566.0 N 15075.7 U 153.7                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 31475.2 N 15072.8 U 191.3                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 31475.2 N 15070.1 U 191.3                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 31475.2 N 15075.7 U 191.3                Y is U Z is N          DIAM=24.1 HEIG=8.1
+
+== /205_PU_013_SUCTION (line 36900)
+
+== /205_PU_013_DISCHARGE (line 36918)
+   CYLINDER E 31566.0 N 15005.3 U 412.7                ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_018_CASING (line 38959)
+   CYLINDER E 35304.4 N 5019.0 U 389.9                 Y is U Z is W          DIAM=451.0 HEIG=75.7
+   CYLINDER E 35083.6 N 5019.0 U 389.9                 Y is U Z is W          DIAM=512.5 HEIG=365.9
+   CYLINDER E 34910.6 N 5019.0 U 389.9                 Y is U Z is W          DIAM=563.7 HEIG=20.0
+   CONE     E 34840.62 N 5019.0 U 389.9                Y is U Z is W          DTOP=246.0 DBOT=502.2 HEIG=120.05
+   CYLINDER E 34791.65 N 5019.0 U 389.9                Y is U Z is W          DIAM=266.5 HEIG=22.0
+   CYLINDER E 35083.6 N 5019.0 U 649.8                 Y is U Z is W          DIAM=20.5 HEIG=248.8
+   CYLINDER E 35083.6 N 5266.2 U 470.2                 Y is U Z is W          DIAM=20.5 HEIG=248.8
+   CYLINDER E 35083.6 N 5171.8 U 179.6                 Y is U Z is W          DIAM=20.5 HEIG=248.8
+   CYLINDER E 35083.6 N 4866.2 U 179.6                 Y is U Z is W          DIAM=20.5 HEIG=248.8
+   CYLINDER E 35083.6 N 4771.8 U 470.2                 Y is U Z is W          DIAM=20.5 HEIG=248.8
+   CYLINDER E 34801.45 N 5019.0 U 389.9                Y is U Z is W          DIAM=225.5 HEIG=41.6
+   BOX      E 35197.1 N 5208.2 U 142.7                 ?                      XLEN=151.7 YLEN=136.6 ZLEN=18.0
+   BOX      E 35197.1 N 5201.2 U 176.8                 ?                      XLEN=68.3 YLEN=14.0 ZLEN=50.2
+   BOX      E 35197.1 N 4829.8 U 142.7                 ?                      XLEN=151.7 YLEN=136.6 ZLEN=18.0
+   BOX      E 35197.1 N 4836.8 U 176.8                 ?                      XLEN=68.3 YLEN=14.0 ZLEN=50.2
+   BOX      E 34875.4 N 5208.2 U 142.7                 ?                      XLEN=151.7 YLEN=136.6 ZLEN=18.0
+   BOX      E 34875.4 N 5201.2 U 159.91                ?                      XLEN=68.3 YLEN=14.0 ZLEN=16.42
+   BOX      E 34875.4 N 4829.8 U 142.7                 ?                      XLEN=151.7 YLEN=136.6 ZLEN=18.0
+   BOX      E 34875.4 N 4836.8 U 159.91                ?                      XLEN=68.3 YLEN=14.0 ZLEN=16.42
+
+== /205_PU_018_CASING_FASTENERS (line 39101)
+   CYLINDER E 34893.1 N 4752.5 U 389.9                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 4752.5 U 389.9                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 4752.5 U 389.9                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 4778.9 U 505.5                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 4778.9 U 505.5                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 4778.9 U 505.5                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 4852.9 U 598.2                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 4852.9 U 598.2                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 4852.9 U 598.2                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 4959.7 U 649.7                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 4959.7 U 649.7                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 4959.7 U 649.7                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 5078.3 U 649.7                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 5078.3 U 649.7                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 5078.3 U 649.7                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 5185.1 U 598.2                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 5185.1 U 598.2                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 5185.1 U 598.2                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 5259.1 U 505.5                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 5259.1 U 505.5                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 5259.1 U 505.5                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 5285.5 U 389.9                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 5285.5 U 389.9                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 5285.5 U 389.9                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 5259.1 U 274.3                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 5259.1 U 274.3                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 5259.1 U 274.3                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 5185.1 U 181.5                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 5185.1 U 181.5                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 5185.1 U 181.5                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 5078.3 U 130.1                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 5078.3 U 130.1                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 5078.3 U 130.1                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 4959.7 U 130.1                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 4959.7 U 130.1                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 4959.7 U 130.1                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 4852.9 U 181.5                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 4852.9 U 181.5                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 4852.9 U 181.5                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+   CYLINDER E 34893.1 N 4778.9 U 274.3                 Y is U Z is W          DIAM=23.1 HEIG=21.9
+   CYLINDER E 34898.1 N 4778.9 U 274.3                 Y is U Z is W          DIAM=48.4 HEIG=5.1
+   CYLINDER E 34888.9 N 4778.9 U 274.3                 Y is U Z is W          DIAM=39.7 HEIG=13.4
+
+== /205_PU_018_SUCTION (line 39454)
+
+== /205_PU_018_DISCHARGE (line 39472)
+
+== /205_PU_024_CASING (line 41577)
+   CYLINDER E 41518.0 N 97.0 U 285.6                   Y is U Z is S          DIAM=231.3 HEIG=51.7
+   CYLINDER E 41518.0 N 22.7 U 285.6                   Y is U Z is S          DIAM=262.8 HEIG=187.5
+   CYLINDER E 41518.0 N 110.8 U 285.6                  Y is U Z is S          DIAM=279.9 HEIG=11.3
+   CONE     E 41518.0 N 121.45 U 285.6                 Y is U Z is S          DTOP=120.9 DBOT=257.6 HEIG=10.0
+   CYLINDER E 41518.0 N 119.7 U 285.6                  Y is U Z is S          DIAM=131.4 HEIG=13.5
+   CYLINDER E 41518.0 N 22.7 U 419.0                   Y is U Z is S          DIAM=11.0 HEIG=127.5
+   CYLINDER E 41402.5 N 22.7 U 218.9                   Y is U Z is S          DIAM=11.0 HEIG=127.5
+   CYLINDER E 41633.5 N 22.7 U 218.9                   Y is U Z is S          DIAM=11.0 HEIG=127.5
+   CYLINDER E 41518.0 N 18.1 U 285.6                   Y is U Z is S          DIAM=272.0 HEIG=8.4
+   CYLINDER E 41518.0 N 68.1 U 285.6                   Y is U Z is S          DIAM=272.0 HEIG=8.4
+   BOX      E 41381.2 N 48.5 U 163.2                   ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 41654.8 N 48.5 U 163.2                   ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 41381.2 N 116.4 U 163.2                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 41654.8 N 116.4 U 163.2                  ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+
+== /205_PU_024_CASING_FASTENERS (line 41684)
+   CYLINDER E 41652.4 N 120.6 U 285.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41652.4 N 118.0 U 285.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41652.4 N 123.6 U 285.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41626.7 N 120.6 U 364.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41626.7 N 118.0 U 364.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41626.7 N 123.6 U 364.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41559.5 N 120.6 U 413.4                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41559.5 N 118.0 U 413.4                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41559.5 N 123.6 U 413.4                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41476.5 N 120.6 U 413.4                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41476.5 N 118.0 U 413.4                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41476.5 N 123.6 U 413.4                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41409.3 N 120.6 U 364.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41409.3 N 118.0 U 364.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41409.3 N 123.6 U 364.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41383.6 N 120.6 U 285.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41383.6 N 118.0 U 285.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41383.6 N 123.6 U 285.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41409.3 N 120.6 U 206.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41409.3 N 118.0 U 206.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41409.3 N 123.6 U 206.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41476.5 N 120.6 U 157.8                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41476.5 N 118.0 U 157.8                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41476.5 N 123.6 U 157.8                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41559.5 N 120.6 U 157.8                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41559.5 N 118.0 U 157.8                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41559.5 N 123.6 U 157.8                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+   CYLINDER E 41626.7 N 120.6 U 206.6                  Y is U Z is S          DIAM=14.0 HEIG=14.0
+   CYLINDER E 41626.7 N 118.0 U 206.6                  Y is U Z is S          DIAM=29.4 HEIG=3.1
+   CYLINDER E 41626.7 N 123.6 U 206.6                  Y is U Z is S          DIAM=24.1 HEIG=8.1
+
+== /205_PU_024_SUCTION (line 41953)
+
+== /205_PU_024_DISCHARGE (line 41971)
+   CYLINDER E 41518.0 N 38.8 U 420.6                   ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_027_CASING (line 44027)
+   CYLINDER E 42218.0 N 7925.25 U 333.8                Y is U Z is N          DIAM=312.4 HEIG=46.1
+   CYLINDER E 42218.0 N 7754.55 U 333.8                Y is U Z is N          DIAM=355.0 HEIG=295.1
+   CYLINDER E 42218.0 N 7615.05 U 333.8                Y is U Z is N          DIAM=390.5 HEIG=16.1
+   CONE     E 42218.0 N 7602.0 U 333.8                 Y is U Z is N          DTOP=220.1 DBOT=347.9 HEIG=10.0
+   CYLINDER E 42218.0 N 7606.65 U 333.8                Y is U Z is N          DIAM=230.7 HEIG=19.2
+   CYLINDER E 42218.0 N 7754.55 U 513.8                Y is U Z is N          DIAM=14.2 HEIG=200.7
+   CYLINDER E 42389.2 N 7754.55 U 389.4                Y is U Z is N          DIAM=14.2 HEIG=200.7
+   CYLINDER E 42323.8 N 7754.55 U 188.1                Y is U Z is N          DIAM=14.2 HEIG=200.7
+   CYLINDER E 42112.2 N 7754.55 U 188.1                Y is U Z is N          DIAM=14.2 HEIG=200.7
+   CYLINDER E 42046.8 N 7754.55 U 389.4                Y is U Z is N          DIAM=14.2 HEIG=200.7
+   BOX      E 42372.3 N 7842.25 U 165.3                ?                      XLEN=111.4 YLEN=160.1 ZLEN=18.0
+   BOX      E 42365.3 N 7842.25 U 199.19               ?                      XLEN=14.0 YLEN=72.0 ZLEN=49.77
+   BOX      E 42063.7 N 7842.25 U 165.3                ?                      XLEN=111.4 YLEN=160.1 ZLEN=18.0
+   BOX      E 42070.7 N 7842.25 U 199.19               ?                      XLEN=14.0 YLEN=72.0 ZLEN=49.77
+   BOX      E 42372.3 N 7607.05 U 165.3                ?                      XLEN=111.4 YLEN=160.1 ZLEN=18.0
+   BOX      E 42365.3 N 7607.05 U 185.66               ?                      XLEN=14.0 YLEN=72.0 ZLEN=22.71
+   BOX      E 42063.7 N 7607.05 U 165.3                ?                      XLEN=111.4 YLEN=160.1 ZLEN=18.0
+   BOX      E 42070.7 N 7607.05 U 185.66               ?                      XLEN=14.0 YLEN=72.0 ZLEN=22.71
+
+== /205_PU_027_CASING_FASTENERS (line 44162)
+   CYLINDER E 42033.4 N 7601.85 U 333.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42033.4 N 7605.25 U 333.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42033.4 N 7598.85 U 333.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42051.7 N 7601.85 U 413.9                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42051.7 N 7605.25 U 413.9                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42051.7 N 7598.85 U 413.9                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42102.9 N 7601.85 U 478.1                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42102.9 N 7605.25 U 478.1                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42102.9 N 7598.85 U 478.1                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42176.9 N 7601.85 U 513.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42176.9 N 7605.25 U 513.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42176.9 N 7598.85 U 513.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42259.1 N 7601.85 U 513.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42259.1 N 7605.25 U 513.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42259.1 N 7598.85 U 513.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42333.1 N 7601.85 U 478.1                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42333.1 N 7605.25 U 478.1                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42333.1 N 7598.85 U 478.1                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42384.3 N 7601.85 U 413.9                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42384.3 N 7605.25 U 413.9                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42384.3 N 7598.85 U 413.9                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42402.6 N 7601.85 U 333.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42402.6 N 7605.25 U 333.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42402.6 N 7598.85 U 333.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42384.3 N 7601.85 U 253.7                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42384.3 N 7605.25 U 253.7                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42384.3 N 7598.85 U 253.7                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42333.1 N 7601.85 U 189.5                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42333.1 N 7605.25 U 189.5                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42333.1 N 7598.85 U 189.5                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42259.1 N 7601.85 U 153.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42259.1 N 7605.25 U 153.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42259.1 N 7598.85 U 153.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42176.9 N 7601.85 U 153.8                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42176.9 N 7605.25 U 153.8                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42176.9 N 7598.85 U 153.8                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42102.9 N 7601.85 U 189.5                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42102.9 N 7605.25 U 189.5                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42102.9 N 7598.85 U 189.5                Y is U Z is N          DIAM=27.5 HEIG=9.3
+   CYLINDER E 42051.7 N 7601.85 U 253.7                Y is U Z is N          DIAM=16.0 HEIG=15.2
+   CYLINDER E 42051.7 N 7605.25 U 253.7                Y is U Z is N          DIAM=33.5 HEIG=3.5
+   CYLINDER E 42051.7 N 7598.85 U 253.7                Y is U Z is N          DIAM=27.5 HEIG=9.3
+
+== /205_PU_027_SUCTION (line 44515)
+
+== /205_PU_027_DISCHARGE (line 44533)
+   CYLINDER E 42218.0 N 7717.65 U 514.9                ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_030_CASING (line 46624)
+   CYLINDER E 40868.0 N 14793.55 U 327.7               Y is U Z is N          DIAM=300.1 HEIG=52.1
+   CYLINDER E 40868.0 N 14949.95 U 327.7               Y is U Z is N          DIAM=341.1 HEIG=260.6
+   CYLINDER E 40868.0 N 15072.65 U 327.7               Y is U Z is N          DIAM=366.6 HEIG=15.2
+   CONE     E 40868.0 N 15085.25 U 327.7               Y is U Z is N          DTOP=194.4 DBOT=334.2 HEIG=10.0
+   CYLINDER E 40868.0 N 15080.5 U 327.7                Y is U Z is N          DIAM=204.6 HEIG=19.5
+   CYLINDER E 40868.0 N 14949.95 U 500.7               Y is U Z is N          DIAM=13.6 HEIG=177.2
+   CYLINDER E 41017.8 N 14949.95 U 241.2               Y is U Z is N          DIAM=13.6 HEIG=177.2
+   CYLINDER E 40718.2 N 14949.95 U 241.2               Y is U Z is N          DIAM=13.6 HEIG=177.2
+   BOX      E 41023.3 N 14867.45 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 41016.3 N 14867.45 U 203.17              ?                      XLEN=14.0 YLEN=71.9 ZLEN=56.04
+   BOX      E 40712.7 N 14867.45 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 40719.7 N 14867.45 U 203.17              ?                      XLEN=14.0 YLEN=71.9 ZLEN=56.04
+   BOX      E 41023.3 N 15088.95 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 41016.3 N 15088.95 U 192.54              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.79
+   BOX      E 40712.7 N 15088.95 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 40719.7 N 15088.95 U 192.54              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.79
+
+== /205_PU_030_CASING_FASTENERS (line 46745)
+   CYLINDER E 40692.8 N 15085.25 U 327.7               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40692.8 N 15081.95 U 327.7               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40692.8 N 15088.05 U 327.7               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40716.3 N 15085.25 U 415.3               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40716.3 N 15081.95 U 415.3               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40716.3 N 15088.05 U 415.3               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40780.4 N 15085.25 U 479.4               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40780.4 N 15081.95 U 479.4               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40780.4 N 15088.05 U 479.4               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40868.0 N 15085.25 U 502.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40868.0 N 15081.95 U 502.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40868.0 N 15088.05 U 502.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40955.6 N 15085.25 U 479.4               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40955.6 N 15081.95 U 479.4               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40955.6 N 15088.05 U 479.4               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 41019.7 N 15085.25 U 415.3               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 41019.7 N 15081.95 U 415.3               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 41019.7 N 15088.05 U 415.3               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 41043.2 N 15085.25 U 327.7               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 41043.2 N 15081.95 U 327.7               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 41043.2 N 15088.05 U 327.7               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 41019.7 N 15085.25 U 240.1               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 41019.7 N 15081.95 U 240.1               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 41019.7 N 15088.05 U 240.1               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40955.6 N 15085.25 U 175.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40955.6 N 15081.95 U 175.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40955.6 N 15088.05 U 175.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40868.0 N 15085.25 U 152.5               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40868.0 N 15081.95 U 152.5               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40868.0 N 15088.05 U 152.5               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40780.4 N 15085.25 U 175.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40780.4 N 15081.95 U 175.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40780.4 N 15088.05 U 175.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 40716.3 N 15085.25 U 240.1               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 40716.3 N 15081.95 U 240.1               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 40716.3 N 15088.05 U 240.1               Y is U Z is N          DIAM=26.4 HEIG=8.9
+
+== /205_PU_030_SUCTION (line 47049)
+
+== /205_PU_030_DISCHARGE (line 47067)
+   CYLINDER E 40868.0 N 14984.65 U 501.8               ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_031_CASING (line 49101)
+   CYLINDER E 37916.0 N 14793.55 U 325.7               Y is U Z is N          DIAM=298.0 HEIG=52.1
+   CYLINDER E 37916.0 N 14949.95 U 325.7               Y is U Z is N          DIAM=338.7 HEIG=260.6
+   CYLINDER E 37916.0 N 15072.65 U 325.7               Y is U Z is N          DIAM=364.1 HEIG=15.2
+   CONE     E 37916.0 N 15085.25 U 325.7               Y is U Z is N          DTOP=193.1 DBOT=331.9 HEIG=10.0
+   CYLINDER E 37916.0 N 15080.5 U 325.7                Y is U Z is N          DIAM=203.2 HEIG=19.5
+   CYLINDER E 37916.0 N 14949.95 U 497.5               Y is U Z is N          DIAM=13.5 HEIG=177.2
+   CYLINDER E 38064.8 N 14949.95 U 239.8               Y is U Z is N          DIAM=13.5 HEIG=177.2
+   CYLINDER E 37767.2 N 14949.95 U 239.8               Y is U Z is N          DIAM=13.5 HEIG=177.2
+   BOX      E 38070.3 N 14867.45 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 38063.3 N 14867.45 U 202.15              ?                      XLEN=14.0 YLEN=71.9 ZLEN=55.41
+   BOX      E 37761.7 N 14867.45 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 37768.7 N 14867.45 U 202.15              ?                      XLEN=14.0 YLEN=71.9 ZLEN=55.41
+   BOX      E 38070.3 N 15088.95 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 38063.3 N 15088.95 U 191.57              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.24
+   BOX      E 37761.7 N 15088.95 U 165.4               ?                      XLEN=111.4 YLEN=159.7 ZLEN=18.0
+   BOX      E 37768.7 N 15088.95 U 191.57              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.24
+
+== /205_PU_031_CASING_FASTENERS (line 49222)
+   CYLINDER E 37742.0 N 15085.15 U 325.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 37742.0 N 15081.85 U 325.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 37742.0 N 15087.95 U 325.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 37765.3 N 15085.15 U 412.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 37765.3 N 15081.85 U 412.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 37765.3 N 15087.95 U 412.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 37829.0 N 15085.15 U 476.4               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 37829.0 N 15081.85 U 476.4               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 37829.0 N 15087.95 U 476.4               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 37916.0 N 15085.15 U 499.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 37916.0 N 15081.85 U 499.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 37916.0 N 15087.95 U 499.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 38003.0 N 15085.15 U 476.4               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 38003.0 N 15081.85 U 476.4               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 38003.0 N 15087.95 U 476.4               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 38066.7 N 15085.15 U 412.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 38066.7 N 15081.85 U 412.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 38066.7 N 15087.95 U 412.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 38090.0 N 15085.15 U 325.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 38090.0 N 15081.85 U 325.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 38090.0 N 15087.95 U 325.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 38066.7 N 15085.15 U 238.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 38066.7 N 15081.85 U 238.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 38066.7 N 15087.95 U 238.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 38003.0 N 15085.15 U 175.1               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 38003.0 N 15081.85 U 175.1               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 38003.0 N 15087.95 U 175.1               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 37916.0 N 15085.15 U 151.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 37916.0 N 15081.85 U 151.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 37916.0 N 15087.95 U 151.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 37829.0 N 15085.15 U 175.1               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 37829.0 N 15081.85 U 175.1               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 37829.0 N 15087.95 U 175.1               Y is U Z is N          DIAM=26.2 HEIG=8.8
+   CYLINDER E 37765.3 N 15085.15 U 238.7               Y is U Z is N          DIAM=15.2 HEIG=14.5
+   CYLINDER E 37765.3 N 15081.85 U 238.7               Y is U Z is N          DIAM=32.0 HEIG=3.4
+   CYLINDER E 37765.3 N 15087.95 U 238.7               Y is U Z is N          DIAM=26.2 HEIG=8.8
+
+== /205_PU_031_SUCTION (line 49526)
+
+== /205_PU_031_DISCHARGE (line 49544)
+   CYLINDER E 37916.0 N 14984.65 U 498.7               ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_032_CASING (line 51571)
+   CYLINDER E 39418.0 N 14903.05 U 283.6               Y is U Z is N          DIAM=225.1 HEIG=46.1
+   CYLINDER E 39418.0 N 15010.65 U 283.6               Y is U Z is N          DIAM=255.8 HEIG=169.1
+   CYLINDER E 39418.0 N 15089.85 U 283.6               Y is U Z is N          DIAM=266.0 HEIG=10.8
+   CONE     E 39418.0 N 15100.25 U 283.6               Y is U Z is N          DTOP=138.1 DBOT=250.7 HEIG=10.0
+   CYLINDER E 39418.0 N 15097.85 U 283.6               Y is U Z is N          DIAM=148.4 HEIG=14.8
+   CYLINDER E 39418.0 N 15010.65 U 413.4               Y is U Z is N          DIAM=11.0 HEIG=115.0
+   CYLINDER E 39418.0 N 15010.65 U 153.7               Y is U Z is N          DIAM=11.0 HEIG=115.0
+   BOX      E 39555.7 N 14950.75 U 164.6               ?                      XLEN=99.5 YLEN=125.3 ZLEN=18.0
+   BOX      E 39280.3 N 14950.75 U 164.6               ?                      XLEN=99.5 YLEN=125.3 ZLEN=18.0
+   BOX      E 39555.7 N 15107.55 U 164.6               ?                      XLEN=99.5 YLEN=125.3 ZLEN=18.0
+   BOX      E 39280.3 N 15107.55 U 164.6               ?                      XLEN=99.5 YLEN=125.3 ZLEN=18.0
+
+== /205_PU_032_CASING_FASTENERS (line 51657)
+   CYLINDER E 39288.8 N 15099.45 U 283.6               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39288.8 N 15096.75 U 283.6               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39288.8 N 15102.35 U 283.6               Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 39326.7 N 15099.45 U 374.9               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39326.7 N 15096.75 U 374.9               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39326.7 N 15102.35 U 374.9               Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 39418.0 N 15099.45 U 412.7               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39418.0 N 15096.75 U 412.7               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39418.0 N 15102.35 U 412.7               Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 39509.3 N 15099.45 U 374.9               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39509.3 N 15096.75 U 374.9               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39509.3 N 15102.35 U 374.9               Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 39547.2 N 15099.45 U 283.6               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39547.2 N 15096.75 U 283.6               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39547.2 N 15102.35 U 283.6               Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 39509.3 N 15099.45 U 192.2               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39509.3 N 15096.75 U 192.2               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39509.3 N 15102.35 U 192.2               Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 39418.0 N 15099.45 U 154.4               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39418.0 N 15096.75 U 154.4               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39418.0 N 15102.35 U 154.4               Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 39326.7 N 15099.45 U 192.2               Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 39326.7 N 15096.75 U 192.2               Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 39326.7 N 15102.35 U 192.2               Y is U Z is N          DIAM=24.1 HEIG=8.1
+
+== /205_PU_032_SUCTION (line 51877)
+
+== /205_PU_032_DISCHARGE (line 51895)
+   CYLINDER E 39418.0 N 15033.75 U 415.1               ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_038_CASING (line 53936)
+   CYLINDER E 42689.4 N 5016.0 U 392.3                 Y is U Z is W          DIAM=455.2 HEIG=75.6
+   CYLINDER E 42468.9 N 5016.0 U 392.3                 Y is U Z is W          DIAM=517.3 HEIG=365.4
+   CYLINDER E 42296.2 N 5016.0 U 392.3                 Y is U Z is W          DIAM=569.0 HEIG=20.0
+   CONE     E 42191.7 N 5016.0 U 392.3                 Y is U Z is W          DTOP=248.3 DBOT=507.0 HEIG=189.0
+   CYLINDER E 42108.2 N 5016.0 U 392.3                 Y is U Z is W          DIAM=269.0 HEIG=22.0
+   CYLINDER E 42468.9 N 5016.0 U 654.7                 Y is U Z is W          DIAM=20.7 HEIG=248.5
+   CYLINDER E 42468.9 N 5265.5 U 473.4                 Y is U Z is W          DIAM=20.7 HEIG=248.5
+   CYLINDER E 42468.9 N 5170.2 U 180.0                 Y is U Z is W          DIAM=20.7 HEIG=248.5
+   CYLINDER E 42468.9 N 4861.8 U 180.0                 Y is U Z is W          DIAM=20.7 HEIG=248.5
+   CYLINDER E 42468.9 N 4766.5 U 473.4                 Y is U Z is W          DIAM=20.7 HEIG=248.5
+   CYLINDER E 42118.0 N 5016.0 U 392.3                 Y is U Z is W          DIAM=227.6 HEIG=41.6
+   BOX      E 42582.3 N 5205.2 U 142.7                 ?                      XLEN=150.0 YLEN=136.6 ZLEN=18.0
+   BOX      E 42582.3 N 5198.2 U 176.36                ?                      XLEN=67.5 YLEN=14.0 ZLEN=49.32
+   BOX      E 42582.3 N 4826.8 U 142.7                 ?                      XLEN=150.0 YLEN=136.6 ZLEN=18.0
+   BOX      E 42582.3 N 4833.8 U 176.36                ?                      XLEN=67.5 YLEN=14.0 ZLEN=49.32
+   BOX      E 42261.0 N 5205.2 U 142.7                 ?                      XLEN=150.0 YLEN=136.6 ZLEN=18.0
+   BOX      E 42261.0 N 5198.2 U 159.42                ?                      XLEN=67.5 YLEN=14.0 ZLEN=15.45
+   BOX      E 42261.0 N 4826.8 U 142.7                 ?                      XLEN=150.0 YLEN=136.6 ZLEN=18.0
+   BOX      E 42261.0 N 4833.8 U 159.42                ?                      XLEN=67.5 YLEN=14.0 ZLEN=15.45
+
+== /205_PU_038_CASING_FASTENERS (line 54078)
+   CYLINDER E 42278.7 N 4747.0 U 392.3                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 4747.0 U 392.3                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 4747.0 U 392.3                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 4773.6 U 509.0                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 4773.6 U 509.0                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 4773.6 U 509.0                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 4848.3 U 602.6                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 4848.3 U 602.6                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 4848.3 U 602.6                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 4956.1 U 654.6                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 4956.1 U 654.6                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 4956.1 U 654.6                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 5075.9 U 654.6                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 5075.9 U 654.6                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 5075.9 U 654.6                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 5183.7 U 602.6                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 5183.7 U 602.6                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 5183.7 U 602.6                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 5258.4 U 509.0                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 5258.4 U 509.0                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 5258.4 U 509.0                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 5285.0 U 392.3                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 5285.0 U 392.3                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 5285.0 U 392.3                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 5258.4 U 275.6                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 5258.4 U 275.6                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 5258.4 U 275.6                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 5183.7 U 182.0                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 5183.7 U 182.0                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 5183.7 U 182.0                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 5075.9 U 130.1                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 5075.9 U 130.1                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 5075.9 U 130.1                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 4956.1 U 130.1                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 4956.1 U 130.1                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 4956.1 U 130.1                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 4848.3 U 182.0                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 4848.3 U 182.0                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 4848.3 U 182.0                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+   CYLINDER E 42278.7 N 4773.6 U 275.6                 Y is U Z is W          DIAM=23.3 HEIG=22.1
+   CYLINDER E 42283.7 N 4773.6 U 275.6                 Y is U Z is W          DIAM=48.9 HEIG=5.1
+   CYLINDER E 42274.4 N 4773.6 U 275.6                 Y is U Z is W          DIAM=40.0 HEIG=13.5
+
+== /205_PU_038_SUCTION (line 54431)
+
+== /205_PU_038_DISCHARGE (line 54449)
+
+== /205_PU_046_CASING (line 56484)
+   CYLINDER E 45221.0 N 14851.9 U 282.0                Y is U Z is N          DIAM=249.1 HEIG=40.5
+   CYLINDER E 45221.0 N 14973.3 U 282.0                Y is U Z is N          DIAM=283.0 HEIG=202.3
+   CYLINDER E 45221.0 N 15068.5 U 282.0                Y is U Z is N          DIAM=304.3 HEIG=11.8
+   CONE     E 45221.0 N 15168.6 U 282.0                Y is U Z is N          DTOP=161.3 DBOT=277.4 HEIG=188.4
+   CYLINDER E 45221.0 N 15255.3 U 282.0                Y is U Z is N          DIAM=169.8 HEIG=15.1
+   CYLINDER E 45221.0 N 14973.3 U 425.6                Y is U Z is N          DIAM=11.3 HEIG=137.5
+   CYLINDER E 45221.0 N 14973.3 U 138.5                Y is U Z is N          DIAM=11.3 HEIG=137.5
+   BOX      E 45357.8 N 14909.3 U 149.6                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 45350.8 N 14909.3 U 184.65               ?                      XLEN=14.0 YLEN=58.1 ZLEN=52.1
+   BOX      E 45084.2 N 14909.3 U 149.6                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 45091.2 N 14909.3 U 184.65               ?                      XLEN=14.0 YLEN=58.1 ZLEN=52.1
+   BOX      E 45357.8 N 15081.2 U 149.6                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 45350.8 N 15081.2 U 174.88               ?                      XLEN=14.0 YLEN=58.1 ZLEN=32.57
+   BOX      E 45084.2 N 15081.2 U 149.6                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 45091.2 N 15081.2 U 174.88               ?                      XLEN=14.0 YLEN=58.1 ZLEN=32.57
+
+== /205_PU_046_CASING_FASTENERS (line 56598)
+   CYLINDER E 45075.6 N 15078.6 U 282.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45075.6 N 15076.0 U 282.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45075.6 N 15081.6 U 282.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45103.4 N 15078.6 U 367.5                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45103.4 N 15076.0 U 367.5                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45103.4 N 15081.6 U 367.5                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45176.1 N 15078.6 U 420.3                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45176.1 N 15076.0 U 420.3                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45176.1 N 15081.6 U 420.3                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45265.9 N 15078.6 U 420.3                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45265.9 N 15076.0 U 420.3                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45265.9 N 15081.6 U 420.3                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45338.6 N 15078.6 U 367.5                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45338.6 N 15076.0 U 367.5                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45338.6 N 15081.6 U 367.5                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45366.4 N 15078.6 U 282.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45366.4 N 15076.0 U 282.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45366.4 N 15081.6 U 282.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45338.6 N 15078.6 U 196.6                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45338.6 N 15076.0 U 196.6                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45338.6 N 15081.6 U 196.6                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45265.9 N 15078.6 U 143.7                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45265.9 N 15076.0 U 143.7                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45265.9 N 15081.6 U 143.7                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45176.1 N 15078.6 U 143.7                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45176.1 N 15076.0 U 143.7                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45176.1 N 15081.6 U 143.7                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 45103.4 N 15078.6 U 196.6                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 45103.4 N 15076.0 U 196.6                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 45103.4 N 15081.6 U 196.6                Y is U Z is N          DIAM=24.1 HEIG=8.1
+
+== /205_PU_046_SUCTION (line 56853)
+
+== /205_PU_046_DISCHARGE (line 56871)
+   CYLINDER E 45221.0 N 15000.3 U 427.1                ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_047_CASING (line 58871)
+   CYLINDER E 46620.0 N 14809.35 U 319.6               Y is U Z is N          DIAM=279.9 HEIG=58.4
+   CYLINDER E 46620.0 N 14955.35 U 319.6               Y is U Z is N          DIAM=318.1 HEIG=233.7
+   CYLINDER E 46620.0 N 15064.95 U 319.6               Y is U Z is N          DIAM=334.0 HEIG=14.6
+   CONE     E 46620.0 N 15077.25 U 319.6               Y is U Z is N          DTOP=190.9 DBOT=311.7 HEIG=10.0
+   CYLINDER E 46620.0 N 15072.25 U 319.6               Y is U Z is N          DIAM=197.2 HEIG=20.0
+   CYLINDER E 46620.0 N 14955.35 U 480.9               Y is U Z is N          DIAM=12.7 HEIG=158.9
+   CYLINDER E 46620.0 N 14955.35 U 158.2               Y is U Z is N          DIAM=12.7 HEIG=158.9
+   BOX      E 46775.3 N 14876.15 U 169.6               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 46768.3 N 14876.15 U 212.07              ?                      XLEN=14.0 YLEN=71.9 ZLEN=67.03
+   BOX      E 46464.7 N 14876.15 U 169.6               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 46471.7 N 14876.15 U 212.07              ?                      XLEN=14.0 YLEN=71.9 ZLEN=67.03
+   BOX      E 46775.3 N 15088.95 U 169.6               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 46768.3 N 15088.95 U 204.07              ?                      XLEN=14.0 YLEN=71.9 ZLEN=51.04
+   BOX      E 46464.7 N 15088.95 U 169.6               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 46471.7 N 15088.95 U 204.07              ?                      XLEN=14.0 YLEN=71.9 ZLEN=51.04
+
+== /205_PU_047_CASING_FASTENERS (line 58985)
+   CYLINDER E 46458.6 N 15076.65 U 319.6               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46458.6 N 15073.85 U 319.6               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46458.6 N 15079.55 U 319.6               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46489.4 N 15076.65 U 414.4               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46489.4 N 15073.85 U 414.4               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46489.4 N 15079.55 U 414.4               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46570.1 N 15076.65 U 473.1               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46570.1 N 15073.85 U 473.1               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46570.1 N 15079.55 U 473.1               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46669.9 N 15076.65 U 473.1               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46669.9 N 15073.85 U 473.1               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46669.9 N 15079.55 U 473.1               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46750.6 N 15076.65 U 414.4               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46750.6 N 15073.85 U 414.4               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46750.6 N 15079.55 U 414.4               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46781.4 N 15076.65 U 319.6               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46781.4 N 15073.85 U 319.6               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46781.4 N 15079.55 U 319.6               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46750.6 N 15076.65 U 224.7               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46750.6 N 15073.85 U 224.7               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46750.6 N 15079.55 U 224.7               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46669.9 N 15076.65 U 166.0               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46669.9 N 15073.85 U 166.0               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46669.9 N 15079.55 U 166.0               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46570.1 N 15076.65 U 166.0               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46570.1 N 15073.85 U 166.0               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46570.1 N 15079.55 U 166.0               Y is U Z is N          DIAM=24.6 HEIG=8.3
+   CYLINDER E 46489.4 N 15076.65 U 224.7               Y is U Z is N          DIAM=14.3 HEIG=14.0
+   CYLINDER E 46489.4 N 15073.85 U 224.7               Y is U Z is N          DIAM=30.1 HEIG=3.1
+   CYLINDER E 46489.4 N 15079.55 U 224.7               Y is U Z is N          DIAM=24.6 HEIG=8.3
+
+== /205_PU_047_SUCTION (line 59240)
+
+== /205_PU_047_DISCHARGE (line 59258)
+   CYLINDER E 46620.0 N 14988.75 U 482.2               ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_048_CASING (line 61278)
+   CYLINDER E 48221.0 N 14793.55 U 327.7               Y is U Z is N          DIAM=300.1 HEIG=52.1
+   CYLINDER E 48221.0 N 14949.95 U 327.7               Y is U Z is N          DIAM=341.1 HEIG=260.6
+   CYLINDER E 48221.0 N 15072.65 U 327.7               Y is U Z is N          DIAM=366.6 HEIG=15.2
+   CONE     E 48221.0 N 15085.25 U 327.7               Y is U Z is N          DTOP=194.4 DBOT=334.2 HEIG=10.0
+   CYLINDER E 48221.0 N 15080.5 U 327.7                Y is U Z is N          DIAM=204.6 HEIG=19.5
+   CYLINDER E 48221.0 N 14949.95 U 500.7               Y is U Z is N          DIAM=13.6 HEIG=177.2
+   CYLINDER E 48370.8 N 14949.95 U 241.2               Y is U Z is N          DIAM=13.6 HEIG=177.2
+   CYLINDER E 48071.2 N 14949.95 U 241.2               Y is U Z is N          DIAM=13.6 HEIG=177.2
+   BOX      E 48376.3 N 14867.45 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 48369.3 N 14867.45 U 203.17              ?                      XLEN=14.0 YLEN=71.9 ZLEN=56.04
+   BOX      E 48065.7 N 14867.45 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 48072.7 N 14867.45 U 203.17              ?                      XLEN=14.0 YLEN=71.9 ZLEN=56.04
+   BOX      E 48376.3 N 15088.95 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 48369.3 N 15088.95 U 192.54              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.79
+   BOX      E 48065.7 N 15088.95 U 166.1               ?                      XLEN=112.2 YLEN=159.7 ZLEN=18.0
+   BOX      E 48072.7 N 15088.95 U 192.54              ?                      XLEN=14.0 YLEN=71.9 ZLEN=34.79
+
+== /205_PU_048_CASING_FASTENERS (line 61399)
+   CYLINDER E 48045.8 N 15085.25 U 327.7               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48045.8 N 15081.95 U 327.7               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48045.8 N 15088.05 U 327.7               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48069.3 N 15085.25 U 415.3               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48069.3 N 15081.95 U 415.3               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48069.3 N 15088.05 U 415.3               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48133.4 N 15085.25 U 479.4               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48133.4 N 15081.95 U 479.4               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48133.4 N 15088.05 U 479.4               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48221.0 N 15085.25 U 502.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48221.0 N 15081.95 U 502.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48221.0 N 15088.05 U 502.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48308.6 N 15085.25 U 479.4               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48308.6 N 15081.95 U 479.4               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48308.6 N 15088.05 U 479.4               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48372.7 N 15085.25 U 415.3               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48372.7 N 15081.95 U 415.3               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48372.7 N 15088.05 U 415.3               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48396.2 N 15085.25 U 327.7               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48396.2 N 15081.95 U 327.7               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48396.2 N 15088.05 U 327.7               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48372.7 N 15085.25 U 240.1               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48372.7 N 15081.95 U 240.1               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48372.7 N 15088.05 U 240.1               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48308.6 N 15085.25 U 175.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48308.6 N 15081.95 U 175.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48308.6 N 15088.05 U 175.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48221.0 N 15085.25 U 152.5               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48221.0 N 15081.95 U 152.5               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48221.0 N 15088.05 U 152.5               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48133.4 N 15085.25 U 175.9               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48133.4 N 15081.95 U 175.9               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48133.4 N 15088.05 U 175.9               Y is U Z is N          DIAM=26.4 HEIG=8.9
+   CYLINDER E 48069.3 N 15085.25 U 240.1               Y is U Z is N          DIAM=15.3 HEIG=14.6
+   CYLINDER E 48069.3 N 15081.95 U 240.1               Y is U Z is N          DIAM=32.2 HEIG=3.4
+   CYLINDER E 48069.3 N 15088.05 U 240.1               Y is U Z is N          DIAM=26.4 HEIG=8.9
+
+== /205_PU_048_SUCTION (line 61703)
+
+== /205_PU_048_DISCHARGE (line 61721)
+   CYLINDER E 48221.0 N 14984.65 U 501.8               ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_049_CASING (line 63748)
+   CYLINDER E 49674.0 N 14870.8 U 282.0                Y is U Z is N          DIAM=223.6 HEIG=47.5
+   CYLINDER E 49674.0 N 14981.5 U 282.0                Y is U Z is N          DIAM=254.1 HEIG=174.1
+   CYLINDER E 49674.0 N 15063.0 U 282.0                Y is U Z is N          DIAM=264.3 HEIG=11.1
+   CONE     E 49674.0 N 15073.55 U 282.0               Y is U Z is N          DTOP=137.2 DBOT=249.1 HEIG=10.0
+   CYLINDER E 49674.0 N 15070.95 U 282.0               Y is U Z is N          DIAM=147.4 HEIG=15.2
+   CYLINDER E 49674.0 N 14981.5 U 411.1                Y is U Z is N          DIAM=11.0 HEIG=118.4
+   CYLINDER E 49674.0 N 14981.5 U 153.0                Y is U Z is N          DIAM=11.0 HEIG=118.4
+   BOX      E 49810.8 N 14919.8 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 49537.2 N 14919.8 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 49810.8 N 15081.2 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+   BOX      E 49537.2 N 15081.2 U 164.0                ?                      XLEN=98.8 YLEN=129.0 ZLEN=18.0
+
+== /205_PU_049_CASING_FASTENERS (line 63834)
+   CYLINDER E 49545.7 N 15072.8 U 282.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49545.7 N 15070.1 U 282.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49545.7 N 15075.7 U 282.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 49583.2 N 15072.8 U 372.8                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49583.2 N 15070.1 U 372.8                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49583.2 N 15075.7 U 372.8                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 49674.0 N 15072.8 U 410.4                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49674.0 N 15070.1 U 410.4                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49674.0 N 15075.7 U 410.4                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 49764.8 N 15072.8 U 372.8                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49764.8 N 15070.1 U 372.8                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49764.8 N 15075.7 U 372.8                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 49802.3 N 15072.8 U 282.0                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49802.3 N 15070.1 U 282.0                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49802.3 N 15075.7 U 282.0                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 49764.8 N 15072.8 U 191.3                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49764.8 N 15070.1 U 191.3                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49764.8 N 15075.7 U 191.3                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 49674.0 N 15072.8 U 153.7                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49674.0 N 15070.1 U 153.7                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49674.0 N 15075.7 U 153.7                Y is U Z is N          DIAM=24.1 HEIG=8.1
+   CYLINDER E 49583.2 N 15072.8 U 191.3                Y is U Z is N          DIAM=14.0 HEIG=14.0
+   CYLINDER E 49583.2 N 15070.1 U 191.3                Y is U Z is N          DIAM=29.4 HEIG=3.1
+   CYLINDER E 49583.2 N 15075.7 U 191.3                Y is U Z is N          DIAM=24.1 HEIG=8.1
+
+== /205_PU_049_SUCTION (line 64054)
+
+== /205_PU_049_DISCHARGE (line 64072)
+   CYLINDER E 49674.0 N 15005.3 U 412.7                ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_054_CASING (line 66113)
+   CYLINDER E 48852.0 N 5014.1 U 393.1                 Y is U Z is N          DIAM=457.3 HEIG=76.3
+   CYLINDER E 48852.0 N 5236.7 U 393.1                 Y is U Z is N          DIAM=519.7 HEIG=368.9
+   CYLINDER E 48852.0 N 5411.2 U 393.1                 Y is U Z is N          DIAM=571.6 HEIG=20.0
+   CONE     E 48852.0 N 5554.6 U 393.1                 Y is U Z is N          DTOP=249.4 DBOT=509.3 HEIG=266.8
+   CYLINDER E 48852.0 N 5677.0 U 393.1                 Y is U Z is N          DIAM=270.2 HEIG=22.0
+   CYLINDER E 48852.0 N 5236.7 U 656.7                 Y is U Z is N          DIAM=20.8 HEIG=250.8
+   CYLINDER E 49080.3 N 5236.7 U 524.9                 Y is U Z is N          DIAM=20.8 HEIG=250.8
+   CYLINDER E 49080.3 N 5236.7 U 261.3                 Y is U Z is N          DIAM=20.8 HEIG=250.8
+   CYLINDER E 48852.0 N 5236.7 U 129.5                 Y is U Z is N          DIAM=20.8 HEIG=250.8
+   CYLINDER E 48623.7 N 5236.7 U 261.3                 Y is U Z is N          DIAM=20.8 HEIG=250.8
+   CYLINDER E 48623.7 N 5236.7 U 524.9                 Y is U Z is N          DIAM=20.8 HEIG=250.8
+   CYLINDER E 48852.0 N 5667.0 U 393.1                 Y is U Z is N          DIAM=228.6 HEIG=42.0
+   BOX      E 49040.3 N 5122.2 U 142.2                 ?                      XLEN=136.0 YLEN=150.0 ZLEN=18.0
+   BOX      E 49033.3 N 5122.2 U 175.29                ?                      XLEN=14.0 YLEN=67.5 ZLEN=48.18
+   BOX      E 48663.7 N 5122.2 U 142.2                 ?                      XLEN=136.0 YLEN=150.0 ZLEN=18.0
+   BOX      E 48670.7 N 5122.2 U 175.29                ?                      XLEN=14.0 YLEN=67.5 ZLEN=48.18
+   BOX      E 49040.3 N 5446.6 U 142.2                 ?                      XLEN=136.0 YLEN=150.0 ZLEN=18.0
+   BOX      E 49033.3 N 5446.6 U 158.4                 ?                      XLEN=14.0 YLEN=67.5 ZLEN=14.4
+   BOX      E 48663.7 N 5446.6 U 142.2                 ?                      XLEN=136.0 YLEN=150.0 ZLEN=18.0
+   BOX      E 48670.7 N 5446.6 U 158.4                 ?                      XLEN=14.0 YLEN=67.5 ZLEN=14.4
+
+== /205_PU_054_CASING_FASTENERS (line 66262)
+   CYLINDER E 48581.8 N 5428.8 U 393.1                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48581.8 N 5423.7 U 393.1                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48581.8 N 5433.1 U 393.1                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48602.3 N 5428.8 U 496.5                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48602.3 N 5423.7 U 496.5                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48602.3 N 5433.1 U 496.5                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48660.9 N 5428.8 U 584.2                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48660.9 N 5423.7 U 584.2                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48660.9 N 5433.1 U 584.2                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48748.6 N 5428.8 U 642.7                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48748.6 N 5423.7 U 642.7                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48748.6 N 5433.1 U 642.7                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48852.0 N 5428.8 U 663.3                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48852.0 N 5423.7 U 663.3                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48852.0 N 5433.1 U 663.3                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48955.4 N 5428.8 U 642.7                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48955.4 N 5423.7 U 642.7                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48955.4 N 5433.1 U 642.7                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 49043.1 N 5428.8 U 584.2                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 49043.1 N 5423.7 U 584.2                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 49043.1 N 5433.1 U 584.2                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 49101.7 N 5428.8 U 496.5                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 49101.7 N 5423.7 U 496.5                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 49101.7 N 5433.1 U 496.5                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 49122.2 N 5428.8 U 393.1                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 49122.2 N 5423.7 U 393.1                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 49122.2 N 5433.1 U 393.1                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 49101.7 N 5428.8 U 289.7                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 49101.7 N 5423.7 U 289.7                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 49101.7 N 5433.1 U 289.7                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 49043.1 N 5428.8 U 202.0                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 49043.1 N 5423.7 U 202.0                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 49043.1 N 5433.1 U 202.0                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48955.4 N 5428.8 U 143.4                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48955.4 N 5423.7 U 143.4                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48955.4 N 5433.1 U 143.4                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48852.0 N 5428.8 U 122.9                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48852.0 N 5423.7 U 122.9                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48852.0 N 5433.1 U 122.9                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48748.6 N 5428.8 U 143.4                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48748.6 N 5423.7 U 143.4                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48748.6 N 5433.1 U 143.4                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48660.9 N 5428.8 U 202.0                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48660.9 N 5423.7 U 202.0                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48660.9 N 5433.1 U 202.0                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+   CYLINDER E 48602.3 N 5428.8 U 289.7                 Y is U Z is N          DIAM=23.4 HEIG=22.2
+   CYLINDER E 48602.3 N 5423.7 U 289.7                 Y is U Z is N          DIAM=49.1 HEIG=5.1
+   CYLINDER E 48602.3 N 5433.1 U 289.7                 Y is U Z is N          DIAM=40.2 HEIG=13.6
+
+== /205_PU_054_SUCTION (line 66657)
+
+== /205_PU_054_DISCHARGE (line 66675)
+   CYLINDER E 48852.0 N 5294.0 U 659.2                 ?                      DIAM=202.5 HEIG=42.0
+
+== /205_PU_060_CASING (line 68732)
+   CYLINDER E 46706.0 N 10854.0 U 291.0                Y is U Z is E          DIAM=254.1 HEIG=49.1
+   CYLINDER E 46832.4 N 10854.0 U 291.0                Y is U Z is E          DIAM=288.8 HEIG=203.5
+   CYLINDER E 46928.0 N 10854.0 U 291.0                Y is U Z is E          DIAM=311.9 HEIG=12.3
+   CONE     E 46939.1 N 10854.0 U 291.0                Y is U Z is E          DTOP=156.0 DBOT=283.0 HEIG=10.0
+   CYLINDER E 46936.25 N 10854.0 U 291.0               Y is U Z is E          DIAM=167.5 HEIG=15.7
+   CYLINDER E 46832.4 N 10854.0 U 437.4                Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46832.4 N 11000.5 U 291.0                Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46832.4 N 10854.0 U 144.5                Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46832.4 N 10707.5 U 291.0                Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46675.3 N 10854.0 U 291.0                Y is U Z is E          DIAM=104.0 HEIG=12.3
+   CYLINDER E 46663.1 N 10854.0 U 291.0                Y is U Z is E          DIAM=114.1 HEIG=12.3
+   BOX      E 46762.2 N 10990.8 U 155.6                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46762.2 N 10983.8 U 189.31               ?                      XLEN=58.1 YLEN=14.0 ZLEN=49.43
+   BOX      E 46762.2 N 10717.2 U 155.6                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46762.2 N 10724.2 U 189.31               ?                      XLEN=58.1 YLEN=14.0 ZLEN=49.43
+   BOX      E 46941.1 N 10990.8 U 155.6                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46941.1 N 10983.8 U 179.24               ?                      XLEN=58.1 YLEN=14.0 ZLEN=29.27
+   BOX      E 46941.1 N 10717.2 U 155.6                ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46941.1 N 10724.2 U 179.24               ?                      XLEN=58.1 YLEN=14.0 ZLEN=29.27
+
+== /205_PU_060_CASING_FASTENERS (line 68874)
+   CYLINDER E 46938.3 N 10705.3 U 291.0                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10705.3 U 291.0                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10705.3 U 291.0                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10725.2 U 365.3                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10725.2 U 365.3                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10725.2 U 365.3                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10779.6 U 419.8                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10779.6 U 419.8                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10779.6 U 419.8                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10854.0 U 439.7                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10854.0 U 439.7                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10854.0 U 439.7                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10928.4 U 419.8                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10928.4 U 419.8                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10928.4 U 419.8                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10982.8 U 365.3                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10982.8 U 365.3                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10982.8 U 365.3                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 11002.7 U 291.0                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 11002.7 U 291.0                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 11002.7 U 291.0                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10982.8 U 216.6                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10982.8 U 216.6                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10982.8 U 216.6                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10928.4 U 162.2                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10928.4 U 162.2                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10928.4 U 162.2                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10854.0 U 142.2                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10854.0 U 142.2                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10854.0 U 142.2                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10779.6 U 162.2                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10779.6 U 162.2                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10779.6 U 162.2                Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 10725.2 U 216.6                Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 10725.2 U 216.6                Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 10725.2 U 216.6                Y is U Z is E          DIAM=24.1 HEIG=8.1
+
+== /205_PU_060_SUCTION (line 69178)
+
+== /205_PU_060_DISCHARGE (line 69196)
+   CYLINDER E 46856.9 N 10854.0 U 439.0                ?                      DIAM=108.0 HEIG=24.0
+
+== /205_PU_061_CASING (line 71295)
+   CYLINDER E 46706.0 N 8256.0 U 291.0                 Y is U Z is E          DIAM=254.1 HEIG=49.1
+   CYLINDER E 46832.4 N 8256.0 U 291.0                 Y is U Z is E          DIAM=288.8 HEIG=203.5
+   CYLINDER E 46928.0 N 8256.0 U 291.0                 Y is U Z is E          DIAM=311.9 HEIG=12.3
+   CONE     E 46939.1 N 8256.0 U 291.0                 Y is U Z is E          DTOP=156.0 DBOT=283.0 HEIG=10.0
+   CYLINDER E 46936.25 N 8256.0 U 291.0                Y is U Z is E          DIAM=167.5 HEIG=15.7
+   CYLINDER E 46832.4 N 8256.0 U 437.4                 Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46832.4 N 8402.5 U 291.0                 Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46832.4 N 8256.0 U 144.5                 Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46832.4 N 8109.5 U 291.0                 Y is U Z is E          DIAM=11.6 HEIG=138.4
+   CYLINDER E 46675.3 N 8256.0 U 291.0                 Y is U Z is E          DIAM=104.0 HEIG=12.3
+   CYLINDER E 46663.1 N 8256.0 U 291.0                 Y is U Z is E          DIAM=114.1 HEIG=12.3
+   BOX      E 46762.2 N 8392.8 U 155.6                 ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46762.2 N 8385.8 U 189.31                ?                      XLEN=58.1 YLEN=14.0 ZLEN=49.43
+   BOX      E 46762.2 N 8119.2 U 155.6                 ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46762.2 N 8126.2 U 189.31                ?                      XLEN=58.1 YLEN=14.0 ZLEN=49.43
+   BOX      E 46941.1 N 8392.8 U 155.6                 ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46941.1 N 8385.8 U 179.24                ?                      XLEN=58.1 YLEN=14.0 ZLEN=29.27
+   BOX      E 46941.1 N 8119.2 U 155.6                 ?                      XLEN=129.0 YLEN=98.8 ZLEN=18.0
+   BOX      E 46941.1 N 8126.2 U 179.24                ?                      XLEN=58.1 YLEN=14.0 ZLEN=29.27
+
+== /205_PU_061_CASING_FASTENERS (line 71437)
+   CYLINDER E 46938.3 N 8107.3 U 291.0                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8107.3 U 291.0                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8107.3 U 291.0                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8127.2 U 365.3                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8127.2 U 365.3                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8127.2 U 365.3                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8181.6 U 419.8                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8181.6 U 419.8                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8181.6 U 419.8                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8256.0 U 439.7                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8256.0 U 439.7                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8256.0 U 439.7                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8330.4 U 419.8                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8330.4 U 419.8                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8330.4 U 419.8                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8384.8 U 365.3                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8384.8 U 365.3                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8384.8 U 365.3                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8404.7 U 291.0                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8404.7 U 291.0                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8404.7 U 291.0                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8384.8 U 216.6                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8384.8 U 216.6                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8384.8 U 216.6                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8330.4 U 162.2                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8330.4 U 162.2                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8330.4 U 162.2                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8256.0 U 142.2                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8256.0 U 142.2                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8256.0 U 142.2                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8181.6 U 162.2                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8181.6 U 162.2                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8181.6 U 162.2                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+   CYLINDER E 46938.3 N 8127.2 U 216.6                 Y is U Z is E          DIAM=14.0 HEIG=14.0
+   CYLINDER E 46935.7 N 8127.2 U 216.6                 Y is U Z is E          DIAM=29.4 HEIG=3.1
+   CYLINDER E 46941.3 N 8127.2 U 216.6                 Y is U Z is E          DIAM=24.1 HEIG=8.1
+
+== /205_PU_061_SUCTION (line 71741)
+
+== /205_PU_061_DISCHARGE (line 71759)
+   CYLINDER E 46856.9 N 8256.0 U 439.0                 ?                      DIAM=108.0 HEIG=24.0

@@ -1,0 +1,7 @@
+Date: 2026-08-10
+Macro loaded: C:\Users\A\Desktop\jk_tank_edited_by_me_top_handrails.txt (r2)
+Context: user loaded r2 after the F-21 (Cannot create STRU at this level) fix.
+
+User statement, verbatim (Chinese):
+
+保存，并不对，明天继续；没有形成楼梯，放置的位置也不对；应是圆盘底座；

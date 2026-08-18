@@ -1,0 +1,84 @@
+Pump: 205-PU-024
+
+Source:
+  JSON: C:\Users\A\Desktop\pumps\205-PU-024.json
+  Metadata row: 19
+  Name: EOP REACTOR TOP SPOOLING BOOSTER PUMP
+  Drawing: C:\Users\A\Desktop\SEAL\Ognized\all.dwg
+  Units: Millimetres
+
+CAD:
+  valid entities: 146
+  skipped entities: 0
+  bridged_joins: 19
+  chains: 33
+  circles: 2
+  duplicate_entities: 0
+  features: 28
+  input_entities: 146
+  open_paths: 26
+  polylines: 1
+  rectangles: 4
+  view: PLAN
+  view evidence: declared top view 'Top View - 205-PU-024' governs; outline 760x1720 is the baseplate seen from above (long side = pump axis, short side = transverse)
+  outline: 760.1 x 1719.7 mm
+
+Topology recovered (28 features):
+  cylinder: 3
+  disc_stack: 1
+  plate: 1
+  prism: 2
+  profile: 1
+  unclassified: 20
+    prism: 480 x 464 mm - closed rectangle 480x464
+    unclassified: 340 x 248 mm - open path 340x248, 13 vertices
+    prism: 275 x 275 mm - closed rectangle 275x275
+    unclassified: 420 x 135 mm - open path 420x135, 4 vertices
+    unclassified: 162 x 334 mm - open path 162x334, 4 vertices
+    disc_stack: 186 x 186 mm - 2 concentric circle(s) on one axis, radii 73, 93
+    unclassified: 431 x 75 mm - open path 431x75, 4 vertices
+    cylinder: 135 x 210 mm - parallel rail pair 135 mm apart running 210 mm along y, a cylindrical body seen from the side
+    unclassified: 399 x 70 mm - open path 399x70, 4 vertices
+    unclassified: 65 x 420 mm - open path 65x420, 4 vertices
+    unclassified: 59 x 420 mm - open path 59x420, 4 vertices
+    unclassified: 119 x 113 mm - open path 119x113, 12 vertices
+    ... and 16 more
+
+Components:
+  BearingHousing: 431 x 410 mm [HIGH] - BearingHousing assembly 410 mm along the machine axis x 431 mm across, consolidated from 2 drawn sections (housing sections)
+  Motor: 528 x 679 mm [HIGH] - Motor assembly 679 mm along the machine axis x 528 mm across, consolidated from 3 drawn sections (body, fin bands, cowl)
+  Auxiliary: 221 x 22 mm [LOW] - body 22x221 at the wet end, outboard of the casing
+  Auxiliary: 361 x 259 mm [LOW] - body 259x361 at the wet end, outboard of the casing
+  Coupling: 135 x 210 mm [HIGH] - shaft/coupling: parallel rail pair 135 mm apart running 210 mm along y, a cylindrical body seen from the side; drawn on the machine centreline between driver and casing
+  PumpCasing: 186 x 186 mm [HIGH] - volute: 2 concentric circle(s) on one axis, radii 73, 93; the only large round feature in the plan, at the wet end
+
+Transform:
+  Local origin: baseplate underside centre
+  World position: E 41518.0 N 660.0 U 0.0
+  Orientation: layout axis S (270 deg CCW from +E)
+
+Model:
+  solids: 95
+  nozzles: 2
+    SUCTION DN125 axis S -> /150lb_Ansi_Flanged/AAZFBB0PP
+    DISCHARGE DN150 axis U -> /150lb_Ansi_Flanged/AAZFBB0RR
+
+Validation:
+  [PASS] base centre matches metadata: plate centre E41518.0 N660.0 vs metadata E41518.0 N660.0 (dE=0.000, dN=0.000)
+  [PASS] baseplate underside sits on the metadata elevation: plate centre U25.0, underside U0.0 vs metadata U0.0
+  [PASS] baseplate dimensions match metadata: plate 760.0x1720.0 vs metadata 760.0x1720.0 for layout axis S
+  [PASS] orientation follows the contractual suction direction: layout axis S, expected S (metadata inlet 'S')
+  [PASS] suction bore traceable to metadata: DN125 is the nearest catalogue bore to the measured 113 mm (nearest available: DN125)
+  [PASS] discharge bore traceable to metadata: DN150 is the nearest catalogue bore to the measured 146 mm (nearest available: DN150)
+  [PASS] top-view footprint matches the CAD extent: plate (41138,-200)-(41898,1520), model (41138,-200)-(41898,1520): drawn outline agrees with the contractual plate within 0.2 mm; stays inside the CAD extent
+  [PASS] component plan silhouettes follow the drawing: all main bodies match their drawn contours within 30 mm
+  [PASS] CAD linework is substantially consumed: 112/146 in-outline entities (77%) contribute to a modelled component; 0 out-of-outline entities are attached pipework and are deliberately not modelled
+  [PASS] PML passes syntax validation: no banned constructs
+  overall: PASS
+
+Warnings:
+  (none)
+
+Notes:
+  - suction: metadata bore 113 mm snapped to catalogue DN125 (nearest available in 'AAZFBB0PP'; catalogue max is DN600)
+  - discharge: metadata bore 146 mm snapped to catalogue DN150 (nearest available in 'AAZFBB0RR'; catalogue max is DN600)

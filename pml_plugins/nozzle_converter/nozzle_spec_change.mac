@@ -1,0 +1,50 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Preset / Bore Option Changed
+-- ====================================================================
+$S-
+
+!form = !!nozzleSpecConverter
+!presetIdx = !form.optPreset.val
+!boreIdx = !form.optBore.val
+
+!prefix = '/150lb_Ansi_Flanged/'
+if (!presetIdx.eq(2)) then
+  !prefix = '/300lb_Ansi_Flanged/'
+elseif (!presetIdx.eq(3)) then
+  !prefix = '/600lb_Ansi_Flanged/'
+elseif (!presetIdx.eq(4)) then
+  return
+endif
+
+-- Map Bore Index to ANSI Flange Component Code
+!comp = 'AAZFBB0TT'
+if (!boreIdx.eq(1)) then
+  !comp = 'AAZFBB0YY'
+elseif (!boreIdx.eq(2)) then
+  !comp = 'AAZFBB0LL'
+elseif (!boreIdx.eq(3)) then
+  !comp = 'AAZFBB0NN'
+elseif (!boreIdx.eq(4)) then
+  !comp = 'AAZFBB0RR'
+elseif (!boreIdx.eq(5)) then
+  !comp = 'AAZFBB0TT'
+elseif (!boreIdx.eq(6)) then
+  !comp = 'AAZFBB0VV'
+elseif (!boreIdx.eq(7)) then
+  !comp = 'AAZFBB0WW'
+elseif (!boreIdx.eq(8)) then
+  !comp = 'AAZFBB0XX'
+elseif (!boreIdx.eq(9)) then
+  !comp = 'AAZFBB011'
+elseif (!boreIdx.eq(10)) then
+  !comp = 'AAZFBB022'
+elseif (!boreIdx.eq(11)) then
+  !comp = 'AAZFBB0JJ'
+elseif (!boreIdx.eq(12)) then
+  !comp = 'AAZFBB033'
+endif
+
+!form.txtSpec.val = !prefix + !comp
+!form.txtStatus.val = 'Selected SPCO: ' + !form.txtSpec.val
+
+$S+

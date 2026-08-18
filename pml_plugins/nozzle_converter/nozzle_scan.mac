@@ -1,0 +1,34 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Scan Nozzles in Scope
+-- ====================================================================
+$S-
+
+!form = !!nozzleSpecConverter
+!scopeIdx = !form.optScope.val
+
+if (!scopeIdx.eq(1)) then
+  VAR !collected COLLECT ALL NOZZLE FOR CE
+elseif (!scopeIdx.eq(2)) then
+  -- Current Equipment (or navigate to EQUI)
+  VAR !collected COLLECT ALL NOZZLE FOR EQUI
+elseif (!scopeIdx.eq(3)) then
+  VAR !collected COLLECT ALL NOZZLE FOR ZONE
+elseif (!scopeIdx.eq(4)) then
+  VAR !collected COLLECT ALL NOZZLE FOR SITE
+else
+  VAR !collected COLLECT ALL NOZZLE FOR /*
+endif
+
+!form.nozzArray = !collected
+!count = !collected.size()
+
+!displayList = object ARRAY()
+do !i from 1 to !count
+  !nozz = !collected[!i]
+  !displayList.append(!nozz.string())
+enddo
+
+!form.lstNozzles.dtext = !displayList
+!form.txtStatus.val = 'Scanned ' + !count.string() + ' nozzles in scope.'
+
+$S+

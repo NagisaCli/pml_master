@@ -176,6 +176,15 @@ Do not copy the same free-floating ladder onto every tank.
 > now omit ladders; remaining ladder bearings vary, and Blow Tank ladders stop at
 > the supported main-shell top with lower crossbars tied to a support leg.
 
+> **User-corrected 2026-08-10 (JK-Tank_Build top platform handrail).** A top
+> handrail on a frustum-roof tank follows the **shell-cylinder top rim (the big
+> circle, outer diameter)**, not the frustum top (the small circle, DTOP). Post
+> base plates sit fully on the cylinder top face with their outer edge flush
+> with the rim; the frustum and its platform may be adjusted by the designer
+> afterwards. The cone surface near the rim intersects the post zone for the
+> first ~30–40 mm of post height until the frustum is re-sized — report that
+> interaction instead of hiding it.
+
 ---
 
 ## Special cases

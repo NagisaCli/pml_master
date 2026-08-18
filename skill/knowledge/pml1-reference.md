@@ -472,6 +472,7 @@ is unproven and what evidence would settle it.
 | Item | Claim | What would verify it |
 |------|-------|----------------------|
 | `SCTN` | Structural sections for platforms/ladders | Confirm specification reference resolves in macro mode |
+| `HANDRA` + circular RPATH | Handrail template built from a closed RPATH with curve elements, a RAILSET and no HRPOST posts | **Contradicted 2026-08-10 (JK-Tank_Build r2):** the block loaded with no error but rendered nothing visible; user reported no handrail formed. A native-proven block (POINTR + FRAD, POSTSE/HRPOST, CLOSEFLAG true) must be observed in E3D before this form is used again; primitives are the fallback |
 
 `SCTN` has not been verified in macro mode here. EXTRUSION's editable hierarchy,
 profile plane, local-Z extrusion axis, end-plane POS datum, assignment-order

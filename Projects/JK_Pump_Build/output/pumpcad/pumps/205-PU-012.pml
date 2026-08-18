@@ -1,0 +1,952 @@
+-- ====================================================================
+-- 205-PU-012 - D0 STAGE DILUTION PUMP
+-- ====================================================================
+-- Project: JK_Pump_Build (pumpcad reconstruction)
+-- Equipment: 205-PU-012
+-- Units: mm
+-- Frame: E = East, N = North, U = Up
+-- Datum: metadata coordinate = geometric centre of baseplate underside
+-- Source view: plan
+-- Layout axis: N (driver -> casing)
+-- Hierarchy: Exactly one EQUI in this file
+-- Execution: Select a writable ZONE, then $M <this file>
+-- Generated: 2026-08-13 03:44:51
+-- Note: suction: metadata bore 619 mm snapped to catalogue DN600 (nearest available in 'AAZFBB033'; catalogue max is DN600)
+-- Note: discharge: metadata bore 146 mm snapped to catalogue DN150 (nearest available in 'AAZFBB0RR'; catalogue max is DN600)
+
+NEW EQUI /205_PU_012
+POS E 0.0 N 0.0 U 0.0
+NEW SUBE /205_PU_012_BASEPLATE
+-- 9 part(s), 0 nozzle(s)
+-- contractual rectangular baseplate; POS is its geometric centre and the metadata coordinate is its underside centre
+NEW BOX
+XLEN 1245.0
+YLEN 2701.0
+ZLEN 50.0
+POS E 33065.0 N 13825.0 U 25.0
+
+-- Baseplate anchor bolt A1: exposed shank
+NEW CYLI
+DIAM 37.4
+HEIG 56.0
+ORI Z IS U AND Y IS N
+POS E 32517.2 N 12564.5 U 78.0
+
+-- Baseplate anchor bolt A1: hex nut
+NEW EXTRUSION
+POS E 32517.2mm N 12564.5mm U 106.025mm
+ORI Y IS N AND Z IS U
+HEIG 29.88mm
+
+NEW LOOP
+NEW VERTEX
+POS E 31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 36.658855mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N -18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -36.658855mm U 0mm
+END
+NEW VERTEX
+POS E 31.7475mm N -18.329428mm U 0mm
+END
+END
+END
+
+-- Baseplate anchor bolt A2: exposed shank
+NEW CYLI
+DIAM 37.4
+HEIG 56.0
+ORI Z IS U AND Y IS N
+POS E 32517.2 N 15085.5 U 78.0
+
+-- Baseplate anchor bolt A2: hex nut
+NEW EXTRUSION
+POS E 32517.2mm N 15085.5mm U 106.025mm
+ORI Y IS N AND Z IS U
+HEIG 29.88mm
+
+NEW LOOP
+NEW VERTEX
+POS E 31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 36.658855mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N -18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -36.658855mm U 0mm
+END
+NEW VERTEX
+POS E 31.7475mm N -18.329428mm U 0mm
+END
+END
+END
+
+-- Baseplate anchor bolt A3: exposed shank
+NEW CYLI
+DIAM 37.4
+HEIG 56.0
+ORI Z IS U AND Y IS N
+POS E 33612.8 N 12564.5 U 78.0
+
+-- Baseplate anchor bolt A3: hex nut
+NEW EXTRUSION
+POS E 33612.8mm N 12564.5mm U 106.025mm
+ORI Y IS N AND Z IS U
+HEIG 29.88mm
+
+NEW LOOP
+NEW VERTEX
+POS E 31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 36.658855mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N -18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -36.658855mm U 0mm
+END
+NEW VERTEX
+POS E 31.7475mm N -18.329428mm U 0mm
+END
+END
+END
+
+-- Baseplate anchor bolt A4: exposed shank
+NEW CYLI
+DIAM 37.4
+HEIG 56.0
+ORI Z IS U AND Y IS N
+POS E 33612.8 N 15085.5 U 78.0
+
+-- Baseplate anchor bolt A4: hex nut
+NEW EXTRUSION
+POS E 33612.8mm N 15085.5mm U 106.025mm
+ORI Y IS N AND Z IS U
+HEIG 29.88mm
+
+NEW LOOP
+NEW VERTEX
+POS E 31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 36.658855mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N 18.329428mm U 0mm
+END
+NEW VERTEX
+POS E -31.7475mm N -18.329428mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -36.658855mm U 0mm
+END
+NEW VERTEX
+POS E 31.7475mm N -18.329428mm U 0mm
+END
+END
+END
+
+NEW SUBE /205_PU_012_SUPPORT
+-- 32 part(s), 0 nozzle(s)
+-- Bearing housing pedestal: sole plate on the baseplate
+NEW BOX
+XLEN 472.8
+YLEN 610.0
+ZLEN 49.3
+POS E 33065.0 N 14083.8 U 74.7
+
+-- Bearing housing pedestal: pedestal web
+NEW BOX
+XLEN 238.4
+YLEN 307.7
+ZLEN 270.3
+POS E 33065.0 N 14083.8 U 234.5
+
+-- Bearing housing pedestal: triangular stiffener gusset
+NEW EXTRUSION
+POS E 33167.776287mm N 13924.622648mm U 99.332618mm
+ORI Y IS U AND Z IS E
+HEIG 41.110515mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 318.274953mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 175.051224mm N 237.89446mm U 0mm
+END
+END
+END
+
+-- Bearing housing pedestal: triangular stiffener gusset
+NEW EXTRUSION
+POS E 32921.113198mm N 13924.622648mm U 99.332618mm
+ORI Y IS U AND Z IS E
+HEIG 41.110515mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 318.274953mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 175.051224mm N 237.89446mm U 0mm
+END
+END
+END
+
+-- Bearing housing pedestal: hold-down bolt shank
+NEW CYLI
+DIAM 26.7
+HEIG 76.1
+ORI Z IS U AND Y IS N
+POS E 33065.0 N 13892.8 U 74.7
+
+-- Bearing housing pedestal: hold-down hex nut
+NEW EXTRUSION
+POS E 33065mm N 13892.795153mm U 99.332618mm
+ORI Y IS N AND Z IS U
+HEIG 21.377468mm
+
+NEW LOOP
+NEW VERTEX
+POS E 22.713559mm N 13.11368mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 26.227359mm U 0mm
+END
+NEW VERTEX
+POS E -22.713559mm N 13.11368mm U 0mm
+END
+NEW VERTEX
+POS E -22.713559mm N -13.11368mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -26.227359mm U 0mm
+END
+NEW VERTEX
+POS E 22.713559mm N -13.11368mm U 0mm
+END
+END
+END
+
+-- Bearing housing pedestal: hold-down bolt shank
+NEW CYLI
+DIAM 26.7
+HEIG 76.1
+ORI Z IS U AND Y IS N
+POS E 33065.0 N 14274.7 U 74.7
+
+-- Bearing housing pedestal: hold-down hex nut
+NEW EXTRUSION
+POS E 33065mm N 14274.725096mm U 99.332618mm
+ORI Y IS N AND Z IS U
+HEIG 21.377468mm
+
+NEW LOOP
+NEW VERTEX
+POS E 22.713559mm N 13.11368mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 26.227359mm U 0mm
+END
+NEW VERTEX
+POS E -22.713559mm N 13.11368mm U 0mm
+END
+NEW VERTEX
+POS E -22.713559mm N -13.11368mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -26.227359mm U 0mm
+END
+NEW VERTEX
+POS E 22.713559mm N -13.11368mm U 0mm
+END
+END
+END
+
+-- Motor foot: sole plate on the baseplate
+NEW BOX
+XLEN 806.9
+YLEN 221.3
+ZLEN 84.2
+POS E 33065.0 N 12823.9 U 92.1
+
+-- Motor foot: pedestal web
+NEW BOX
+XLEN 406.9
+YLEN 111.6
+ZLEN 201.5
+POS E 33065.0 N 12823.9 U 234.9
+
+-- Motor foot: triangular stiffener gusset
+NEW EXTRUSION
+POS E 33240.404349mm N 12766.185917mm U 134.194088mm
+ORI Y IS U AND Z IS E
+HEIG 70.16174mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 115.471705mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 63.509438mm N 177.329531mm U 0mm
+END
+END
+END
+
+-- Motor foot: triangular stiffener gusset
+NEW EXTRUSION
+POS E 32819.433911mm N 12766.185917mm U 134.194088mm
+ORI Y IS U AND Z IS E
+HEIG 70.16174mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 115.471705mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 63.509438mm N 177.329531mm U 0mm
+END
+END
+END
+
+-- Motor foot: hold-down bolt shank
+NEW CYLI
+DIAM 45.6
+HEIG 129.8
+ORI Z IS U AND Y IS N
+POS E 33065.0 N 12754.6 U 92.1
+
+-- Motor foot: hold-down hex nut
+NEW EXTRUSION
+POS E 33065mm N 12754.638746mm U 134.194088mm
+ORI Y IS N AND Z IS U
+HEIG 36.484105mm
+
+NEW LOOP
+NEW VERTEX
+POS E 38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 44.761229mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N -22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -44.761229mm U 0mm
+END
+NEW VERTEX
+POS E 38.764361mm N -22.380614mm U 0mm
+END
+END
+END
+
+-- Motor foot: hold-down bolt shank
+NEW CYLI
+DIAM 45.6
+HEIG 129.8
+ORI Z IS U AND Y IS N
+POS E 33065.0 N 12893.2 U 92.1
+
+-- Motor foot: hold-down hex nut
+NEW EXTRUSION
+POS E 33065mm N 12893.204793mm U 134.194088mm
+ORI Y IS N AND Z IS U
+HEIG 36.484105mm
+
+NEW LOOP
+NEW VERTEX
+POS E 38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 44.761229mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N -22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -44.761229mm U 0mm
+END
+NEW VERTEX
+POS E 38.764361mm N -22.380614mm U 0mm
+END
+END
+END
+
+-- Motor foot: sole plate on the baseplate
+NEW BOX
+XLEN 806.9
+YLEN 221.3
+ZLEN 84.2
+POS E 33065.0 N 13548.5 U 92.1
+
+-- Motor foot: pedestal web
+NEW BOX
+XLEN 406.9
+YLEN 111.6
+ZLEN 201.5
+POS E 33065.0 N 13548.5 U 234.9
+
+-- Motor foot: triangular stiffener gusset
+NEW EXTRUSION
+POS E 33240.404349mm N 13490.714265mm U 134.194088mm
+ORI Y IS U AND Z IS E
+HEIG 70.16174mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 115.471705mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 63.509438mm N 177.329531mm U 0mm
+END
+END
+END
+
+-- Motor foot: triangular stiffener gusset
+NEW EXTRUSION
+POS E 32819.433911mm N 13490.714265mm U 134.194088mm
+ORI Y IS U AND Z IS E
+HEIG 70.16174mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 115.471705mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 63.509438mm N 177.329531mm U 0mm
+END
+END
+END
+
+-- Motor foot: hold-down bolt shank
+NEW CYLI
+DIAM 45.6
+HEIG 129.8
+ORI Z IS U AND Y IS N
+POS E 33065.0 N 13479.2 U 92.1
+
+-- Motor foot: hold-down hex nut
+NEW EXTRUSION
+POS E 33065mm N 13479.167094mm U 134.194088mm
+ORI Y IS N AND Z IS U
+HEIG 36.484105mm
+
+NEW LOOP
+NEW VERTEX
+POS E 38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 44.761229mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N -22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -44.761229mm U 0mm
+END
+NEW VERTEX
+POS E 38.764361mm N -22.380614mm U 0mm
+END
+END
+END
+
+-- Motor foot: hold-down bolt shank
+NEW CYLI
+DIAM 45.6
+HEIG 129.8
+ORI Z IS U AND Y IS N
+POS E 33065.0 N 13617.7 U 92.1
+
+-- Motor foot: hold-down hex nut
+NEW EXTRUSION
+POS E 33065mm N 13617.733141mm U 134.194088mm
+ORI Y IS N AND Z IS U
+HEIG 36.484105mm
+
+NEW LOOP
+NEW VERTEX
+POS E 38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 44.761229mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N 22.380614mm U 0mm
+END
+NEW VERTEX
+POS E -38.764361mm N -22.380614mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -44.761229mm U 0mm
+END
+NEW VERTEX
+POS E 38.764361mm N -22.380614mm U 0mm
+END
+END
+END
+
+-- Casing support: sole plate on the baseplate
+NEW BOX
+XLEN 392.1
+YLEN 145.7
+ZLEN 40.9
+POS E 32868.2 N 15005.6 U 70.5
+
+-- Casing support: pedestal web
+NEW BOX
+XLEN 197.7
+YLEN 73.5
+ZLEN 313.2
+POS E 32868.2 N 15005.6 U 247.5
+
+-- Casing support: triangular stiffener gusset
+NEW EXTRUSION
+POS E 32953.469969mm N 14967.587657mm U 90.910693mm
+ORI Y IS U AND Z IS E
+HEIG 34.092244mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 76.010818mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 41.80595mm N 275.615433mm U 0mm
+END
+END
+END
+
+-- Casing support: triangular stiffener gusset
+NEW EXTRUSION
+POS E 32748.916507mm N 14967.587657mm U 90.910693mm
+ORI Y IS U AND Z IS E
+HEIG 34.092244mm
+
+NEW LOOP
+NEW VERTEX
+POS E 0mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 76.010818mm N 0mm U 0mm
+END
+NEW VERTEX
+POS E 41.80595mm N 275.615433mm U 0mm
+END
+END
+END
+
+-- Casing support: hold-down bolt shank
+NEW CYLI
+DIAM 22.2
+HEIG 63.1
+ORI Z IS U AND Y IS N
+POS E 32868.2 N 14960.0 U 70.5
+
+-- Casing support: hold-down hex nut
+NEW EXTRUSION
+POS E 32868.23936mm N 14959.986576mm U 90.910693mm
+ORI Y IS N AND Z IS U
+HEIG 17.727967mm
+
+NEW LOOP
+NEW VERTEX
+POS E 18.835965mm N 10.874949mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 21.749899mm U 0mm
+END
+NEW VERTEX
+POS E -18.835965mm N 10.874949mm U 0mm
+END
+NEW VERTEX
+POS E -18.835965mm N -10.874949mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -21.749899mm U 0mm
+END
+NEW VERTEX
+POS E 18.835965mm N -10.874949mm U 0mm
+END
+END
+END
+
+-- Casing support: hold-down bolt shank
+NEW CYLI
+DIAM 22.2
+HEIG 63.1
+ORI Z IS U AND Y IS N
+POS E 32868.2 N 15051.2 U 70.5
+
+-- Casing support: hold-down hex nut
+NEW EXTRUSION
+POS E 32868.23936mm N 15051.199558mm U 90.910693mm
+ORI Y IS N AND Z IS U
+HEIG 17.727967mm
+
+NEW LOOP
+NEW VERTEX
+POS E 18.835965mm N 10.874949mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N 21.749899mm U 0mm
+END
+NEW VERTEX
+POS E -18.835965mm N 10.874949mm U 0mm
+END
+NEW VERTEX
+POS E -18.835965mm N -10.874949mm U 0mm
+END
+NEW VERTEX
+POS E 0mm N -21.749899mm U 0mm
+END
+NEW VERTEX
+POS E 18.835965mm N -10.874949mm U 0mm
+END
+END
+END
+
+NEW SUBE /205_PU_012_CASING
+-- 5 part(s), 0 nozzle(s)
+-- PumpCasing [MEDIUM]: compact body 253x550 at the wet end; no concentric circle group was drawn, so the volute envelope is taken from the largest compact wet-end body
+-- CAD handles: 22BE08,22BE09,22BE0A,229B52,229B43,229B44 ...
+NEW CYLI
+DIAM 549.9
+HEIG 253.4
+ORI Z IS N AND Y IS U
+POS E 32868.2 N 15005.6 U 668.0
+
+-- volute closing onto the suction cover
+NEW CONE
+DTOP 340.9
+DBOT 549.9
+HEIG 33.1
+ORI Z IS N AND Y IS U
+POS E 32868.2 N 15148.8 U 668.0
+
+-- casing shaft boss toward the bearing frame
+NEW CYLI
+DIAM 230.9
+HEIG 45.6
+ORI Z IS N AND Y IS U
+POS E 32868.2 N 14856.1 U 668.0
+
+-- Reference Value: axial casing rib
+NEW CYLI
+DIAM 18.0
+HEIG 131.8
+ORI Z IS N AND Y IS U
+POS E 33150.4 N 15005.6 U 668.0
+
+-- Reference Value: axial casing rib
+NEW CYLI
+DIAM 18.0
+HEIG 131.8
+ORI Z IS N AND Y IS U
+POS E 32586.1 N 15005.6 U 668.0
+
+NEW SUBE /205_PU_012_BEARING
+-- 1 part(s), 0 nozzle(s)
+-- BearingHousing [HIGH]: BearingHousing assembly 663 mm along the machine axis x 663 mm across, consolidated from 2 drawn sections (housing sections)
+-- CAD handles: 22BE48,22BE49,22BE4A,22BE0B,22BE0C,22BE0D
+NEW CYLI
+DIAM 663.1
+HEIG 663.1
+ORI Z IS N AND Y IS U
+POS E 33065.0 N 14083.8 U 668.0
+
+NEW SUBE /205_PU_012_COUPLING
+-- 3 part(s), 0 nozzle(s)
+-- Coupling [HIGH]: shaft/coupling: parallel rail pair 216 mm apart running 156 mm along y, a cylindrical body seen from the side; drawn on the machine centreline between driver and casing
+-- CAD handles: 22BE0F,22BE0E
+NEW CYLI
+DIAM 215.6
+HEIG 215.6
+ORI Z IS N AND Y IS U
+POS E 33067.7 N 14493.5 U 668.0
+
+-- Coupling hub (d=377) on the shaft centreline
+NEW CYLI
+DIAM 377.4
+HEIG 47.4
+ORI Z IS N AND Y IS U
+POS E 33067.7 N 14409.4 U 668.0
+
+-- Coupling hub (d=377) on the shaft centreline
+NEW CYLI
+DIAM 377.4
+HEIG 47.4
+ORI Z IS N AND Y IS U
+POS E 33067.7 N 14577.6 U 668.0
+
+NEW SUBE /205_PU_012_DRIVER
+-- 26 part(s), 0 nozzle(s)
+-- Motor [HIGH]: Motor assembly 1132 mm along the machine axis x 739 mm across, consolidated from 3 drawn sections (body, fin bands, cowl)
+-- CAD handles: 22BE42,22BE43,22BE44,22BE45,22BE46,22BE47 ...
+NEW CYLI
+DIAM 738.5
+HEIG 1132.1
+ORI Z IS N AND Y IS U
+POS E 33065.0 N 13186.2 U 668.0
+
+-- Motor end bell
+NEW CYLI
+DIAM 797.6
+HEIG 67.9
+ORI Z IS N AND Y IS U
+POS E 33065.0 N 12654.1 U 668.0
+
+-- Motor end bell
+NEW CYLI
+DIAM 797.6
+HEIG 67.9
+ORI Z IS N AND Y IS U
+POS E 33065.0 N 13718.3 U 668.0
+
+-- Reference Value: 360-degree motor cooling rib 1/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 32687.7 N 13186.2 U 668.0
+
+-- Reference Value: 360-degree motor cooling rib 2/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 32716.4 N 13186.2 U 812.4
+
+-- Reference Value: 360-degree motor cooling rib 3/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 32798.2 N 13186.2 U 934.8
+
+-- Reference Value: 360-degree motor cooling rib 4/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 32920.6 N 13186.2 U 1016.6
+
+-- Reference Value: 360-degree motor cooling rib 5/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33065.0 N 13186.2 U 1045.3
+
+-- Reference Value: 360-degree motor cooling rib 6/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33209.4 N 13186.2 U 1016.6
+
+-- Reference Value: 360-degree motor cooling rib 7/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33331.8 N 13186.2 U 934.8
+
+-- Reference Value: 360-degree motor cooling rib 8/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33413.6 N 13186.2 U 812.4
+
+-- Reference Value: 360-degree motor cooling rib 9/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33442.3 N 13186.2 U 668.0
+
+-- Reference Value: 360-degree motor cooling rib 10/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33413.6 N 13186.2 U 523.7
+
+-- Reference Value: 360-degree motor cooling rib 11/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33331.8 N 13186.2 U 401.3
+
+-- Reference Value: 360-degree motor cooling rib 12/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33209.4 N 13186.2 U 319.5
+
+-- Reference Value: 360-degree motor cooling rib 13/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 33065.0 N 13186.2 U 290.8
+
+-- Reference Value: 360-degree motor cooling rib 14/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 32920.6 N 13186.2 U 319.5
+
+-- Reference Value: 360-degree motor cooling rib 15/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 32798.2 N 13186.2 U 401.3
+
+-- Reference Value: 360-degree motor cooling rib 16/16
+NEW CYLI
+DIAM 16.0
+HEIG 815.1
+ORI Z IS N AND Y IS U
+POS E 32716.4 N 13186.2 U 523.7
+
+-- Motor terminal box
+NEW BOX
+XLEN 295.4
+YLEN 339.6
+ZLEN 162.5
+POS E 33065.0 N 13186.2 U 1118.6
+
+-- Motor cable gland
+NEW CYLI
+DIAM 55.2
+HEIG 162.5
+ORI Z IS E AND Y IS U
+POS E 32836.1 N 13186.2 U 1118.6
+
+-- Reference Value: motor lifting lug
+NEW BOX
+XLEN 51.7
+YLEN 88.6
+ZLEN 73.9
+POS E 33065.0 N 12869.2 U 1126.7
+
+-- Reference Value: motor nameplate
+NEW BOX
+XLEN 96.0
+YLEN 203.8
+ZLEN 6.0
+POS E 33436.3 N 13322.0 U 668.0
+
+-- Motor fan cowl disc
+NEW CYLI
+DIAM 812.4
+HEIG 8.0
+ORI Z IS N AND Y IS U
+POS E 33065.0 N 12616.1 U 668.0
+
+-- Motor fan grille bar
+NEW BOX
+XLEN 373.7
+YLEN 9.6
+ZLEN 6.4
+POS E 33251.9 N 12616.1 U 668.0
+
+-- Motor fan grille bar
+NEW BOX
+XLEN 373.7
+YLEN 9.6
+ZLEN 6.4
+POS E 32878.1 N 12616.1 U 668.0
+
+NEW SUBE /205_PU_012_AUXILIARY
+-- 1 part(s), 0 nozzle(s)
+-- Auxiliary [LOW]: small fitting 70x38
+-- CAD handles: 22BE53,22BE54
+NEW BOX
+XLEN 70.1
+YLEN 37.7
+ZLEN 60.0
+POS E 33652.6 N 15156.5 U 80.0
+
+NEW SUBE /205_PU_012_SUCTION
+-- 0 part(s), 1 nozzle(s)
+-- suction DN600; POS is the flange face, contractual direction N
+NEW NOZZLE /205_PU_012_SUCTION_NOZZLE
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB033
+POS E 33065.0 N 15192.6 U 668.0
+ORI P1 IS N
+HEIG 150.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+NEW SUBE /205_PU_012_DISCHARGE
+-- 0 part(s), 1 nozzle(s)
+-- discharge DN150; POS is the flange face, contractual direction U
+NEW NOZZLE /205_PU_012_DISCHARGE_NOZZLE
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0RR
+POS E 32868.2 N 15005.6 U 1093.0
+ORI P1 IS U
+HEIG 150.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END

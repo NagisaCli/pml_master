@@ -291,6 +291,73 @@ Client "copy directly" — 2026-08-06 (r8)
   BASE anchors (DRIVER nuts stay on the shank top).
 - r8 deliverable: `output/JK_Pump_Build_refined_20260805_r8.pml`.
 
+Client instruction — 2026-08-13 (JSON top-view strict rebuild)
+--------------------------------------------------------------
+
+- Source folder `C:\Users\A\Desktop\pumps` supplies one JSON per pump.
+  Each JSON merges the `Pump_details.xlsx` row with a `cad2e3d-aid` v1
+  `shape-reference` exported from `SEAL/Ognized/all.dwg` (AutoCAD 25.0s,
+  millimetres).  The source workbook is byte-identical to
+  `Projects/JK_Pump_Build/Pump_details.xlsx`.
+- **The top view is the strict modelling reference.**  Every
+  geometry-bearing JSON declares `reference_top_view` and must be
+  reconstructed as a PLAN of a horizontal pump; other information comes
+  from the table.  The pump top view must match the JSON linework as
+  closely as the primitives allow, and the model must not invent plan
+  geometry outside the drawing.
+- A taller-than-wide outline is a North/South pump seen from above, not an
+  elevation.  The earlier aspect-ratio heuristic misread 24 pumps as
+  vertical machines; that interpretation is rejected.
+- Linework beyond the dimensioned baseplate outline is attached pipework
+  and is not modelled as equipment; horizontal nozzle reach is still
+  measured from the drawn extent so the flange face lands on the drawing.
+- Keep one independent `EQUI` per tag, the Excel underside-centre datum,
+  50 mm baseplates, the suction-defined longitudinal axis (with the
+  client-confirmed E-W driver-east layout for 205-PU-018 / 205-PU-038),
+  and catalogue-bound NOZZLEs (CATR first, POS before `ORI P1 IS`).
+- Detail is wanted: rebuild each pump with realistic, bounded construction
+  (motor end bells, 360-degree cooling ribs, terminal box, feet,
+  hold-downs; volute cover, split flange, flange-face bolt ring, casing
+  ribs and foot; bearing pedestal; coupling guard) while every body's plan
+  silhouette stays on its drawn contour.  All added sizes are Reference
+  Values and are labelled as such in the audit.
+- `203-PU-020` and `205-PU-004` carry no CAD geometry; they fall back to
+  metadata-proportioned horizontal geometry and remain UNCONFIRMED.
+
+Client follow-up on the same pass — 2026-08-13
+-----------------------------------------------
+
+- One SUBE per major assembly only (BASEPLATE / SUPPORT / CASING /
+  BEARING / COUPLING / DRIVER / AUXILIARY / SUCTION / DISCHARGE); never
+  one SUBE per primitive - the tree must stay maintainable.
+- Nozzles must land on the machine, not on the ground: horizontal nozzles
+  sit on the shaft centreline and top-discharge nozzles on the casing
+  crown; sizes and directions come from the table (measured bores snap to
+  the nearest catalogue DN).  The shaft centreline must also clear the
+  suction flange's own radius so a large bore never sinks below U 0.
+- Screws are hexagonal: anchor bolts, motor hold-downs and casing flange
+  bolts use a true hex EXTRUSION nut/head, not a cylinder.
+- Motor cooling ribs are realistic: equal-angle axial rods around the full
+  360-degree stator, not a few top-side plates.
+- The plan must use the primitive the shape deserves: a drawn circle is a
+  vertical cylinder (plan-exact circle), a closed polygon (octagon,
+  diamond, arc body) is a vertical EXTRUSION of that exact polygon, and a
+  merged open band is a barrel cylinder whose plan equals the drawn
+  rectangle.  No BOX or cylinder standing in for a non-round silhouette.
+
+Client follow-up, third round — 2026-08-13
+------------------------------------------
+
+- A nozzle is just the nozzle: emit the catalogue NOZZLE only (CATR, POS,
+  ORI P1, HEIG); do not add separate neck/flange primitives beside it.
+- Bottom supports must carry physical detail: sole plate on the baseplate
+  top + pedestal web + two triangular EXTRUSION gussets + two hold-downs
+  with hex nuts, chained plate -> sole -> pedestal -> machine.
+- The wet-end fallback must take the *largest* body in the outer 30% of
+  the plate, not the roundest: the roundest preference crowned the small
+  discharge boss as the casing while the drawn 652x210 volute band sat
+  beside it, which read as a twisted main body.
+
 Client base-reference correction — 2026-08-06 (r9, DBOutput / PUMP006)
 ---------------------------------------------------------------------
 
@@ -382,3 +449,36 @@ Failure record — 2026-08-06 (r9-r11 base series rejected; r11 final)
   direction. The only accepted work of 2026-08-06 remains the negative
   primitive (NCYLI) series (r2-r5: owner-relative POS, NAPPFLAG 2, hole
   containment -- VERIFIED in skill/knowledge/pml1-reference.md).
+
+Client scaling request -- 2026-08-13 (205-PU-012 custom variant)
+----------------------------------------------------------------
+
+- Source: `C:\Users\A\Desktop\Custom_pump.txt`, a native E3D data listing of
+  the accepted 205-PU-012 (semantically identical to the r13 block).  The
+  supplied file contains the same pump exported twice, back to back; only one
+  EQUI can be loaded, so the deliverable keeps one block.
+- Required baseplate: length 3504 mm (N, YLEN), width 1500 mm (E, XLEN),
+  thickness stays 50 mm, underside centre stays (33065, 13825, 0).
+- Superstructure enlarged by one uniform factor `s = 3504 / 2701` (~1.2973):
+  plan coordinates scale about the plate centre, elevations scale about the
+  plate top U=50, so the rail -> sole -> pedestal -> machine bearing chain
+  remains seated and nothing drops below the foundation.
+- Nozzle sizes kept: `CATR`, `HEIG`, `ORI`, TEMP/PRES/TPRESS unchanged.  The
+  suction and discharge barrel roots scale with the machine and the unchanged
+  `HEIG` is re-added along the aim direction, keeping the barrels attached.
+  The DISCHARGE boss cylinder keeps DIAM 135 / HEIG 28 and moves with the
+  scaled casing crown.
+- The width 1500 is an explicit client override (a uniform scale alone would
+  give 1615.1 mm); every other transverse dimension uses `s`.
+- The native listing omits `NAPPFLAG` on the nested NCYLINDER; the proven
+  project form requires `NAPPFLAG 2`, so it is re-added so the terminal-box
+  hole still cuts after reload.
+- Deliverables: `output/205-PU-012_3504x1500.txt` and the Desktop copy
+  `Custom_pump_3504x1500.txt`; original archived at
+  `imports/2026-08-13_Custom_pump.txt` (SHA-256
+  `1C7EEC29388F41AA0F096BC5DC2875CA488C5DB8E720CEC24AB28A986A175D9F`);
+  repeatable tools `tools/scale_pump_3504x1500.py` and
+  `tools/verify_scale_3504x1500.py`.
+- Status: numeric verification passes (471 elements, 244 solid AABBs, bounds,
+  support-chain scale invariance, nozzle root anchors, NCYL rim containment).
+  A fresh E3D visual reload is required before acceptance (IR-11d).

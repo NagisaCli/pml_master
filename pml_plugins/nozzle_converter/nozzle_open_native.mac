@@ -1,0 +1,10 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Open Native Equipment Nozzle Form
+-- ====================================================================
+$S-
+
+handle ANY
+  show !!equnozzle
+endhandle
+
+$S+

@@ -234,3 +234,33 @@ A project may also request one loading macro containing many pumps. Generate it
 directly through one builder and retain one independent zero-anchored `EQUI` per
 tag. Verify each EQUI block with the same single-pump numerical checks; do not
 concatenate previously written files or nest all pumps under one shared EQUI.
+
+## Scaling an accepted native listing to a new baseplate — RECOMMENDED
+
+**(JK_Pump_Build 2026-08-13.)** When a client asks to re-size an accepted
+native E3D data listing while keeping the construction and the nozzle sizes:
+
+- Archive the received listing byte-for-byte and check it for duplicated
+  exports of the same `EQUI`; a duplicate name collides on load, so keep
+  exactly one block.
+- Keep the baseplate thickness and underside-centre datum.  Apply **one
+  uniform similarity factor** to the superstructure: scale plan coordinates
+  about the plate centre and elevations about the plate top plane, so the
+  rail -> sole -> pedestal -> machine bearing chain stays seated.  Do not
+  stretch the machine anisotropically; `CYLI`/`CONE` cannot follow it.  If the
+  requested plate width does not match the same factor, the width is an
+  explicit plate override, not a second machine scale.
+- Native `NOZZLE` elements keep `CATR`, `HEIG`, `ORI` and process attributes.
+  Scale the barrel **root** with the machine, then re-add the unchanged
+  `HEIG` along the aim direction.  Scaling the flange face directly leaves the
+  barrel floating `(s - 1) * HEIG` clear of the enlarged casing.
+- Keep machine-side connection stubs (a discharge boss) at their connection
+  size and reposition them on the scaled casing surface, so the boss still
+  matches the unchanged nozzle bore.
+- A native listing can omit `NAPPFLAG` on a nested negative cylinder even
+  though the loaded database carried it; re-emit `NAPPFLAG 2` or the hole will
+  not cut after reload.
+- Verify numerically: element inventory, per-attribute uniform-scale
+  prediction, plate dimensions/datum, bounds above the foundation and inside
+  the new plate, support-chain U-span scale invariance, nozzle root
+  attachment, and negative-hole rim containment.

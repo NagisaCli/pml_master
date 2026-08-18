@@ -1,0 +1,131 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Smart Bore-Preserving Batch Convert & Apply
+-- ====================================================================
+$S-
+
+!form = !!nozzleSpecConverter
+!count = !form.nozzArray.size()
+
+if (!count.eq(0)) then
+  !form.txtStatus.val = 'Please click Scan first.'
+else
+  !applyCatr = !form.togApplyCatr.val
+  !isSmartBore = !form.togSmartBore.val
+  !targetSpec = !form.txtSpec.val.trim()
+  
+  -- Target spec prefix
+  !prefix = '/150lb_Ansi_Flanged/'
+  !presetIdx = !form.optPreset.val
+  if (!presetIdx.eq(2)) then
+    !prefix = '/300lb_Ansi_Flanged/'
+  elseif (!presetIdx.eq(3)) then
+    !prefix = '/600lb_Ansi_Flanged/'
+  elseif (!presetIdx.eq(4)) then
+    !prefix = '/150lb_Ansi_Flanged/'
+  endif
+  
+  -- Attribute toggles & values
+  !applyHeig = !form.togApplyHeig.val
+  !heigVal = !form.txtHeight.val
+  !applyBore = !form.togApplyBore.val
+  !boreVal = !form.txtBore.val
+  !applyPres = !form.togApplyPres.val
+  !presVal = !form.txtPres.val
+  !applyTemp = !form.togApplyTemp.val
+  !tempVal = !form.txtTemp.val
+  !applyTpres = !form.togApplyTpres.val
+  !tpresVal = !form.txtTpres.val
+  !applyInst = !form.togApplyInst.val
+  !instVal = !form.txtInst.val
+  !applyDuty = !form.togApplyDuty.val
+  !dutyIdx = !form.optDuty.val
+  !duties = !form.optDuty.dtext
+  !dutyVal = !duties[!dutyIdx]
+  !applyDesc = !form.togApplyDesc.val
+  !descVal = !form.txtDesc.val.trim()
+  
+  !updatedCount = 0
+  
+  do !i from 1 to !count
+    !nozz = !form.nozzArray[!i]
+    $!nozz
+    
+    -- 1. Catalogue Component Binding
+    if (!applyCatr) then
+      if (!isSmartBore) then
+        -- Read existing bore diameter
+        !curBore = !!ce.bord
+        !comp = 'AAZFBB0TT'
+        
+        if (!curBore.set()) then
+          if (!curBore.le(65.0)) then
+            !comp = 'AAZFBB0YY'  -- DN50
+          elseif (!curBore.le(90.0)) then
+            !comp = 'AAZFBB0LL'  -- DN80
+          elseif (!curBore.le(125.0)) then
+            !comp = 'AAZFBB0NN'  -- DN100
+          elseif (!curBore.le(175.0)) then
+            !comp = 'AAZFBB0RR'  -- DN150
+          elseif (!curBore.le(225.0)) then
+            !comp = 'AAZFBB0TT'  -- DN200
+          elseif (!curBore.le(275.0)) then
+            !comp = 'AAZFBB0VV'  -- DN250
+          elseif (!curBore.le(325.0)) then
+            !comp = 'AAZFBB0WW'  -- DN300
+          elseif (!curBore.le(450.0)) then
+            !comp = 'AAZFBB011'  -- DN400
+          elseif (!curBore.le(550.0)) then
+            !comp = 'AAZFBB0JJ'  -- DN500
+          else
+            !comp = 'AAZFBB033'  -- DN600
+          endif
+        endif
+        
+        CATR SPCOMPONENT $!prefix$!comp
+      else
+        if (not !targetSpec.eq('')) then
+          CATR SPCOMPONENT $!targetSpec
+        endif
+      endif
+    endif
+    
+    -- 2. Geometry & Dimensions
+    if (!applyHeig) then
+      HEIG $!heigVal mm
+    endif
+    if (!applyBore) then
+      BORD $!boreVal mm
+    endif
+    
+    -- 3. Process Conditions
+    if (!applyPres) then
+      PRES $!presVal bar
+    endif
+    if (!applyTemp) then
+      TEMP $!tempVal degC
+    endif
+    if (!applyTpres) then
+      TPRESS $!tpresVal bar
+    endif
+    
+    -- 4. Engineering Attributes
+    if (!applyInst) then
+      INST $!instVal mm
+    endif
+    if (!applyDuty) then
+      DUTY '$!dutyVal'
+    endif
+    if (!applyDesc and not !descVal.eq('')) then
+      DESC '$!descVal'
+    endif
+    
+    !updatedCount = !updatedCount + 1
+  enddo
+  
+  !form.txtStatus.val = 'Successfully processed ' + !updatedCount.string() + ' nozzles!'
+  
+  -- Refresh scan list
+  $M "C:\Users\A\Desktop\nozzle_scan.mac"
+endif
+
+$S+

@@ -1,0 +1,84 @@
+Pump: 204-PU-023
+
+Source:
+  JSON: C:\Users\A\Desktop\pumps\204-PU-023.json
+  Metadata row: 14
+  Name: POST OXYGEN DD WASHER RETURN FILTRATE PUMP
+  Drawing: C:\Users\A\Desktop\SEAL\Ognized\all.dwg
+  Units: Millimetres
+
+CAD:
+  valid entities: 137
+  skipped entities: 0
+  bridged_joins: 22
+  chains: 35
+  circles: 2
+  duplicate_entities: 0
+  features: 31
+  input_entities: 137
+  open_paths: 30
+  polylines: 0
+  rectangles: 3
+  view: PLAN
+  view evidence: declared top view 'Top View - 204-PU-023' governs; outline 760x1725 is the baseplate seen from above (long side = pump axis, short side = transverse)
+  outline: 760.1 x 1725.1 mm
+
+Topology recovered (31 features):
+  cylinder: 2
+  disc_stack: 1
+  plate: 1
+  prism: 1
+  unclassified: 26
+    unclassified: 399 x 426 mm - open path 399x426, 7 vertices
+    unclassified: 162 x 383 mm - open path 162x383, 4 vertices
+    prism: 237 x 243 mm - closed rectangle 237x243
+    unclassified: 340 x 146 mm - open path 340x146, 10 vertices
+    disc_stack: 199 x 199 mm - 2 concentric circle(s) on one axis, radii 73, 99
+    unclassified: 340 x 102 mm - open path 340x102, 4 vertices
+    cylinder: 135 x 221 mm - parallel rail pair 135 mm apart running 221 mm along y, a cylindrical body seen from the side
+    unclassified: 361 x 75 mm - open path 361x75, 4 vertices
+    unclassified: 323 x 75 mm - open path 323x75, 4 vertices
+    unclassified: 156 x 129 mm - open path 156x129, 10 vertices
+    unclassified: 135 x 129 mm - open path 135x129, 10 vertices
+    cylinder: 59 x 124 mm - parallel rail pair 59 mm apart running 124 mm along y, a cylindrical body seen from the side
+    ... and 19 more
+
+Components:
+  BearingHousing: 361 x 458 mm [HIGH] - BearingHousing assembly 458 mm along the machine axis x 361 mm across, consolidated from 2 drawn sections (housing sections)
+  Motor: 399 x 604 mm [HIGH] - Motor assembly 604 mm along the machine axis x 399 mm across, consolidated from 3 drawn sections (body, fin bands, cowl)
+  Auxiliary: 394 x 146 mm [LOW] - body 146x394 at the wet end, outboard of the casing
+  Auxiliary: 447 x 151 mm [LOW] - body 151x447 at the wet end, outboard of the casing
+  Auxiliary: 199 x 22 mm [LOW] - body 22x199 at the wet end, outboard of the casing
+  Coupling: 135 x 221 mm [HIGH] - shaft/coupling: parallel rail pair 135 mm apart running 221 mm along y, a cylindrical body seen from the side; drawn on the machine centreline between driver and casing
+  PumpCasing: 199 x 199 mm [HIGH] - volute: 2 concentric circle(s) on one axis, radii 73, 99; the only large round feature in the plan, at the wet end
+
+Transform:
+  Local origin: baseplate underside centre
+  World position: E 28520.0 N 415.0 U 0.0
+  Orientation: layout axis N (90 deg CCW from +E)
+
+Model:
+  solids: 96
+  nozzles: 2
+    SUCTION DN90 axis N -> /150lb_Ansi_Flanged/AAZFBB0MM
+    DISCHARGE DN150 axis U -> /150lb_Ansi_Flanged/AAZFBB0RR
+
+Validation:
+  [PASS] base centre matches metadata: plate centre E28520.0 N415.0 vs metadata E28520.0 N415.0 (dE=0.000, dN=0.000)
+  [PASS] baseplate underside sits on the metadata elevation: plate centre U25.0, underside U0.0 vs metadata U0.0
+  [PASS] baseplate dimensions match metadata: plate 760.0x1725.0 vs metadata 760.0x1725.0 for layout axis N
+  [PASS] orientation follows the contractual suction direction: layout axis N, expected N (metadata inlet 'N')
+  [PASS] suction bore traceable to metadata: DN90 is the nearest catalogue bore to the measured 92 mm (nearest available: DN90)
+  [PASS] discharge bore traceable to metadata: DN150 is the nearest catalogue bore to the measured 151 mm (nearest available: DN150)
+  [PASS] top-view footprint matches the CAD extent: plate (28140,-448)-(28900,1278), model (28140,-448)-(28900,1278): drawn outline agrees with the contractual plate within 0.1 mm; stays inside the CAD extent
+  [PASS] component plan silhouettes follow the drawing: all main bodies match their drawn contours within 30 mm
+  [PASS] CAD linework is substantially consumed: 113/137 in-outline entities (82%) contribute to a modelled component; 0 out-of-outline entities are attached pipework and are deliberately not modelled
+  [PASS] PML passes syntax validation: no banned constructs
+  overall: PASS
+
+Warnings:
+  (none)
+
+Notes:
+  - suction: metadata bore 92 mm snapped to catalogue DN90 (nearest available in 'AAZFBB0MM'; catalogue max is DN600)
+  - discharge: metadata bore 151 mm snapped to catalogue DN150 (nearest available in 'AAZFBB0RR'; catalogue max is DN600)

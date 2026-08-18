@@ -1,0 +1,312 @@
+<title>pumpcad — pump reconstruction viewer</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --panel: #ffffff; --ink: #1b2026; --muted: #5d6b7a;
+    --line: #d7dde5; --accent: #0b6fb4; --src: #b8c2cd;
+    --motor: #e8672c; --casing: #2e9e5b; --coupling: #d8a41b;
+    --guard: #8e5bbf; --bearing: #1f8fd4; --column: #17a4a0; --aux: #7c8a99;
+  }
+  :root:not([data-theme="light"]) { }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0f1419; --panel: #161c23; --ink: #e6edf3; --muted: #8b98a5;
+      --line: #2a3138; --src: #39424c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1419; --panel: #161c23; --ink: #e6edf3; --muted: #8b98a5;
+    --line: #2a3138; --src: #39424c;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font: 14px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+  }
+  header {
+    padding: 14px 20px; border-bottom: 1px solid var(--line);
+    background: var(--panel); position: sticky; top: 0; z-index: 5;
+  }
+  h1 { margin: 0 0 3px; font-size: 17px; font-weight: 650; }
+  .sub { color: var(--muted); font-size: 12.5px; }
+  .wrap { display: grid; grid-template-columns: 232px 1fr; min-height: calc(100vh - 62px); }
+  .list { border-right: 1px solid var(--line); background: var(--panel); overflow-y: auto; max-height: calc(100vh - 62px); }
+  .item {
+    padding: 8px 14px; cursor: pointer; border-bottom: 1px solid var(--line);
+    font: 12.5px ui-monospace, Consolas, monospace;
+  }
+  .item:hover { background: rgba(127,127,127,.09); }
+  .item.on { background: var(--accent); color: #fff; }
+  .item small { display: block; opacity: .7; font-size: 11px; }
+  .stage { padding: 18px 20px 40px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 16px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 9px; overflow: hidden; }
+  .card h2 { margin: 0; padding: 9px 13px; font-size: 12.5px; font-weight: 600;
+             border-bottom: 1px solid var(--line); color: var(--muted); }
+  canvas, svg.view { display: block; width: 100%; background: transparent; }
+  .meta { padding: 11px 13px; font: 12px ui-monospace, Consolas, monospace; color: var(--muted); }
+  .meta b { color: var(--ink); font-weight: 600; }
+  .row { display: flex; justify-content: space-between; gap: 10px; padding: 1px 0; }
+  .ctl { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; margin-bottom: 14px;
+         font-size: 12.5px; color: var(--muted); }
+  .ctl label { display: flex; gap: 5px; align-items: center; cursor: pointer; }
+  .chip { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; }
+  .hint { color: var(--muted); font-size: 12px; margin: 0 0 12px; }
+  table { border-collapse: collapse; width: 100%; font: 11.5px ui-monospace, Consolas, monospace; }
+  td { padding: 2px 4px; border-bottom: 1px solid var(--line); }
+  td:last-child { text-align: right; color: var(--muted); }
+</style>
+
+<header>
+  <h1>pumpcad — pump reconstruction viewer</h1>
+  <div class="sub">Source CAD linework, the extracted revolution profile, and the resulting 3-D body. Drag the 3-D view to orbit.</div>
+</header>
+
+<div class="wrap">
+  <div class="list" id="list"></div>
+  <div class="stage">
+    <div class="ctl">
+      <label><input type="checkbox" id="showSrc" checked> source linework</label>
+      <label><input type="checkbox" id="showProf" checked> profile</label>
+      <label><input type="checkbox" id="showWire"> wireframe</label>
+      <span id="legend"></span>
+    </div>
+    <p class="hint" id="hint"></p>
+    <div class="grid" id="grid"></div>
+  </div>
+</div>
+
+<script>
+const PUMPS = /*__PUMP_DATA__*/ [];
+
+const $ = (s) => document.querySelector(s);
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+let current = 0;
+let rotX = -0.35, rotY = 0.6, dragging = null;
+
+/* ---------- list ---------- */
+const list = $("#list");
+PUMPS.forEach((p, i) => {
+  const d = document.createElement("div");
+  d.className = "item" + (i === 0 ? " on" : "");
+  d.innerHTML = `${p.tag}<small>${p.view} · ${p.lines.length} lines</small>`;
+  d.onclick = () => { current = i; draw(); [...list.children].forEach((c, j) => c.classList.toggle("on", j === i)); };
+  list.appendChild(d);
+});
+
+/* ---------- 2-D: raw linework ---------- */
+function drawSource(p, w, h) {
+  if (!p.lines.length) return "";
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const [ax, ay, bx, by] of p.lines) {
+    x0 = Math.min(x0, ax, bx); x1 = Math.max(x1, ax, bx);
+    y0 = Math.min(y0, ay, by); y1 = Math.max(y1, ay, by);
+  }
+  const pad = 14, sw = x1 - x0, sh = y1 - y0;
+  const s = Math.min((w - 2 * pad) / sw, (h - 2 * pad) / sh);
+  const ox = pad + (w - 2 * pad - sw * s) / 2, oy = pad + (h - 2 * pad - sh * s) / 2;
+  const X = (x) => ox + (x - x0) * s, Y = (y) => oy + (y1 - y) * s;
+
+  let d = "";
+  for (const [ax, ay, bx, by] of p.lines) d += `M${X(ax).toFixed(1)},${Y(ay).toFixed(1)}L${X(bx).toFixed(1)},${Y(by).toFixed(1)}`;
+  let out = `<path d="${d}" stroke="${css('--accent')}" stroke-width="1" fill="none"/>`;
+  if (p.outline) {
+    const [a, b, c, e] = p.outline;
+    out += `<rect x="${X(a).toFixed(1)}" y="${Y(e).toFixed(1)}" width="${((c - a) * s).toFixed(1)}" height="${((e - b) * s).toFixed(1)}"
+            fill="none" stroke="${css('--motor')}" stroke-width="1.2" stroke-dasharray="5 3"/>`;
+  }
+  return out;
+}
+
+/* ---------- 2-D: the extracted profile ---------- */
+function drawProfile(p, w, h) {
+  if (!p.profile) return `<text x="14" y="26" fill="${css('--muted')}" font-size="12">no revolution profile (plan view)</text>`;
+  const pts = p.profile.points;
+  const maxH = Math.max(...pts.map((q) => q[0])), maxR = Math.max(...pts.map((q) => q[1]));
+  const pad = 18;
+  const s = Math.min((w / 2 - pad) / (maxR || 1), (h - 2 * pad) / (maxH || 1));
+  const cx = w / 2, base = h - pad;
+  const X = (r) => cx + r * s, Y = (y) => base - y * s;
+
+  let right = "", left = "";
+  pts.forEach((q, i) => {
+    right += `${i ? "L" : "M"}${X(q[1]).toFixed(1)},${Y(q[0]).toFixed(1)}`;
+    left += `${i ? "L" : "M"}${X(-q[1]).toFixed(1)},${Y(q[0]).toFixed(1)}`;
+  });
+  return `
+    <line x1="${cx}" y1="${pad}" x2="${cx}" y2="${base}" stroke="${css('--muted')}" stroke-dasharray="4 4" stroke-width="1"/>
+    <path d="${right}" stroke="${css('--casing')}" stroke-width="1.8" fill="none"/>
+    <path d="${left}" stroke="${css('--casing')}" stroke-width="1.8" fill="none" opacity=".45"/>
+    <text x="8" y="${h - 6}" fill="${css('--muted')}" font-size="11" font-family="monospace">${maxH.toFixed(0)} mm tall · max r ${maxR.toFixed(0)}</text>`;
+}
+
+/* ---------- 3-D: build every part the drawing contains ----------
+   Each part carries its own measured silhouette. A symmetric part is
+   revolved about its own axis, preserving every taper and step; an
+   asymmetric one (bracket, foot, elbow flank) is extruded through its
+   own width. Nothing is reduced to a bounding box. */
+function buildMesh(p) {
+  const verts = [], quads = [];
+  const SEG = 28;
+  const o = p.outline || [0, 0, 1000, 1000];
+  const ox = (o[0] + o[2]) / 2, oy = (o[1] + o[3]) / 2;
+  const elevation = p.view === "elevation";
+
+  const addQuad = (a, b, c, d) => quads.push([a, b, c, d]);
+
+  function revolve(prof, bounds, axis) {
+    if (prof.length < 2) return;
+    const [x0, y0, x1, y1] = bounds;
+    const vert = axis === "v";
+    // Where the part's axis sits in the drawing plane.
+    const cross = vert ? (x0 + x1) / 2 - ox : (y0 + y1) / 2 - oy;
+    const base = vert ? y0 - oy : x0 - ox;
+    const start = verts.length;
+    for (const [t, r] of prof)
+      for (let k = 0; k < SEG; k++) {
+        const a = (k / SEG) * Math.PI * 2;
+        const rc = Math.cos(a) * r, rs = Math.sin(a) * r;
+        // Elevation: drawing Y is height. Plan: drawing Y is depth.
+        if (vert) verts.push(elevation ? [cross + rc, base + t, rs]
+                                       : [cross + rc, r * 0 + 60, base + t]);
+        else      verts.push(elevation ? [base + t, cross + rc, rs]
+                                       : [base + t, 60, cross + rc]);
+      }
+    for (let i = 0; i < prof.length - 1; i++)
+      for (let k = 0; k < SEG; k++) {
+        const k2 = (k + 1) % SEG;
+        addQuad(start + i * SEG + k, start + i * SEG + k2,
+                start + (i + 1) * SEG + k2, start + (i + 1) * SEG + k);
+      }
+  }
+
+  function extrude(prof, bounds, axis) {
+    if (prof.length < 2) return;
+    const [x0, y0, x1, y1] = bounds;
+    const vert = axis === "v";
+    const cross = vert ? (x0 + x1) / 2 - ox : (y0 + y1) / 2 - oy;
+    const base = vert ? y0 - oy : x0 - ox;
+    const thick = Math.max(Math.min(x1 - x0, y1 - y0) * 0.6, 20);
+    const start = verts.length;
+    for (const [t, r] of prof)
+      for (const s of [-1, 1])
+        for (const d of [-1, 1]) {
+          if (vert) verts.push(elevation ? [cross + s * r, base + t, d * thick / 2]
+                                         : [cross + s * r, 60 + d * thick / 2, base + t]);
+          else      verts.push(elevation ? [base + t, cross + s * r, d * thick / 2]
+                                         : [base + t, 60 + d * thick / 2, cross + s * r]);
+        }
+    for (let i = 0; i < prof.length - 1; i++) {
+      const a = start + i * 4, b = start + (i + 1) * 4;
+      addQuad(a + 0, a + 2, b + 2, b + 0);
+      addQuad(a + 1, a + 3, b + 3, b + 1);
+      addQuad(a + 0, a + 1, b + 1, b + 0);
+      addQuad(a + 2, a + 3, b + 3, b + 2);
+    }
+  }
+
+  const parts = (p.parts || []).filter((q) => q.profile && q.profile.length > 1);
+  for (const q of parts) (q.revolve ? revolve : extrude)(q.profile, q.bounds, q.axis);
+
+  if (!parts.length && p.profile) {   // fall back to the whole-body profile
+    revolve(p.profile.points, p.outline || [0, 0, 100, 100], "v");
+  }
+  return { verts, quads };
+}
+
+function draw3D(p, cv) {
+  const { verts, quads } = buildMesh(p);
+  const ctx = cv.getContext("2d");
+  const W = cv.width, H = cv.height;
+  ctx.clearRect(0, 0, W, H);
+  if (!verts.length) return;
+
+  let cy = 0, maxr = 1;
+  for (const v of verts) cy = Math.max(cy, v[1]);
+  cy /= 2;
+  for (const v of verts) maxr = Math.max(maxr, Math.hypot(v[0], v[2]), Math.abs(v[1] - cy));
+  const s = Math.min(W, H) * 0.40 / maxr;
+
+  const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+  const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+  const proj = verts.map(([x, y, z]) => {
+    const yy = y - cy;
+    const x1 = x * cosY - z * sinY, z1 = x * sinY + z * cosY;
+    const y2 = yy * cosX - z1 * sinX, z2 = yy * sinX + z1 * cosX;
+    return [W / 2 + x1 * s, H / 2 - y2 * s, z2];
+  });
+
+  const faces = quads.map((q) => {
+    const d = q.reduce((a, i) => a + proj[i][2], 0) / q.length;
+    return { q, d };
+  }).sort((a, b) => a.d - b.d);
+
+  const wire = $("#showWire").checked;
+  for (const { q } of faces) {
+    const [a, b, c] = [proj[q[0]], proj[q[1]], proj[q[2]]];
+    const nz = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+    if (nz > 0) continue;                       // back-face cull
+    ctx.beginPath();
+    ctx.moveTo(proj[q[0]][0], proj[q[0]][1]);
+    for (let i = 1; i < q.length; i++) ctx.lineTo(proj[q[i]][0], proj[q[i]][1]);
+    ctx.closePath();
+    if (!wire) {
+      const sh = Math.max(0, Math.min(1, -nz / 9000));
+      const g = Math.round(120 + sh * 110);
+      ctx.fillStyle = `rgb(${g},${Math.round(g * .92)},${Math.round(g * .86)})`;
+      ctx.fill();
+    }
+    ctx.strokeStyle = wire ? css("--accent") : "rgba(0,0,0,.16)";
+    ctx.lineWidth = wire ? 0.7 : 0.5;
+    ctx.stroke();
+  }
+}
+
+/* ---------- assemble ---------- */
+function card(title, inner) {
+  return `<div class="card"><h2>${title}</h2>${inner}</div>`;
+}
+
+function draw() {
+  const p = PUMPS[current];
+  const W = 340, H = 300;
+  $("#hint").textContent =
+    `${p.tag} — ${p.name}. ${p.view === "elevation"
+      ? "Elevation: the profile below is measured from the drawing and revolved about the machine axis."
+      : "Plan view: components are extruded from their drawn footprint."}`;
+
+  $("#grid").innerHTML =
+    ($("#showSrc").checked ? card("1 · source CAD linework",
+      `<svg class="view" viewBox="0 0 ${W} ${H}" height="${H}">${drawSource(p, W, H)}</svg>`) : "") +
+    ($("#showProf").checked ? card("2 · extracted revolution profile",
+      `<svg class="view" viewBox="0 0 ${W} ${H}" height="${H}">${drawProfile(p, W, H)}</svg>`) : "") +
+    card("3 · reconstructed body <span style='float:right;opacity:.7'>drag to orbit</span>",
+      `<canvas id="cv" width="${W * 2}" height="${H * 2}" style="height:${H}px"></canvas>`) +
+    card("4 · every part found in the drawing", `<div class="meta">
+        <div class="row"><span>view</span><b>${p.view}</b></div>
+        <div class="row"><span>source lines</span><b>${p.lines.length}</b></div>
+        <div class="row"><span>metadata L×W</span><b>${p.metadata.length} × ${p.metadata.width}</b></div>
+        <div class="row"><span>suction / discharge</span><b>DN${p.metadata.suction} ${p.metadata.inlet} / DN${p.metadata.discharge} ${p.metadata.outlet}</b></div>
+        <div class="row"><span>parts modelled</span><b>${(p.parts || []).length}</b></div>
+        <div class="row"><span>revolved / extruded</span><b>${(p.parts || []).filter((q) => q.revolve).length} / ${(p.parts || []).filter((q) => !q.revolve).length}</b></div>
+        <table style="margin-top:8px">${(p.parts || []).slice(0, 26).map((c) =>
+          `<tr><td>${c.revolve ? "rev" : "ext"} ${c.kind}</td><td>${(c.bounds[2] - c.bounds[0]).toFixed(0)}×${(c.bounds[3] - c.bounds[1]).toFixed(0)}</td></tr>`).join("")}</table>
+      </div>`);
+
+  const cv = $("#cv");
+  draw3D(p, cv);
+  cv.onpointerdown = (e) => { dragging = [e.clientX, e.clientY]; cv.setPointerCapture(e.pointerId); };
+  cv.onpointermove = (e) => {
+    if (!dragging) return;
+    rotY += (e.clientX - dragging[0]) * 0.01;
+    rotX += (e.clientY - dragging[1]) * 0.01;
+    rotX = Math.max(-1.5, Math.min(1.5, rotX));
+    dragging = [e.clientX, e.clientY];
+    draw3D(p, cv);
+  };
+  cv.onpointerup = () => { dragging = null; };
+}
+
+for (const id of ["showSrc", "showProf", "showWire"]) $("#" + id).onchange = draw;
+draw();
+</script>

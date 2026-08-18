@@ -1,0 +1,87 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Batch Apply All Selected Attributes
+-- ====================================================================
+$S-
+
+!form = !!nozzleSpecConverter
+!count = !form.nozzArray.size()
+
+if (!count.eq(0)) then
+  !form.txtStatus.val = 'Please click Scan first.'
+else
+  -- Target Specification
+  !applyCatr = !form.togApplyCatr.val
+  !targetSpec = !form.txtSpec.val.trim()
+  
+  -- Dimensions & Geometry
+  !applyHeig = !form.togApplyHeig.val
+  !heigVal = !form.txtHeight.val
+  !applyBore = !form.togApplyBore.val
+  !boreVal = !form.txtBore.val
+  
+  -- Process Conditions
+  !applyPres = !form.togApplyPres.val
+  !presVal = !form.txtPres.val
+  !applyTemp = !form.togApplyTemp.val
+  !tempVal = !form.txtTemp.val
+  !applyTpres = !form.togApplyTpres.val
+  !tpresVal = !form.txtTpres.val
+  
+  -- Engineering Data
+  !applyInst = !form.togApplyInst.val
+  !instVal = !form.txtInst.val
+  !applyDuty = !form.togApplyDuty.val
+  !dutyIdx = !form.optDuty.val
+  !duties = !form.optDuty.dtext
+  !dutyVal = !duties[!dutyIdx]
+  !applyDesc = !form.togApplyDesc.val
+  !descVal = !form.txtDesc.val.trim()
+  
+  !updatedCount = 0
+  
+  do !i from 1 to !count
+    !nozz = !form.nozzArray[!i]
+    $!nozz
+    
+    -- 1. Apply Specification Component
+    if (!applyCatr and not !targetSpec.eq('')) then
+      CATR SPCOMPONENT $!targetSpec
+    endif
+    
+    -- 2. Apply Dimensions
+    if (!applyHeig) then
+      HEIG $!heigVal mm
+    endif
+    if (!applyBore) then
+      BORD $!boreVal mm
+    endif
+    
+    -- 3. Apply Process Operating Data
+    if (!applyPres) then
+      PRES $!presVal bar
+    endif
+    if (!applyTemp) then
+      TEMP $!tempVal degC
+    endif
+    if (!applyTpres) then
+      TPRESS $!tpresVal bar
+    endif
+    
+    -- 4. Apply Insulation & Engineering Data
+    if (!applyInst) then
+      INST $!instVal mm
+    endif
+    if (!applyDuty) then
+      DUTY '$!dutyVal'
+    endif
+    if (!applyDesc and not !descVal.eq('')) then
+      DESC '$!descVal'
+    endif
+    
+    !updatedCount = !updatedCount + 1
+  enddo
+  
+  !form.txtStatus.val = 'Applied attributes to ' + !updatedCount.string() + ' nozzles!'
+endif
+
+$S+

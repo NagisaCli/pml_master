@@ -293,3 +293,89 @@ User direction on the native export `jk_tank_edited_by_me.txt` (zone
 Implementation and hashes: see
 `archive/2026-08-10_hexbolts/REVISION_RECORD.md`. Result:
 `output/WSB_TA_hexbolts_20260810_r3.txt` (pending E3D visual acceptance).
+
+--------------------------------------------------
+17. TOP HANDRAIL — 2026-08-10 (candidate, pending E3D acceptance)
+--------------------------------------------------
+
+User direction on the native export `jk_tank_edited_by_me_hexbolts.txt`
+(zone /WSB_TA):
+
+- Add a circular 1.1 m high handrail around the flat top platform of the roof
+  frustum on 205-TA-001 and "205-TA-006".
+- The second tag does not exist in the model. 205-TA-056 is the only other
+  205-series tank with a frustum top platform (DTOP 6500) and is modelled as
+  the intended second tank; confirm the tag.
+- Implemented with native structural syntax: STRUCTURE /TA_TOP_HANDRAILS,
+  two FRMWORKs, two HANDRA elements with closed circular RPATH
+  (4 x 90-degree CURTYP THRU arcs), RAILSET with two RAILs
+  (`/SLH/PIPE48.3x3.6`), RAILHE 1100/550, POSTSP 1000.
+- Insertion only, before the ZONE closing END (r2; r1 inserted after the ZONE
+  END and was rejected with `(41,8) Cannot create a STRU at this level`);
+  every original line preserved.
+
+Implementation and hashes: see
+`archive/2026-08-10_top_handrails/REVISION_RECORD.md`. Result:
+`output/WSB_TA_top_handrails_20260810_r2.txt` (r2 loaded but NOT accepted —
+user: "没有形成楼梯，放置的位置也不对；应是圆盘底座"; paused, continue next day).
+
+--------------------------------------------------
+18. TOP PLATFORM HANDRAIL r3 — 2026-08-10 (candidate, pending E3D acceptance)
+--------------------------------------------------
+
+Continuation of item 17, same working baseline
+`jk_tank_edited_by_me_hexbolts.txt`:
+
+- r2 rendered nothing the user could see, so the unverified HANDRA/RPATH
+  template form is dropped; r3 models the handrail with plain CYLI primitives.
+- One new SUBEQUIPMENT per tank (`/205_TA_001_TOP_PLATFORM`,
+  `/205_TA_056_TOP_PLATFORM`), inserted after each tank's existing ACCESS
+  SUBEQUIPMENT:
+  * circular platform disc closing the frustum top (圆盘底座): DIAM 6000 x 12
+    at U 28200 (TA-001) / DIAM 6500 x 12 at U 27700 (TA-056), top face flush
+    with the cone top;
+  * 20 / 24 posts (DIAM 48.3, height 1090 mm, spacing 895 / 812 mm) on
+    individual circular base plates (DIAM 200 x 10) at the rail circle
+    (platform rim inset 150 mm);
+  * top rail at platform + 1100 mm and mid rail at + 550 mm, each as
+    80 / 96 short tangent CYLI segments (sagitta 1.7–2.2 mm, visually smooth).
+- Insertion only, after the tank's ACCESS block; every original line
+  preserved. `validate_pml()`: 231 pre-existing findings unchanged, 0 new;
+  NEW/END hierarchy balanced; geometry verified numerically.
+
+Implementation and hashes: see
+`archive/2026-08-10_top_handrails_r3/REVISION_RECORD.md`. Result:
+`output/WSB_TA_top_handrails_20260810_r3.txt` (pending E3D visual acceptance).
+Open: confirm the second tank tag (205-TA-006 does not exist; 205-TA-056 is
+modelled) and whether "扶梯/楼梯" means the top platform handrail or a spiral
+access stair up the shell.
+
+--------------------------------------------------
+19. TOP HANDRAIL r4 — 2026-08-10 (candidate, pending E3D acceptance)
+--------------------------------------------------
+
+User corrected the r3 position (same baseline `jk_tank_edited_by_me_hexbolts.txt`):
+
+- r3 rendered the handrail normally but on the wrong circle. The user wants it
+  circling the SHELL-CYLINDER top big circle, not the frustum-top small circle:
+  "我要的围绕圆柱顶端的大圆转，而不是圆柱上圆台顶端的小圆；你直接插在
+  圆柱顶端圆面上绕着转，然后我再调整圆台大小".
+- r4 therefore drops the frustum-top platform disc and places the handrail on
+  the cylinder top face at U 26400:
+  * 205-TA-001: rail circle R 5300 (cylinder DIAM 10800, rim R 5400), 36 posts
+    (925 mm spacing);
+  * 205-TA-056: rail circle R 4850 (cylinder DIAM 9900, rim R 4950), 32 posts
+    (952 mm spacing);
+  * base plates DIAM 200 x 10 with outer edge flush at the rim; posts DIAM 48.3
+    x 1090; top rail +1100 mm (U 27500), mid rail +550 mm (U 26950); rails as
+    144 / 128 tangent CYLI segments.
+- The frustum and its platform remain the designer's to adjust afterwards. The
+  cone surface near the rim passes through the post zone for ~30–40 mm of post
+  height until the frustum is re-sized (reported, not hidden).
+- Insertion only, after each tank's ACCESS SUBEQUIPMENT; r3 platform blocks are
+  not present in r4 — load on a model state without them.
+
+Implementation and hashes: see
+`archive/2026-08-10_top_handrails_r4/REVISION_RECORD.md`. Result:
+`output/WSB_TA_top_handrails_20260810_r4.txt` (CONFIRMED by the user on
+2026-08-10: "可以，干的漂亮"). Frustum size remains the designer's to adjust.

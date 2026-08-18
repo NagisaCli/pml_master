@@ -1,0 +1,76 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Read All Native Attributes from CE
+-- ====================================================================
+$S-
+
+!form = !!nozzleSpecConverter
+
+if (!!ce.type.eq('NOZZ')) then
+  -- 1. Catalogue Component (CATREF)
+  !cat = !!ce.catref.string()
+  if (!cat.ne('Nulref') and !cat.ne('unset') and not !cat.trim().eq('')) then
+    !form.txtSpec.val = !cat
+    !form.togApplyCatr.val = true
+  endif
+  
+  -- 2. Height / Projection (HEIG)
+  !h = !!ce.heig
+  if (!h.set()) then
+    !form.txtHeight.val = !h
+    !form.togApplyHeig.val = true
+  endif
+  
+  -- 3. Nominal Bore (BORD)
+  !b = !!ce.bord
+  if (!b.set()) then
+    !form.txtBore.val = !b
+    !form.togApplyBore.val = true
+  endif
+  
+  -- 4. Temperature (TEMP)
+  !t = !!ce.temp
+  if (!t.set()) then
+    !form.txtTemp.val = !t
+    !form.togApplyTemp.val = true
+  endif
+  
+  -- 5. Pressure (PRES)
+  !p = !!ce.pres
+  if (!p.set()) then
+    !form.txtPres.val = !p
+    !form.togApplyPres.val = true
+  endif
+  
+  -- 6. Test Pressure (TPRESS)
+  !tp = !!ce.tpress
+  if (!tp.set()) then
+    !form.txtTpres.val = !tp
+    !form.togApplyTpres.val = true
+  endif
+  
+  -- 7. Description (DESC)
+  !d = !!ce.desc
+  if (!d.set()) then
+    !form.txtDesc.val = !d
+    !form.togApplyDesc.val = true
+  endif
+  
+  -- 8. Insulation Thickness (INST)
+  !inst = !!ce.inst
+  if (!inst.set()) then
+    !form.txtInst.val = !inst
+    !form.togApplyInst.val = true
+  endif
+  
+  -- 9. Duty (DUTY)
+  !duty = !!ce.duty.string()
+  if (!duty.set() and not !duty.eq('unset') and not !duty.trim().eq('')) then
+    !form.togApplyDuty.val = true
+  endif
+  
+  !form.txtStatus.val = 'Read all native properties from ' + !!ce.name + '!'
+else
+  !form.txtStatus.val = 'Select a NOZZLE in 3D/Explorer first.'
+endif
+
+$S+

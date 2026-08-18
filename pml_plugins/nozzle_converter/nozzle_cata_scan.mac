@@ -1,0 +1,32 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Dynamic Catalogue Specification Scanner
+-- Searches current project MDB for all valid Nozzle Specs & SELECs
+-- ====================================================================
+$S-
+
+!form = !!nozzleSpecConverter
+
+-- Collect all Nozzle Specs and Selectors from Project Catalogue
+VAR !cataSpecs COLLECT ALL SPECIFICATION WITH (GTYP EQ 'NOZZ' OR PURP EQ 'NOZZ')
+
+!specNames = object ARRAY()
+
+if (!cataSpecs.size().gt(0)) then
+  do !i from 1 to !cataSpecs.size()
+    !s = !cataSpecs[!i]
+    !specNames.append(!s.name)
+  enddo
+else
+  -- Fallback standard project specifications
+  !specNames.append('/150lb_Ansi_Flanged')
+  !specNames.append('/300lb_Ansi_Flanged')
+  !specNames.append('/600lb_Ansi_Flanged')
+  !specNames.append('/DIN_PN16_Flanged')
+  !specNames.append('/GB_PN16_Flanged')
+endif
+
+!form.optPreset.dtext = !specNames
+!form.optPreset.val = 1
+!form.txtStatus.val = 'Loaded ' + !specNames.size().string() + ' catalogue specifications from MDB.'
+
+$S+

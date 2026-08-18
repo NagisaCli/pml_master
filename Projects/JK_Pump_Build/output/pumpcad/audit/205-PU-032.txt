@@ -1,0 +1,81 @@
+Pump: 205-PU-032
+
+Source:
+  JSON: C:\Users\A\Desktop\pumps\205-PU-032.json
+  Metadata row: 23
+  Name: EOP WASHER WIRE WASH PUMP
+  Drawing: C:\Users\A\Desktop\SEAL\Ognized\all.dwg
+  Units: Millimetres
+
+CAD:
+  valid entities: 250
+  skipped entities: 0
+  bridged_joins: 50
+  chains: 55
+  circles: 3
+  duplicate_entities: 1
+  features: 53
+  input_entities: 250
+  open_paths: 44
+  polylines: 7
+  rectangles: 1
+  view: PLAN
+  view evidence: no declared view; outline 765x1677 contains the geometry, consistent with a baseplate seen from above
+  outline: 765.5 x 1676.5 mm
+
+Topology recovered (53 features):
+  cylinder: 1
+  disc_stack: 2
+  prism: 1
+  profile: 7
+  unclassified: 42
+    unclassified: 760 x 1720 mm - open path 760x1720, 5 vertices
+    unclassified: 760 x 1720 mm - open path 760x1720, 4 vertices
+    unclassified: 205 x 1720 mm - open path 205x1720, 4 vertices
+    profile: 431 x 464 mm - closed polyline 431x464
+    disc_stack: 372 x 372 mm - 1 concentric circle(s) on one axis, radii 186
+    profile: 226 x 275 mm - closed polyline 226x275
+    unclassified: 372 x 129 mm - open path 372x129, 7 vertices
+    unclassified: 291 x 146 mm - open path 291x146, 11 vertices
+    unclassified: 108 x 334 mm - open path 108x334, 5 vertices
+    unclassified: 65 x 464 mm - open path 65x464, 4 vertices
+    unclassified: 65 x 464 mm - open path 65x464, 4 vertices
+    unclassified: 377 x 75 mm - open path 377x75, 6 vertices
+    ... and 41 more
+
+Components:
+  BearingHousing: 426 x 410 mm [HIGH] - BearingHousing assembly 410 mm along the machine axis x 426 mm across, consolidated from 2 drawn sections (housing sections)
+  Motor: 528 x 679 mm [HIGH] - Motor assembly 679 mm along the machine axis x 528 mm across, consolidated from 3 drawn sections (body, fin bands, cowl)
+  Coupling: 86 x 210 mm [HIGH] - shaft/coupling: parallel rail pair 86 mm apart running 210 mm along y, a cylindrical body seen from the side; drawn on the machine centreline between driver and casing
+  PumpCasing: 323 x 280 mm [MEDIUM] - compact body 280x323 at the wet end; no concentric circle group was drawn, so the volute envelope is taken from the largest compact wet-end body
+
+Transform:
+  Local origin: baseplate underside centre
+  World position: E 39418.0 N 14294.0 U 0.0
+  Orientation: layout axis N (90 deg CCW from +E)
+
+Model:
+  solids: 75
+  nozzles: 2
+    SUCTION DN200 axis N -> /150lb_Ansi_Flanged/AAZFBB0TT
+    DISCHARGE DN150 axis U -> /150lb_Ansi_Flanged/AAZFBB0RR
+
+Validation:
+  [PASS] base centre matches metadata: plate centre E39418.0 N14294.0 vs metadata E39418.0 N14294.0 (dE=0.000, dN=0.000)
+  [PASS] baseplate underside sits on the metadata elevation: plate centre U25.0, underside U0.0 vs metadata U0.0
+  [PASS] baseplate dimensions match metadata: plate 765.0x1671.0 vs metadata 765.0x1671.0 for layout axis N
+  [PASS] orientation follows the contractual suction direction: layout axis N, expected N (metadata inlet 'N')
+  [PASS] suction bore traceable to metadata: DN200 is the nearest catalogue bore to the measured 216 mm (nearest available: DN200)
+  [PASS] discharge bore traceable to metadata: DN150 is the nearest catalogue bore to the measured 146 mm (nearest available: DN150)
+  [PASS] top-view footprint matches the CAD extent: plate (39036,13458)-(39800,15130), model (39036,13458)-(39800,15132): drawn outline agrees with the contractual plate within 2.8 mm; stays inside the CAD extent
+  [PASS] component plan silhouettes follow the drawing: all main bodies match their drawn contours within 30 mm
+  [PASS] CAD linework is substantially consumed: 170/234 in-outline entities (73%) contribute to a modelled component; 16 out-of-outline entities are attached pipework and are deliberately not modelled
+  [PASS] PML passes syntax validation: no banned constructs
+  overall: PASS
+
+Warnings:
+  (none)
+
+Notes:
+  - suction: metadata bore 216 mm snapped to catalogue DN200 (nearest available in 'AAZFBB0TT'; catalogue max is DN600)
+  - discharge: metadata bore 146 mm snapped to catalogue DN150 (nearest available in 'AAZFBB0RR'; catalogue max is DN600)

@@ -1,0 +1,27 @@
+-- ====================================================================
+-- AVEVA E3D Callback Macro: Select & Locate Nozzle in 3D Canvas
+-- ====================================================================
+$S-
+
+!form = !!nozzleSpecConverter
+!selIdx = !form.lstNozzles.val
+
+if (!selIdx.gt(0) and !selIdx.le(!form.nozzArray.size())) then
+  !targetNozz = !form.nozzArray[!selIdx]
+  
+  -- 1. Navigate CE to selected nozzle
+  $!targetNozz
+  
+  -- 2. Highlight in 3D Graphics View
+  handle ANY
+    UNENHANCE ALL
+    ENHANCE CE COLOUR YELLOW
+  endhandle
+  
+  -- 3. Auto-load its attributes into the right panel
+  $M "C:\Users\A\Desktop\nozzle_read_ce.mac"
+  
+  !form.txtStatus.val = 'Selected & Enhanced: ' + !targetNozz.string()
+endif
+
+$S+

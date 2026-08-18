@@ -1,0 +1,29 @@
+-- ====================================================================
+-- AVEVA E3D Top Shortcut Toolbar Launcher
+-- Form Name: !!nozzleToolBar
+-- Usage in E3D Command Line:
+--   $M "C:\Users\A\Desktop\add_to_e3d_menu.mac"
+-- ====================================================================
+$S-  -- Synonym translation OFF
+
+handle ANY
+  kill !!nozzleToolBar
+endhandle
+
+-- Create Mini Shortcut Toolbar Form
+setup form !!nozzleToolBar dialog
+  title 'Nozzle Tools'
+  button .btnTool 'Nozzle Spec Manager' at xmin ymin width 18 callback '$M "C:\Users\A\Desktop\launch_nozzle_tool.mac"'
+  button .btnNative 'Native Nozzle' at xmax+1 ymin width 13 callback '$M "C:\Users\A\Desktop\nozzle_open_native.mac"'
+  button .btnFixAll 'Auto-Fix Nulref' at xmax+1 ymin width 14 callback '$M "C:\Users\A\Desktop\auto_fix_nozzles_in_ce.mac"'
+exit
+
+-- Display the Shortcut Toolbar
+show !!nozzleToolBar
+
+$P ====================================================================
+$P [SUCCESS] Nozzle Shortcut Bar launched on screen!
+$P Click 'Nozzle Spec Manager' anytime to open the manager window.
+$P ====================================================================
+
+$S+  -- Synonym translation ON

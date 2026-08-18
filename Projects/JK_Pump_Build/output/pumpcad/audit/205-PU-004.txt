@@ -1,0 +1,48 @@
+Pump: 205-PU-004
+
+Source:
+  JSON: C:\Users\A\Desktop\pumps\205-PU-004.json
+  Metadata row: 15
+  Name: D0 REACTOR FEED MC PUMP
+  Drawing: n/a
+  Units: n/a
+
+CAD:
+  valid entities: 0
+  skipped entities: 0
+  view: UNKNOWN
+  view evidence: no CAD geometry in this file
+
+Components:
+  (none inferred)
+
+Transform:
+  Local origin: baseplate underside centre
+  World position: E 30441.0 N -10580.0 U 0.0
+  Orientation: layout axis E (0 deg CCW from +E)
+
+Model:
+  solids: 38
+  nozzles: 2
+    SUCTION DN200 axis E -> /150lb_Ansi_Flanged/AAZFBB0TT
+    DISCHARGE DN150 axis U -> /150lb_Ansi_Flanged/AAZFBB0RR
+
+Validation:
+  [PASS] base centre matches metadata: plate centre E30441.0 N-10580.0 vs metadata E30441.0 N-10580.0 (dE=0.000, dN=0.000)
+  [PASS] baseplate underside sits on the metadata elevation: plate centre U25.0, underside U0.0 vs metadata U0.0
+  [PASS] baseplate dimensions match metadata: plate 1725.0x760.0 vs metadata 1725.0x760.0 for layout axis E
+  [PASS] orientation follows the contractual suction direction: layout axis E, expected E (metadata inlet 'E')
+  [PASS] suction bore traceable to metadata: DN200 is the nearest catalogue bore to the measured 216 mm (nearest available: DN200)
+  [PASS] discharge bore traceable to metadata: DN150 is the nearest catalogue bore to the measured 151 mm (nearest available: DN150)
+  [FAIL] CAD top-view evidence applied: no top-view geometry exists in this file; the pump is built from metadata-proportioned Reference Values and remains UNCONFIRMED until a view or vendor data is supplied
+  [PASS] component plan silhouettes follow the drawing: all main bodies match their drawn contours within 30 mm
+  [PASS] PML passes syntax validation: no banned constructs
+  overall: FAIL
+
+Warnings:
+  - no shape-reference geometry; the pump must fall back to metadata-driven geometry
+  - no CAD top view in this file; pump body geometry is a metadata-proportioned Reference Value and remains UNCONFIRMED
+
+Notes:
+  - suction: metadata bore 216 mm snapped to catalogue DN200 (nearest available in 'AAZFBB0TT'; catalogue max is DN600)
+  - discharge: metadata bore 151 mm snapped to catalogue DN150 (nearest available in 'AAZFBB0RR'; catalogue max is DN600)
