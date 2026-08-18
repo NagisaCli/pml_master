@@ -25,11 +25,18 @@ from __future__ import annotations
 
 import math
 import re
+import sys
 from pathlib import Path
 
 
-ROOT = Path(r"C:\Users\A\Desktop\Projects\e3d_agent")
-SOURCE = Path(r"C:\Users\A\Desktop\jk_tank_edited_by_me.txt")
+ROOT = Path(__file__).resolve().parents[4]
+
+# The manually edited native export lives outside the repository, so it may be
+# absent on another machine or after a cleanup. Override with argv[1].
+SOURCE = (
+    Path(sys.argv[1]) if len(sys.argv) > 1
+    else Path(r"C:\Users\A\Desktop\jk_tank_edited_by_me.txt")
+)
 IMPORT = ROOT / "Projects/JK-Tank_Build/imports/2026-08-10_jk_tank_edited_by_me.txt"
 OUTPUT = ROOT / "Projects/JK-Tank_Build/output/WSB_TA_hexbolts_20260810_r3.txt"
 DESKTOP_OUTPUT = Path(r"C:\Users\A\Desktop\jk_tank_edited_by_me_hexbolts.txt")
