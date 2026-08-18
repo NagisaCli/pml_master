@@ -1,0 +1,38 @@
+-- ====================================================================
+-- AVEVA E3D Nozzle Specification Manager -- launcher
+-- Form Name: !!nozzleSpecConverter
+-- Usage in E3D Command Line:
+--   $M "<install dir>\launch_nozzle_tool.mac"
+-- ====================================================================
+--
+-- Reconstructed 2026-08-18. The original launcher was referenced by
+-- add_to_e3d_menu.mac and by the plugin README, but was never copied into the
+-- repository and no longer exists on the machine that built it, so the plugin
+-- as committed had no working entry point. This file restores it from the
+-- form definition in nozzleSpecConverter.pmlfrm.
+--
+-- It follows the same convention as add_to_e3d_menu.mac: kill any previous
+-- instance inside a handler (so a first run, when nothing is loaded yet, does
+-- not raise), reload the form definition, then show it.
+--
+-- The $M path below must match wherever this plugin is installed. E3D resolves
+-- macro paths at call time, not relative to this file.
+
+$S-  -- Synonym translation OFF
+
+-- Drop any previously loaded copy so an edited form is picked up on reload.
+handle ANY
+  kill !!nozzleSpecConverter
+endhandle
+
+-- Load the form definition. Adjust this path to the install location.
+$M "C:\Users\A\Desktop\nozzleSpecConverter.pmlfrm"
+
+handle ANY
+  $P Could not load nozzleSpecConverter.pmlfrm -- check the path above.
+  return
+endhandle
+
+show !!nozzleSpecConverter
+
+$S+  -- Synonym translation ON

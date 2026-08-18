@@ -1,38 +1,109 @@
-# AVEVA E3D 管嘴规格转换与批量属性配置插件 (PML Form UI)
+# Nozzle Specification Manager — AVEVA E3D PML2 form
 
-## 简介
-本插件是专为 AVEVA E3D / PDMS 开发的原生图形化交互工具（PML Form），旨在解决跨项目库导入模型时管嘴规格丢失（`Nulref`）、管嘴不可见、以及需要批量统一管嘴等级元件与属性的高频工程需求。
+A native E3D dialog for diagnosing and batch-repairing NOZZLE catalogue
+references. It exists because a nozzle whose `CATR` is unbound (`Nulref`) draws
+nothing at all — the model looks like it is missing nozzles that are in fact
+present but invisible. See
+[catalogue-elements.md](../../skill/knowledge/catalogue-elements.md).
 
----
+Written in PML2 (form definition), unlike the PML1 macros this repository
+generates for model geometry. Forms are a customisation surface and are not
+subject to the PML1-only rule in the Iron Rules.
 
-## 核心功能
+## Features
 
-1. **多作用域扫描与健康诊断**：
-   * 支持 `Current Element (CE)`、`Current Zone`、`Current Site`、`Entire World` 四种扫描范围。
-   * 自动诊断并高亮标记异常隐形管嘴（`[MISSING] ... (Nulref)`）与正常管嘴（`[OK] ...`）。
-2. **批量规格转换与 CATREF 绑定**：
-   * 自定义目标等级元件路径（例如 `/150lb_Ansi_Flanged/AAZFBB0YY` 或国标/德标元件）。
-   * 支持 **`[x] 仅修复 Nulref/丢失元件管嘴`**，防止误覆盖已有正确规格的管嘴。
-3. **批量属性赋能（可选）**：
-   * 批量修改管嘴外伸高度（`HEIG`，单位 mm）。
-   * 批量修改设计温度（`TEMP`，单位 °C）。
-   * 批量修改设计压力（`PRES`，单位 bar）。
-4. **一键加载（免配置 PMLLIB）**：
-   * 采用内存动态编译机制，无需繁琐配置 E3D 系统环境变量或重索目录。
+**Scoped scan and health diagnosis.** Scan by `Current Element (CE)`,
+`Current Zone`, `Current Site` or `Entire World`. Each nozzle is listed as
+`[OK] ...` or `[MISSING] ... (Nulref)`, so an invisible nozzle is identified
+before anything is changed.
 
----
+**Spec conversion and CATREF binding.** Enter any target specification path —
+ANSI, or a GB/DIN component. A *repair Nulref only* toggle prevents overwriting
+a nozzle that already holds a correct spec, which makes a batch run
+non-destructive by default.
 
-## 使用指南
+**Bore preservation.** `nozzle_smart_apply.mac` matches the existing bore when
+changing spec, rather than forcing every nozzle to one size.
 
-### 1. 启动插件
-在 AVEVA E3D 下方的 **Command** 命令行窗口中输入并回车：
+**Optional attribute updates.** Height (`HEIG`, mm), bore, design pressure
+(`PRES`, bar), temperature (`TEMP`, °C), test pressure, insulation and
+description — each behind its own toggle, all off unless explicitly enabled.
+
+**No PMLLIB configuration.** The form is compiled in memory, so no E3D
+environment variable or directory re-index is needed.
+
+## Installation
+
+The macros call each other by absolute path (`$M "C:\...\nozzle_scan.mac"`),
+which is how E3D resolves macros — paths are absolute at call time, never
+relative to the calling file. Copy the whole directory to one location and make
+the paths inside agree with it. The paths currently point at
+`C:\Users\A\Desktop\`.
+
+Files needing a path edit if you install elsewhere:
+`launch_nozzle_tool.mac`, `add_to_e3d_menu.mac`, and the `callback` lines in
+`nozzleSpecConverter.pmlfrm`.
+
+## Usage
+
+Load the toolbar from the E3D **Command** window:
+
+```pml
+$M "C:\Users\A\Desktop\add_to_e3d_menu.mac"
+```
+
+That shows a small **Nozzle Tools** bar with three buttons — *Nozzle Spec
+Manager*, *Native Nozzle*, *Auto-Fix Nulref*. Or open the main form directly:
+
 ```pml
 $M "C:\Users\A\Desktop\launch_nozzle_tool.mac"
 ```
-E3D 界面将立即弹出交互式对话框窗口。
 
-### 2. 操作步骤
-1. **选择范围**：在 **1. Scope & Scan** 下拉框中选择扫描范围（如 `Current Element (CE)` 或 `Current Zone`）。
-2. **扫描诊断**：点击 **Scan Nozzles** 按钮，中间列表将列出所有检索到的管嘴及绑定状态。
-3. **配置目标规格**：在 **3. Target Specification** 中输入目标元件路径（默认已填入标准美标 150lb 元件）。
-4. **批量执行**：点击 **Batch Convert / Apply**，三维视图中的管嘴将瞬间批量完成更新并渲染显示。
+Then, in the dialog:
+
+1. **1. Scope & Nozzles Browser** — pick a scope and click **Scan**. The list
+   fills with every nozzle found and its binding state.
+2. **2. Target Spec & Attributes** — enter the target specification path, and
+   enable only the attribute toggles you intend to change.
+3. **Smart Batch Convert** — applies the change. The 3-D view updates as the
+   nozzles rebind and become visible.
+
+Scan before converting. The scan is what tells you which nozzles are actually
+broken, and with *repair Nulref only* enabled the conversion acts on exactly
+those.
+
+## Files
+
+| File | Role |
+|------|------|
+| `nozzleSpecConverter.pmlfrm` | The form: layout, members, defaults |
+| `launch_nozzle_tool.mac` | Loads and shows the form |
+| `add_to_e3d_menu.mac` | Small always-on toolbar with three shortcuts |
+| `nozzle_scan.mac` | Scope scan; populates the list with OK/MISSING state |
+| `nozzle_smart_apply.mac` | Batch convert, preserving bore |
+| `nozzle_apply.mac` | Direct apply path (not currently bound to a button) |
+| `nozzle_spec_change.mac` | Single-nozzle spec change |
+| `nozzle_read_ce.mac` | Reads the current element into the form |
+| `nozzle_cata_scan.mac` | Queries the catalogue for available components |
+| `nozzle_locate_3d.mac` | Locates the selected nozzle in the 3-D view |
+| `nozzle_open_native.mac` | Opens E3D's own `!!equnozzle` form |
+
+## Known gaps
+
+- **`auto_fix_nozzles_in_ce.mac` is missing.** `add_to_e3d_menu.mac` binds it
+  to the *Auto-Fix Nulref* button, but the file was never copied into the
+  repository and is not on the machine that built it. That button will fail
+  until it is restored or the callback is removed. The main form's
+  *Smart Batch Convert* covers the same ground with more control.
+- **`launch_nozzle_tool.mac` was reconstructed** on 2026-08-18 from the form
+  definition, for the same reason. It has not been run in E3D since — verify it
+  loads before relying on it.
+- `nozzle_apply.mac` is present but no button calls it; `nozzle_smart_apply.mac`
+  superseded it.
+
+## Related
+
+The Python precursor to this plugin is archived at
+[`Projects/JK_Pump_Build/archive/2026-08-17_nozzle_catr_repair/`](../../Projects/JK_Pump_Build/archive/2026-08-17_nozzle_catr_repair/REVISION_RECORD.md).
+It rebound 235 nozzles unconditionally, from a Desktop text file, with no bore
+preservation — this form replaces it.
