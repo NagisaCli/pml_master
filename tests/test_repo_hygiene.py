@@ -28,6 +28,7 @@ from __future__ import annotations
 
 import ast
 import re
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -112,6 +113,46 @@ def test_no_hardcoded_repository_paths(script: Path):
         f"{script.relative_to(REPO_ROOT)} hardcodes the repository location:\n  "
         + "\n  ".join(offenders)
         + "\nDerive it from Path(__file__) instead so the script survives a clone."
+    )
+
+
+def test_byte_pinned_files_are_committed_as_stored():
+    """
+    A ``-text`` file's committed bytes must equal its working-tree bytes.
+
+    ``.gitattributes`` freezes these files so ``core.autocrlf`` cannot rewrite
+    them, and several tests pin their SHA-256. But ``-text`` only takes effect
+    from the commit that introduces it: anything committed *earlier* was
+    normalised to LF on the way in and keeps that LF blob, while the working
+    copy stays CRLF. The hash then passes on the machine that made the file and
+    fails on every fresh clone -- which is how it surfaced here, when a clone
+    turned 454 passing tests into two failing evidence hashes.
+
+    Re-adding the file after the attribute exists rewrites the blob and settles
+    it. This test fails while any pinned file is still in the old state.
+    """
+    tracked = subprocess.run(
+        ["git", "ls-files", "-z", "Projects/**/evidence/**", "*.pml", "*.mac"],
+        cwd=REPO_ROOT, capture_output=True, text=True, check=True,
+    ).stdout.split("\0")
+
+    mismatched = []
+    for rel in filter(None, tracked):
+        path = REPO_ROOT / rel
+        if not path.is_file():
+            continue
+        blob = subprocess.run(
+            ["git", "show", f"HEAD:{rel}"],
+            cwd=REPO_ROOT, capture_output=True, check=True,
+        ).stdout
+        if blob != path.read_bytes():
+            mismatched.append(rel)
+
+    assert not mismatched, (
+        "these byte-pinned files are committed with different bytes than they "
+        "have on disk (almost always LF in the blob, CRLF on disk), so their "
+        "hash will not survive a clone:\n  " + "\n  ".join(mismatched)
+        + "\nRe-add each one so the blob matches: git rm --cached <f> && git add <f>"
     )
 
 
