@@ -27,8 +27,30 @@ from pathlib import Path
 
 
 PROJECT = Path(__file__).resolve().parents[1]
-SOURCE = Path(r"C:\Users\A\Desktop\Custom_pump.txt")
+
+# The custom pump native export lives outside the repository, so it may be
+# absent on another machine or after a cleanup. Override with argv[1];
+# require_input() turns a missing file into a readable message rather than a
+# bare FileNotFoundError traceback.
+SOURCE = (
+    Path(sys.argv[1]) if len(sys.argv) > 1
+    else Path(r"C:\Users\A\Desktop\Custom_pump.txt")
+)
 OUTPUT = SOURCE.with_name("Custom_pump_3504x1500.txt")
+
+
+def require_input(path: Path, what: str) -> Path:
+    """Exit with an actionable message when an external input is absent."""
+    if not path.exists():
+        raise SystemExit(
+            "Input not found: {0}\n"
+            "  This script needs {1}.\n"
+            "  That file is external to the repository and is not versioned.\n"
+            "  Pass it explicitly:  python {2} <path>".format(
+                path, what, Path(__file__).name
+            )
+        )
+    return path
 
 CE = Decimal("33065")
 CN = Decimal("13825")
@@ -245,6 +267,7 @@ def predicted_world(axes, values):
 
 
 def main():
+    require_input(SOURCE, "the custom pump native export")
     src_elements, src_catr = parse(SOURCE)
     out_elements, out_catr = parse(OUTPUT)
 

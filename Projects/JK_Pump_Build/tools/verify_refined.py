@@ -14,13 +14,31 @@ from __future__ import annotations
 
 import collections
 import re
+import sys
 from pathlib import Path
 
-SRC = Path(r"C:\Users\A\Desktop\JK_PU.txt")
-OUT = Path(
-    r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
-    r"\JK_Pump_Build_refined_20260805_r8.pml"
-)
+BASE = Path(__file__).resolve().parent.parent
+
+# The native E3D export this verifier reads lives outside the repository, so it
+# may be absent on another machine or after a cleanup. Override with argv[1];
+# require_input() turns a missing file into a readable message rather than a
+# bare FileNotFoundError traceback.
+SRC = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(r"C:\Users\A\Desktop\JK_PU.txt")
+OUT = BASE / "output" / "JK_Pump_Build_refined_20260805_r8.pml"
+
+
+def require_input(path: Path, what: str) -> Path:
+    """Exit with an actionable message when an external input is absent."""
+    if not path.exists():
+        raise SystemExit(
+            "Input not found: {0}\n"
+            "  This script needs {1}.\n"
+            "  That file is external to the repository and is not versioned.\n"
+            "  Pass it explicitly:  python {2} <path>".format(
+                path, what, Path(__file__).name
+            )
+        )
+    return path
 
 TYPES = (
     "CYLINDER", "CYLI", "NCYLINDER", "NCYLI", "NBOX",
@@ -216,6 +234,7 @@ def dilated(a: tuple, tol: float) -> tuple:
 
 
 def main() -> int:
+    require_input(SRC, "the native E3D export of the pump batch")
     a_blocks = parse(SRC)
     b_blocks = parse(OUT)
 

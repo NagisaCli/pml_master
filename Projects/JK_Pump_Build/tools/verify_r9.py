@@ -13,14 +13,10 @@ import collections
 import re
 from pathlib import Path
 
-R8 = Path(
-    r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
-    r"\JK_Pump_Build_refined_20260805_r8.pml"
-)
-R9 = Path(
-    r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
-    r"\JK_Pump_Build_refined_20260805_r9.pml"
-)
+BASE = Path(__file__).resolve().parent.parent
+
+R8 = BASE / "output" / "JK_Pump_Build_refined_20260805_r8.pml"
+R9 = BASE / "output" / "JK_Pump_Build_refined_20260805_r9.pml"
 
 TYPES = (
     "CYLINDER", "CYLI", "NCYLINDER", "NCYLI", "NBOX",

@@ -38,14 +38,10 @@ import re
 from collections import defaultdict
 from pathlib import Path
 
-SRC = Path(
-    r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
-    r"\JK_Pump_Build_refined_20260805_r8.pml"
-)
-OUT = Path(
-    r"C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Pump_Build\output"
-    r"\JK_Pump_Build_refined_20260805_r11.pml"
-)
+BASE = Path(__file__).resolve().parent.parent
+
+SRC = BASE / "output" / "JK_Pump_Build_refined_20260805_r8.pml"
+OUT = BASE / "output" / "JK_Pump_Build_refined_20260805_r11.pml"
 
 PRIM_RE = re.compile(
     r"^NEW (CYLINDER|CYLI|NCYLINDER|NCYLI|NBOX|CONE|BOX|NOZZLE|EXTRUSION|DISH|PYRAMID)\b",

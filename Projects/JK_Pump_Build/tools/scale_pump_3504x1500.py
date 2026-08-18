@@ -56,8 +56,29 @@ from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
 
-SOURCE = Path(r"C:\Users\A\Desktop\Custom_pump.txt")
+# The custom pump native export lives outside the repository, so it may be
+# absent on another machine or after a cleanup. Override with argv[1];
+# require_input() turns a missing file into a readable message rather than a
+# bare "source not found" line.
+SOURCE = (
+    Path(sys.argv[1]) if len(sys.argv) > 1
+    else Path(r"C:\Users\A\Desktop\Custom_pump.txt")
+)
 PROJECT = Path(__file__).resolve().parents[1]
+
+
+def require_input(path: Path, what: str) -> Path:
+    """Exit with an actionable message when an external input is absent."""
+    if not path.exists():
+        raise SystemExit(
+            "Input not found: {0}\n"
+            "  This script needs {1}.\n"
+            "  That file is external to the repository and is not versioned.\n"
+            "  Pass it explicitly:  python {2} <path>".format(
+                path, what, Path(__file__).name
+            )
+        )
+    return path
 OUTPUT_DIR = PROJECT / "output"
 IMPORTS_DIR = PROJECT / "imports"
 
@@ -263,8 +284,7 @@ def archive_original():
 
 
 def main():
-    if not SOURCE.exists():
-        raise SystemExit(f"source not found: {SOURCE}")
+    require_input(SOURCE, "the custom pump native export")
 
     archive_path, digest = archive_original()
 
