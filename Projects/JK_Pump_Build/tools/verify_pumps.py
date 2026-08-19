@@ -297,7 +297,7 @@ def verify(model, sources) -> List[str]:
     # sinks.  What was missing is a check that the support has DEPTH.
     support = [p for p in solids if p.sube == "SUPPORT"]
     if support:
-        pedestals = [p for p in support if "pedestal" in p.note]
+        pedestals = [p for p in support if "pedestal" in p.note or "mounting pad" in p.note]
         for pedestal in pedestals:
             box = bounds(pedestal)
             height = box[2][1] - box[2][0]

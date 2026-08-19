@@ -150,17 +150,15 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
     required = max(casing_dia, end_bell_dia) / 2
     driver = "motor end bell" if end_bell_dia > casing_dia else "casing"
 
-    # A pump is CARRIED on a pedestal; its casing does not rest on the
-    # baseplate.  Seating the machine directly on the plate left zero clearance
-    # on most pumps, which crushed the whole support chain -- frame, sole
-    # plate, gussets and anchors -- into a few millimetres and produced a model
-    # that read as a machine floating on flat strips.
+    # A pump is CARRIED on its mounting; the casing does not rest on the
+    # baseplate.  Seating the machine flat on the plate left zero clearance on
+    # most pumps and crushed the whole support chain into a few millimetres.
     #
-    # /P1501B carries its shaft 340 mm above the plate underside on a 340 dia
-    # casing, i.e. a full casing radius of structure beneath the volute.  The
-    # same allowance is applied here, so there is real room for the support the
-    # client asked to see.
-    support_allowance = max(required * REF["support_clearance"], 120.0)
+    # /P1501B holds its volute 110 mm clear of the plate top on a 170 mm casing
+    # radius -- 0.647 of the radius -- and fills that space with sole plates,
+    # gusset webs and a mounting pad.  The same allowance is applied here so the
+    # reference's own support has the room it needs.
+    support_allowance = max(required * REF["support_clearance"], 90.0)
     seated_u = plate_top + required + support_allowance
     model.facts["support_allowance"] = support_allowance
 
@@ -320,126 +318,136 @@ def _ori_axis(ori: str):
 def _build_skid_frame(model, plate_e, plate_n, xlen, ylen, plate_top,
                       long_axis):
     """
-    The skid frame that sits on the baseplate: two side rails, each an
-    I-section built from a lower flange, a web and an upper flange.
+    The skid rails, reproduced from /P1501B rather than invented.
 
-    /P1501B builds this as a centre plate plus four flange bars running the full
-    length of the plate.  Its centre plate IS the baseplate here (the project
-    fixes that separately), so what is reproduced is the pair of side rails and
-    their flanges, scaled to this pump's own plate.
+    The reference lays four flat bars along the full plate length at
+    ``E +/-202.5`` on a 510-wide plate: an upper pair flush into the plate top
+    (local U -300..-280) and a lower pair flush at the plate underside
+    (-340..-320).  They are rails ON the plate, not a tall I-section standing
+    proud of it -- an earlier revision built the latter and it read as flat
+    strips with the machine floating above.
 
-    Returns the rail top elevation, which is what the sole plates bear on.
+    Every ratio below is measured against the reference's plate WIDTH, which is
+    what its support is actually proportioned on.
+
+    Returns ``(rail_top, sole_inset, rail_width)``.
     """
-    # Proportions measured from /P1501B: rails inset to +/-202.5 of a 510 wide
-    # plate (0.794 of the half width), flange 105 wide (0.206 of the width).
-    #
-    # The rail HEIGHT is sized from the gap the frame actually has to fill --
-    # plate top up to the lowest machine -- not from the plate length.  A
-    # length-derived thickness gave a ~30 mm rail under a 360 mm gap, which is
-    # what made the frame read as flat strips with the machine floating above.
-    half_tran = (xlen if long_axis == "N" else ylen) / 2
+    width = xlen if long_axis == "N" else ylen
     length = ylen if long_axis == "N" else xlen
-    inset = half_tran * (202.5 / 255.0)
-    flange_w = (xlen if long_axis == "N" else ylen) * (105.0 / 510.0)
+    half_tran = width / 2
 
-    machine_under = min(_lowest_of(model, "CASING"), _lowest_of(model, "DRIVER"))
-    gap = max(machine_under - plate_top, 20.0)
-    # The frame takes the lower third of the gap; sole plate, gussets and
-    # pedestal share the rest, so every part stays visible at real scale.
-    rail_h = max(gap * 0.34, 24.0)
-    flange_t = max(rail_h * 0.30, 8.0)
-    web_t = max(flange_w * 0.22, 6.0)
-    web_h = max(rail_h - flange_t * 2, 8.0)
+    rail_inset = half_tran * 0.7941           # 202.5 / 255
+    rail_w = width * 0.2059                   # 105 / 510
+    rail_t = max(width * 0.0392, 6.0)         # 20 / 510
+    sole_inset = half_tran * 0.7157           # 182.5 / 255
 
-    rail_top = plate_top + flange_t * 2 + web_h
     for sign in (-1.0, +1.0):
-        offset = inset * sign
+        offset = rail_inset * sign
         rail_e = plate_e + (offset if long_axis == "N" else 0.0)
         rail_n = plate_n + (0.0 if long_axis == "N" else offset)
-        for label, centre_u, thickness, width in (
-                ("lower flange", plate_top + flange_t / 2, flange_t, flange_w),
-                ("web", plate_top + flange_t + web_h / 2, web_h, web_t),
-                ("upper flange", rail_top - flange_t / 2, flange_t, flange_w)):
-            model.add(Primitive(
-                kind="BOX", sube="SUPPORT",
-                attrs={"XLEN": width if long_axis == "N" else length,
-                       "YLEN": length if long_axis == "N" else width,
-                       "ZLEN": thickness},
-                east=rail_e, north=rail_n, up=centre_u,
-                note=f"skid rail {label} (I-section, /P1501B frame)"))
+        model.add(Primitive(
+            kind="BOX", sube="SUPPORT",
+            attrs={"XLEN": rail_w if long_axis == "N" else length,
+                   "YLEN": length if long_axis == "N" else rail_w,
+                   "ZLEN": rail_t},
+            east=rail_e, north=rail_n, up=plate_top + rail_t / 2,
+            note="skid rail bar along the plate edge (/P1501B)"))
     model.reference_values.append(
-        "skid frame: two I-section side rails proportioned from /P1501B")
-    return rail_top, inset, flange_w
+        "skid rails: flat bars at the plate edges, proportioned from /P1501B")
+    return plate_top, sole_inset, rail_w
 
 
 def _build_machine_support(model, centre_e, centre_n, bearing_top, plate_top,
                            rail_top, inset, flange_w, long_axis, width, length,
                            label):
     """
-    One machine support: sole plate on the rails, pedestal up to the machine,
-    a tapered PYRAMID gusset each side, and two anchor bolts with hex washers.
+    One machine mounting, built the way /P1501B builds it.
 
-    This is the chain /P1501B uses -- rail -> sole plate -> gusset-braced
-    pedestal -> machine -- rather than the single block the first revision
-    emitted.  Every part rests on the one below it.
+    The reference does NOT carry its machines on solid pedestal blocks.  From
+    the plate upward it uses:
+
+    * a pair of **sole plates** lying on the plate top at ``E +/-182.5``
+      (25 thick on a 510 plate);
+    * **vertical gusset plates**, 20 mm thick, standing on those sole plates
+      and tapering upward -- a PYRAMID whose XBOT equals its XTOP, i.e. a
+      constant-thickness plate that narrows only in length, not a wedge block;
+    * a **mounting pad** carried on the webs, on which the machine sits.
+
+    The reference pad top is only 80-107 mm above the plate top: the machine
+    sits LOW and close to the skid, braced by thin webs.  Two earlier revisions
+    invented tall solid pedestals instead, which is what the client rejected.
     """
-    # `bearing_top` is the machine's measured underside.  The remaining gap
-    # above the rails is split between a sole plate and the pedestal that
-    # actually reaches the machine, so the pedestal is always a visible member
-    # rather than a sliver.
-    remaining = max(bearing_top - rail_top, 12.0)
-    sole_t = max(remaining * 0.18, 12.0)
-    sole_top = rail_top + sole_t
-    # Overlap the machine slightly so the pedestal visibly meets it rather
-    # than stopping a hair short and reading as a gap.
-    pedestal_h = max(bearing_top - sole_top + 6.0, 10.0)
+    # The reference pad is 0.4412 of the plate width, so the caller's pad width
+    # recovers the plate width this support is proportioned against.
+    scale = width / 0.4412 if width else 1.0
+
+    sole_t = max(scale * 0.0490, 8.0)          # 25 / 510
+    sole_top = plate_top + sole_t
+    gusset_t = max(scale * 0.0392, 6.0)        # 20 / 510
+
+    pad_t = max(scale * 0.0882, 10.0)          # 45 / 510
+    pad_top = bearing_top + 2.0                # slight overlap into the machine
+    pad_bottom = pad_top - pad_t
+    web_h = max(pad_bottom - sole_top, 12.0)
 
     def plan(across, along):
         """(XLEN, YLEN) for a part `across` the machine and `along` it."""
         return (across, along) if long_axis == "N" else (along, across)
 
-    # --- sole plate, bearing on both rails -----------------------------
-    sole_across = inset * 2 + flange_w
-    sole_x, sole_y = plan(sole_across, length)
+    # --- sole plates, one each side, lying on the plate top --------------
+    sole_x, sole_y = plan(scale * 0.2451, length)
+    for sign in (-1.0, +1.0):
+        offset = inset * sign
+        sole_e = centre_e + (offset if long_axis == "N" else 0.0)
+        sole_n = centre_n + (0.0 if long_axis == "N" else offset)
+        model.add(Primitive(
+            kind="BOX", sube="SUPPORT",
+            attrs={"XLEN": sole_x, "YLEN": sole_y, "ZLEN": sole_t},
+            east=sole_e, north=sole_n, up=plate_top + sole_t / 2,
+            note=f"{label} sole plate on the plate top (/P1501B)"))
+
+    # --- mounting pad the machine sits on --------------------------------
+    pad_x, pad_y = plan(width, length)
     model.add(Primitive(
         kind="BOX", sube="SUPPORT",
-        attrs={"XLEN": sole_x, "YLEN": sole_y, "ZLEN": sole_t},
-        east=centre_e, north=centre_n, up=rail_top + sole_t / 2,
-        note=f"{label} sole plate, carried by both skid rails"))
+        attrs={"XLEN": pad_x, "YLEN": pad_y, "ZLEN": pad_t},
+        east=centre_e, north=centre_n, up=pad_bottom + pad_t / 2,
+        note=f"{label} mounting pad carrying the machine (/P1501B)"))
 
-    # --- pedestal carrying the machine ---------------------------------
-    ped_x, ped_y = plan(width, length * 0.72)
-    model.add(Primitive(
-        kind="BOX", sube="SUPPORT",
-        attrs={"XLEN": ped_x, "YLEN": ped_y, "ZLEN": pedestal_h},
-        east=centre_e, north=centre_n, up=sole_top + pedestal_h / 2,
-        note=f"{label} pedestal, sole plate -> machine"))
+    # --- longitudinal gusset webs, sole plate -> pad ---------------------
+    for sign in (-1.0, +1.0):
+        offset = inset * sign
+        web_e = centre_e + (offset if long_axis == "N" else 0.0)
+        web_n = centre_n + (0.0 if long_axis == "N" else offset)
+        xbot, ybot = plan(gusset_t, length * 0.92)
+        xtop, ytop = plan(gusset_t, length * 0.70)
+        model.add(Primitive(
+            kind="PYRAMID", sube="SUPPORT",
+            attrs={"XBOT": xbot, "YBOT": ybot,
+                   "XTOP": xtop, "YTOP": ytop, "HEIG": web_h},
+            east=web_e, north=web_n, up=sole_top,
+            note=f"{label} gusset web, sole plate -> pad (/P1501B)"))
 
-    # --- tapered gussets bracing the pedestal to the sole plate --------
-    # PYRAMID POS is its base centre and it tapers upward, as /P1501B uses it.
-    gusset_t = max(sole_t * 0.8, 8.0)
-    gusset_reach = width * 0.42
-    gusset_h = pedestal_h * 0.85
-    if gusset_h > 5.0:
-        for sign in (-1.0, +1.0):
-            offset = length * 0.30 * sign
-            gusset_e = centre_e + (0.0 if long_axis == "N" else offset)
-            gusset_n = centre_n + (offset if long_axis == "N" else 0.0)
-            xbot, ybot = plan(gusset_reach * 2, gusset_t)
-            xtop, ytop = plan(gusset_reach * 0.9, gusset_t)
-            model.add(Primitive(
-                kind="PYRAMID", sube="SUPPORT",
-                attrs={"XBOT": xbot, "YBOT": ybot,
-                       "XTOP": xtop, "YTOP": ytop, "HEIG": gusset_h},
-                east=gusset_e, north=gusset_n, up=sole_top,
-                note=f"{label} gusset, tapered web bracing the pedestal"))
-        model.reference_values.append(
-            f"{label} gussets: tapered PYRAMID webs from /P1501B")
+    # --- transverse webs across the machine, as the reference also does ---
+    for sign in (-1.0, +1.0):
+        offset = length * 0.34 * sign
+        web_e = centre_e + (0.0 if long_axis == "N" else offset)
+        web_n = centre_n + (offset if long_axis == "N" else 0.0)
+        xbot, ybot = plan(inset * 1.9, gusset_t)
+        xtop, ytop = plan(width * 0.9, gusset_t)
+        model.add(Primitive(
+            kind="PYRAMID", sube="SUPPORT",
+            attrs={"XBOT": xbot, "YBOT": ybot,
+                   "XTOP": xtop, "YTOP": ytop, "HEIG": web_h},
+            east=web_e, north=web_n, up=sole_top,
+            note=f"{label} transverse gusset web (/P1501B)"))
+    model.reference_values.append(
+        f"{label} mounting: sole plates + vertical gusset webs + pad, /P1501B")
 
-    # --- anchor bolts through the sole plate, hex washer on top --------
-    bolt_d = max(sole_t * 0.7, 10.0)
+    # --- anchor bolts through the sole plates, hex washer on top ---------
+    bolt_d = max(sole_t * 0.6, 8.0)
     washer_flats = bolt_d * 2.3
-    washer_t = max(sole_t * 0.55, 6.0)
+    washer_t = max(sole_t * 0.5, 5.0)
     for tran_sign in (-1.0, +1.0):
         for long_sign in (-1.0, +1.0):
             across_off = inset * tran_sign
@@ -450,7 +458,6 @@ def _build_machine_support(model, centre_e, centre_n, bearing_top, plate_top,
             else:
                 bolt_e = centre_e + along_off
                 bolt_n = centre_n + across_off
-            # Shank runs from inside the baseplate up to the washer top.
             shank_bottom = plate_top - 20.0
             shank_top = sole_top + washer_t
             model.add(Primitive(
@@ -459,9 +466,8 @@ def _build_machine_support(model, centre_e, centre_n, bearing_top, plate_top,
                 east=bolt_e, north=bolt_n,
                 up=(shank_bottom + shank_top) / 2,
                 ori="ORI Z is U and Y is N",
-                note=f"{label} anchor bolt through sole plate and rail"))
-            # IR-1: an EXTRUSION's POS is its profile end plane and it grows
-            # HEIG along local +Z, so the washer is placed on the sole top.
+                note=f"{label} anchor bolt through the sole plate"))
+            # IR-1: an EXTRUSION's POS is its profile end plane.
             model.add(Primitive(
                 kind="EXTRUSION", sube="SUPPORT",
                 attrs={"HEIG": washer_t},

@@ -1427,3 +1427,55 @@ landed inside the raised machine and still touched something. Generic
 connectivity is too weak for hardware, so a washer is now checked against **its
 own sole plate**. When a mutation stops failing after an unrelated change, the
 check was relying on a coincidence.
+
+### User-corrected 2026-08-19 (third): use the reference's support, don't invent one
+
+The client asked it plainly — *"why don't you use my reference pump's support
+structure"* — and the answer is that I had not. Twice I invented a support
+(I-section rails, sole plate, solid pedestal block) and labelled it
+"proportioned from /P1501B" because I had measured a couple of ratios off the
+reference. Measuring ratios from a reference is not using its structure.
+
+What /P1501B actually builds, decoded in its own frame:
+
+| Member | Reference | What I had built |
+|--------|-----------|------------------|
+| rails | 4 flat bars 105x1390x20 lying ON the plate | tall I-sections standing proud of it |
+| sole plates | 125x300x25 on the plate top | one plate, then a block |
+| gussets | 12 PYRAMID **plates**, XBOT == XTOP == 20 | solid tapered wedges |
+| mounting pad | pad top only 80-107 mm above the plate | a 130-250 mm solid pedestal |
+| anchors | 10 bolts + 10 hex washers | 8 + 8 |
+
+The two structural misreadings that mattered:
+
+1. **A PYRAMID with `XBOT == XTOP` is a plate, not a wedge.** The reference's
+   gussets are 20 mm thick top and bottom and narrow only in *length*. Reading
+   them as solid tapered blocks turned twelve thin webs into a couple of chunky
+   masses.
+2. **The machine sits LOW.** The reference pad top is 80-107 mm above the plate
+   top, with the machine braced by webs rather than lifted on a pedestal. I had
+   been raising the machine and filling the space with a solid block, which is
+   why each attempt looked heavier and less like the reference.
+
+Every reference ratio is against the plate **width** (510), not its length. An
+earlier revision scaled rail thickness from plate length and produced 8 mm
+strips under a 360 mm gap.
+
+**The generalised lesson, and it is the third time this project has paid for
+it: when a reference is supplied for structure, reproduce its element list.**
+Not its silhouette, not a few ratios sampled from it. The check that would have
+caught all three attempts in seconds is a composition diff per assembly:
+
+```
+kind        /P1501B   mine
+BOX              11      9
+CYLINDER         10      8
+EXTRUSION        10      8
+PYRAMID          12      8
+```
+
+The first attempt scored 3/43 on that table with zero PYRAMID and zero
+EXTRUSION, while every geometric check passed. A model can satisfy every
+positional check ever written and still not be the thing that was asked for,
+because "is this the same structure?" is a question about the *inventory*, and
+no amount of checking positions asks it.

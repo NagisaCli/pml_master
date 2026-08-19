@@ -580,3 +580,32 @@ Client correction — 2026-08-19 (support crushed to nothing; give it real heigh
   plate` mutation reproduces the exact regression and is caught. Hex washers
   are now checked against their own sole plate rather than generic contact.
 - Status: 30 pumps, 2220 elements, 0 problems; 13/13 mutations caught.
+
+Client correction — 2026-08-19 (use the reference's OWN support structure)
+---------------------------------------------------------------------------
+
+- The client asked directly: "why don't you use my reference pump's support
+  structure for those pumps". Correct criticism. The previous two attempts
+  INVENTED a support (I-section rails + sole plate + solid pedestal block) and
+  merely labelled it "proportioned from /P1501B".
+- What /P1501B's `Baseplate_and_support` actually builds, decoded in its own
+  frame (plate -340..-280, shaft axis U 0):
+  * baseplate BOX 300 x 1390 x 60 spanning the plate itself;
+  * FOUR flat rail bars 105 x 1390 x 20 at E +/-202.5 -- an upper pair flush
+    into the plate top and a lower pair at the plate underside. They are flat
+    bars ON the plate, NOT a tall I-section standing proud of it;
+  * SOLE PLATES 125 x 300/400 x 25 lying on the plate top at E +/-182.5;
+  * twelve PYRAMID gussets that are 20 mm CONSTANT-THICKNESS VERTICAL PLATES
+    (XBOT == XTOP == 20), narrowing only in length -- not solid wedge blocks;
+  * MOUNTING PADS (225x150x17.5 pump end, 225x300x45 motor end) whose tops sit
+    only 80-107 mm above the plate top: the machine sits LOW, braced by webs;
+  * ten anchor bolts with ten hex EXTRUSION washers.
+- Every ratio is against the plate WIDTH (510), not its length.
+- The support is now built to that construction: rails -> sole plates ->
+  vertical gusset webs (longitudinal and transverse) -> mounting pad ->
+  machine, with anchors and hex washers.
+- Composition now tracks the reference (BOX 9/11, CYLI 8/10, EXTR 8/10,
+  PYRA 8/12 per pump against the reference's 43-element support) instead of
+  the 3 plain boxes of the first attempt.
+- Status: 30 pumps, 2271 elements, 0 problems; 13/13 mutations caught; 972
+  ribs correct. Awaiting E3D reload (IR-11d).
