@@ -21,36 +21,36 @@ the macros, so this record cannot drift from the emitted geometry.
 
 | Tag | Type | Elements | Casing source | Shaft datum | Unresolved |
 |-----|------|----------|---------------|-------------|------------|
-| 203-PU-008 | non-MC | 53 | casing_reference | raised | 1 |
-| 203-PU-009 | non-MC | 53 | casing_reference | raised | 1 |
-| 203-PU-011 | non-MC | 53 | casing_reference | suction axis | 0 |
-| 203-PU-020 | non-MC | 6 | DERIVED | raised | 3 |
-| 203-PU-026 | non-MC | 6 | casing_reference | suction axis | 1 |
-| 203-PU-031 | non-MC | 53 | casing_reference | suction axis | 0 |
-| 204-PU-003 | non-MC | 53 | casing_reference | raised | 1 |
-| 204-PU-006 | non-MC | 53 | casing_reference | suction axis | 0 |
-| 204-PU-008 | non-MC | 53 | casing_reference | suction axis | 0 |
-| 204-PU-015 | non-MC | 53 | casing_reference | raised | 1 |
-| 204-PU-016 | non-MC | 53 | casing_reference | raised | 1 |
-| 204-PU-017 | non-MC | 53 | casing_reference | suction axis | 0 |
-| 204-PU-023 | non-MC | 53 | casing_reference | suction axis | 0 |
-| 205-PU-004 | non-MC | 6 | DERIVED | raised | 3 |
-| 205-PU-012 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-013 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-018 | MC | 50 | casing_reference | raised | 1 |
-| 205-PU-024 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-027 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-030 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-031 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-032 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-038 | MC | 50 | casing_reference | raised | 1 |
-| 205-PU-046 | non-MC | 53 | DERIVED | raised | 2 |
-| 205-PU-047 | non-MC | 53 | DERIVED | raised | 2 |
-| 205-PU-048 | non-MC | 53 | DERIVED | raised | 2 |
-| 205-PU-049 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-054 | MC | 50 | casing_reference | raised | 1 |
-| 205-PU-060 | non-MC | 53 | casing_reference | raised | 1 |
-| 205-PU-061 | non-MC | 53 | casing_reference | raised | 1 |
+| 203-PU-008 | non-MC | 80 | casing_reference | raised | 1 |
+| 203-PU-009 | non-MC | 80 | casing_reference | raised | 1 |
+| 203-PU-011 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 203-PU-020 | non-MC | 23 | DERIVED | raised | 3 |
+| 203-PU-026 | non-MC | 23 | casing_reference | suction axis | 1 |
+| 203-PU-031 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 204-PU-003 | non-MC | 80 | casing_reference | raised | 1 |
+| 204-PU-006 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 204-PU-008 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 204-PU-015 | non-MC | 80 | casing_reference | raised | 1 |
+| 204-PU-016 | non-MC | 80 | casing_reference | raised | 1 |
+| 204-PU-017 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 204-PU-023 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 205-PU-004 | non-MC | 23 | DERIVED | raised | 3 |
+| 205-PU-012 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-013 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-018 | MC | 77 | casing_reference | raised | 1 |
+| 205-PU-024 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-027 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-030 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-031 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-032 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-038 | MC | 77 | casing_reference | raised | 1 |
+| 205-PU-046 | non-MC | 80 | DERIVED | raised | 2 |
+| 205-PU-047 | non-MC | 80 | DERIVED | raised | 2 |
+| 205-PU-048 | non-MC | 80 | DERIVED | raised | 2 |
+| 205-PU-049 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-054 | MC | 77 | casing_reference | raised | 1 |
+| 205-PU-060 | non-MC | 80 | casing_reference | raised | 1 |
+| 205-PU-061 | non-MC | 80 | casing_reference | raised | 1 |
 
 ## Per-pump record
 
@@ -68,9 +68,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -90,9 +93,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -111,9 +117,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 
@@ -130,7 +139,9 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 599.6 -> 647.2
 - Reference Values (assumed, replace when vendor data arrives):
   - casing 547 dia x 164 long (DERIVED)
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - casing diameter/length not in casing_reference.txt; derived 547 x 164 from plate width
@@ -148,7 +159,9 @@ the macros, so this record cannot drift from the emitted geometry.
 - Nozzle Z adjustments (plan position and direction unchanged):
   - DISCHARGE: 567.0 -> 516.1
 - Reference Values (assumed, replace when vendor data arrives):
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - no engine_shaft record: motor and shaft not modelled
@@ -166,9 +179,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 
@@ -186,9 +202,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -207,9 +226,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 
@@ -226,9 +248,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 
@@ -246,9 +271,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -268,9 +296,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -289,9 +320,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 
@@ -308,9 +342,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 
@@ -327,7 +364,9 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 615.3 -> 647.2
 - Reference Values (assumed, replace when vendor data arrives):
   - casing 547 dia x 164 long (DERIVED)
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - casing diameter/length not in casing_reference.txt; derived 547 x 164 from plate width
@@ -348,9 +387,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -370,9 +412,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -393,8 +438,11 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
-  - motor pedestals sized from motor envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -414,9 +462,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -436,9 +487,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -458,9 +512,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -480,9 +537,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -502,9 +562,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -525,8 +588,11 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
-  - motor pedestals sized from motor envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -547,9 +613,12 @@ the macros, so this record cannot drift from the emitted geometry.
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
   - casing 547 dia x 164 long (DERIVED)
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -571,9 +640,12 @@ the macros, so this record cannot drift from the emitted geometry.
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
   - casing 621 dia x 186 long (DERIVED)
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -595,9 +667,12 @@ the macros, so this record cannot drift from the emitted geometry.
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
   - casing 621 dia x 186 long (DERIVED)
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -618,9 +693,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -641,8 +719,11 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
-  - motor pedestals sized from motor envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -662,9 +743,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -684,9 +768,12 @@ the macros, so this record cannot drift from the emitted geometry.
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
-  - casing pedestal sized from casing envelope
+  - casing anchors: hex EXTRUSION washers, as /P1501B
+  - casing gussets: tapered PYRAMID webs from /P1501B
   - coupling hubs proportioned from /P1501B
-  - motor pedestals sized from motor envelope
+  - driver anchors: hex EXTRUSION washers, as /P1501B
+  - driver gussets: tapered PYRAMID webs from /P1501B
+  - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**

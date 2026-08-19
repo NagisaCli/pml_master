@@ -1322,3 +1322,50 @@ now sized from that gap rather than from a ratio.
 All nine injected defects (moved plan position, unbound nozzle, broken
 coaxiality, buried discharge, 42 m nozzle, detached part, sunk casing, resized
 plate, shrunk casing) are caught.
+
+### User-corrected 2026-08-19: the support was not derived from the reference
+
+The client's E3D reload showed the failure plainly: plain rectangular blocks
+under the casing and motor. The first pass had read `Reference_pumps.txt` for
+the *machine* (casing, shaft, motor, ribs) and then invented the support from
+scratch as one box per foot — discarding the richest part of the reference.
+
+`/P1501B`'s `Baseplate_and_support` holds 43 elements in five systems, and a
+composition count would have exposed the gap immediately:
+
+| System | Reference | First pass |
+|--------|-----------|------------|
+| skid frame (I-section side rails) | 5 BOX | — |
+| sole plates | 4 BOX | — |
+| tapered gussets | 12 PYRAMID | — |
+| anchor bolts | 10 CYLI | — |
+| hex washers | 10 EXTRUSION | — |
+| plain foot blocks | — | 3 BOX |
+
+**The lesson: when a reference is supplied for structure, diff the composition
+per assembly, not just the overall element count.** The first pass produced 53
+elements against the reference's 99 and still looked plausible in aggregate; it
+was the per-SUBE breakdown — 0 PYRAMID, 0 EXTRUSION against 12 and 10 — that
+named exactly what was missing. A count of primitive *kinds* per assembly is a
+cheap structural check and catches "adapted" work that quietly dropped a whole
+system.
+
+The rebuilt chain is baseplate -> rail -> sole plate -> gusseted pedestal ->
+machine, with anchors through the sole plate and a true six-vertex hex washer
+seated on top. Support elements went from 3 to ~30 per pump.
+
+### The verifier was blind to the parts that were just added
+
+`bounds()` handled BOX, CYLI and DISH only, so every new PYRAMID gusset and
+EXTRUSION washer was silently skipped — 12 unchecked parts per pump, and the
+suite still reported "0 problems". This is IR-11f in its purest form: the
+silence meant the verifier had not looked, not that the geometry was sound.
+
+Adding PYRAMID (base-centre datum, tapering up) and EXTRUSION (profile
+end-plane datum, IR-1) to `bounds()`, then adding three support-specific
+mutations — floating washer, displaced gusset, sunk rail — restored real
+coverage. All twelve mutations are now caught.
+
+**Whenever a new primitive KIND enters the model, check the verifier's type
+list before trusting its next clean run.** A verifier silently narrower than
+the model is worse than no verifier, because it reports success.

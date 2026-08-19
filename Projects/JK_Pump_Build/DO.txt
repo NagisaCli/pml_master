@@ -519,3 +519,31 @@ Client instruction — 2026-08-19 (five-file rebuild of the pump register)
 - Status: 30 pumps generated; 0 verification problems; 9/9 verifier mutations
   caught; 481 repo tests pass.  A fresh E3D visual reload is still required
   before acceptance (IR-11d).
+
+Client correction — 2026-08-19 (support structure + combined output only)
+-------------------------------------------------------------------------
+
+- The client's E3D reload showed the support structure was NOT derived from
+  the reference: the first pass emitted plain rectangular blocks under the
+  casing and motor, discarding the /P1501B support construction.
+- The reference `Baseplate_and_support` has five systems, now reproduced:
+  * skid frame -- two side rails, each an I-section (lower flange + web +
+    upper flange) running the full plate length;
+  * sole plates bearing across both rails under each machine;
+  * tapered PYRAMID gussets bracing each pedestal to its sole plate;
+  * anchor bolts passing through sole plate and rail into the baseplate;
+  * hex EXTRUSION washers (true 6-vertex hexagon, as the reference writes
+    them) seated on the sole plate top.
+- Support chain per machine: baseplate -> rail -> sole plate -> gusseted
+  pedestal -> machine. No part is emitted without a supporter beneath it.
+- Support element count rose from 3 plain boxes to ~30 per pump.
+- Output: the client requires the COMBINED macro only. Per-tag macros are no
+  longer emitted; the combined file still contains one independent EQUI per
+  pump.
+- The verifier previously ignored PYRAMID and EXTRUSION entirely, so the new
+  gussets and washers would have gone unchecked (IR-11f). `bounds()` now
+  covers both, and three support-specific mutations (floating washer,
+  displaced gusset, sunk rail) were added and are caught.
+- Status: 30 pumps, 2220 elements, 0 verification problems; 12/12 mutations
+  caught; 972 ribs geometrically correct; 483 repo tests pass. Still awaiting
+  a fresh E3D visual reload before acceptance (IR-11d).

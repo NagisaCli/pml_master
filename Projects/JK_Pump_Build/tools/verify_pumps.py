@@ -50,6 +50,34 @@ def bounds(primitive) -> tuple:
                 (north - half[1], north + half[1]),
                 (up - half[2], up + half[2]))
 
+    if primitive.kind == "PYRAMID":
+        # POS is the base centre; the solid tapers upward along local +Z.
+        # The enclosing extent uses the larger of base and top on each axis.
+        width = max(attrs.get("XBOT", 0), attrs.get("XTOP", 0))
+        depth = max(attrs.get("YBOT", 0), attrs.get("YTOP", 0))
+        height = attrs.get("HEIG", 0)
+        return ((east - width / 2, east + width / 2),
+                (north - depth / 2, north + depth / 2),
+                (up, up + height))
+
+    if primitive.kind == "EXTRUSION":
+        # IR-1: POS is the profile END PLANE and the solid grows HEIG along
+        # local +Z.  The profile's own extent gives the plan footprint.
+        profile = primitive.profile or []
+        if profile:
+            radius = max(math.hypot(x, y) for x, y in profile)
+        else:
+            radius = 0.0
+        height = attrs.get("HEIG", 0)
+        axis = _axis_of(primitive.ori)
+        vector = AXIS_VECTOR.get(axis, (0.0, 0.0, 1.0))
+        out = []
+        for index, centre in enumerate((east, north, up)):
+            low, high = sorted((0.0, height * vector[index]))
+            radial = radius * math.sqrt(max(0.0, 1.0 - vector[index] ** 2))
+            out.append((centre + low - radial, centre + high + radial))
+        return tuple(out)
+
     if primitive.kind in ("CYLINDER", "DISH"):
         diameter = attrs.get("DIAM", 0)
         height = attrs.get("HEIG", 0)
@@ -94,7 +122,7 @@ def verify(model, sources) -> List[str]:
     facts = model.facts
 
     solids = [p for p in model.primitives
-              if p.kind in ("BOX", "CYLINDER", "DISH")]
+              if p.kind in ("BOX", "CYLINDER", "DISH", "PYRAMID", "EXTRUSION")]
     nozzles = [p for p in model.primitives if p.kind == "NOZZLE"]
 
     # --- [1] baseplate reproduces the project data exactly ---------------

@@ -100,6 +100,8 @@ class Primitive:
     name: Optional[str] = None
     catr: Optional[str] = None
     note: str = ""
+    #: Profile vertices for an EXTRUSION, as (local east, local north) pairs.
+    profile: Optional[List[Tuple[float, float]]] = None
 
     def to_pml(self) -> List[str]:
         header = f"NEW {self.kind}" + (f" /{self.name}" if self.name else "")
@@ -130,6 +132,18 @@ class Primitive:
             if self.ori:
                 lines.append(self.ori)
             lines.append(pos_line(self.east, self.north, self.up))
+            # An EXTRUSION carries its profile as a LOOP of VERTEX children.
+            # IR-1: its POS is the profile END PLANE, and the solid grows HEIG
+            # along local +Z from there -- no half-height conversion.
+            if self.profile:
+                lines.append("")
+                lines.append("NEW LOOP")
+                for vertex_e, vertex_n in self.profile:
+                    lines.append("")
+                    lines.append("NEW VERTEX")
+                    lines.append(pos_line(vertex_e, vertex_n, 0.0))
+                    lines.append("END")
+                lines.append("END")
         lines.append("END")
         return lines
 

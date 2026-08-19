@@ -86,7 +86,35 @@ def mutate_absurd_heig(model):
     return "nozzle HEIG set to 42 m"
 
 
+def mutate_float_hex_washer(model):
+    washer = next((p for p in model.primitives if p.kind == "EXTRUSION"), None)
+    if washer is None:
+        return None
+    washer.up += 700.0
+    return "hex washer lifted 700 mm off its sole plate"
+
+
+def mutate_float_gusset(model):
+    gusset = next((p for p in model.primitives if p.kind == "PYRAMID"), None)
+    if gusset is None:
+        return None
+    gusset.east += 1200.0
+    return "gusset displaced 1200 mm off the pedestal"
+
+
+def mutate_sink_skid_rail(model):
+    rail = next((p for p in model.primitives
+                 if "skid rail" in p.note), None)
+    if rail is None:
+        return None
+    rail.up -= 300.0
+    return "skid rail sunk 300 mm below the baseplate"
+
+
 MUTATIONS = [
+    mutate_float_hex_washer,
+    mutate_float_gusset,
+    mutate_sink_skid_rail,
     mutate_baseplate_size,
     mutate_nozzle_plan,
     mutate_casing_diameter,

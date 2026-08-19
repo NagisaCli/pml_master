@@ -193,11 +193,36 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
                        casing_centre=(casing_e, casing_n), shaft_u=shaft_u)
 
     _build_baseplate(model, plate_e, plate_n, xlen, ylen, zlen, plate.pos["up"])
+    # The skid frame is built first because every machine support bears on it.
+    rail_top, inset, flange_w = _build_skid_frame(
+        model, plate_e, plate_n, xlen, ylen, plate_top, long_axis)
+
     _build_casing(model, casing_e, casing_n, casing_dia, casing_len,
                   shaft_u, long_axis, wet_end, plate_top, is_mc)
     _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaft_u,
                  long_axis, wet_end, motor_end, plate_e, plate_n,
                  half_long, plate_top, is_mc)
+
+    # --- support chains, built to the reference construction --------------
+    # The casing sits on its own gusseted pedestal; the driver on a second one.
+    _build_machine_support(
+        model, casing_e, casing_n,
+        bearing_top=shaft_u - casing_dia * 0.30,
+        plate_top=plate_top, rail_top=rail_top, inset=inset,
+        flange_w=flange_w, long_axis=long_axis,
+        width=casing_dia * 0.55, length=max(casing_len * 1.4, casing_dia * 0.45),
+        label="casing")
+
+    motor_support = model.facts.get("motor_support")
+    if motor_support:
+        _build_machine_support(
+            model, motor_support["centre_e"], motor_support["centre_n"],
+            bearing_top=motor_support["bearing_top"],
+            plate_top=plate_top, rail_top=rail_top, inset=inset,
+            flange_w=flange_w, long_axis=long_axis,
+            width=motor_support["width"], length=motor_support["length"],
+            label="driver")
+
     _build_nozzles(model, suction, discharge, casing_e, casing_n,
                    casing_dia, casing_len, shaft_u, location)
     return model
@@ -210,6 +235,158 @@ def _build_baseplate(model, east, north, xlen, ylen, zlen, up):
         attrs={"XLEN": xlen, "YLEN": ylen, "ZLEN": zlen},
         east=east, north=north, up=up,
         note="baseplate: size and underside centre are project data"))
+
+
+def hex_profile(across_flats: float):
+    """
+    A regular hexagon profile, as /P1501B writes its washers.
+
+    The reference washer is a true six-vertex hexagon (34.64 across flats, which
+    is 20 * sqrt(3)), not a cylinder.  The client asked specifically for hex
+    hardware, so the shape is reproduced rather than approximated.
+    """
+    radius = across_flats / math.sqrt(3.0)      # circumradius
+    return [(radius * math.cos(math.radians(60 * i)),
+             radius * math.sin(math.radians(60 * i))) for i in range(6)]
+
+
+def _build_skid_frame(model, plate_e, plate_n, xlen, ylen, plate_top,
+                      long_axis):
+    """
+    The skid frame that sits on the baseplate: two side rails, each an
+    I-section built from a lower flange, a web and an upper flange.
+
+    /P1501B builds this as a centre plate plus four flange bars running the full
+    length of the plate.  Its centre plate IS the baseplate here (the project
+    fixes that separately), so what is reproduced is the pair of side rails and
+    their flanges, scaled to this pump's own plate.
+
+    Returns the rail top elevation, which is what the sole plates bear on.
+    """
+    # Proportions measured from /P1501B: rails inset to +/-202.5 of a 510 wide
+    # plate (0.794 of the half width), flange 105 wide (0.206 of the width),
+    # flange 20 thick, web gap 20.
+    half_tran = (xlen if long_axis == "N" else ylen) / 2
+    length = ylen if long_axis == "N" else xlen
+    inset = half_tran * (202.5 / 255.0)
+    flange_w = (xlen if long_axis == "N" else ylen) * (105.0 / 510.0)
+    flange_t = max(length * (20.0 / 1390.0), 8.0)
+    web_t = flange_t * 0.4
+    web_h = flange_t * 1.0
+
+    rail_top = plate_top + flange_t * 2 + web_h
+    for sign in (-1.0, +1.0):
+        offset = inset * sign
+        rail_e = plate_e + (offset if long_axis == "N" else 0.0)
+        rail_n = plate_n + (0.0 if long_axis == "N" else offset)
+        for label, centre_u, thickness, width in (
+                ("lower flange", plate_top + flange_t / 2, flange_t, flange_w),
+                ("web", plate_top + flange_t + web_h / 2, web_h, web_t),
+                ("upper flange", rail_top - flange_t / 2, flange_t, flange_w)):
+            model.add(Primitive(
+                kind="BOX", sube="SUPPORT",
+                attrs={"XLEN": width if long_axis == "N" else length,
+                       "YLEN": length if long_axis == "N" else width,
+                       "ZLEN": thickness},
+                east=rail_e, north=rail_n, up=centre_u,
+                note=f"skid rail {label} (I-section, /P1501B frame)"))
+    model.reference_values.append(
+        "skid frame: two I-section side rails proportioned from /P1501B")
+    return rail_top, inset, flange_w
+
+
+def _build_machine_support(model, centre_e, centre_n, bearing_top, plate_top,
+                           rail_top, inset, flange_w, long_axis, width, length,
+                           label):
+    """
+    One machine support: sole plate on the rails, pedestal up to the machine,
+    a tapered PYRAMID gusset each side, and two anchor bolts with hex washers.
+
+    This is the chain /P1501B uses -- rail -> sole plate -> gusset-braced
+    pedestal -> machine -- rather than the single block the first revision
+    emitted.  Every part rests on the one below it.
+    """
+    sole_t = max((bearing_top - rail_top) * 0.18, 10.0)
+    sole_top = rail_top + sole_t
+    pedestal_h = max(bearing_top - sole_top, 8.0)
+
+    def plan(across, along):
+        """(XLEN, YLEN) for a part `across` the machine and `along` it."""
+        return (across, along) if long_axis == "N" else (along, across)
+
+    # --- sole plate, bearing on both rails -----------------------------
+    sole_across = inset * 2 + flange_w
+    sole_x, sole_y = plan(sole_across, length)
+    model.add(Primitive(
+        kind="BOX", sube="SUPPORT",
+        attrs={"XLEN": sole_x, "YLEN": sole_y, "ZLEN": sole_t},
+        east=centre_e, north=centre_n, up=rail_top + sole_t / 2,
+        note=f"{label} sole plate, carried by both skid rails"))
+
+    # --- pedestal carrying the machine ---------------------------------
+    ped_x, ped_y = plan(width, length * 0.72)
+    model.add(Primitive(
+        kind="BOX", sube="SUPPORT",
+        attrs={"XLEN": ped_x, "YLEN": ped_y, "ZLEN": pedestal_h},
+        east=centre_e, north=centre_n, up=sole_top + pedestal_h / 2,
+        note=f"{label} pedestal, sole plate -> machine"))
+
+    # --- tapered gussets bracing the pedestal to the sole plate --------
+    # PYRAMID POS is its base centre and it tapers upward, as /P1501B uses it.
+    gusset_t = max(sole_t * 0.8, 8.0)
+    gusset_reach = width * 0.42
+    gusset_h = pedestal_h * 0.85
+    if gusset_h > 5.0:
+        for sign in (-1.0, +1.0):
+            offset = length * 0.30 * sign
+            gusset_e = centre_e + (0.0 if long_axis == "N" else offset)
+            gusset_n = centre_n + (offset if long_axis == "N" else 0.0)
+            xbot, ybot = plan(gusset_reach * 2, gusset_t)
+            xtop, ytop = plan(gusset_reach * 0.9, gusset_t)
+            model.add(Primitive(
+                kind="PYRAMID", sube="SUPPORT",
+                attrs={"XBOT": xbot, "YBOT": ybot,
+                       "XTOP": xtop, "YTOP": ytop, "HEIG": gusset_h},
+                east=gusset_e, north=gusset_n, up=sole_top,
+                note=f"{label} gusset, tapered web bracing the pedestal"))
+        model.reference_values.append(
+            f"{label} gussets: tapered PYRAMID webs from /P1501B")
+
+    # --- anchor bolts through the sole plate, hex washer on top --------
+    bolt_d = max(sole_t * 0.7, 10.0)
+    washer_flats = bolt_d * 2.3
+    washer_t = max(sole_t * 0.55, 6.0)
+    for tran_sign in (-1.0, +1.0):
+        for long_sign in (-1.0, +1.0):
+            across_off = inset * tran_sign
+            along_off = length * 0.34 * long_sign
+            if long_axis == "N":
+                bolt_e = centre_e + across_off
+                bolt_n = centre_n + along_off
+            else:
+                bolt_e = centre_e + along_off
+                bolt_n = centre_n + across_off
+            # Shank runs from inside the baseplate up to the washer top.
+            shank_bottom = plate_top - 20.0
+            shank_top = sole_top + washer_t
+            model.add(Primitive(
+                kind="CYLINDER", sube="SUPPORT",
+                attrs={"DIAM": bolt_d, "HEIG": shank_top - shank_bottom},
+                east=bolt_e, north=bolt_n,
+                up=(shank_bottom + shank_top) / 2,
+                ori="ORI Z is U and Y is N",
+                note=f"{label} anchor bolt through sole plate and rail"))
+            # IR-1: an EXTRUSION's POS is its profile end plane and it grows
+            # HEIG along local +Z, so the washer is placed on the sole top.
+            model.add(Primitive(
+                kind="EXTRUSION", sube="SUPPORT",
+                attrs={"HEIG": washer_t},
+                east=bolt_e, north=bolt_n, up=sole_top,
+                ori="ORI Z is U and Y is N",
+                profile=hex_profile(washer_flats),
+                note=f"{label} hex washer seated on the sole plate"))
+    model.reference_values.append(
+        f"{label} anchors: hex EXTRUSION washers, as /P1501B")
 
 
 def _build_casing(model, east, north, dia, length, shaft_u, long_axis,
@@ -244,17 +421,9 @@ def _build_casing(model, east, north, dia, length, shaft_u, long_axis,
         note="volute end cover: proportion from /P1501B"))
     model.reference_values.append("volute end cover proportioned from /P1501B")
 
-    # Casing foot: carries the volute down to the baseplate so nothing floats.
-    foot_top = shaft_u - dia * 0.30
-    foot_height = max(foot_top - plate_top, 10.0)
-    model.add(Primitive(
-        kind="BOX", sube="SUPPORT",
-        attrs={"XLEN": dia * 0.55 if long_axis == "N" else length * 0.9,
-               "YLEN": length * 0.9 if long_axis == "N" else dia * 0.55,
-               "ZLEN": foot_height},
-        east=east, north=north, up=plate_top + foot_height / 2,
-        note="casing pedestal: chains volute -> baseplate"))
-    model.reference_values.append("casing pedestal sized from casing envelope")
+    # The casing's support chain is built by _build_machine_support, which
+    # reproduces the reference's rail -> sole plate -> gusseted pedestal ->
+    # machine sequence rather than a single block.
 
 
 def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaft_u,
@@ -441,21 +610,14 @@ def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaf
         up=box_centre_u + box_height / 2,
         note="electrical connection"))
 
-    # Motor feet, carried down to the baseplate so the driver is supported.
-    foot_top = shaft_u - motor_dia * 0.42
-    foot_height = max(foot_top - plate_top, 10.0)
-    spacing = motor_len * 0.32
-    for sign in (-1.0, +1.0):
-        foot_e = motor_e + vector[0] * spacing * sign
-        foot_n = motor_n + vector[1] * spacing * sign
-        model.add(Primitive(
-            kind="BOX", sube="SUPPORT",
-            attrs={"XLEN": motor_dia * 0.85 if long_axis == "N" else motor_len * 0.22,
-                   "YLEN": motor_len * 0.22 if long_axis == "N" else motor_dia * 0.85,
-                   "ZLEN": foot_height},
-            east=foot_e, north=foot_n, up=plate_top + foot_height / 2,
-            note="motor pedestal: chains driver -> baseplate"))
-    model.reference_values.append("motor pedestals sized from motor envelope")
+    # The motor's support chain is built by _build_machine_support alongside
+    # the casing's, so both use the same reference construction.
+    model.facts["motor_support"] = {
+        "centre_e": motor_e, "centre_n": motor_n,
+        "bearing_top": shaft_u - motor_dia * 0.42,
+        "width": motor_dia * 0.85,
+        "length": motor_len * 0.46,
+    }
 
 
 def _rib_ori(long_axis: str, degrees: float) -> str:
@@ -548,14 +710,16 @@ def _build_nozzles(model, suction, discharge, casing_e, casing_n,
 
 
 def main() -> int:
+    """
+    Write the single combined macro.
+
+    The client asked for the combined file only (2026-08-19), so no per-tag
+    macros are emitted.  It still contains one independent ``EQUI`` per pump,
+    never a shared equipment hierarchy.
+    """
     sources = load_all()
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
-    models = []
-    for tag in sorted(sources["location"]):
-        model = build_pump(tag, sources)
-        models.append(model)
-        path = OUTPUT_DIR / f"{tag.replace('-', '_')}.pml"
-        path.write_text(model.to_pml(), encoding="utf-8")
+    models = [build_pump(tag, sources) for tag in sorted(sources["location"])]
 
     combined = OUTPUT_DIR / "JK_Pump_Build_2026-08-19_all_pumps.pml"
     combined.write_text(
@@ -563,7 +727,9 @@ def main() -> int:
         "-- One independent EQUI per pump.\n"
         + "\n".join(m.to_pml() for m in models), encoding="utf-8")
 
-    print(f"Generated {len(models)} pump macros in {OUTPUT_DIR}")
+    total = sum(len(m.primitives) for m in models)
+    print(f"Wrote {combined}")
+    print(f"  {len(models)} pumps, {total} elements")
     for model in models:
         print(f"  {model.tag:<12} {len(model.primitives):>4} elements  "
               f"{len(model.unresolved)} unresolved")
