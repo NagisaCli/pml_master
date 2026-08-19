@@ -482,3 +482,40 @@ Client scaling request -- 2026-08-13 (205-PU-012 custom variant)
 - Status: numeric verification passes (471 elements, 244 solid AABBs, bounds,
   support-chain scale invariance, nozzle root anchors, NCYL rim containment).
   A fresh E3D visual reload is required before acceptance (IR-11d).
+
+Client instruction — 2026-08-19 (five-file rebuild of the pump register)
+------------------------------------------------------------------------
+
+- New authoritative source set, archived under `imports/2026-08-19_*`:
+  * `location_nozzle_reference.txt` — the project equipment set (30 tags),
+    overall position/orientation, baseplate size and position, and the
+    nozzle schedule.  Nozzle plan (E/N) positions and directions are HARD
+    constraints and must not move for modelling convenience; nozzle Z may be
+    adjusted for a sound physical connection.
+  * `engine_shaft_measurements_updated.csv` — motor/shaft fundamental sizes
+    and axial offsets.  `N/A` means not applicable and must NEVER be read as
+    zero; MC and non-MC arrangements differ and must not be forced alike.
+  * `casing_reference.txt` — governing casing diameter and axial length.
+  * `mc_pump_casing_location_relative_center.txt` — casing plan offset for MC
+    pumps, which carry no upper nozzle.
+  * `Reference_pumps.txt` (/P1501B) — STRUCTURE ONLY.  Absolute dimensions,
+    coordinates, nozzle parameters and CREF/CATR/ORRF project references are
+    not copied.
+- `drive_shaft.txt` and `motor_reference.txt` are obsolete and unused.
+- Conventional pump with an upper nozzle: in plan the casing centre IS the
+  upper (discharge) nozzle centre.  MC pump: casing plan position comes from
+  the MC offset file; never invent an upper nozzle for it.
+- Do not reduce the pump to single primitives.  Project data fixes size and
+  position; /P1501B fixes the construction; the reference geometry is adapted
+  proportionally to each pump's own dimensions.
+- Validate one fully supported non-MC pump and one fully supported MC pump
+  before batch generation; fix shared logic rather than per-pump hard-codes.
+- Deliverables: `output/2026-08-19_pumps/` — one macro per tag, a combined
+  all-pumps macro, and `AUDIT.md`.  Tools under `tools/`:
+  `extract_project_data.py`, `check_data_coverage.py`, `resolve_coverage.py`,
+  `recover_nozzle_axes.py`, `pump_model.py`, `build_pumps.py`,
+  `verify_pumps.py`, `mutation_test.py`, `check_rib_orientation.py`,
+  `write_audit.py`.
+- Status: 30 pumps generated; 0 verification problems; 9/9 verifier mutations
+  caught; 481 repo tests pass.  A fresh E3D visual reload is still required
+  before acceptance (IR-11d).

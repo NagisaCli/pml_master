@@ -1028,3 +1028,297 @@ A single uniform scale cannot satisfy both 3504 and 1500 from 2701 x 1245
 length-driven (s=1.2973) and treats 1500 as an explicit plate-width override.
 If the client prefers the width-driven factor or a non-uniform treatment, the
 tool only needs a new factor and a regeneration pass.
+
+## 2026-08-18 — /P1501B -> /P1501C scale variant (1807 x 663 baseplate)
+
+The client supplied `C:\Users\A\Desktop\Reference_pumps.txt`, a native E3D
+data listing of `/P1501B` "Reflux Pump - Standby", and asked for a re-sized
+variant that keeps the same construction.  This is the second application of
+the 2026-08-13 scaling method, on a different and simpler source: a
+`TMPLATE /STD/PUMP005`-derived template pump.
+
+### What was delivered
+
+- Original archived byte-for-byte at
+  `imports/2026-08-18_Reference_pumps_P1501B.txt`
+  (SHA-256 `BA32D303A790A501C36F36E1D2BF408720AB2304CF26EA53CBCC4AEB120A0F67`).
+- `output/P1501C_1807x663.txt` plus a Desktop copy
+  `Reference_pumps_P1501C_1807x663.txt`, and repeatable tools
+  `tools/scale_pump_P1501B.py` / `tools/verify_scale_P1501B.py`.
+- One uniform similarity factor `S = 1.30`; baseplate 1390 x 510 -> 1807 x
+  663, all 182 elements retained, construction geometrically similar.
+- Nozzle sizes unchanged: CATR/HEIG/ORI/process attributes kept.
+
+### How this source differed from the 205-PU-012 job
+
+- **Local, not world, POS.**  Every primitive POS is expressed in its owner's
+  frame with the EQUI origin on the *shaft centreline*, not on the plate.
+  Plan scaling is therefore a plain multiply with no centre offset removed.
+- **No elevation re-datuming at all** (corrected 2026-08-18 after the client's
+  E3D reload; see the post-mortem below).  The equipment origin is on the
+  shaft centreline, so a local `U` is an offset from that axis, not a height
+  above the foundation.
+- **Signed axis letters flip.**  Motor ribs written `D 30.39` legitimately
+  become `U 9.11` once the machine lifts.  A sign flip is not a defect here;
+  the emitter must derive the letter from the scaled sign.
+- `RADI`, `XOFF` and `YOFF` are true lengths and must scale.  Freezing the
+  PYRAMID offsets would shear every gusset as the pyramid grew.
+
+### The nozzle bore axis must be recovered geometrically
+
+A native export writes `ORI Y is .. and Z is ..` — E3D's dump of the
+resulting axis triad, **not** the `ORI P1 IS` command that aimed the nozzle
+(IR-2).  The bore direction cannot be read off it.  Each axis was instead
+recovered by testing which candidate direction lands the barrel root on the
+casing (volute r=170 about the origin, N -60..+60):
+
+| Nozzle | Aim | Root | Evidence |
+|--------|-----|------|----------|
+| N1 | N | `(0,0,0)` | exactly the impeller eye; an end-suction inlet |
+| N2 | U | `(135,0,30)` | radius 138.3 < 170; aiming E gives 239, floating 69 mm clear |
+| N3 | E | `(55,-5,0)`  | radius 55, inside the body |
+
+Guessing from the exported ORI would have put two of three nozzles wrong.
+
+### Defects found and fixed
+
+- **`CREF` connections were inherited.**  All three nozzles carried
+  `CREF BRANCH /100-B-8/B2` etc.  A CREF is one half of a *reciprocal* pipe
+  connection — the branch holds the matching HREF/TREF back to `/P1501B` —
+  so copying it makes the new pump claim pipework already terminated on the
+  original.  All three are dropped and reported; routing `/P1501C` is a
+  piping decision, not something to inherit.
+- **Line-ending and BOM dialect.**  The source is UTF-8-with-BOM and pure
+  CRLF.  Text-mode reads normalise CRLF to LF silently, so terminator
+  detection must be done on the raw bytes, and a `.*` in a date-restamp
+  regex will eat the CR and leave a lone LF.  The deliverable now matches the
+  source dialect exactly (BOM, 1187 CRLF, 0 bare LF).
+- The header date is restamped with a derivation note so the file does not
+  claim to be E3D's own listing of a pump that never existed.
+
+### Verification
+
+Numeric, independent of the generator: 182-element inventory identical; 276
+length attributes plus 148 POS lines each re-predicted from first
+principles; baseplate envelope measured at exactly 1807 x 663; lowest solid
+exactly on the foundation datum; transverse overhang count unchanged; all 82
+solid U spans scaling by exactly 1.30; every nozzle root re-measured against
+the *raised* casing axis; all catalogue bindings intact.
+
+The verifier was mutation-tested: perturbing a DIAM, floating a nozzle,
+sinking a solid below the datum, shrinking the baseplate, breaking U-span
+invariance, moving the EQUI coordinate and re-adding a CREF are **all**
+caught.  459 repo tests pass.
+**Awaits a fresh E3D visual reload before acceptance (IR-11d).**
+
+### A verification bug worth remembering
+
+The first verifier run failed N2 with "root radial 225.1 vs casing r 221".
+The model was correct; the *check* was wrong.  It measured the radius from
+`U = 0`, but the casing axis had itself risen to `U = 102` under the
+elevation rule.  Measured from the true axis the root is at radius 179.8,
+the same 0.81 proportion as the source.  When a scaled model fails a check,
+confirm the check scaled too.
+
+### A latent retrieval bug this entry exposed
+
+Appending this section made `test_knowledge_base_loads_the_skill_corpus`
+fail: a spatial-intent query started returning `projects/jk-pump-build`
+instead of `knowledge/pml-spatial-lookup`.  The model was fine and so was
+the prose — the router was wrong.  `PMLKnowledgeBase.search` scored raw term
+frequency over the whole document and then added a flat `+750` to the routed
+document.  Term frequency grows without bound as a project log accumulates
+entries; the flat bonus does not.  This log had already reached ~1065 on
+that query against the spatial map's ~282 and was winning on sheer length,
+so the boost was one entry away from being overtaken no matter what the new
+text said.
+
+Two fixes were needed, and the second only surfaced when this file grew
+again with the 2026-08-18 post-mortem:
+
+1. `route_to()` now lifts a routed document above the current leader rather
+   than adding a flat bonus, because routing is an intent decision that must
+   not be outvoted by an unrelated document's size.
+2. Term frequency is now **normalised by document length** (`sqrt` of the
+   ratio to the median document).  Raw counts made relevance a proxy for
+   size: this log reached 46 uses of "centre" against iron-rules.md's 18
+   purely by being 2.2x longer, and began winning datum queries that the
+   Iron Rules must own — a query with no routing rule to save it.
+
+All five canonical retrieval queries now resolve to their intended
+documents.  Note the honest limit: normalisation defeats *incidental* length
+bias, not deliberate keyword stuffing — 600 synthetic keyword lines still
+win an unrouted query.  That is inherent to term-frequency scoring and is
+not a realistic failure mode for a hand-written log.
+
+The lesson generalises: when adding to a long knowledge file breaks a
+retrieval test, check whether the ranking rule scales with document length
+before rewording the entry.  Twice now the text was fine and the ranking
+rule was wrong.
+
+### User-corrected 2026-08-18: the motor was 204 mm off the shaft
+
+The client reloaded the first `/P1501C` and the render showed the coupling
+parted, with the motor floating above the pump.  Root cause, measured:
+
+The first revision scaled elevations about the baseplate underside
+(`U' = -340 + (U + 340) * S`) to stop the plate "sinking" from `U -340` to
+`U -442`.  Two errors compounded:
+
+1. **A SUBE `POS` is a relative offset between coordinate frames, not a
+   point in space.**  `/Motor` carries `POS U 0`, meaning "the motor frame
+   shares the equipment's elevation datum".  Re-datuming that turned the 0
+   into +102 and lifted the entire motor subassembly.
+2. **Every child of `/Motor` was then re-datumed again in its own right**, so
+   the motor was lifted *twice* and ended 204 mm above the casing axis.
+
+The deeper error was the premise.  This equipment's origin sits on the
+**shaft centreline** — the casing volute is centred on `U 0` and the motor
+frame is offset `U 0` from it — so *every* local `U` is an offset from that
+axis, not an elevation above the foundation.  The "sinking plate" was never
+real: the EQUI installation `POS U 100645` is the shaft-centreline
+elevation, so a larger pump legitimately carries its plate further below a
+fixed shaft height.  The correct transform is a **pure uniform scale about
+the equipment origin**, with no per-axis re-anchoring anywhere.
+
+The plate underside consequently sits 102 mm lower relative to the shaft than
+on `/P1501B`.  That is a real civil/plinth consequence of fitting a larger
+pump at the same shaft elevation, and it belongs in a note to the client, not
+hidden by distorting the machine.
+
+**Generalised rule.**  A similarity transform must be uniform about a single
+origin.  The moment different parts of one assembly are re-datumed about
+different planes, the assembly shears — and every part can still individually
+satisfy its own rule.  Before choosing a scaling origin, establish what the
+model's origin physically *is*; here it was a machine axis, not a floor.
+
+### Why the verifier passed a visibly broken model
+
+Every check compared the output against the transform I had chosen, so a
+wrong transform applied consistently passed all of them.  Not one check asked
+whether the parts still touch each other.
+
+The verifier now carries relational `[8b]` checks that compare parts to
+**other parts** rather than to a formula:
+
+- the motor barrel and casing volute must be **coaxial**, verified in the
+  source *and* the output;
+- every SUBE frame offset must scale by exactly `S` and never be re-datumed;
+- the distance between any two solid centres must scale by exactly `S`, which
+  catches any relative displacement whatever its cause.
+
+The last one is the important one: it is an invariant of a similarity
+transform, so it holds for any `S` without encoding the transform under test.
+Re-injecting the original `/Motor` defect is now caught by four independent
+checks.
+
+**Generalised rule.**  A verifier built from the same assumption as the
+generator can only confirm that assumption was applied consistently.  At
+least one check must be relational — parts against other parts — so that a
+wrong premise still fails.
+
+## 2026-08-19 — Five-file rebuild of the 30-pump register
+
+The client replaced the Excel/JSON source chain with five files and asked for
+the whole register to be rebuilt: `location_nozzle_reference.txt` (equipment
+set, baseplate, nozzle schedule), `engine_shaft_measurements_updated.csv`
+(motor/shaft), `casing_reference.txt` (casing), the MC casing-offset file, and
+`Reference_pumps.txt` (/P1501B) as a **structure-only** reference.
+
+Delivered: 30 macros plus a combined loader in
+`Projects/JK_Pump_Build/output/2026-08-19_pumps/`, with `AUDIT.md`. 0
+verification problems, 9/9 verifier mutations caught, 481 repo tests pass.
+Awaiting an E3D reload before acceptance (IR-11d).
+
+### An exported `ORI` triad cannot be inverted into a direction
+
+The 2026-08-18 /P1501B entry already warned that a native export writes E3D's
+derived axis triad, not the `ORI P1 IS` that aimed the nozzle. This job gave
+the clean proof: **all 28 discharge nozzles that carry an `ORI` share the single
+triad `Y is N and Z is E`**, across pumps whose machine axes run both N-S and
+E-W. One constant cannot encode 28 different physical directions.
+
+So the census itself is the evidence — before theorising about which clause is
+the bore, count the distinct values and compare that against the number of
+distinct physical situations. If the source has fewer values than the world has
+cases, the field is not what you think it is, and no amount of decoding will
+recover the information.
+
+Directions were instead recovered geometrically: a suction points outward past
+the plate edge along the machine axis; a discharge standing well above the plate
+is a crown discharge. That yielded 30 top discharges — but two of them were
+wrong, and the *shared elevation* caught it: on 205-PU-018 and 205-PU-038 the
+suction and discharge sit at the same U, which is a horizontal pair, not a
+crown. DO.txt had already recorded the client's confirmation of exactly that
+layout. **A "top discharge" that shares its suction's elevation is not a top
+discharge**, and the elevation comparison is a cheaper test than any plan
+heuristic.
+
+### Where a geometric heuristic ties, a recorded client confirmation wins
+
+205-PU-018's suction sits beyond the plate on *both* plan axes (-1.09 of the E
+half, -1.06 of the N half). The outward-fraction test is a near-tie there and
+picked E-W; DO.txt records the client confirming suction South. The override is
+kept as a small data table (`CLIENT_CONFIRMED_SUCTION`), not buried in a branch,
+so it stays visible and revisable. A heuristic that is within 3% of a tie is not
+evidence.
+
+### Two sources can each be right and still be jointly impossible
+
+For 23 of 30 pumps the casing diameter (`casing_reference.txt`) or the motor
+end-bell diameter (engine CSV) is larger than twice the suction nozzle
+elevation. A machine centred on the suction axis would pass through the
+baseplate and below the foundation.
+
+Neither file is wrong on its own; they were measured independently. The
+resolution is physical rather than arithmetic — the machine is a solid that must
+rest on its plate — so the shaft was raised to the minimum seating height
+(median 45 mm, max 174 mm), nozzle plan positions and directions untouched, and
+every raise recorded per pump in the audit. The general rule: when two sources
+conflict, look for the physical constraint that outranks both, and report the
+adjustment rather than silently splitting the difference.
+
+Handling the casing and the end bell in one place mattered: fixing only the
+casing left 205-PU-046 failing on its motor, and the temptation is a per-pump
+patch. One `max(casing, end_bell)` in the shared path fixed the class.
+
+### IR-3a is a principle about local frames, not a literal axis pattern
+
+The repo validator requires `ORI Z IS U AND X IS <bearing>` for a rotated BOX.
+That form is correct for IR-3a's worked example — a plate on a **vertical**
+vessel, where every radial direction lies in the horizontal plane. A motor is a
+**horizontal** cylinder, so its cooling ribs sweep a *vertical* plane; `Z IS U`
+would hold all 36 ribs upright and only the two at top and bottom dead centre
+would lie flat on the barrel.
+
+What carries over is the principle (local X radial, local Y along the body,
+local Z tangential), not the axis letters. The ribs are emitted as
+`ORI Y IS <axis> AND X IS <transverse> <bearing> U`, and the validator still
+flags them — a scope limitation of a rule written for vertical vessels, not a
+defect.
+
+Because "the validator is wrong here" is exactly the reasoning that hides real
+bugs, the claim is not left as prose: `tools/check_rib_orientation.py` resolves
+every emitted `ORI` into an actual axis triad and asserts that local X points at
+the machine axis, local Y is the machine axis, and the triad is orthonormal.
+972 ribs, 0 wrong. **When you decide a checker does not apply, replace it with a
+stricter check rather than an explanation.**
+
+### A verifier earns trust by failing
+
+The verifier's first run reported the casing sinking below the foundation and
+the bearing housing "floating" — one real defect and one false positive. The
+float check only looked *downward*, so it condemned parts that are legitimately
+cantilevered off the machine (bearing housing, terminal box). Replacing it with
+**connectivity to the baseplate through any chain of touching parts** kept the
+real defects and dropped the false alarms.
+
+It also found a genuine one that way: on the close-coupled MC pumps the bearing
+housing was sized by proportion and left an 800 mm gap to the motor, so the
+drive train was parted — the exact defect the client rejected in r11. On a
+close-coupled machine the lantern housing must *span* casing to motor, so it is
+now sized from that gap rather than from a ratio.
+
+All nine injected defects (moved plan position, unbound nozzle, broken
+coaxiality, buried discharge, 42 m nozzle, detached part, sunk casing, resized
+plate, shrunk casing) are caught.

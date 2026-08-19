@@ -1,0 +1,7 @@
+MC-Pump-Casing_location_offset:
+
+
+205-PU-054   888MM
+204-PU-028   920MM
+205-PU-038   890MM
+205-PU-018   883MM
