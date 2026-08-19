@@ -17,23 +17,23 @@ the macros, so this record cannot drift from the emitted geometry.
 
 - Pumps modelled: **30**
 - Verification problems: **0**
-- Unresolved / conflicting data items: **31**
+- Unresolved / conflicting data items: **38**
 
 | Tag | Type | Elements | Casing source | Shaft datum | Unresolved |
 |-----|------|----------|---------------|-------------|------------|
 | 203-PU-008 | non-MC | 80 | casing_reference | raised | 1 |
 | 203-PU-009 | non-MC | 80 | casing_reference | raised | 1 |
-| 203-PU-011 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 203-PU-011 | non-MC | 80 | casing_reference | raised | 1 |
 | 203-PU-020 | non-MC | 23 | DERIVED | raised | 3 |
-| 203-PU-026 | non-MC | 23 | casing_reference | suction axis | 1 |
-| 203-PU-031 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 203-PU-026 | non-MC | 23 | casing_reference | raised | 2 |
+| 203-PU-031 | non-MC | 80 | casing_reference | raised | 1 |
 | 204-PU-003 | non-MC | 80 | casing_reference | raised | 1 |
-| 204-PU-006 | non-MC | 80 | casing_reference | suction axis | 0 |
-| 204-PU-008 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 204-PU-006 | non-MC | 80 | casing_reference | raised | 1 |
+| 204-PU-008 | non-MC | 80 | casing_reference | raised | 1 |
 | 204-PU-015 | non-MC | 80 | casing_reference | raised | 1 |
 | 204-PU-016 | non-MC | 80 | casing_reference | raised | 1 |
-| 204-PU-017 | non-MC | 80 | casing_reference | suction axis | 0 |
-| 204-PU-023 | non-MC | 80 | casing_reference | suction axis | 0 |
+| 204-PU-017 | non-MC | 80 | casing_reference | raised | 1 |
+| 204-PU-023 | non-MC | 80 | casing_reference | raised | 1 |
 | 205-PU-004 | non-MC | 23 | DERIVED | raised | 3 |
 | 205-PU-012 | non-MC | 80 | casing_reference | raised | 1 |
 | 205-PU-013 | non-MC | 80 | casing_reference | raised | 1 |
@@ -61,10 +61,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 712.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 409.4 *(raised from suction U 324.1 to seat motor end bell)*
+- Shaft centreline: U 641.9 *(raised from suction U 324.1 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 324.1 -> 409.4
-  - DISCHARGE: 645.8 -> 818.8
+  - SUCTION: 324.1 -> 641.9
+  - DISCHARGE: 645.8 -> 1051.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -77,7 +77,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 324.1 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 409.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 324.1 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 641.9 to seat it on the baseplate.
 
 ### 203-PU-009 — BSW FILTRATE PUMP
 
@@ -86,10 +86,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 652.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 406.4 *(raised from suction U 317.7 to seat motor end bell)*
+- Shaft centreline: U 637.0 *(raised from suction U 317.7 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 317.7 -> 406.4
-  - DISCHARGE: 629.9 -> 786.7
+  - SUCTION: 317.7 -> 637.0
+  - DISCHARGE: 629.9 -> 1017.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -102,7 +102,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 317.7 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 406.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 317.7 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 637.0 to seat it on the baseplate.
 
 ### 203-PU-011 — BROWN STOCK DD WASHER RETURN FILTRATE PUMP
 
@@ -111,9 +111,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 442.0 dia x 102.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 278.5 *(suction nozzle elevation (machine axis))*
+- Shaft centreline: U 415.0 *(raised from suction U 278.5 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - DISCHARGE: 564.2 -> 549.5
+  - SUCTION: 278.5 -> 415.0
+  - DISCHARGE: 564.2 -> 686.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -125,6 +126,8 @@ the macros, so this record cannot drift from the emitted geometry.
   - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
+- **Unresolved / conflicting:**
+  - CONFLICT: suction elevation U 278.5 is below the motor end bell radius 221.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 415.0 to seat it on the baseplate.
 
 ### 203-PU-020 — PUMP
 
@@ -133,10 +136,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **W**, motor end **E**
 - Casing: 547.2 dia x 164.2 long *(DERIVED (no casing_reference row))*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 323.6 *(raised from suction U 278.3 to seat casing)*
+- Shaft centreline: U 500.6 *(raised from suction U 278.3 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 278.3 -> 323.6
-  - DISCHARGE: 599.6 -> 647.2
+  - SUCTION: 278.3 -> 500.6
+  - DISCHARGE: 599.6 -> 824.2
 - Reference Values (assumed, replace when vendor data arrives):
   - casing 547 dia x 164 long (DERIVED)
   - casing anchors: hex EXTRUSION washers, as /P1501B
@@ -145,7 +148,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - casing diameter/length not in casing_reference.txt; derived 547 x 164 from plate width
-  - CONFLICT: suction elevation U 278.3 is below the casing radius 273.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 323.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 278.3 is below the casing radius 273.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 500.6 to seat it on the baseplate.
   - no engine_shaft record: motor and shaft not modelled
 
 ### 203-PU-026 — OXIDISED WL BOOSTER PUMP
@@ -155,15 +158,17 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **S**, motor end **N**
 - Casing: 361.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 285.6 *(suction nozzle elevation (machine axis))*
+- Shaft centreline: U 350.5 *(raised from suction U 285.6 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - DISCHARGE: 567.0 -> 516.1
+  - SUCTION: 285.6 -> 350.5
+  - DISCHARGE: 567.0 -> 581.0
 - Reference Values (assumed, replace when vendor data arrives):
   - casing anchors: hex EXTRUSION washers, as /P1501B
   - casing gussets: tapered PYRAMID webs from /P1501B
   - skid frame: two I-section side rails proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
+  - CONFLICT: suction elevation U 285.6 is below the casing radius 180.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 350.5 to seat it on the baseplate.
   - no engine_shaft record: motor and shaft not modelled
 
 ### 203-PU-031 — OXYGEN REACTOR TOP SPOOLING BOOSTER PUMP
@@ -173,9 +178,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **S**, motor end **N**
 - Casing: 302.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 238.9 *(suction nozzle elevation (machine axis))*
+- Shaft centreline: U 346.7 *(raised from suction U 238.9 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - DISCHARGE: 503.9 -> 439.9
+  - SUCTION: 238.9 -> 346.7
+  - DISCHARGE: 503.9 -> 547.7
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -187,6 +193,8 @@ the macros, so this record cannot drift from the emitted geometry.
   - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
+- **Unresolved / conflicting:**
+  - CONFLICT: suction elevation U 238.9 is below the motor end bell radius 176.7 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 346.7 to seat it on the baseplate.
 
 ### 204-PU-003 — PRIMARY SCREEN FEED PUMP
 
@@ -195,10 +203,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 714.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 407.0 *(raised from suction U 333.8 to seat casing)*
+- Shaft centreline: U 638.0 *(raised from suction U 333.8 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 333.8 -> 407.0
-  - DISCHARGE: 665.5 -> 818.3
+  - SUCTION: 333.8 -> 638.0
+  - DISCHARGE: 665.5 -> 1049.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -211,7 +219,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 333.8 is below the casing radius 357.0 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 407.0 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 333.8 is below the casing radius 357.0 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 638.0 to seat it on the baseplate.
 
 ### 204-PU-006 — SECONDARY SCREEN FEED PUMP
 
@@ -220,9 +228,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **E**, motor end **W**
 - Casing: 447.0 dia x 97.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 292.7 *(suction nozzle elevation (machine axis))*
+- Shaft centreline: U 418.1 *(raised from suction U 292.7 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - DISCHARGE: 592.9 -> 566.2
+  - SUCTION: 292.7 -> 418.1
+  - DISCHARGE: 592.9 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -234,6 +243,8 @@ the macros, so this record cannot drift from the emitted geometry.
   - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
+- **Unresolved / conflicting:**
+  - CONFLICT: suction elevation U 292.7 is below the casing radius 223.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 418.1 to seat it on the baseplate.
 
 ### 204-PU-008 — SAND SEPARATOR FEED PUMP
 
@@ -242,9 +253,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **E**, motor end **W**
 - Casing: 447.0 dia x 102.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 291.0 *(suction nozzle elevation (machine axis))*
+- Shaft centreline: U 418.1 *(raised from suction U 291.0 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - DISCHARGE: 594.0 -> 564.5
+  - SUCTION: 291.0 -> 418.1
+  - DISCHARGE: 594.0 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -256,6 +268,8 @@ the macros, so this record cannot drift from the emitted geometry.
   - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
+- **Unresolved / conflicting:**
+  - CONFLICT: suction elevation U 291.0 is below the casing radius 223.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 418.1 to seat it on the baseplate.
 
 ### 204-PU-015 — PRESSURE SCREEN REJECTION DILUTION PUMP
 
@@ -264,10 +278,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 652.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 409.4 *(raised from suction U 347.7 to seat motor end bell)*
+- Shaft centreline: U 641.9 *(raised from suction U 347.7 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 347.7 -> 409.4
-  - DISCHARGE: 653.5 -> 790.7
+  - SUCTION: 347.7 -> 641.9
+  - DISCHARGE: 653.5 -> 1023.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -280,7 +294,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 347.7 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 409.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 347.7 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 641.9 to seat it on the baseplate.
 
 ### 204-PU-016 — FEED TANK BOTTOM DILUTION PUMP
 
@@ -289,10 +303,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 652.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 406.4 *(raised from suction U 325.7 to seat motor end bell)*
+- Shaft centreline: U 637.0 *(raised from suction U 325.7 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 325.7 -> 406.4
-  - DISCHARGE: 649.3 -> 786.7
+  - SUCTION: 325.7 -> 637.0
+  - DISCHARGE: 649.3 -> 1017.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -305,7 +319,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 325.7 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 406.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 325.7 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 637.0 to seat it on the baseplate.
 
 ### 204-PU-017 — POST OXYGEN FILTRATE PUMP
 
@@ -314,9 +328,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 447.0 dia x 102.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 278.5 *(suction nozzle elevation (machine axis))*
+- Shaft centreline: U 418.1 *(raised from suction U 278.5 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - DISCHARGE: 564.2 -> 552.0
+  - SUCTION: 278.5 -> 418.1
+  - DISCHARGE: 564.2 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -328,6 +343,8 @@ the macros, so this record cannot drift from the emitted geometry.
   - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
+- **Unresolved / conflicting:**
+  - CONFLICT: suction elevation U 278.5 is below the casing radius 223.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 418.1 to seat it on the baseplate.
 
 ### 204-PU-023 — POST OXYGEN DD WASHER RETURN FILTRATE PUMP
 
@@ -336,9 +353,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 447.0 dia x 102.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 278.5 *(suction nozzle elevation (machine axis))*
+- Shaft centreline: U 418.1 *(raised from suction U 278.5 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - DISCHARGE: 564.2 -> 552.0
+  - SUCTION: 278.5 -> 418.1
+  - DISCHARGE: 564.2 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -350,6 +368,8 @@ the macros, so this record cannot drift from the emitted geometry.
   - skid frame: two I-section side rails proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
+- **Unresolved / conflicting:**
+  - CONFLICT: suction elevation U 278.5 is below the casing radius 223.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 418.1 to seat it on the baseplate.
 
 ### 205-PU-004 — PUMP
 
@@ -358,10 +378,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **E**, motor end **W**
 - Casing: 547.2 dia x 164.2 long *(DERIVED (no casing_reference row))*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 323.6 *(raised from suction U 287.0 to seat casing)*
+- Shaft centreline: U 500.6 *(raised from suction U 287.0 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 287.0 -> 323.6
-  - DISCHARGE: 615.3 -> 647.2
+  - SUCTION: 287.0 -> 500.6
+  - DISCHARGE: 615.3 -> 824.2
 - Reference Values (assumed, replace when vendor data arrives):
   - casing 547 dia x 164 long (DERIVED)
   - casing anchors: hex EXTRUSION washers, as /P1501B
@@ -370,7 +390,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - casing diameter/length not in casing_reference.txt; derived 547 x 164 from plate width
-  - CONFLICT: suction elevation U 287.0 is below the casing radius 273.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 323.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 287.0 is below the casing radius 273.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 500.6 to seat it on the baseplate.
   - no engine_shaft record: motor and shaft not modelled
 
 ### 205-PU-012 — D0 STAGE DILUTION PUMP
@@ -380,10 +400,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 1148.0 dia x 404.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 624.0 *(raised from suction U 450.0 to seat casing)*
+- Shaft centreline: U 995.4 *(raised from suction U 450.0 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 450.0 -> 624.0
-  - DISCHARGE: 929.6 -> 1322.1
+  - SUCTION: 450.0 -> 995.4
+  - DISCHARGE: 929.6 -> 1693.5
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -396,7 +416,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 450.0 is below the casing radius 574.0 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 624.0 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 450.0 is below the casing radius 574.0 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 995.4 to seat it on the baseplate.
 
 ### 205-PU-013 — D0 WASHER WIRE WASH PUMP
 
@@ -405,10 +425,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 323.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 289.6 *(raised from suction U 282.0 to seat motor end bell)*
+- Shaft centreline: U 444.7 *(raised from suction U 282.0 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 282.0 -> 289.6
-  - DISCHARGE: 559.1 -> 501.1
+  - SUCTION: 282.0 -> 444.7
+  - DISCHARGE: 559.1 -> 656.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -421,7 +441,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 282.0 is below the motor end bell radius 239.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 289.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 282.0 is below the motor end bell radius 239.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 444.7 to seat it on the baseplate.
 
 ### 205-PU-018 — D0 STAGE MC PUMP
 
@@ -430,11 +450,11 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **W**, motor end **E**
 - Casing: 582.0 dia x 140.0 long *(casing_reference.txt)*
 - Casing plan basis: MC offset 883 mm from plate centre toward W
-- Shaft centreline: U 394.4 *(raised from suction U 389.9 to seat motor end bell)*
+- Shaft centreline: U 617.2 *(raised from suction U 389.9 to seat motor end bell)*
 - Drive: N/A -- close-coupled MC arrangement
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 389.9 -> 394.4
-  - DISCHARGE: 389.9 -> 394.4
+  - SUCTION: 389.9 -> 617.2
+  - DISCHARGE: 389.9 -> 617.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -446,7 +466,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 389.9 is below the motor end bell radius 344.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 394.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 389.9 is below the motor end bell radius 344.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 617.2 to seat it on the baseplate.
 
 ### 205-PU-024 — EOP REACTOR TOP SPOOLING BOOSTER PUMP
 
@@ -455,10 +475,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **S**, motor end **N**
 - Casing: 361.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 316.6 *(raised from suction U 285.6 to seat motor end bell)*
+- Shaft centreline: U 489.0 *(raised from suction U 285.6 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 285.6 -> 316.6
-  - DISCHARGE: 567.0 -> 547.1
+  - SUCTION: 285.6 -> 489.0
+  - DISCHARGE: 567.0 -> 719.5
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -471,7 +491,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 285.6 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 316.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 285.6 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 489.0 to seat it on the baseplate.
 
 ### 205-PU-027 — EOP WASHER FEED PUMP
 
@@ -480,10 +500,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 717.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 408.5 *(raised from suction U 333.8 to seat casing)*
+- Shaft centreline: U 640.5 *(raised from suction U 333.8 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 333.8 -> 408.5
-  - DISCHARGE: 665.5 -> 821.3
+  - SUCTION: 333.8 -> 640.5
+  - DISCHARGE: 665.5 -> 1053.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -496,7 +516,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 333.8 is below the casing radius 358.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 408.5 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 333.8 is below the casing radius 358.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 640.5 to seat it on the baseplate.
 
 ### 205-PU-030 — EOP WASHER FRONT DILUTION PUMP
 
@@ -505,10 +525,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 658.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 409.4 *(raised from suction U 327.7 to seat motor end bell)*
+- Shaft centreline: U 641.9 *(raised from suction U 327.7 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 327.7 -> 409.4
-  - DISCHARGE: 653.5 -> 793.7
+  - SUCTION: 327.7 -> 641.9
+  - DISCHARGE: 653.5 -> 1026.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -521,7 +541,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 327.7 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 409.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 327.7 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 641.9 to seat it on the baseplate.
 
 ### 205-PU-031 — D0 STAGE DILUTION PUMP
 
@@ -530,10 +550,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 652.0 dia x 210.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 406.4 *(raised from suction U 325.7 to seat motor end bell)*
+- Shaft centreline: U 637.0 *(raised from suction U 325.7 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 325.7 -> 406.4
-  - DISCHARGE: 649.3 -> 786.7
+  - SUCTION: 325.7 -> 637.0
+  - DISCHARGE: 649.3 -> 1017.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -546,7 +566,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 325.7 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 406.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 325.7 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 637.0 to seat it on the baseplate.
 
 ### 205-PU-032 — EOP WASHER WIRE WASH PUMP
 
@@ -555,10 +575,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 323.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 289.6 *(raised from suction U 283.6 to seat motor end bell)*
+- Shaft centreline: U 444.7 *(raised from suction U 283.6 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 283.6 -> 289.6
-  - DISCHARGE: 561.5 -> 501.1
+  - SUCTION: 283.6 -> 444.7
+  - DISCHARGE: 561.5 -> 656.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -571,7 +591,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 283.6 is below the motor end bell radius 239.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 289.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 283.6 is below the motor end bell radius 239.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 444.7 to seat it on the baseplate.
 
 ### 205-PU-038 — EOP STAGE MC PUMP
 
@@ -580,11 +600,11 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **W**, motor end **E**
 - Casing: 582.0 dia x 140.0 long *(casing_reference.txt)*
 - Casing plan basis: MC offset 890 mm from plate centre toward W
-- Shaft centreline: U 394.4 *(raised from suction U 392.3 to seat motor end bell)*
+- Shaft centreline: U 617.2 *(raised from suction U 392.3 to seat motor end bell)*
 - Drive: N/A -- close-coupled MC arrangement
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 392.3 -> 394.4
-  - DISCHARGE: 392.3 -> 394.4
+  - SUCTION: 392.3 -> 617.2
+  - DISCHARGE: 392.3 -> 617.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -596,7 +616,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 392.3 is below the motor end bell radius 344.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 394.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 392.3 is below the motor end bell radius 344.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 617.2 to seat it on the baseplate.
 
 ### 205-PU-046 — D1 WASHER FRONT DILUTION PUMP
 
@@ -605,10 +625,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 547.3 dia x 164.2 long *(DERIVED (no casing_reference row))*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 406.4 *(raised from suction U 282.0 to seat motor end bell)*
+- Shaft centreline: U 637.0 *(raised from suction U 282.0 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 282.0 -> 406.4
-  - DISCHARGE: 573.5 -> 730.0
+  - SUCTION: 282.0 -> 637.0
+  - DISCHARGE: 573.5 -> 960.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -623,7 +643,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - casing diameter/length not in casing_reference.txt; derived 547 x 164 from plate width
-  - CONFLICT: suction elevation U 282.0 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 406.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 282.0 is below the motor end bell radius 356.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 637.0 to seat it on the baseplate.
 
 ### 205-PU-047 — D1 FILTRATE PUMP
 
@@ -632,10 +652,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 621.0 dia x 186.3 long *(DERIVED (no casing_reference row))*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 409.4 *(raised from suction U 319.6 to seat motor end bell)*
+- Shaft centreline: U 641.9 *(raised from suction U 319.6 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 319.6 -> 409.4
-  - DISCHARGE: 633.9 -> 775.2
+  - SUCTION: 319.6 -> 641.9
+  - DISCHARGE: 633.9 -> 1007.7
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -650,7 +670,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - casing diameter/length not in casing_reference.txt; derived 621 x 186 from plate width
-  - CONFLICT: suction elevation U 319.6 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 409.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 319.6 is below the motor end bell radius 359.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 641.9 to seat it on the baseplate.
 
 ### 205-PU-048 — D1 TOWER TOP DILUTION PUMP
 
@@ -659,10 +679,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 621.0 dia x 186.3 long *(DERIVED (no casing_reference row))*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 360.5 *(raised from suction U 327.7 to seat casing)*
+- Shaft centreline: U 561.4 *(raised from suction U 327.7 to seat casing)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 327.7 -> 360.5
-  - DISCHARGE: 653.5 -> 726.3
+  - SUCTION: 327.7 -> 561.4
+  - DISCHARGE: 653.5 -> 927.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -677,7 +697,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - casing diameter/length not in casing_reference.txt; derived 621 x 186 from plate width
-  - CONFLICT: suction elevation U 327.7 is below the casing radius 310.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 360.5 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 327.7 is below the casing radius 310.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 561.4 to seat it on the baseplate.
 
 ### 205-PU-049 — D1 WASHER WIRE WASH PUMP
 
@@ -686,10 +706,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 356.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 316.6 *(raised from suction U 282.0 to seat motor end bell)*
+- Shaft centreline: U 489.0 *(raised from suction U 282.0 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 282.0 -> 316.6
-  - DISCHARGE: 559.1 -> 544.6
+  - SUCTION: 282.0 -> 489.0
+  - DISCHARGE: 559.1 -> 717.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -702,7 +722,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 282.0 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 316.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 282.0 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 489.0 to seat it on the baseplate.
 
 ### 205-PU-054 — D1 STAGE MC PUMP
 
@@ -711,11 +731,11 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **N**, motor end **S**
 - Casing: 615.0 dia x 140.0 long *(casing_reference.txt)*
 - Casing plan basis: MC offset 888 mm from plate centre toward N
-- Shaft centreline: U 397.4 *(raised from suction U 393.1 to seat motor end bell)*
+- Shaft centreline: U 622.2 *(raised from suction U 393.1 to seat motor end bell)*
 - Drive: N/A -- close-coupled MC arrangement
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 393.1 -> 397.4
-  - DISCHARGE: 841.2 -> 793.2
+  - SUCTION: 393.1 -> 622.2
+  - DISCHARGE: 841.2 -> 1018.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -727,7 +747,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 393.1 is below the motor end bell radius 347.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 397.4 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 393.1 is below the motor end bell radius 347.4 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 622.2 to seat it on the baseplate.
 
 ### 205-PU-060 — SCRUBBER CIRCULATION PUMP
 
@@ -736,10 +756,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **E**, motor end **W**
 - Casing: 361.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 316.6 *(raised from suction U 291.0 to seat motor end bell)*
+- Shaft centreline: U 489.0 *(raised from suction U 291.0 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 291.0 -> 316.6
-  - DISCHARGE: 585.4 -> 547.1
+  - SUCTION: 291.0 -> 489.0
+  - DISCHARGE: 585.4 -> 719.5
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -752,7 +772,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 291.0 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 316.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 291.0 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 489.0 to seat it on the baseplate.
 
 ### 205-PU-061 — SCRUBBER CIRCULATION PUMP
 
@@ -761,10 +781,10 @@ the macros, so this record cannot drift from the emitted geometry.
 - Longitudinal axis: wet end **E**, motor end **W**
 - Casing: 356.0 dia x 81.0 long *(casing_reference.txt)*
 - Casing plan basis: top-discharge nozzle centre (plan)
-- Shaft centreline: U 316.6 *(raised from suction U 291.0 to seat motor end bell)*
+- Shaft centreline: U 489.0 *(raised from suction U 291.0 to seat motor end bell)*
 - Nozzle Z adjustments (plan position and direction unchanged):
-  - SUCTION: 291.0 -> 316.6
-  - DISCHARGE: 585.4 -> 544.6
+  - SUCTION: 291.0 -> 489.0
+  - DISCHARGE: 585.4 -> 717.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
   - bearing housing proportioned from /P1501B
@@ -777,7 +797,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
-  - CONFLICT: suction elevation U 291.0 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 316.6 to seat it on the baseplate.
+  - CONFLICT: suction elevation U 291.0 is below the motor end bell radius 266.6 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 489.0 to seat it on the baseplate.
 
 ## Data-quality exceptions
 

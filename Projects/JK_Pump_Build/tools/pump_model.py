@@ -60,6 +60,12 @@ REF = {
     "terminal_box": 150.0 / 360.0,         # terminal box cube vs stator
     "gland_dia": 10.0 / 360.0,
     "gland_heig": 175.0 / 360.0,
+    # Clearance the reference leaves BETWEEN the plate top and the volute
+    # underside, as a fraction of the casing radius.  /P1501B: plate top at
+    # local U -280, volute (dia 340) underside at -170, so 110 mm under a
+    # 170 mm radius.  This is the room the support chain occupies, and
+    # omitting it crushes frame, sole plate, gussets and anchors into nothing.
+    "support_clearance": 110.0 / 170.0,
 }
 RIB_COUNT = 36            # /P1501B carries 36 axial ribs on a full 360 degrees
 BASEPLATE_THICKNESS = 50.0    # client-confirmed, DO.txt 2026-07-29

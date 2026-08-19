@@ -267,6 +267,57 @@ def verify(model, sources) -> List[str]:
                     f"{nozzle.sube} nozzle root is {radial:.0f} mm from the "
                     f"casing axis (casing radius {casing_dia / 2:.0f}): floating")
 
+    # --- [7a] each anchor's washer must sit on its own sole plate ---------
+    # Generic connectivity is not enough for hardware: a washer floated up into
+    # the machine above still "touches" something and passes.  A washer belongs
+    # to its anchor, so it is checked against the sole plate it seats on.
+    soles = [p for p in solids if "sole plate" in p.note]
+    for washer in (p for p in solids if "washer" in p.note):
+        seated = False
+        washer_box = bounds(washer)
+        for sole in soles:
+            sole_box = bounds(sole)
+            overlaps = all(
+                min(washer_box[axis][1], sole_box[axis][1])
+                > max(washer_box[axis][0], sole_box[axis][0]) - TOL
+                for axis in (0, 1))
+            if overlaps and abs(washer_box[2][0] - sole_box[2][1]) <= 2.0:
+                seated = True
+                break
+        if not seated:
+            problems.append(
+                f"hex washer is not seated on a sole plate: base U "
+                f"{washer_box[2][0]:.1f} ({washer.note})")
+
+    # --- [7b] the support must be a real structure, not a sliver ----------
+    # The first support rebuild passed every other check while emitting rails
+    # 8 mm tall and a 10 mm pedestal, because the machine had been seated flat
+    # on the baseplate and there was no room left underneath.  Connectivity and
+    # foundation checks are both blind to that: the parts touch, and nothing
+    # sinks.  What was missing is a check that the support has DEPTH.
+    support = [p for p in solids if p.sube == "SUPPORT"]
+    if support:
+        pedestals = [p for p in support if "pedestal" in p.note]
+        for pedestal in pedestals:
+            box = bounds(pedestal)
+            height = box[2][1] - box[2][0]
+            if height < 25.0:
+                problems.append(
+                    f"support pedestal is only {height:.1f} mm tall -- the "
+                    f"machine is seated too low for a real support chain "
+                    f"({pedestal.note})")
+        # The machine must stand clear of the plate, or there is nowhere for
+        # the frame, sole plate, gussets and anchors to live.
+        machine = [p for p in solids
+                   if p.sube in ("CASING", "DRIVER") and p.kind != "BOX"]
+        if machine and plate is not None:
+            plate_top_u = bounds(plate)[2][1]
+            lowest = min(bounds(p)[2][0] for p in machine)
+            if lowest - plate_top_u < 40.0:
+                problems.append(
+                    f"machine underside is only {lowest - plate_top_u:.1f} mm "
+                    f"above the baseplate: no room for the support structure")
+
     # --- [8] a nozzle flange must not be buried inside the casing ---------
     if barrel:
         for nozzle in nozzles:

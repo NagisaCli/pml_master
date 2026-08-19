@@ -547,3 +547,36 @@ Client correction — 2026-08-19 (support structure + combined output only)
 - Status: 30 pumps, 2220 elements, 0 verification problems; 12/12 mutations
   caught; 972 ribs geometrically correct; 483 repo tests pass. Still awaiting
   a fresh E3D visual reload before acceptance (IR-11d).
+
+Client correction — 2026-08-19 (support crushed to nothing; give it real height)
+--------------------------------------------------------------------------------
+
+- The client's second reload showed the base/support had effectively vanished:
+  flat strips on the plate with the machine floating above them. Worse than
+  the plain blocks it replaced.
+- Root cause, measured: two compounding errors.
+  1. `_build_machine_support` took its bearing height from a fraction of the
+     casing diameter (`shaft_u - dia * 0.30`), which lands INSIDE the body.
+     For 203-PU-008 the casing underside is U 53.4 but the pedestal was told
+     to stop at U 195.8.
+  2. The 2026-08-19 shaft rule seated the machine directly on the baseplate
+     (`plate_top + radius`), leaving ZERO clearance on most pumps. There was
+     no room for a support chain to exist in.
+- Fixes, both in shared logic:
+  * pedestal heights now come from the machine's MEASURED underside
+    (`_lowest_of`), never from a diameter ratio;
+  * the shaft carries a support allowance derived from the reference:
+    /P1501B holds its volute 110 mm clear of the plate top on a 170 mm casing
+    radius, i.e. 0.647 of the radius, recorded as `REF["support_clearance"]`;
+  * rail/flange/web thicknesses scale from the real plate-to-machine gap
+    rather than from plate length.
+- Result: clearance 115-355 mm per pump, pedestals 80-245 mm, gussets
+  68-208 mm, rails 40-173 mm. The client stated there is no height limit on
+  components; the machine sits as high as its support requires.
+- The verifier passed the broken version, because connectivity and foundation
+  checks are both blind to a crushed support: the parts touch and nothing
+  sinks. Two checks added: support pedestals must exceed 25 mm, and the
+  machine underside must clear the plate by 40 mm. A `mutate_seat_machine_on_
+  plate` mutation reproduces the exact regression and is caught. Hex washers
+  are now checked against their own sole plate rather than generic contact.
+- Status: 30 pumps, 2220 elements, 0 problems; 13/13 mutations caught.

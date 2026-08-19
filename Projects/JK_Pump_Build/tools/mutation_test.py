@@ -102,6 +102,29 @@ def mutate_float_gusset(model):
     return "gusset displaced 1200 mm off the pedestal"
 
 
+def mutate_seat_machine_on_plate(model):
+    """
+    The 2026-08-19 support regression: seat the machine flat on the baseplate
+    so there is no room for a support chain, and shrink the pedestal to the
+    sliver that produced.  Connectivity and foundation checks both pass on
+    this, which is exactly why it shipped.
+    """
+    plate_top = model.facts["plate_top"]
+    machine = [p for p in model.primitives
+               if p.sube in ("CASING", "DRIVER", "BEARING", "COUPLING")]
+    if not machine:
+        return None
+    lowest = min(p.up - p.attrs.get("DIAM", 0) / 2 for p in machine)
+    drop = lowest - plate_top
+    for primitive in machine:
+        primitive.up -= drop
+    for primitive in model.primitives:
+        if primitive.sube == "SUPPORT" and "pedestal" in primitive.note:
+            primitive.attrs["ZLEN"] = 10.0
+            primitive.up = plate_top + 30.0
+    return "machine seated flat on the plate, pedestal crushed to 10 mm"
+
+
 def mutate_sink_skid_rail(model):
     rail = next((p for p in model.primitives
                  if "skid rail" in p.note), None)
@@ -115,6 +138,7 @@ MUTATIONS = [
     mutate_float_hex_washer,
     mutate_float_gusset,
     mutate_sink_skid_rail,
+    mutate_seat_machine_on_plate,
     mutate_baseplate_size,
     mutate_nozzle_plan,
     mutate_casing_diameter,

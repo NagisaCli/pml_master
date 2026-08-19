@@ -149,7 +149,20 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
     end_bell_dia = (motor_dia or 0.0) * REF["motor_end_dish_dia"]
     required = max(casing_dia, end_bell_dia) / 2
     driver = "motor end bell" if end_bell_dia > casing_dia else "casing"
-    seated_u = plate_top + required
+
+    # A pump is CARRIED on a pedestal; its casing does not rest on the
+    # baseplate.  Seating the machine directly on the plate left zero clearance
+    # on most pumps, which crushed the whole support chain -- frame, sole
+    # plate, gussets and anchors -- into a few millimetres and produced a model
+    # that read as a machine floating on flat strips.
+    #
+    # /P1501B carries its shaft 340 mm above the plate underside on a 340 dia
+    # casing, i.e. a full casing radius of structure beneath the volute.  The
+    # same allowance is applied here, so there is real room for the support the
+    # client asked to see.
+    support_allowance = max(required * REF["support_clearance"], 120.0)
+    seated_u = plate_top + required + support_allowance
+    model.facts["support_allowance"] = support_allowance
 
     if suction_u < seated_u - 0.5:
         shaft_u = seated_u
@@ -193,21 +206,28 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
                        casing_centre=(casing_e, casing_n), shaft_u=shaft_u)
 
     _build_baseplate(model, plate_e, plate_n, xlen, ylen, zlen, plate.pos["up"])
-    # The skid frame is built first because every machine support bears on it.
-    rail_top, inset, flange_w = _build_skid_frame(
-        model, plate_e, plate_n, xlen, ylen, plate_top, long_axis)
-
+    # The machine is emitted first so the support can be sized from its real
+    # measured underside rather than from a ratio.
     _build_casing(model, casing_e, casing_n, casing_dia, casing_len,
                   shaft_u, long_axis, wet_end, plate_top, is_mc)
     _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaft_u,
                  long_axis, wet_end, motor_end, plate_e, plate_n,
                  half_long, plate_top, is_mc)
 
+    rail_top, inset, flange_w = _build_skid_frame(
+        model, plate_e, plate_n, xlen, ylen, plate_top, long_axis)
+
     # --- support chains, built to the reference construction --------------
-    # The casing sits on its own gusseted pedestal; the driver on a second one.
+    # A pedestal must reach the machine's ACTUAL underside.  An earlier
+    # revision computed the bearing height from a fraction of the diameter
+    # (`shaft_u - dia * 0.30`), which lands INSIDE the body: for 203-PU-008 the
+    # casing bottom is U 53.4 but the pedestal was told to stop at U 195.8, so
+    # the whole support chain was crushed into the few millimetres of real
+    # clearance and the machine appeared to float above flat rails.
+    # The underside is measured from the emitted geometry instead.
     _build_machine_support(
         model, casing_e, casing_n,
-        bearing_top=shaft_u - casing_dia * 0.30,
+        bearing_top=_lowest_of(model, "CASING"),
         plate_top=plate_top, rail_top=rail_top, inset=inset,
         flange_w=flange_w, long_axis=long_axis,
         width=casing_dia * 0.55, length=max(casing_len * 1.4, casing_dia * 0.45),
@@ -217,7 +237,7 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
     if motor_support:
         _build_machine_support(
             model, motor_support["centre_e"], motor_support["centre_n"],
-            bearing_top=motor_support["bearing_top"],
+            bearing_top=_lowest_of(model, "DRIVER"),
             plate_top=plate_top, rail_top=rail_top, inset=inset,
             flange_w=flange_w, long_axis=long_axis,
             width=motor_support["width"], length=motor_support["length"],
@@ -250,6 +270,53 @@ def hex_profile(across_flats: float):
              radius * math.sin(math.radians(60 * i))) for i in range(6)]
 
 
+def _lowest_of(model, sube: str) -> float:
+    """
+    The measured underside of an assembly already emitted into the model.
+
+    A support has to reach the real bottom of the body it carries, so that
+    height is read back off the geometry rather than guessed from a fraction of
+    a diameter.  Deriving it from a ratio is what buried the pedestals inside
+    the machines and left the render showing a floating pump on flat rails.
+    """
+    lows = []
+    for primitive in model.primitives:
+        if primitive.sube != sube:
+            continue
+        attrs = primitive.attrs
+        if primitive.kind == "CYLINDER":
+            axis = _ori_axis(primitive.ori)
+            radius = attrs.get("DIAM", 0) / 2
+            half = attrs.get("HEIG", 0) / 2
+            # Only the axial component lowers a cylinder along U; a horizontal
+            # barrel drops by its radius instead.
+            drop = abs(half * axis[2]) + radius * math.sqrt(
+                max(0.0, 1.0 - axis[2] ** 2))
+            lows.append(primitive.up - drop)
+        elif primitive.kind == "DISH":
+            axis = _ori_axis(primitive.ori)
+            radius = attrs.get("DIAM", 0) / 2
+            height = attrs.get("HEIG", 0)
+            drop = radius * math.sqrt(max(0.0, 1.0 - axis[2] ** 2))
+            lows.append(min(primitive.up, primitive.up + height * axis[2]) - drop)
+        elif primitive.kind == "BOX":
+            lows.append(primitive.up - attrs.get("ZLEN", 0) / 2)
+    return min(lows) if lows else model.facts["plate_top"]
+
+
+def _ori_axis(ori: str):
+    """Unit vector of the axis named by an ``ORI ... Z is <letter>`` clause."""
+    if not ori:
+        return (0.0, 0.0, 1.0)
+    tokens = ori.replace(" and ", " ").replace(" AND ", " ").split()
+    for index, token in enumerate(tokens):
+        if token.upper() == "Z" and index + 2 < len(tokens):
+            letter = tokens[index + 2].upper()
+            if letter in AXIS_VECTOR:
+                return AXIS_VECTOR[letter]
+    return (0.0, 0.0, 1.0)
+
+
 def _build_skid_frame(model, plate_e, plate_n, xlen, ylen, plate_top,
                       long_axis):
     """
@@ -264,15 +331,25 @@ def _build_skid_frame(model, plate_e, plate_n, xlen, ylen, plate_top,
     Returns the rail top elevation, which is what the sole plates bear on.
     """
     # Proportions measured from /P1501B: rails inset to +/-202.5 of a 510 wide
-    # plate (0.794 of the half width), flange 105 wide (0.206 of the width),
-    # flange 20 thick, web gap 20.
+    # plate (0.794 of the half width), flange 105 wide (0.206 of the width).
+    #
+    # The rail HEIGHT is sized from the gap the frame actually has to fill --
+    # plate top up to the lowest machine -- not from the plate length.  A
+    # length-derived thickness gave a ~30 mm rail under a 360 mm gap, which is
+    # what made the frame read as flat strips with the machine floating above.
     half_tran = (xlen if long_axis == "N" else ylen) / 2
     length = ylen if long_axis == "N" else xlen
     inset = half_tran * (202.5 / 255.0)
     flange_w = (xlen if long_axis == "N" else ylen) * (105.0 / 510.0)
-    flange_t = max(length * (20.0 / 1390.0), 8.0)
-    web_t = flange_t * 0.4
-    web_h = flange_t * 1.0
+
+    machine_under = min(_lowest_of(model, "CASING"), _lowest_of(model, "DRIVER"))
+    gap = max(machine_under - plate_top, 20.0)
+    # The frame takes the lower third of the gap; sole plate, gussets and
+    # pedestal share the rest, so every part stays visible at real scale.
+    rail_h = max(gap * 0.34, 24.0)
+    flange_t = max(rail_h * 0.30, 8.0)
+    web_t = max(flange_w * 0.22, 6.0)
+    web_h = max(rail_h - flange_t * 2, 8.0)
 
     rail_top = plate_top + flange_t * 2 + web_h
     for sign in (-1.0, +1.0):
@@ -306,9 +383,16 @@ def _build_machine_support(model, centre_e, centre_n, bearing_top, plate_top,
     pedestal -> machine -- rather than the single block the first revision
     emitted.  Every part rests on the one below it.
     """
-    sole_t = max((bearing_top - rail_top) * 0.18, 10.0)
+    # `bearing_top` is the machine's measured underside.  The remaining gap
+    # above the rails is split between a sole plate and the pedestal that
+    # actually reaches the machine, so the pedestal is always a visible member
+    # rather than a sliver.
+    remaining = max(bearing_top - rail_top, 12.0)
+    sole_t = max(remaining * 0.18, 12.0)
     sole_top = rail_top + sole_t
-    pedestal_h = max(bearing_top - sole_top, 8.0)
+    # Overlap the machine slightly so the pedestal visibly meets it rather
+    # than stopping a hair short and reading as a gap.
+    pedestal_h = max(bearing_top - sole_top + 6.0, 10.0)
 
     def plan(across, along):
         """(XLEN, YLEN) for a part `across` the machine and `along` it."""

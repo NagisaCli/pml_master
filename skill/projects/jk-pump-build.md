@@ -1369,3 +1369,61 @@ coverage. All twelve mutations are now caught.
 **Whenever a new primitive KIND enters the model, check the verifier's type
 list before trusting its next clean run.** A verifier silently narrower than
 the model is worse than no verifier, because it reports success.
+
+### User-corrected 2026-08-19 (second): the support had no room to exist
+
+The client's next reload was worse than the one before it — flat strips on the
+plate with the machine floating clear above. Two errors compounded, and both
+were mine:
+
+1. **A support height taken from a ratio instead of a measurement.**
+   `_build_machine_support` used `shaft_u - casing_dia * 0.30` as the height to
+   reach. That expression has no physical meaning: for 203-PU-008 the casing
+   underside is at U 53.4 while the pedestal was told to stop at U 195.8, i.e.
+   *inside* the volute.
+
+2. **A seating rule that left zero clearance.** The earlier "raise the shaft to
+   seat the casing" fix used `plate_top + radius`, which puts the machine
+   *resting on* the baseplate. On most pumps that left 0.0 mm underneath — so
+   the frame, sole plate, gussets and anchors were all squeezed into nothing.
+
+The fix for (1) is `_lowest_of()`, which reads the assembly's real underside
+back off the emitted geometry. The fix for (2) came from the reference itself:
+/P1501B holds its volute **110 mm clear of the plate top on a 170 mm casing
+radius** — 0.647 of the radius — which is precisely the room its 43-element
+support occupies. That ratio is now `REF["support_clearance"]`.
+
+**The general lesson: a support's dimensions are a consequence of the gap it
+spans, so measure the gap.** Every ratio-derived height in this job has been
+wrong at least once, because a ratio encodes an assumption about proportions
+that the project data is free to violate. Where one part must reach another,
+read the other part's position.
+
+And the second-order lesson: **when a fix makes the render worse, suspect the
+fix before the renderer.** The "seat the casing on the plate" rule was itself a
+correction, applied to resolve a genuine data conflict. It resolved that
+conflict by creating a new one, and nothing in the checks noticed because the
+result was still self-consistent.
+
+### Why the verifier passed a support that had been crushed to nothing
+
+Both existing structural checks are blind to this failure by construction:
+
+* **connectivity** — the parts *do* all touch; they are simply 8 mm tall;
+* **foundation** — nothing sinks below U 0; everything is squeezed above it.
+
+A model can satisfy every relational check and still be physically absurd if no
+check asserts that a member has **depth**. Two were added: a support pedestal
+must exceed 25 mm, and the machine underside must clear the plate by 40 mm.
+
+`mutate_seat_machine_on_plate` now reproduces the exact shipped regression —
+machine dropped onto the plate, pedestal crushed to 10 mm — and is caught. That
+mutation is worth more than the two checks it exercises, because it encodes a
+failure that actually reached the client.
+
+One further gap surfaced while testing it: floating a hex washer 700 mm upward
+*stopped* being caught once the machine sat higher, because the washer then
+landed inside the raised machine and still touched something. Generic
+connectivity is too weak for hardware, so a washer is now checked against **its
+own sole plate**. When a mutation stops failing after an unrelated change, the
+check was relying on a coincidence.
