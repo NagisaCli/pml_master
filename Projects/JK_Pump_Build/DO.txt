@@ -609,3 +609,40 @@ Client correction — 2026-08-19 (use the reference's OWN support structure)
   the 3 plain boxes of the first attempt.
 - Status: 30 pumps, 2271 elements, 0 problems; 13/13 mutations caught; 972
   ribs correct. Awaiting E3D reload (IR-11d).
+
+Client correction — 2026-08-19 (Base_reference.txt is THE base reference)
+--------------------------------------------------------------------------
+
+- The client supplied `C:\Users\A\Desktop\Base_reference.txt` (/P1501B-BASE,
+  43 elements: 11 BOX, 12 PYRAMID, 10 EXTRUSION, 10 CYLINDER) as the dedicated
+  reference for the pump base/support, archived at
+  `imports/2026-08-19_Base_reference.txt`.
+- Requirement: STRICTLY reproduce this structure for every pump, adapting size,
+  position, spacing and proportion to each pump's own parameters. Do not
+  approximate or redesign it.
+- Implementation: `tools/base_reference.py` parses the reference's own 43
+  elements and maps each through an affine transform per pump; nothing is
+  designed. The three previous invented supports are deleted.
+- The transform, all measured from the reference itself:
+  * transverse scale against the base's OVERALL 510 envelope (its brackets
+    reach +/-255 while its plate member is only 300 wide, so scaling on the
+    plate threw every bracket off the target plate);
+  * longitudinal: the reference's two machine stations (N 0 pump end,
+    N -804.62 motor end) are pinned to this pump's actual casing and motor,
+    with interpolation between and plate-relative scaling beyond them;
+  * vertical PER STATION: the reference carries its pump end 170 mm and its
+    motor end 155 mm above the plate top, and a target's casing and motor
+    rarely share an underside, so one global factor left a machine floating;
+  * anchored at the plate UNDERSIDE, since the reference keeps nothing below
+    its own underside, with a per-element datum-aware clamp (a BOX POS is its
+    centre, so a centre above the underside can still dip below it).
+- The reference base is a BOLTED assembly, not a fused solid: its sole plates
+  stop at U -255 with gussets starting at -236, and its pump pad tops at -200
+  with side brackets from -170. Those 19-30 mm joints are real, and they SCALE,
+  so the verifier's contact tolerance is a fraction of plate length, not a
+  fixed millimetre figure.
+- The verifier now carries a COMPOSITION check (BOX 11 / PYRAMID 12 /
+  EXTRUSION 10 / CYLINDER 10 per pump). That is the check that would have
+  caught all three rejected redesigns immediately.
+- Status: 30 pumps, 2646 elements, 0 problems; 14/14 mutations caught; 972 ribs
+  correct. Awaiting E3D reload (IR-11d).

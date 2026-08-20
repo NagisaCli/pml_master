@@ -119,25 +119,42 @@ def mutate_seat_machine_on_plate(model):
     for primitive in machine:
         primitive.up -= drop
     for primitive in model.primitives:
-        if primitive.sube == "SUPPORT" and "pedestal" in primitive.note:
-            primitive.attrs["ZLEN"] = 10.0
-            primitive.up = plate_top + 30.0
+        if primitive.sube == "BASE":
+            # Crush the base down onto the plate, as the rejected revision did.
+            primitive.up = min(primitive.up, plate_top + 10.0)
     return "machine seated flat on the plate, pedestal crushed to 10 mm"
 
 
 def mutate_sink_skid_rail(model):
     rail = next((p for p in model.primitives
-                 if "skid rail" in p.note), None)
+                 if p.sube == "BASE" and p.kind == "BOX"), None)
     if rail is None:
         return None
     rail.up -= 300.0
-    return "skid rail sunk 300 mm below the baseplate"
+    return "base rail sunk 300 mm below the baseplate"
+
+
+def mutate_drop_base_member(model):
+    """
+    Delete one family of base members.
+
+    This is the failure that reached the client three times: a support that
+    passes every positional check but is not the reference structure.
+    """
+    victims = [p for p in model.primitives
+               if p.sube == "BASE" and p.kind == "PYRAMID"]
+    if not victims:
+        return None
+    for victim in victims[:4]:
+        model.primitives.remove(victim)
+    return "four PYRAMID gussets deleted from the reference base"
 
 
 MUTATIONS = [
     mutate_float_hex_washer,
     mutate_float_gusset,
     mutate_sink_skid_rail,
+    mutate_drop_base_member,
     mutate_seat_machine_on_plate,
     mutate_baseplate_size,
     mutate_nozzle_plan,

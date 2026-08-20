@@ -43,6 +43,9 @@ from extract_project_data import load_all                      # noqa: E402
 from recover_nozzle_axes import classify                        # noqa: E402
 from pump_model import (AXIS_VECTOR, BASEPLATE_THICKNESS, OPPOSITE,  # noqa: E402
                         REF, RIB_COUNT, Primitive, PumpModel)
+from base_reference import (BaseTransform, REF_MOTOR_RISE,  # noqa: E402
+                            REF_PLATE_THICK, REF_PUMP_RISE,
+                            build_base_for_pump, parse_base)
 
 REPO = Path(__file__).resolve().parents[3]
 OUTPUT_DIR = REPO / "Projects" / "JK_Pump_Build" / "output" / "2026-08-19_pumps"
@@ -212,34 +215,11 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
                  long_axis, wet_end, motor_end, plate_e, plate_n,
                  half_long, plate_top, is_mc)
 
-    rail_top, inset, flange_w = _build_skid_frame(
-        model, plate_e, plate_n, xlen, ylen, plate_top, long_axis)
-
-    # --- support chains, built to the reference construction --------------
-    # A pedestal must reach the machine's ACTUAL underside.  An earlier
-    # revision computed the bearing height from a fraction of the diameter
-    # (`shaft_u - dia * 0.30`), which lands INSIDE the body: for 203-PU-008 the
-    # casing bottom is U 53.4 but the pedestal was told to stop at U 195.8, so
-    # the whole support chain was crushed into the few millimetres of real
-    # clearance and the machine appeared to float above flat rails.
-    # The underside is measured from the emitted geometry instead.
-    _build_machine_support(
-        model, casing_e, casing_n,
-        bearing_top=_lowest_of(model, "CASING"),
-        plate_top=plate_top, rail_top=rail_top, inset=inset,
-        flange_w=flange_w, long_axis=long_axis,
-        width=casing_dia * 0.55, length=max(casing_len * 1.4, casing_dia * 0.45),
-        label="casing")
-
-    motor_support = model.facts.get("motor_support")
-    if motor_support:
-        _build_machine_support(
-            model, motor_support["centre_e"], motor_support["centre_n"],
-            bearing_top=_lowest_of(model, "DRIVER"),
-            plate_top=plate_top, rail_top=rail_top, inset=inset,
-            flange_w=flange_w, long_axis=long_axis,
-            width=motor_support["width"], length=motor_support["length"],
-            label="driver")
+    # --- the base, reproduced from Base_reference.txt ---------------------
+    # Not redesigned: every one of /P1501B-BASE's 43 elements is mapped into
+    # this pump's frame, adapted to its own plate, casing and motor positions.
+    _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
+                          long_axis, wet_end, casing_e, casing_n)
 
     _build_nozzles(model, suction, discharge, casing_e, casing_n,
                    casing_dia, casing_len, shaft_u, location)
@@ -315,168 +295,108 @@ def _ori_axis(ori: str):
     return (0.0, 0.0, 1.0)
 
 
-def _build_skid_frame(model, plate_e, plate_n, xlen, ylen, plate_top,
-                      long_axis):
+def _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
+                          long_axis, wet_end, casing_e, casing_n):
     """
-    The skid rails, reproduced from /P1501B rather than invented.
+    Emit ``Base_reference.txt`` (/P1501B-BASE), adapted to this pump.
 
-    The reference lays four flat bars along the full plate length at
-    ``E +/-202.5`` on a 510-wide plate: an upper pair flush into the plate top
-    (local U -300..-280) and a lower pair flush at the plate underside
-    (-340..-320).  They are rails ON the plate, not a tall I-section standing
-    proud of it -- an earlier revision built the latter and it read as flat
-    strips with the machine floating above.
+    Three earlier revisions redesigned the support from ratios sampled off the
+    reference and all three were rejected.  Nothing is designed here: the
+    reference's own 43 elements are parsed and mapped through an affine
+    transform, so the composition, the member relationships and the support
+    logic are the reference's, while the sizes and positions are this pump's.
 
-    Every ratio below is measured against the reference's plate WIDTH, which is
-    what its support is actually proportioned on.
-
-    Returns ``(rail_top, sole_inset, rail_width)``.
+    Anchoring
+    ---------
+    The reference's two machine stations -- ``N 0`` (pump end) and
+    ``N -804.62`` (motor end) -- carry its mountings, so they are pinned to
+    this pump's actual casing and motor rather than merely scaled.  Everything
+    between them interpolates, which keeps the frame proportionate however far
+    apart a given pump sets its machines.
     """
-    width = xlen if long_axis == "N" else ylen
-    length = ylen if long_axis == "N" else xlen
-    half_tran = width / 2
+    reference = parse_base()
 
-    rail_inset = half_tran * 0.7941           # 202.5 / 255
-    rail_w = width * 0.2059                   # 105 / 510
-    rail_t = max(width * 0.0392, 6.0)         # 20 / 510
-    sole_inset = half_tran * 0.7157           # 182.5 / 255
+    # Where the two machines actually sit, as offsets from the plate centre
+    # along the machine axis.
+    vector = AXIS_VECTOR[wet_end]
+    casing_station = ((casing_e - plate_e) * vector[0]
+                      + (casing_n - plate_n) * vector[1])
+    motor_support = model.facts.get("motor_support")
+    if motor_support:
+        motor_station = ((motor_support["centre_e"] - plate_e) * vector[0]
+                         + (motor_support["centre_n"] - plate_n) * vector[1])
+    else:
+        # No driver modelled (no engine record): keep the reference's own
+        # proportion between the two stations so the frame stays sensible.
+        half_long = (ylen if long_axis == "N" else xlen) / 2
+        motor_station = -half_long * 0.55
 
-    for sign in (-1.0, +1.0):
-        offset = rail_inset * sign
-        rail_e = plate_e + (offset if long_axis == "N" else 0.0)
-        rail_n = plate_n + (0.0 if long_axis == "N" else offset)
+    # `casing_station` and `motor_station` are already measured along the wet
+    # end direction, so the casing is the larger of the two by construction and
+    # the reference's own sense (pump end positive) is preserved directly.
+    # No handedness flip is needed: the wet-end vector supplies it.
+    long_sign = 1.0
+
+    # Vertical scale: the reference's base carries its machine directly -- its
+    # topmost mounting is 170 mm above its plate top and the machine sits on
+    # it.  So the scale is set by the height this pump's base actually has to
+    # reach, not by the plate thickness ratio.  Using the plate ratio left the
+    # base topping out 84-112 mm below the machine, i.e. floating again.
+    # Each end gets its own factor, because the reference's two mountings are
+    # different heights (pump end +170, motor end +155 above its plate top) and
+    # a target's casing and motor rarely share an underside either.
+    plate_under_u = plate_top - BASEPLATE_THICKNESS
+    casing_under = _lowest_of(model, "CASING")
+    # With no driver modelled there is no motor underside to aim at.  Falling
+    # back to the casing's would tilt the whole base toward the pump end and
+    # leave the motor-end members hanging, so the reference's own proportion
+    # between its two rises is used instead.
+    motor_under = (_lowest_of(model, "DRIVER") if motor_support
+                   else plate_under_u
+                   + (casing_under - plate_under_u)
+                   * (REF_MOTOR_RISE + REF_PLATE_THICK)
+                   / (REF_PUMP_RISE + REF_PLATE_THICK))
+    # Aim the mounting a little INTO the machine.  `_lowest_of` reports the
+    # lowest point of the whole assembly, which is the volute end cover rather
+    # than the barrel the mounting actually sits under, so aiming exactly at it
+    # leaves a few millimetres of daylight at the barrel.  A deliberate bite
+    # makes the two solids interfere, which is what a seated mounting looks
+    # like and what the connectivity check requires.
+    seat_bite = 25.0
+    height_scale_pump = max(casing_under + seat_bite - plate_under_u, 20.0) / (
+        REF_PUMP_RISE + REF_PLATE_THICK)
+    height_scale_motor = max(motor_under + seat_bite - plate_under_u, 20.0) / (
+        REF_MOTOR_RISE + REF_PLATE_THICK)
+    height_scale = (height_scale_pump + height_scale_motor) / 2
+
+    transform = BaseTransform(
+        plate_e=plate_e, plate_n=plate_n, plate_top=plate_top,
+        plate_under=plate_top - BASEPLATE_THICKNESS,
+        width=(xlen if long_axis == "N" else ylen),
+        length=(ylen if long_axis == "N" else xlen),
+        long_axis=long_axis,
+        long_sign=long_sign,
+        height_scale=height_scale,
+        pump_station=casing_station,
+        motor_station=motor_station,
+        height_scale_pump=height_scale_pump,
+        height_scale_motor=height_scale_motor,
+        wet_end=wet_end,
+        wet_vector=(AXIS_VECTOR[wet_end][0], AXIS_VECTOR[wet_end][1]),
+    )
+
+    for item in build_base_for_pump(transform, reference):
         model.add(Primitive(
-            kind="BOX", sube="SUPPORT",
-            attrs={"XLEN": rail_w if long_axis == "N" else length,
-                   "YLEN": length if long_axis == "N" else rail_w,
-                   "ZLEN": rail_t},
-            east=rail_e, north=rail_n, up=plate_top + rail_t / 2,
-            note="skid rail bar along the plate edge (/P1501B)"))
+            kind=item["kind"], sube="BASE",
+            attrs=item["attrs"],
+            east=item["east"], north=item["north"], up=item["up"],
+            ori=item["ori"] or None,
+            profile=item["profile"] or None,
+            note=item["note"]))
+
+    model.facts["base_elements"] = len(reference)
     model.reference_values.append(
-        "skid rails: flat bars at the plate edges, proportioned from /P1501B")
-    return plate_top, sole_inset, rail_w
-
-
-def _build_machine_support(model, centre_e, centre_n, bearing_top, plate_top,
-                           rail_top, inset, flange_w, long_axis, width, length,
-                           label):
-    """
-    One machine mounting, built the way /P1501B builds it.
-
-    The reference does NOT carry its machines on solid pedestal blocks.  From
-    the plate upward it uses:
-
-    * a pair of **sole plates** lying on the plate top at ``E +/-182.5``
-      (25 thick on a 510 plate);
-    * **vertical gusset plates**, 20 mm thick, standing on those sole plates
-      and tapering upward -- a PYRAMID whose XBOT equals its XTOP, i.e. a
-      constant-thickness plate that narrows only in length, not a wedge block;
-    * a **mounting pad** carried on the webs, on which the machine sits.
-
-    The reference pad top is only 80-107 mm above the plate top: the machine
-    sits LOW and close to the skid, braced by thin webs.  Two earlier revisions
-    invented tall solid pedestals instead, which is what the client rejected.
-    """
-    # The reference pad is 0.4412 of the plate width, so the caller's pad width
-    # recovers the plate width this support is proportioned against.
-    scale = width / 0.4412 if width else 1.0
-
-    sole_t = max(scale * 0.0490, 8.0)          # 25 / 510
-    sole_top = plate_top + sole_t
-    gusset_t = max(scale * 0.0392, 6.0)        # 20 / 510
-
-    pad_t = max(scale * 0.0882, 10.0)          # 45 / 510
-    pad_top = bearing_top + 2.0                # slight overlap into the machine
-    pad_bottom = pad_top - pad_t
-    web_h = max(pad_bottom - sole_top, 12.0)
-
-    def plan(across, along):
-        """(XLEN, YLEN) for a part `across` the machine and `along` it."""
-        return (across, along) if long_axis == "N" else (along, across)
-
-    # --- sole plates, one each side, lying on the plate top --------------
-    sole_x, sole_y = plan(scale * 0.2451, length)
-    for sign in (-1.0, +1.0):
-        offset = inset * sign
-        sole_e = centre_e + (offset if long_axis == "N" else 0.0)
-        sole_n = centre_n + (0.0 if long_axis == "N" else offset)
-        model.add(Primitive(
-            kind="BOX", sube="SUPPORT",
-            attrs={"XLEN": sole_x, "YLEN": sole_y, "ZLEN": sole_t},
-            east=sole_e, north=sole_n, up=plate_top + sole_t / 2,
-            note=f"{label} sole plate on the plate top (/P1501B)"))
-
-    # --- mounting pad the machine sits on --------------------------------
-    pad_x, pad_y = plan(width, length)
-    model.add(Primitive(
-        kind="BOX", sube="SUPPORT",
-        attrs={"XLEN": pad_x, "YLEN": pad_y, "ZLEN": pad_t},
-        east=centre_e, north=centre_n, up=pad_bottom + pad_t / 2,
-        note=f"{label} mounting pad carrying the machine (/P1501B)"))
-
-    # --- longitudinal gusset webs, sole plate -> pad ---------------------
-    for sign in (-1.0, +1.0):
-        offset = inset * sign
-        web_e = centre_e + (offset if long_axis == "N" else 0.0)
-        web_n = centre_n + (0.0 if long_axis == "N" else offset)
-        xbot, ybot = plan(gusset_t, length * 0.92)
-        xtop, ytop = plan(gusset_t, length * 0.70)
-        model.add(Primitive(
-            kind="PYRAMID", sube="SUPPORT",
-            attrs={"XBOT": xbot, "YBOT": ybot,
-                   "XTOP": xtop, "YTOP": ytop, "HEIG": web_h},
-            east=web_e, north=web_n, up=sole_top,
-            note=f"{label} gusset web, sole plate -> pad (/P1501B)"))
-
-    # --- transverse webs across the machine, as the reference also does ---
-    for sign in (-1.0, +1.0):
-        offset = length * 0.34 * sign
-        web_e = centre_e + (0.0 if long_axis == "N" else offset)
-        web_n = centre_n + (offset if long_axis == "N" else 0.0)
-        xbot, ybot = plan(inset * 1.9, gusset_t)
-        xtop, ytop = plan(width * 0.9, gusset_t)
-        model.add(Primitive(
-            kind="PYRAMID", sube="SUPPORT",
-            attrs={"XBOT": xbot, "YBOT": ybot,
-                   "XTOP": xtop, "YTOP": ytop, "HEIG": web_h},
-            east=web_e, north=web_n, up=sole_top,
-            note=f"{label} transverse gusset web (/P1501B)"))
-    model.reference_values.append(
-        f"{label} mounting: sole plates + vertical gusset webs + pad, /P1501B")
-
-    # --- anchor bolts through the sole plates, hex washer on top ---------
-    bolt_d = max(sole_t * 0.6, 8.0)
-    washer_flats = bolt_d * 2.3
-    washer_t = max(sole_t * 0.5, 5.0)
-    for tran_sign in (-1.0, +1.0):
-        for long_sign in (-1.0, +1.0):
-            across_off = inset * tran_sign
-            along_off = length * 0.34 * long_sign
-            if long_axis == "N":
-                bolt_e = centre_e + across_off
-                bolt_n = centre_n + along_off
-            else:
-                bolt_e = centre_e + along_off
-                bolt_n = centre_n + across_off
-            shank_bottom = plate_top - 20.0
-            shank_top = sole_top + washer_t
-            model.add(Primitive(
-                kind="CYLINDER", sube="SUPPORT",
-                attrs={"DIAM": bolt_d, "HEIG": shank_top - shank_bottom},
-                east=bolt_e, north=bolt_n,
-                up=(shank_bottom + shank_top) / 2,
-                ori="ORI Z is U and Y is N",
-                note=f"{label} anchor bolt through the sole plate"))
-            # IR-1: an EXTRUSION's POS is its profile end plane.
-            model.add(Primitive(
-                kind="EXTRUSION", sube="SUPPORT",
-                attrs={"HEIG": washer_t},
-                east=bolt_e, north=bolt_n, up=sole_top,
-                ori="ORI Z is U and Y is N",
-                profile=hex_profile(washer_flats),
-                note=f"{label} hex washer seated on the sole plate"))
-    model.reference_values.append(
-        f"{label} anchors: hex EXTRUSION washers, as /P1501B")
+        "base: all 43 elements of /P1501B-BASE, adapted to this pump")
 
 
 def _build_casing(model, east, north, dia, length, shaft_u, long_axis,

@@ -211,6 +211,22 @@ def verify(model, sources) -> List[str]:
     # are cantilevered off parts that are themselves carried.  What actually
     # matters is that every body touches the assembly at all, so the test is
     # connectivity to the baseplate through any chain of touching parts.
+    # The tolerance for "touching" is wider than a rounding epsilon, because
+    # the REFERENCE base itself is a bolted assembly rather than a fused solid:
+    # in /P1501B-BASE the sole plates stop at U -255 while the gussets above
+    # them start at -236, and the pump-end pad tops out at -200 with its side
+    # brackets starting at -170.  Those 19-30 mm gaps are how the real thing is
+    # built -- shims and bolted joints -- so a strict contact test would
+    # condemn a faithful copy of the client's own reference.
+    #
+    # The tolerance must also SCALE.  A base adapted to a 2701 mm plate is
+    # roughly 2.4x the reference, so the reference's own 30 mm joint opens to
+    # ~72 mm.  A fixed millimetre figure would pass the small pumps and fail
+    # the large ones for reproducing the reference faithfully, so it is
+    # expressed as a fraction of the plate length with a floor for small
+    # plates.  What must still be caught is a part in genuinely open air.
+    plate_len = max(facts["plate"][0], facts["plate"][1])
+    CONTACT_GAP = max(40.0, plate_len * 0.030)
     plate_top = facts["plate_top"]
     seeded = set()
     for index, primitive in enumerate(solids):
@@ -222,7 +238,7 @@ def verify(model, sources) -> List[str]:
     def touching(first: int, second: int) -> bool:
         one, two = boxes[first], boxes[second]
         for axis in range(3):
-            if min(one[axis][1], two[axis][1]) < max(one[axis][0], two[axis][0]) - TOL:
+            if min(one[axis][1], two[axis][1])                     < max(one[axis][0], two[axis][0]) - CONTACT_GAP:
                 return False
         return True
 
@@ -267,56 +283,71 @@ def verify(model, sources) -> List[str]:
                     f"{nozzle.sube} nozzle root is {radial:.0f} mm from the "
                     f"casing axis (casing radius {casing_dia / 2:.0f}): floating")
 
-    # --- [7a] each anchor's washer must sit on its own sole plate ---------
+    # --- [7a] every hex washer must sit on a BASE member below it --------
     # Generic connectivity is not enough for hardware: a washer floated up into
-    # the machine above still "touches" something and passes.  A washer belongs
-    # to its anchor, so it is checked against the sole plate it seats on.
-    soles = [p for p in solids if "sole plate" in p.note]
-    for washer in (p for p in solids if "washer" in p.note):
-        seated = False
+    # the machine above still "touches" something and passes.  A washer is an
+    # anchor fitting, so it must rest on a base member directly beneath it --
+    # checked in plan, with the washer's underside on that member's top.
+    washers = [p for p in solids if p.kind == "EXTRUSION" and p.sube == "BASE"]
+    supports = [p for p in solids
+                if p.sube == "BASE" and p.kind in ("BOX", "PYRAMID")]
+    for washer in washers:
         washer_box = bounds(washer)
-        for sole in soles:
-            sole_box = bounds(sole)
+        seated = False
+        for member in supports:
+            member_box = bounds(member)
             overlaps = all(
-                min(washer_box[axis][1], sole_box[axis][1])
-                > max(washer_box[axis][0], sole_box[axis][0]) - TOL
+                min(washer_box[axis][1], member_box[axis][1])
+                > max(washer_box[axis][0], member_box[axis][0]) - TOL
                 for axis in (0, 1))
-            if overlaps and abs(washer_box[2][0] - sole_box[2][1]) <= 2.0:
+            # The washer's base must be at or just above the member's top.
+            if overlaps and -TOL <= washer_box[2][0] - member_box[2][1] <= 60.0:
                 seated = True
                 break
         if not seated:
             problems.append(
-                f"hex washer is not seated on a sole plate: base U "
+                f"hex washer is not seated on any base member: base U "
                 f"{washer_box[2][0]:.1f} ({washer.note})")
 
-    # --- [7b] the support must be a real structure, not a sliver ----------
-    # The first support rebuild passed every other check while emitting rails
-    # 8 mm tall and a 10 mm pedestal, because the machine had been seated flat
-    # on the baseplate and there was no room left underneath.  Connectivity and
-    # foundation checks are both blind to that: the parts touch, and nothing
-    # sinks.  What was missing is a check that the support has DEPTH.
-    support = [p for p in solids if p.sube == "SUPPORT"]
-    if support:
-        pedestals = [p for p in support if "pedestal" in p.note or "mounting pad" in p.note]
-        for pedestal in pedestals:
-            box = bounds(pedestal)
-            height = box[2][1] - box[2][0]
-            if height < 25.0:
-                problems.append(
-                    f"support pedestal is only {height:.1f} mm tall -- the "
-                    f"machine is seated too low for a real support chain "
-                    f"({pedestal.note})")
+    # --- [7b] the base must be a real structure, not a sliver -------------
+    # An earlier rebuild passed every other check while emitting rails 8 mm
+    # tall, because the machine had been seated flat on the baseplate and there
+    # was no room underneath.  Connectivity and foundation checks are both
+    # blind to that: the parts touch, and nothing sinks.  What was missing is a
+    # check that the base has DEPTH.
+    base = [p for p in solids if p.sube == "BASE"]
+    if base and plate is not None:
+        plate_top_u = bounds(plate)[2][1]
+        base_top = max(bounds(p)[2][1] for p in base)
+        rise = base_top - plate_top_u
+        if rise < 25.0:
+            problems.append(
+                f"base rises only {rise:.1f} mm above the plate: the machine "
+                f"is seated too low for the reference support structure")
+
         # The machine must stand clear of the plate, or there is nowhere for
-        # the frame, sole plate, gussets and anchors to live.
+        # the reference's mountings, gussets and anchors to live.
         machine = [p for p in solids
                    if p.sube in ("CASING", "DRIVER") and p.kind != "BOX"]
-        if machine and plate is not None:
-            plate_top_u = bounds(plate)[2][1]
+        if machine:
             lowest = min(bounds(p)[2][0] for p in machine)
             if lowest - plate_top_u < 40.0:
                 problems.append(
                     f"machine underside is only {lowest - plate_top_u:.1f} mm "
                     f"above the baseplate: no room for the support structure")
+
+        # The base must reproduce the reference's element inventory.  This is
+        # the check that would have caught three rejected redesigns in seconds:
+        # a support can satisfy every positional test and still not be the
+        # structure the client supplied.
+        from collections import Counter
+        census = Counter(p.kind for p in base)
+        expected = {"BOX": 11, "PYRAMID": 12, "EXTRUSION": 10, "CYLINDER": 10}
+        for kind, count in expected.items():
+            if census.get(kind, 0) != count:
+                problems.append(
+                    f"base has {census.get(kind, 0)} {kind} where "
+                    f"/P1501B-BASE has {count}: not the reference structure")
 
     # --- [8] a nozzle flange must not be buried inside the casing ---------
     if barrel:

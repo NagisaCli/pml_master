@@ -1479,3 +1479,58 @@ EXTRUSION, while every geometric check passed. A model can satisfy every
 positional check ever written and still not be the thing that was asked for,
 because "is this the same structure?" is a question about the *inventory*, and
 no amount of checking positions asks it.
+
+### User-corrected 2026-08-19 (fourth): reproduce the reference, don't re-derive it
+
+The client supplied `Base_reference.txt` — /P1501B-BASE isolated, 43 elements —
+and asked for it to be reproduced strictly for every pump. Three previous
+attempts had *redesigned* the support from ratios sampled off the reference.
+The fix was to stop designing: `tools/base_reference.py` parses the reference's
+own elements and maps each through an affine transform. Nothing is invented,
+so the composition matches by construction rather than by intention.
+
+**The measurement that unlocked it.** The reference's base is 510 wide overall
+while its plate member is only 300 — its brackets deliberately reach beyond the
+plate. Scaling transversely on the plate width threw every bracket off the
+target. The envelope and the plate member are different things, and a support
+is proportioned on the envelope.
+
+**Vertical scale must be per-station.** The reference carries its pump end
+170 mm above the plate top and its motor end 155 mm; a target's casing and
+motor rarely share an underside either. One global factor left whichever
+machine sat higher floating clear of its mounting. Two factors, interpolated
+between the stations, seat both.
+
+**Anchor at the plate underside, and clamp per element datum.** The reference
+keeps nothing below its own underside. Clamping the POS was not enough: a BOX's
+POS is its centre (IR-1), so a member whose centre clears the underside can
+still dip below by half its thickness.
+
+### A faithful copy failed the contact check, and the check was wrong
+
+The reference base is a **bolted assembly, not a fused solid**. Its sole plates
+stop at U -255 while the gussets above start at -236; its pump-end pad tops out
+at -200 with the side brackets starting at -170. Those 19–30 mm joints are how
+the real thing is built.
+
+So a faithful reproduction failed a strict contact test — and the tolerance has
+to *scale*, because a base adapted to a 2701 mm plate is 2.4x the reference and
+its 30 mm joint opens to ~72 mm. A fixed millimetre tolerance passes the small
+pumps and fails the large ones for being equally faithful. The tolerance is now
+a fraction of plate length.
+
+The trap to avoid here: I twice widened the tolerance to make failures go away
+and let two mutations escape doing it. **Loosening a check to accommodate your
+own transform is how a verifier stops working.** The right move was to measure
+the reference's real joint gaps first, and only then set a tolerance that
+admits them — and to re-run the mutations afterward to prove nothing was lost.
+
+### The composition check, at last
+
+The verifier now asserts the base's element census per pump: 11 BOX, 12
+PYRAMID, 10 EXTRUSION, 10 CYLINDER. Three rejected redesigns would each have
+failed it in seconds, while all three passed every positional check that
+existed at the time.
+
+**When a client supplies a reference for structure, the inventory is the
+specification.** Positions can be adapted; the parts list cannot.
