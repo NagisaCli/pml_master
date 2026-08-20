@@ -668,3 +668,44 @@ E3D load failure and fix — 2026-08-19 (missing ORI keyword)
   others.
 - Status: 30 pumps, 2646 elements, 0 model problems, 0 text problems; 14/14
   model mutations caught; 972 ribs correct. Re-load required (IR-11d).
+
+Client correction — 2026-08-19 (base must be an assembly, adapted per pump)
+----------------------------------------------------------------------------
+
+- The client rejected the transformed base: "a collection of basic primitives
+  stacked together without proper structural organization or relationships",
+  with the casing and motor still misaligned with, or separated from, their
+  mounting surfaces.
+- Root cause: the previous revision mapped the reference's 43 element
+  POSITIONS through an affine transform. That reproduces a point cloud and
+  destroys the assembly -- members land at scaled coordinates instead of on
+  the parts they bear on, so brackets tilt and gussets float.
+- The reference decoded as a STRUCTURE (roles, not coordinates):
+    load path:  plate -> sole plates -> gussets -> foot pad -> machine
+    skid:       outrigger rails both plate edges, carrying the hold-down
+                anchors (bolt + hex washer)
+    pump end:   2 sole plates, 2 gussets, foot pad, casing brackets, stays
+    motor end:  2 sole plates, 2 gussets, foot pad, stays
+- `tools/base_assembly.py` rebuilds that load path per pump. Every member is
+  positioned RELATIVE TO THE MEMBER IT BEARS ON, so contact is a property of
+  the construction rather than something checked afterwards.
+- Per-pump adaptation, all measured:
+  * plate width/length are the pump's own; all member sizes scale off them;
+  * each station sits at its machine's real plan position;
+  * each foot pad's TOP is set to that machine's measured underside, and the
+    gusset height is whatever remains between sole top and pad bottom, so the
+    chain closes by construction: verified seat gap 0.00 mm on all 30 pumps;
+  * the motor is carried on TWO feet straddling its stator (a single central
+    pad covered only ~33% of the stator length and the motor overhung it);
+  * motor feet seat on the STATOR BARREL, not the assembly's lowest point --
+    the end bells are larger and hang lower, and a real motor's end bells
+    overhang its feet.
+- The verifier's element-count check (11 BOX / 12 PYRAMID / ...) was correct
+  for a literal copy and WRONG for an adapted assembly, where station count
+  varies. Replaced with role checks (every station needs sole plates, gussets,
+  a foot pad, anchors and washers) plus a pad-carries-machine seating check.
+- Three new mutations reproduce the client-reported defects: machine lifted
+  off its pads, foot pad shrunk so the machine overhangs, gussets deleted.
+  17/17 mutations caught.
+- Status: 30 pumps, 2736 elements, 0 model problems, 0 text problems.
+  Re-load required (IR-11d).

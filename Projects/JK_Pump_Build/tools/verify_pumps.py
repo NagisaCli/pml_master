@@ -336,18 +336,53 @@ def verify(model, sources) -> List[str]:
                     f"machine underside is only {lowest - plate_top_u:.1f} mm "
                     f"above the baseplate: no room for the support structure")
 
-        # The base must reproduce the reference's element inventory.  This is
-        # the check that would have caught three rejected redesigns in seconds:
-        # a support can satisfy every positional test and still not be the
-        # structure the client supplied.
-        from collections import Counter
-        census = Counter(p.kind for p in base)
-        expected = {"BOX": 11, "PYRAMID": 12, "EXTRUSION": 10, "CYLINDER": 10}
-        for kind, count in expected.items():
-            if census.get(kind, 0) != count:
+        # The base must carry the reference's MEMBER ROLES, not a fixed element
+        # count.  An earlier check asserted a literal 43-element copy; that was
+        # right while the base was a transformed copy of the reference, and
+        # wrong once the client asked for a coherent assembly adapted per pump,
+        # where the number of stations (and so of members) varies legitimately.
+        #
+        # What must never vary is the load path: every station needs sole
+        # plates, gussets, a foot pad and anchors with hex washers, and the
+        # skid needs its rails.
+        roles = {
+            "skid rail": 1,
+            "sole plate": 2,
+            "gusset": 2,
+            "carrying the machine": 1,
+            "anchor bolt": 2,
+            "hex washer": 2,
+        }
+        stations = {p.note.split()[0] for p in base if "carrying the machine" in p.note}
+        for role, per_station in roles.items():
+            count = sum(1 for p in base if role in p.note)
+            needed = per_station * (len(stations) if role != "skid rail" else 1)
+            if count < needed:
                 problems.append(
-                    f"base has {census.get(kind, 0)} {kind} where "
-                    f"/P1501B-BASE has {count}: not the reference structure")
+                    f"base has {count} '{role}' members, fewer than the "
+                    f"{needed} the reference load path requires")
+
+        # Every foot pad must actually carry its machine: pad top at the
+        # machine underside, and the machine's footprint over the pad in plan.
+        for pad in (p for p in base if "carrying the machine" in p.note):
+            pad_box = bounds(pad)
+            carried = [p for p in solids
+                       if p.sube in ("CASING", "DRIVER") and p.kind != "BOX"]
+            if not carried:
+                continue
+            over = [p for p in carried
+                    if all(min(bounds(p)[a][1], pad_box[a][1])
+                           > max(bounds(p)[a][0], pad_box[a][0]) - TOL
+                           for a in (0, 1))]
+            if not over:
+                problems.append(
+                    f"foot pad carries nothing in plan ({pad.note})")
+                continue
+            seat = min(bounds(p)[2][0] for p in over) - pad_box[2][1]
+            if seat > TOL:
+                problems.append(
+                    f"machine floats {seat:.1f} mm above its foot pad "
+                    f"({pad.note})")
 
     # --- [8] a nozzle flange must not be buried inside the casing ---------
     if barrel:

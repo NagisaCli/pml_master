@@ -134,6 +134,41 @@ def mutate_sink_skid_rail(model):
     return "base rail sunk 300 mm below the baseplate"
 
 
+def mutate_lift_machine_off_pad(model):
+    """
+    The 2026-08-19 render defect: the machine floats above its mounting.
+
+    This is what the client saw twice -- everything touches *something*, and
+    nothing is below the foundation, so only a pad-to-machine seating check
+    finds it.
+    """
+    for primitive in model.primitives:
+        if primitive.sube in ("CASING", "DRIVER", "BEARING", "COUPLING"):
+            primitive.up += 90.0
+    return "machine lifted 90 mm off its foot pads"
+
+
+def mutate_shrink_foot_pad(model):
+    """Shrink a foot pad so the machine overhangs its own mounting."""
+    pad = next((p for p in model.primitives
+                if "carrying the machine" in p.note), None)
+    if pad is None:
+        return None
+    pad.attrs["XLEN"] *= 0.15
+    pad.attrs["YLEN"] *= 0.15
+    return "foot pad shrunk to 15%: the machine overhangs its mounting"
+
+
+def mutate_remove_gussets(model):
+    """Delete the gussets: the pad is then carried by nothing."""
+    victims = [p for p in model.primitives if "gusset" in p.note]
+    if not victims:
+        return None
+    for victim in victims:
+        model.primitives.remove(victim)
+    return "all gussets deleted: the foot pads have no support beneath"
+
+
 def mutate_drop_base_member(model):
     """
     Delete one family of base members.
@@ -141,13 +176,12 @@ def mutate_drop_base_member(model):
     This is the failure that reached the client three times: a support that
     passes every positional check but is not the reference structure.
     """
-    victims = [p for p in model.primitives
-               if p.sube == "BASE" and p.kind == "PYRAMID"]
+    victims = [p for p in model.primitives if "sole plate" in p.note]
     if not victims:
         return None
-    for victim in victims[:4]:
+    for victim in victims:
         model.primitives.remove(victim)
-    return "four PYRAMID gussets deleted from the reference base"
+    return "all sole plates deleted from the base load path"
 
 
 MUTATIONS = [
@@ -155,6 +189,9 @@ MUTATIONS = [
     mutate_float_gusset,
     mutate_sink_skid_rail,
     mutate_drop_base_member,
+    mutate_lift_machine_off_pad,
+    mutate_shrink_foot_pad,
+    mutate_remove_gussets,
     mutate_seat_machine_on_plate,
     mutate_baseplate_size,
     mutate_nozzle_plan,

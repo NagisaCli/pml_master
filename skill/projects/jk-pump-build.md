@@ -1576,3 +1576,61 @@ element blocks left unclosed", because it counted `EQUIPMENT` and
 `SUBEQUIPMENT` as openable. They are grouping elements closed implicitly by the
 next one (IR-5), never by an `END`. A text checker has to model the language's
 block rules, not just its line syntax.
+
+### User-corrected 2026-08-19 (fifth): a transform reproduces a point cloud, not an assembly
+
+The client rejected the transformed base as "a collection of basic primitives
+stacked together without proper structural organization or relationships",
+with machines still separated from their mounting surfaces.
+
+The previous revision had parsed `Base_reference.txt` and mapped its 43 element
+**positions** through an affine transform. Every element was present, the
+composition check passed, and the result was mechanically meaningless: a
+member's job is to bear on the member below it, and a coordinate map does not
+preserve that. Scale the frame and each part lands where its *number* says, not
+where its *neighbour* is.
+
+**The fix was to read the reference as roles and rebuild the load path:**
+
+```
+plate -> sole plates -> gussets -> foot pad -> machine
+outrigger rails along both plate edges carry the hold-down anchors
+```
+
+`base_assembly.py` positions every member **relative to the member it bears
+on**. The foot pad's top is set to the machine's measured underside first, and
+the gusset height is then whatever remains between the sole-plate top and the
+pad bottom. Contact becomes a property of the construction rather than
+something to verify afterwards — measured seat gap is 0.00 mm on all 30 pumps.
+
+**Generalised rule: when copying a structure, copy its dependency graph, not
+its coordinates.** A transform is correct only for a rigid body. An assembly is
+not rigid — it is a set of contact constraints, and those are what must be
+reproduced.
+
+### Two modelling facts the render exposed
+
+**A motor stands on two feet, not one pad.** A single central pad covered ~33%
+of the stator length and the motor visibly overhung it at both ends. Two feet
+straddling the stator at 0.62 of its length fixed it.
+
+**Seat the feet on the stator barrel, not the assembly's lowest point.**
+`_lowest_of("DRIVER")` returns the end bells — they are the larger diameter and
+hang lower — leaving the feet 36 mm short of the barrel they carry. On a real
+motor the end bells overhang the feet; that is not a gap to close. When a part
+mounts to an assembly, the mounting face is a *specific member's* surface, and
+asking for the assembly's extreme picks the wrong one.
+
+### A verifier check that was right, then wrong
+
+The element-census check (11 BOX / 12 PYRAMID / 10 EXTRUSION / 10 CYLINDER)
+caught three rejected redesigns and was the right check while the base was a
+literal transformed copy. The moment the client asked for a coherent assembly
+*adapted per pump*, it became wrong: station count varies legitimately, so a
+fixed inventory is no longer the specification.
+
+It is replaced by role checks — every station needs sole plates, gussets, a
+foot pad, anchors and washers — plus a seating check that each pad actually
+carries its machine in plan and elevation. **A check encodes an assumption
+about the deliverable; when the deliverable's definition changes, re-derive the
+check rather than relaxing it.**

@@ -43,9 +43,7 @@ from extract_project_data import load_all                      # noqa: E402
 from recover_nozzle_axes import classify                        # noqa: E402
 from pump_model import (AXIS_VECTOR, BASEPLATE_THICKNESS, OPPOSITE,  # noqa: E402
                         REF, RIB_COUNT, Primitive, PumpModel)
-from base_reference import (BaseTransform, REF_MOTOR_RISE,  # noqa: E402
-                            REF_PLATE_THICK, REF_PUMP_RISE,
-                            build_base_for_pump, parse_base)
+from base_assembly import BaseAssembly, Station  # noqa: E402
 
 REPO = Path(__file__).resolve().parents[3]
 OUTPUT_DIR = REPO / "Projects" / "JK_Pump_Build" / "output" / "2026-08-19_pumps"
@@ -248,7 +246,7 @@ def hex_profile(across_flats: float):
              radius * math.sin(math.radians(60 * i))) for i in range(6)]
 
 
-def _lowest_of(model, sube: str) -> float:
+def _lowest_of(model, sube: str, kinds: tuple = ()) -> float:
     """
     The measured underside of an assembly already emitted into the model.
 
@@ -260,6 +258,8 @@ def _lowest_of(model, sube: str) -> float:
     lows = []
     for primitive in model.primitives:
         if primitive.sube != sube:
+            continue
+        if kinds and primitive.kind not in kinds:
             continue
         attrs = primitive.attrs
         if primitive.kind == "CYLINDER":
@@ -298,105 +298,101 @@ def _ori_axis(ori: str):
 def _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
                           long_axis, wet_end, casing_e, casing_n):
     """
-    Emit ``Base_reference.txt`` (/P1501B-BASE), adapted to this pump.
+    Build the base as a mechanical assembly, adapted to this pump.
 
-    Three earlier revisions redesigned the support from ratios sampled off the
-    reference and all three were rejected.  Nothing is designed here: the
-    reference's own 43 elements are parsed and mapped through an affine
-    transform, so the composition, the member relationships and the support
-    logic are the reference's, while the sizes and positions are this pump's.
+    The previous revision mapped the reference's 43 element POSITIONS through
+    an affine transform.  That reproduced its point cloud and lost its
+    assembly: members landed at scaled coordinates rather than on the parts
+    they bear on, so brackets tilted and gussets floated.
 
-    Anchoring
-    ---------
-    The reference's two machine stations -- ``N 0`` (pump end) and
-    ``N -804.62`` (motor end) -- carry its mountings, so they are pinned to
-    this pump's actual casing and motor rather than merely scaled.  Everything
-    between them interpolates, which keeps the frame proportionate however far
-    apart a given pump sets its machines.
+    ``base_assembly`` instead reproduces the reference's LOAD PATH --
+    plate -> sole plates -> gussets -> foot pad -> machine, with outrigger
+    rails carrying the anchors -- positioning every member relative to the one
+    beneath it.  Contact is then a property of the construction.
+
+    Per-pump adaptation, all measured rather than assumed:
+
+    * the plate width and length are this pump's own;
+    * each station sits at its machine's real plan position;
+    * each foot pad's TOP is set to that machine's measured underside, so the
+      machine seats with no gap and the gusset height is whatever is left.
     """
-    reference = parse_base()
+    plate_under = plate_top - BASEPLATE_THICKNESS
+    width = xlen if long_axis == "N" else ylen
+    length = ylen if long_axis == "N" else xlen
 
-    # Where the two machines actually sit, as offsets from the plate centre
-    # along the machine axis.
     vector = AXIS_VECTOR[wet_end]
     casing_station = ((casing_e - plate_e) * vector[0]
                       + (casing_n - plate_n) * vector[1])
+
+    # --- the pump station -------------------------------------------------
+    # The mounting must carry the machine's own footprint.  The volute is a
+    # barrel lying along the machine axis, so along that axis it occupies its
+    # LENGTH plus its end cover, while across it spans its diameter.  Sizing
+    # the pad from the casing length alone left a 712 mm casing sitting on a
+    # 392 mm pad and overhanging its own mounting.
+    casing_dia, casing_len = model.facts["casing"]
+    casing_span = max(casing_len, casing_dia * 0.55) * 1.25
+    stations = [Station(
+        name="pump",
+        centre=casing_station,
+        length=casing_span,
+        width=casing_dia * 0.80,
+        machine_under=_lowest_of(model, "CASING"),
+        pad_thick=max(width * 0.058, 12.0),      # 17.5/300 of the plate width
+    )]
+
+    # --- the driver station, only where a driver was modelled -------------
+    # A motor is carried on TWO feet near its ends, not one central pad.  A
+    # single pad covered only ~33% of the stator length and left the machine
+    # visibly overhanging its mounting at both ends.
     motor_support = model.facts.get("motor_support")
     if motor_support:
         motor_station = ((motor_support["centre_e"] - plate_e) * vector[0]
                          + (motor_support["centre_n"] - plate_n) * vector[1])
-    else:
-        # No driver modelled (no engine record): keep the reference's own
-        # proportion between the two stations so the frame stays sensible.
-        half_long = (ylen if long_axis == "N" else xlen) / 2
-        motor_station = -half_long * 0.55
+        motor_len = motor_support["span"]
+        foot_len = motor_len * 0.26
+        foot_gap = motor_len * 0.62          # centre-to-centre of the two feet
+        # The feet sit under the STATOR BARREL, which is where the motor's
+        # own feet bolt on.  Using the assembly's lowest point instead picks
+        # the end bells -- they are the larger diameter and hang lower -- and
+        # leaves the feet 36 mm short of the barrel they are meant to carry.
+        # A real motor's end bells overhang its feet; that is not a gap.
+        motor_under = _lowest_of(model, "DRIVER", kinds=("CYLINDER",))
+        pad_thick = max(width * 0.15, 18.0)  # 45/300 of the plate width
+        for index, sign in enumerate((-1.0, +1.0)):
+            stations.append(Station(
+                name=f"driver{index + 1}",
+                centre=motor_station + sign * foot_gap / 2,
+                length=foot_len,
+                width=motor_support["width"],
+                machine_under=motor_under,
+                pad_thick=pad_thick,
+            ))
 
-    # `casing_station` and `motor_station` are already measured along the wet
-    # end direction, so the casing is the larger of the two by construction and
-    # the reference's own sense (pump end positive) is preserved directly.
-    # No handedness flip is needed: the wet-end vector supplies it.
-    long_sign = 1.0
+    # Keep every station inside the plate, allowing for its own footprint.
+    half_long = length / 2
+    for station in stations:
+        limit = half_long - station.length / 2
+        station.centre = max(-limit, min(limit, station.centre))
 
-    # Vertical scale: the reference's base carries its machine directly -- its
-    # topmost mounting is 170 mm above its plate top and the machine sits on
-    # it.  So the scale is set by the height this pump's base actually has to
-    # reach, not by the plate thickness ratio.  Using the plate ratio left the
-    # base topping out 84-112 mm below the machine, i.e. floating again.
-    # Each end gets its own factor, because the reference's two mountings are
-    # different heights (pump end +170, motor end +155 above its plate top) and
-    # a target's casing and motor rarely share an underside either.
-    plate_under_u = plate_top - BASEPLATE_THICKNESS
-    casing_under = _lowest_of(model, "CASING")
-    # With no driver modelled there is no motor underside to aim at.  Falling
-    # back to the casing's would tilt the whole base toward the pump end and
-    # leave the motor-end members hanging, so the reference's own proportion
-    # between its two rises is used instead.
-    motor_under = (_lowest_of(model, "DRIVER") if motor_support
-                   else plate_under_u
-                   + (casing_under - plate_under_u)
-                   * (REF_MOTOR_RISE + REF_PLATE_THICK)
-                   / (REF_PUMP_RISE + REF_PLATE_THICK))
-    # Aim the mounting a little INTO the machine.  `_lowest_of` reports the
-    # lowest point of the whole assembly, which is the volute end cover rather
-    # than the barrel the mounting actually sits under, so aiming exactly at it
-    # leaves a few millimetres of daylight at the barrel.  A deliberate bite
-    # makes the two solids interfere, which is what a seated mounting looks
-    # like and what the connectivity check requires.
-    seat_bite = 25.0
-    height_scale_pump = max(casing_under + seat_bite - plate_under_u, 20.0) / (
-        REF_PUMP_RISE + REF_PLATE_THICK)
-    height_scale_motor = max(motor_under + seat_bite - plate_under_u, 20.0) / (
-        REF_MOTOR_RISE + REF_PLATE_THICK)
-    height_scale = (height_scale_pump + height_scale_motor) / 2
-
-    transform = BaseTransform(
-        plate_e=plate_e, plate_n=plate_n, plate_top=plate_top,
-        plate_under=plate_top - BASEPLATE_THICKNESS,
-        width=(xlen if long_axis == "N" else ylen),
-        length=(ylen if long_axis == "N" else xlen),
-        long_axis=long_axis,
-        long_sign=long_sign,
-        height_scale=height_scale,
-        pump_station=casing_station,
-        motor_station=motor_station,
-        height_scale_pump=height_scale_pump,
-        height_scale_motor=height_scale_motor,
-        wet_end=wet_end,
-        wet_vector=(AXIS_VECTOR[wet_end][0], AXIS_VECTOR[wet_end][1]),
-    )
-
-    for item in build_base_for_pump(transform, reference):
+    def emit(kind, attrs, east, north, up, ori, profile, note):
         model.add(Primitive(
-            kind=item["kind"], sube="BASE",
-            attrs=item["attrs"],
-            east=item["east"], north=item["north"], up=item["up"],
-            ori=item["ori"] or None,
-            profile=item["profile"] or None,
-            note=item["note"]))
+            kind=kind, sube="BASE", attrs=attrs,
+            east=east, north=north, up=up,
+            ori=ori, profile=profile, note=note))
 
-    model.facts["base_elements"] = len(reference)
+    assembly = BaseAssembly(
+        plate_e=plate_e, plate_n=plate_n,
+        plate_top=plate_top, plate_under=plate_under,
+        width=width, length=length, wet_end=wet_end, emit=emit)
+    assembly.build(stations)
+
+    model.facts["base_stations"] = [(s.name, round(s.centre, 1),
+                                     round(s.machine_under, 1)) for s in stations]
     model.reference_values.append(
-        "base: all 43 elements of /P1501B-BASE, adapted to this pump")
+        "base: /P1501B-BASE load path (plate -> sole plates -> gussets -> "
+        "foot pad -> machine), proportioned to this pump")
 
 
 def _build_casing(model, east, north, dia, length, shaft_u, long_axis,
@@ -627,6 +623,8 @@ def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaf
         "bearing_top": shaft_u - motor_dia * 0.42,
         "width": motor_dia * 0.85,
         "length": motor_len * 0.46,
+        # The stator's full length, which the mounting feet must straddle.
+        "span": motor_len,
     }
 
 
