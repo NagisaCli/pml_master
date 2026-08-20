@@ -1634,3 +1634,51 @@ foot pad, anchors and washers — plus a seating check that each pad actually
 carries its machine in plan and elevation. **A check encodes an assumption
 about the deliverable; when the deliverable's definition changes, re-derive the
 check rather than relaxing it.**
+
+### User-corrected 2026-08-19 (sixth): thickness does not scale with width
+
+The client rejected the render as bad work. Measuring it rather than looking at
+it found one arithmetic error behind every visible defect:
+
+**Member thicknesses were scaled off the plate WIDTH.** The project fixes every
+baseplate at 50 mm while plate widths run 631–2013 mm, so on a wide pump each
+member came out up to 3.5x too fat: 72 mm sole plates and a 130 mm foot pad on
+a 50 mm plate. That is what "primitives stacked together" looks like from the
+outside — it was never a layout problem, it was a units problem.
+
+The rule now separates the two datums explicitly:
+
+* **plan sizes** (rail width, sole width, pad footprint) scale with plate width;
+* **thicknesses** (rail, sole, gusset, pad, anchor, washer) scale with plate
+  *thickness*.
+
+Every base BOX is now 14.6–37.5 mm against the 50 mm plate.
+
+Two other defects fell out of the same measurement, both of them places where I
+had emitted a member *near* the reference's position instead of *at* it:
+
+* the upper rail stood 58 mm proud of the plate, so the sole plates landed on
+  top of it and produced the stepped clutter. The reference's rail sits flush
+  **in** the plate's top band (U -300..-280 against a plate top of -280);
+* the anchor bolt ran the full height from the plate underside to the washer,
+  protruding below the foundation and standing 130 mm above the sole. The
+  reference's bolt is *buried* in the plate (U -325..-235 against a plate of
+  -340..-280).
+
+### The check that was missing for six revisions
+
+Every geometric check I had asked *where* a part is. None asked *what shape it
+is*. A 130 mm-thick foot pad satisfies seating, connectivity, foundation and
+composition checks perfectly — it is in exactly the right place and carries its
+machine — and it is still obviously wrong to anyone looking at it.
+
+The new check is dimensional plausibility: a fabricated plate's thickness must
+not exceed ~1.6x the baseplate it belongs to, nor 0.8 of its own span. It is
+the cheap bounds check of IR-11a applied to *proportion* rather than position,
+and it would have caught this revision, and probably two earlier ones, in
+seconds.
+
+**Generalised rule: verify proportion as well as position.** "Is it in the
+right place?" and "does it look like the thing it is?" are independent
+questions, and a model can pass every instance of the first while failing the
+second on every member.

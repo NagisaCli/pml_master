@@ -134,6 +134,33 @@ def mutate_sink_skid_rail(model):
     return "base rail sunk 300 mm below the baseplate"
 
 
+def mutate_slab_thickness(model):
+    """
+    The 2026-08-19 rejected render: base members scaled off plate WIDTH.
+
+    On a wide pump that made every plate ~3x too thick -- 72 mm sole plates and
+    a 130 mm foot pad on a 50 mm baseplate -- which reads as stacked slabs.
+    Every positional check passed it, because none asked whether a plate still
+    looked like a plate.
+    """
+    hit = False
+    for primitive in model.primitives:
+        if primitive.sube == "BASE" and primitive.kind == "BOX":
+            primitive.attrs["ZLEN"] *= 3.5
+            hit = True
+    return "base member thicknesses scaled 3.5x into slabs" if hit else None
+
+
+def mutate_anchor_through_foundation(model):
+    """Drive the anchor bolts out through the underside of the baseplate."""
+    bolts = [p for p in model.primitives if "anchor bolt" in p.note]
+    if not bolts:
+        return None
+    for bolt in bolts:
+        bolt.up -= 120.0
+    return "anchor bolts driven through the foundation"
+
+
 def mutate_lift_machine_off_pad(model):
     """
     The 2026-08-19 render defect: the machine floats above its mounting.
@@ -189,6 +216,8 @@ MUTATIONS = [
     mutate_float_gusset,
     mutate_sink_skid_rail,
     mutate_drop_base_member,
+    mutate_slab_thickness,
+    mutate_anchor_through_foundation,
     mutate_lift_machine_off_pad,
     mutate_shrink_foot_pad,
     mutate_remove_gussets,

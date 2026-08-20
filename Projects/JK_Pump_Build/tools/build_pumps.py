@@ -339,7 +339,8 @@ def _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
         length=casing_span,
         width=casing_dia * 0.80,
         machine_under=_lowest_of(model, "CASING"),
-        pad_thick=max(width * 0.058, 12.0),      # 17.5/300 of the plate width
+        # Pad THICKNESS scales with the plate thickness, never its width.
+        pad_thick=max(BASEPLATE_THICKNESS * (17.5 / 60.0), 10.0),
     )]
 
     # --- the driver station, only where a driver was modelled -------------
@@ -359,7 +360,7 @@ def _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
         # leaves the feet 36 mm short of the barrel they are meant to carry.
         # A real motor's end bells overhang its feet; that is not a gap.
         motor_under = _lowest_of(model, "DRIVER", kinds=("CYLINDER",))
-        pad_thick = max(width * 0.15, 18.0)  # 45/300 of the plate width
+        pad_thick = max(BASEPLATE_THICKNESS * (45.0 / 60.0), 16.0)
         for index, sign in enumerate((-1.0, +1.0)):
             stations.append(Station(
                 name=f"driver{index + 1}",

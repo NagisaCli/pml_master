@@ -709,3 +709,30 @@ Client correction — 2026-08-19 (base must be an assembly, adapted per pump)
   17/17 mutations caught.
 - Status: 30 pumps, 2736 elements, 0 model problems, 0 text problems.
   Re-load required (IR-11d).
+
+Client rejection — 2026-08-19 (base members were slabs, not plate)
+-------------------------------------------------------------------
+
+- The client rejected the render outright. Measured defects:
+  * sole plates 72 mm and foot pads 50/130 mm thick on a 50 mm baseplate;
+  * skid rails standing 58 mm PROUD of the plate, so the sole plates landed on
+    top of them (the stepped, stacked appearance);
+  * anchor bolts spanning U 0..180 -- through the plate underside and 130 mm
+    above the sole plate.
+- Root cause: member THICKNESSES were scaled off the plate WIDTH. The project
+  fixes every baseplate at 50 mm while widths run 631..2013, so on a wide pump
+  every member came out up to 3.5x too fat.
+- Fix, in the sizing rule itself: PLAN sizes scale with plate width; THICKNESSES
+  scale with plate thickness (rail 20/60, sole 25/60, gusset 20/60, pump pad
+  17.5/60, motor pad 45/60, anchor 15/60, washer 20/60 of it).
+- The upper rail now sits FLUSH IN the plate top band as the reference does
+  (U -300..-280 against a plate top of -280), not proud of it.
+- The anchor bolt is buried in the plate as the reference has it (U -325..-235
+  against a plate of -340..-280), not driven through the foundation.
+- Result: every base BOX is now 14.6..37.5 mm thick against the 50 mm plate.
+- New checks: base members must be plate-proportioned (thickness <= 1.6x the
+  baseplate and <= 0.8 of their own span) and nothing may reach below the
+  foundation. Two new mutations (3.5x slab thickness, anchors through the
+  foundation) are caught; 19/19 mutations pass.
+- Status: 30 pumps, 2736 elements, 0 model problems, 0 text problems.
+  Re-load required (IR-11d).

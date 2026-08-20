@@ -362,6 +362,38 @@ def verify(model, sources) -> List[str]:
                     f"base has {count} '{role}' members, fewer than the "
                     f"{needed} the reference load path requires")
 
+        # Base members are FABRICATED PLATE: their thickness is set by the
+        # baseplate thickness, not by the plate's width.  An earlier revision
+        # scaled thickness off width, so a 2013-wide pump got 72 mm sole plates
+        # and a 130 mm foot pad on a 50 mm plate -- the model the client
+        # rejected as "primitives stacked together".  Every positional check
+        # passed it, because nothing asked whether a plate looked like a plate.
+        plate_thick = plate_src.attrs["ZLEN"] if plate_src else 50.0
+        for member in base:
+            if member.kind != "BOX":
+                continue
+            box = bounds(member)
+            thickness = box[2][1] - box[2][0]
+            span = max(box[0][1] - box[0][0], box[1][1] - box[1][0])
+            if thickness > plate_thick * 1.6:
+                problems.append(
+                    f"base member is {thickness:.0f} mm thick against a "
+                    f"{plate_thick:.0f} mm baseplate: a slab, not plate "
+                    f"({member.note})")
+            elif span > 0 and thickness > span * 0.8:
+                problems.append(
+                    f"base member is {thickness:.0f} mm thick over a "
+                    f"{span:.0f} mm span: not a plate ({member.note})")
+
+        # Nothing may protrude below the foundation, and an anchor must not
+        # tower above the member it clamps.
+        for member in base:
+            box = bounds(member)
+            if box[2][0] < facts["plate_under"] - TOL:
+                problems.append(
+                    f"base member reaches U {box[2][0]:.1f}, below the "
+                    f"foundation ({member.note})")
+
         # Every foot pad must actually carry its machine: pad top at the
         # machine underside, and the machine's footprint over the pad in plan.
         for pad in (p for p in base if "carrying the machine" in p.note):

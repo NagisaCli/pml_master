@@ -54,21 +54,29 @@ GUSSET_INSET = 125.0 / 150.0      # gussets under the foot pad
 STAY_INSET = 150.0 / 150.0        # outboard side stays
 ANCHOR_INSET = 205.0 / 150.0      # hold-down bolts
 
-#: Member sizes, as a fraction of the plate WIDTH (300).
+#: PLAN sizes scale with the plate WIDTH (300).
 RAIL_W = 105.0 / 300.0
-RAIL_T = 20.0 / 300.0
 SOLE_W = 125.0 / 300.0
-SOLE_T = 25.0 / 300.0
-GUSSET_T = 20.0 / 300.0
-GUSSET_H = 37.0 / 300.0
 PAD_W = 225.0 / 300.0
-PAD_T_PUMP = 17.5 / 300.0
-PAD_T_MOTOR = 45.0 / 300.0
-BRACKET_T = 20.0 / 300.0
-STAY_T = 20.0 / 300.0
-ANCHOR_D = 15.0 / 300.0
-WASHER_FLATS = 34.64 / 300.0
-WASHER_T = 20.0 / 300.0
+
+#: THICKNESSES scale with the plate THICKNESS (60), never with its width.
+#:
+#: This distinction is the whole difference between a plausible base and the
+#: one the client rejected.  The project fixes every baseplate at 50 mm while
+#: plate widths run 631..2013, so a thickness taken as a fraction of width came
+#: out up to 3.5x too fat: 72 mm sole plates and a 130 mm foot pad on a 50 mm
+#: plate, which reads as a pile of slabs rather than fabricated steel.
+RAIL_T = 20.0 / 60.0
+SOLE_T = 25.0 / 60.0
+GUSSET_T = 20.0 / 60.0
+PAD_T_PUMP = 17.5 / 60.0
+PAD_T_MOTOR = 45.0 / 60.0
+BRACKET_T = 20.0 / 60.0
+STAY_T = 20.0 / 60.0
+ANCHOR_D = 15.0 / 60.0
+WASHER_FLATS = 34.64 / 60.0
+WASHER_T = 20.0 / 60.0
+GUSSET_H = 37.0 / 60.0
 
 #: Longitudinal member lengths, as a fraction of the machine footprint.
 SOLE_OVERHANG = 1.00     # sole plate length vs the foot pad it carries
@@ -123,7 +131,10 @@ class BaseAssembly:
         self.along = vectors[wet_end]
         self.across = (-self.along[1], self.along[0])
         self.half_w = width / 2
-        self.scale = width / REF_PLATE_W      # everything sizes off plate width
+        #: Plate thickness governs every MEMBER thickness; plate width governs
+        #: plan sizes.  Keeping the two apart is what stops a wide pump getting
+        #: a base built from slabs.
+        self.thick = plate_top - plate_under
 
     # -- placement helpers ------------------------------------------------
     def point(self, along: float, across: float) -> Tuple[float, float]:
@@ -163,11 +174,14 @@ class BaseAssembly:
     def add_anchor(self, along, across, top_up, note):
         """A hold-down bolt with its hex washer, seated on the member below."""
         east, north = self.point(along, across)
-        diameter = max(self.scale * ANCHOR_D * REF_PLATE_W / REF_PLATE_W, 8.0)
-        diameter = max(ANCHOR_D * self.width, 8.0)
-        washer_t = max(WASHER_T * self.width, 5.0)
-        # The shank runs from inside the plate up to the washer top.
-        bottom = self.plate_under
+        diameter = max(ANCHOR_D * self.thick, 10.0)
+        washer_t = max(WASHER_T * self.thick, 5.0)
+        # The reference's bolt spans from INSIDE the plate to just above the
+        # sole plate (U -325..-235 against a plate of -340..-280): it is buried
+        # in the plate, not driven through it.  An earlier version ran the
+        # shank from the plate underside to the washer top, so it protruded
+        # below the foundation and stood 130 mm proud of the sole.
+        bottom = self.plate_under + self.thick * 0.25
         top = top_up + washer_t
         self.emit("CYLINDER", {"DIAM": diameter, "HEIG": top - bottom},
                   east, north, (bottom + top) / 2,
@@ -175,7 +189,7 @@ class BaseAssembly:
         # IR-1: an EXTRUSION's POS is its profile end plane.
         self.emit("EXTRUSION", {"HEIG": washer_t}, east, north, top_up,
                   "ORI Z is U and Y is N",
-                  hex_profile(max(WASHER_FLATS * self.width, 18.0)),
+                  hex_profile(max(WASHER_FLATS * self.thick, 20.0)),
                   f"{note} hex washer")
 
     # -- the assembly -----------------------------------------------------
@@ -193,7 +207,7 @@ class BaseAssembly:
         with its underside.  They are what the anchors bolt through.
         """
         rail_w = max(RAIL_W * self.width, 20.0)
-        rail_t = max(RAIL_T * self.width, 8.0)
+        rail_t = max(RAIL_T * self.thick, 6.0)
         inset = self.half_w * RAIL_INSET
         # Keep the rail inside the plate footprint: the reference's plate is
         # narrower than its base envelope, but the project fixes the plate, so
@@ -202,9 +216,14 @@ class BaseAssembly:
 
         for sign in (-1.0, +1.0):
             across = inset * sign
-            self.add_box(0.0, across, self.plate_top + rail_t / 2,
+            # The reference's upper rail sits IN the plate's top band
+            # (U -300..-280 against a plate top of -280), i.e. flush with the
+            # plate surface rather than standing on it.  Emitting it proud left
+            # the sole plates landing on top of the rails and produced the
+            # stepped, stacked look the client rejected.
+            self.add_box(0.0, across, self.plate_top - rail_t / 2,
                          rail_w, self.length, rail_t,
-                         "skid rail, upper bar on the plate edge")
+                         "skid rail, upper bar flush in the plate top")
             self.add_box(0.0, across, self.plate_under + rail_t / 2,
                          rail_w, self.length, rail_t,
                          "skid rail, lower bar at the plate underside")
@@ -226,9 +245,9 @@ class BaseAssembly:
         between the sole-plate top and the pad underside is exactly the height
         the gusset must be, so the chain closes by construction.
         """
-        sole_t = max(SOLE_T * self.width, 10.0)
+        sole_t = max(SOLE_T * self.thick, 8.0)
         sole_w = max(SOLE_W * self.width, 30.0)
-        gusset_t = max(GUSSET_T * self.width, 8.0)
+        gusset_t = max(GUSSET_T * self.thick, 6.0)
         pad_t = station.pad_thick
         sole_inset = self.half_w * SOLE_INSET
         gusset_inset = self.half_w * GUSSET_INSET
