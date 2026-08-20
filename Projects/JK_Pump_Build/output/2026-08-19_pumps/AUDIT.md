@@ -21,36 +21,36 @@ the macros, so this record cannot drift from the emitted geometry.
 
 | Tag | Type | Elements | Casing source | Shaft datum | Unresolved |
 |-----|------|----------|---------------|-------------|------------|
-| 203-PU-008 | non-MC | 99 | casing_reference | raised | 1 |
-| 203-PU-009 | non-MC | 99 | casing_reference | raised | 1 |
-| 203-PU-011 | non-MC | 99 | casing_reference | raised | 1 |
-| 203-PU-020 | non-MC | 24 | DERIVED | raised | 3 |
-| 203-PU-026 | non-MC | 24 | casing_reference | raised | 2 |
-| 203-PU-031 | non-MC | 99 | casing_reference | raised | 1 |
-| 204-PU-003 | non-MC | 99 | casing_reference | raised | 1 |
-| 204-PU-006 | non-MC | 99 | casing_reference | raised | 1 |
-| 204-PU-008 | non-MC | 99 | casing_reference | raised | 1 |
-| 204-PU-015 | non-MC | 99 | casing_reference | raised | 1 |
-| 204-PU-016 | non-MC | 99 | casing_reference | raised | 1 |
-| 204-PU-017 | non-MC | 99 | casing_reference | raised | 1 |
-| 204-PU-023 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-004 | non-MC | 24 | DERIVED | raised | 3 |
-| 205-PU-012 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-013 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-018 | MC | 96 | casing_reference | raised | 1 |
-| 205-PU-024 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-027 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-030 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-031 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-032 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-038 | MC | 96 | casing_reference | raised | 1 |
-| 205-PU-046 | non-MC | 99 | DERIVED | raised | 2 |
-| 205-PU-047 | non-MC | 99 | DERIVED | raised | 2 |
-| 205-PU-048 | non-MC | 99 | DERIVED | raised | 2 |
-| 205-PU-049 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-054 | MC | 96 | casing_reference | raised | 1 |
-| 205-PU-060 | non-MC | 99 | casing_reference | raised | 1 |
-| 205-PU-061 | non-MC | 99 | casing_reference | raised | 1 |
+| 203-PU-008 | non-MC | 93 | casing_reference | raised | 1 |
+| 203-PU-009 | non-MC | 93 | casing_reference | raised | 1 |
+| 203-PU-011 | non-MC | 93 | casing_reference | raised | 1 |
+| 203-PU-020 | non-MC | 48 | DERIVED | raised | 3 |
+| 203-PU-026 | non-MC | 48 | casing_reference | raised | 2 |
+| 203-PU-031 | non-MC | 93 | casing_reference | raised | 1 |
+| 204-PU-003 | non-MC | 93 | casing_reference | raised | 1 |
+| 204-PU-006 | non-MC | 93 | casing_reference | raised | 1 |
+| 204-PU-008 | non-MC | 93 | casing_reference | raised | 1 |
+| 204-PU-015 | non-MC | 93 | casing_reference | raised | 1 |
+| 204-PU-016 | non-MC | 93 | casing_reference | raised | 1 |
+| 204-PU-017 | non-MC | 93 | casing_reference | raised | 1 |
+| 204-PU-023 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-004 | non-MC | 48 | DERIVED | raised | 3 |
+| 205-PU-012 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-013 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-018 | MC | 90 | casing_reference | raised | 1 |
+| 205-PU-024 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-027 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-030 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-031 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-032 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-038 | MC | 90 | casing_reference | raised | 1 |
+| 205-PU-046 | non-MC | 93 | DERIVED | raised | 2 |
+| 205-PU-047 | non-MC | 93 | DERIVED | raised | 2 |
+| 205-PU-048 | non-MC | 93 | DERIVED | raised | 2 |
+| 205-PU-049 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-054 | MC | 90 | casing_reference | raised | 1 |
+| 205-PU-060 | non-MC | 93 | casing_reference | raised | 1 |
+| 205-PU-061 | non-MC | 93 | casing_reference | raised | 1 |
 
 ## Per-pump record
 
@@ -67,7 +67,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 645.8 -> 1051.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -88,7 +88,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 629.9 -> 1017.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -109,7 +109,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 564.2 -> 686.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -129,7 +129,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - SUCTION: 278.3 -> 500.6
   - DISCHARGE: 599.6 -> 824.2
 - Reference Values (assumed, replace when vendor data arrives):
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - casing 547 dia x 164 long (DERIVED)
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -149,7 +149,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - SUCTION: 285.6 -> 347.3
   - DISCHARGE: 567.0 -> 577.8
 - Reference Values (assumed, replace when vendor data arrives):
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
   - CONFLICT: suction elevation U 285.6 is below the casing radius 180.5 (casing_reference.txt / engine_shaft CSV); a machine on that axis would sink below the foundation. Shaft raised to U 347.3 to seat it on the baseplate.
@@ -168,7 +168,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 503.9 -> 542.1
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -189,7 +189,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 665.5 -> 1049.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -210,7 +210,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 592.9 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -231,7 +231,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 594.0 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -252,7 +252,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 653.5 -> 1023.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -273,7 +273,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 649.3 -> 1017.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -294,7 +294,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 564.2 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -315,7 +315,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 564.2 -> 691.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -335,7 +335,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - SUCTION: 287.0 -> 500.6
   - DISCHARGE: 615.3 -> 824.2
 - Reference Values (assumed, replace when vendor data arrives):
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - casing 547 dia x 164 long (DERIVED)
   - volute end cover proportioned from /P1501B
 - **Unresolved / conflicting:**
@@ -356,7 +356,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 929.6 -> 1693.5
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -377,7 +377,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 559.1 -> 656.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -399,7 +399,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 389.9 -> 617.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
@@ -419,7 +419,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 567.0 -> 719.5
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -440,7 +440,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 665.5 -> 1053.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -461,7 +461,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 653.5 -> 1026.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -482,7 +482,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 649.3 -> 1017.3
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -503,7 +503,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 561.5 -> 656.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -525,7 +525,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 392.3 -> 617.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
@@ -545,7 +545,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 573.5 -> 960.6
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - casing 547 dia x 164 long (DERIVED)
   - coupling hubs proportioned from /P1501B
@@ -568,7 +568,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 633.9 -> 1007.7
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - casing 621 dia x 186 long (DERIVED)
   - coupling hubs proportioned from /P1501B
@@ -591,7 +591,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 653.5 -> 927.2
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - casing 621 dia x 186 long (DERIVED)
   - coupling hubs proportioned from /P1501B
@@ -614,7 +614,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 559.1 -> 717.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -636,7 +636,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 841.2 -> 1018.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - terminal box proportioned from /P1501B
   - volute end cover proportioned from /P1501B
@@ -656,7 +656,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 585.4 -> 719.5
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B
@@ -677,7 +677,7 @@ the macros, so this record cannot drift from the emitted geometry.
   - DISCHARGE: 585.4 -> 717.0
 - Reference Values (assumed, replace when vendor data arrives):
   - 36 axial cooling ribs, 360-degree distribution (/P1501B)
-  - base: /P1501B-BASE load path (plate -> sole plates -> gussets -> foot pad -> machine), proportioned to this pump
+  - base: /P1501B-BASE geometry, station-translated and height-fitted to this pump
   - bearing housing proportioned from /P1501B
   - coupling hubs proportioned from /P1501B
   - terminal box proportioned from /P1501B

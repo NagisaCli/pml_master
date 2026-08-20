@@ -336,31 +336,47 @@ def verify(model, sources) -> List[str]:
                     f"machine underside is only {lowest - plate_top_u:.1f} mm "
                     f"above the baseplate: no room for the support structure")
 
-        # The base must carry the reference's MEMBER ROLES, not a fixed element
-        # count.  An earlier check asserted a literal 43-element copy; that was
-        # right while the base was a transformed copy of the reference, and
-        # wrong once the client asked for a coherent assembly adapted per pump,
-        # where the number of stations (and so of members) varies legitimately.
-        #
-        # What must never vary is the load path: every station needs sole
-        # plates, gussets, a foot pad and anchors with hex washers, and the
-        # skid needs its rails.
-        roles = {
-            "skid rail": 1,
-            "sole plate": 2,
-            "gusset": 2,
-            "carrying the machine": 1,
-            "anchor bolt": 2,
-            "hex washer": 2,
-        }
-        stations = {p.note.split()[0] for p in base if "carrying the machine" in p.note}
-        for role, per_station in roles.items():
-            count = sum(1 for p in base if role in p.note)
-            needed = per_station * (len(stations) if role != "skid rail" else 1)
-            if count < needed:
+        # The base must be the reference's own element set.  Now that the
+        # base is /P1501B-BASE deformed rather than a hand-built assembly, the
+        # inventory IS the specification again and can be asserted exactly:
+        # 11 BOX, 12 PYRAMID, 10 EXTRUSION, 10 CYLINDER, in three station
+        # groups.  A missing member means the reference shape was not
+        # reproduced.
+        from collections import Counter
+        census = Counter(p.kind for p in base)
+        expected = {"BOX": 11, "PYRAMID": 12, "EXTRUSION": 10, "CYLINDER": 10}
+        for kind, count in expected.items():
+            if census.get(kind, 0) != count:
                 problems.append(
-                    f"base has {count} '{role}' members, fewer than the "
-                    f"{needed} the reference load path requires")
+                    f"base has {census.get(kind, 0)} {kind} where "
+                    f"/P1501B-BASE has {count}: the reference shape is not "
+                    f"reproduced")
+
+        groups = Counter(
+            p.note.split("(")[-1].split(" station")[0] for p in base
+            if " station)" in p.note)
+        for group, count in (("skid", 5), ("pump", 17), ("motor", 21)):
+            if groups.get(group, 0) != count:
+                problems.append(
+                    f"base has {groups.get(group, 0)} members in the {group} "
+                    f"group where the reference has {count}")
+
+        # Each station must actually meet its machine: the station's topmost
+        # member is the surface the machine bears on.
+        for group, sube in (("pump", "CASING"), ("motor", "DRIVER")):
+            members = [p for p in base if f"({group} station)" in p.note]
+            barrels = [p for p in solids
+                       if p.sube == sube and p.kind == "CYLINDER"]
+            if not members or not barrels:
+                continue
+            station_top = max(bounds(p)[2][1] for p in members)
+            machine_low = min(bounds(p)[2][0] for p in barrels)
+            gap = machine_low - station_top
+            if abs(gap) > 1.0:
+                problems.append(
+                    f"{group} station tops out at U {station_top:.1f} against "
+                    f"a machine underside of {machine_low:.1f}: "
+                    f"{'gap' if gap > 0 else 'penetration'} of {abs(gap):.1f} mm")
 
         # Base members are FABRICATED PLATE: their thickness is set by the
         # baseplate thickness, not by the plate's width.  An earlier revision

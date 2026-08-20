@@ -736,3 +736,47 @@ Client rejection — 2026-08-19 (base members were slabs, not plate)
   foundation) are caught; 19/19 mutations pass.
 - Status: 30 pumps, 2736 elements, 0 model problems, 0 text problems.
   Re-load required (IR-11d).
+
+Client instruction — 2026-08-19 (Base_reference.txt is the GEOMETRIC master)
+-----------------------------------------------------------------------------
+
+- The client requires the reference support exact SHAPE reproduced, not a
+  functionally similar support built from the same primitive types: relative
+  geometry, profiles, orientations, spacing, gusset forms, plate arrangement
+  and bracket layout must all remain visibly recognisable.
+- Adaptation may change only the dimensions and station positions each pump
+  needs. After adaptation: pump supports align with the pump mounting points,
+  motor supports with the motor mounting points, heights individually adjusted
+  so equipment sits directly on the support, with no floating, gap,
+  penetration or lateral/axial misalignment.
+- tools/base_deform.py implements a PIECEWISE RIGID deformation:
+  * the reference splits unambiguously into 3 groups by member N-centre --
+    5 skid (full length), 17 pump station, 21 motor station;
+  * each station TRANSLATES as a rigid body to its machine real position,
+    so every internal offset, taper, spacing and hex profile is untouched;
+  * only two deformations apply: plan scale (transverse against the base
+    510 envelope, longitudinal against plate length) and a per-station
+    vertical stretch of the band ABOVE the plate top;
+  * spans are mapped piecewise about the plate top, so a member crossing it
+    (anchor bolt, stay) does not have its buried part stretched -- that fix
+    stopped anchors being driven 63 mm below the foundation.
+- Station mounting datums, both measured from the machine just emitted:
+  * pump station tops out at the reference casing brackets (-110);
+  * motor station at its stays (-125), NOT its foot pad (-173). Using the pad
+    made the rise factor 45% too large and the stays overshot to U 439.
+  * both aim at the machine BARREL (kinds CYLINDER), not the assembly lowest
+    point, which is the end cover / end bell and hangs lower.
+- A plate keeps its own thickness under a large stretch and hangs from its
+  TOP face; the extra height goes to brackets and gussets. Without this,
+  205-PU-012 466 mm motor lift turned the 45 mm foot pad into a 135 mm slab.
+- Verified: worst station-to-machine gap 0.00 mm across all 30 pumps.
+- New tools/check_base_shape.py asserts the base is still the reference shape:
+  exact inventory (11 BOX / 12 PYRAMID / 10 EXTRUSION / 10 CYLINDER in
+  5/17/21 station groups) plus member-ORDERING preservation. Distances are not
+  expected to scale uniformly (the deformation is anisotropic by design);
+  ordering is what separates deformed from redesigned. Cross-station
+  vertical inversions are allowed -- whether a motor sits above its casing is
+  a per-pump fact. Mutation-tested: dropped members, shuffled positions and a
+  mirrored base are all caught.
+- Status: 30 pumps, 2646 elements. verify 0, shape 0, text 0, ribs 0,
+  19/19 mutations. Re-load required (IR-11d).

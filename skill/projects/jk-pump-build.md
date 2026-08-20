@@ -1682,3 +1682,70 @@ seconds.
 right place?" and "does it look like the thing it is?" are independent
 questions, and a model can pass every instance of the first while failing the
 second on every member.
+
+### 2026-08-19 (seventh): deform the reference, don't transform or rebuild it
+
+Two earlier attempts each lost half of what the client wanted:
+
+* an **affine transform** of the reference's 43 positions kept the shape's
+  numbers and destroyed the assembly -- members landed at scaled coordinates
+  instead of on the parts they bear on;
+* a **hand-built assembly** restored the load path and invented its own shape,
+  so it no longer looked like the reference.
+
+The answer is a **piecewise rigid deformation**. The reference splits cleanly
+into three groups by member N-centre -- 5 skid members at the plate centre, 17
+at the pump station, 21 at the motor station -- and each station then
+*translates as a rigid body* to its machine's real position. Internal geometry
+is never touched, so every offset, taper, bracket spacing and hex profile
+survives exactly. Only plan scale and a per-station vertical stretch of the
+band above the plate top are applied.
+
+Three details made the difference between working and not:
+
+**Map spans, not positions.** A member that crosses the plate top -- an anchor
+bolt buried in the plate, a stay springing from the sole -- must not have its
+buried part stretched by the station's rise factor. Mapping each end
+independently keeps what is below the plate on the plate's own scale. Without
+this a 2.5x motor rise drove the anchors 63 mm below the foundation.
+
+**Take the station datum from its TOPMOST member.** I first took the motor
+station's mounting elevation from its foot-pad top (-173), when its stays reach
+-125. The 45% error in the rise factor sent those stays straight past the motor
+barrel to U 439. The surface a machine sits on is whatever member actually
+reaches highest, which is worth measuring rather than assuming.
+
+**Aim at the barrel, not the assembly minimum.** Both stations must reach the
+machine's *cylinder*; the casing's end cover and the motor's end bells are
+larger diameters that hang lower, and their overhang is not a gap to close.
+
+**A plate stays plate-thick and hangs from its top face.** Under 205-PU-012's
+466 mm motor lift the reference's 45 mm foot pad would stretch to a 135 mm
+slab. A fabricated plate keeps its thickness; the extra height belongs to the
+brackets and gussets. Result: worst station-to-machine gap 0.00 mm on all 30.
+
+### Measuring "does it still look like the reference?"
+
+Six revisions passed every geometric check and were rejected anyway, because
+every check asked about *fit* -- seated, connected, in bounds -- and none asked
+whether the result still resembled the client's drawing. That sounds
+subjective, but two parts of it are measurable, and `check_base_shape.py` now
+asserts both:
+
+1. **Inventory** -- the same 43 members in the same 5/17/21 station groups.
+2. **Ordering** -- for every pair of members, whichever was left of, ahead of,
+   or above the other in the reference still is.
+
+Distances deliberately do *not* scale uniformly, so a similarity test would be
+wrong here. Ordering is the invariant that survives a legitimate anisotropic
+stretch and breaks the moment a member is repositioned, re-datumed or dropped.
+It catches a shuffled base, a mirrored base and four deleted members.
+
+One honest exception: cross-station *vertical* inversions are allowed, because
+whether a given pump's motor sits above or below its casing is a fact about
+that pump, not about the reference's shape. 205-PU-048 inverts 26 such
+relations legitimately.
+
+**Generalised rule: when the deliverable is "reproduce this shape", the
+verifier needs a shape metric.** Fit checks and shape checks are independent,
+and passing every fit check tells you nothing about resemblance.
