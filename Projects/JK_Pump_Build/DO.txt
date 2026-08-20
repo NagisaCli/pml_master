@@ -646,3 +646,25 @@ Client correction — 2026-08-19 (Base_reference.txt is THE base reference)
   caught all three rejected redesigns immediately.
 - Status: 30 pumps, 2646 elements, 0 problems; 14/14 mutations caught; 972 ribs
   correct. Awaiting E3D reload (IR-11d).
+
+E3D load failure and fix — 2026-08-19 (missing ORI keyword)
+------------------------------------------------------------
+
+- The client's E3D load failed: `(47,15) CP: Syntax error` on
+  `^^Y is N and Z is D` at line 346 of the combined macro.
+- Root cause: `base_reference.py` stores an element's orientation as the CLAUSE
+  only (`line[3:]`, stripping "ORI"), because that is how it reads the
+  reference listing back. The machine builders store the full `"ORI Z is ..."`.
+  The emitter wrote `self.ori` verbatim, so base elements lost the keyword.
+- Fix: `Primitive.ori_line()` normalises the keyword at the single point that
+  does the writing, so no caller can reintroduce it.
+- The whole checking layer was blind to this: every check inspected Primitive
+  OBJECTS, never the emitted text, and the repo's `validate_pml` does not flag
+  a bare clause either (it is indistinguishable from an unknown attribute).
+- New `tools/check_macro_text.py` reads the finished .pml back as text and
+  checks what only the text can show: bare orientation clauses, unrecognised
+  commands, PML2/prologue tokens, unbalanced element blocks, and the IR-2/IR-9a
+  ordering rules. It is mutation-tested against the shipped defect and four
+  others.
+- Status: 30 pumps, 2646 elements, 0 model problems, 0 text problems; 14/14
+  model mutations caught; 972 ribs correct. Re-load required (IR-11d).

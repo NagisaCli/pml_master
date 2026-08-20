@@ -109,9 +109,32 @@ class Primitive:
     #: Profile vertices for an EXTRUSION, as (local east, local north) pairs.
     profile: Optional[List[Tuple[float, float]]] = None
 
+    def ori_line(self) -> Optional[str]:
+        """
+        The ``ORI`` line, with the keyword guaranteed.
+
+        Callers store orientations in two ways: the machine builders write the
+        full ``"ORI Z is N and Y is U"``, while the base reference parser keeps
+        only the clause it read back out of the listing.  Emitting the latter
+        verbatim produced a bare ``Y is N and Z is D``, which E3D rejected with
+
+            (47,15)   CP: Syntax error
+            ^^Y is N and Z is D
+
+        Normalising here means no caller can reintroduce that, and the rule
+        lives in the one place that does the writing.
+        """
+        if not self.ori:
+            return None
+        text = self.ori.strip()
+        if not text:
+            return None
+        return text if text.upper().startswith("ORI") else f"ORI {text}"
+
     def to_pml(self) -> List[str]:
         header = f"NEW {self.kind}" + (f" /{self.name}" if self.name else "")
         lines = [header]
+        ori = self.ori_line()
         if self.kind == "NOZZLE":
             # IR-9a: CATR first (there is no P-point to aim until a component
             # is bound), then POS, then ORI P1 IS -- the opposite of a
@@ -119,8 +142,8 @@ class Primitive:
             if self.catr:
                 lines.append(f"CATR SPCOMPONENT {self.catr}")
             lines.append(pos_line(self.east, self.north, self.up))
-            if self.ori:
-                lines.append(self.ori)
+            if ori:
+                lines.append(ori)
             for key in ("HEIG",):
                 if key in self.attrs:
                     lines.append(f"{key} {fmt(self.attrs[key])}mm")
@@ -135,8 +158,8 @@ class Primitive:
                     lines.append(f"{label} {fmt(self.attrs[key])}mm")
             # IR-2: orientation must be established before the position is
             # read, or the element drifts silently.
-            if self.ori:
-                lines.append(self.ori)
+            if ori:
+                lines.append(ori)
             lines.append(pos_line(self.east, self.north, self.up))
             # An EXTRUSION carries its profile as a LOOP of VERTEX children.
             # IR-1: its POS is the profile END PLANE, and the solid grows HEIG

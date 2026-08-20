@@ -1534,3 +1534,45 @@ existed at the time.
 
 **When a client supplies a reference for structure, the inventory is the
 specification.** Positions can be adapted; the parts list cannot.
+
+### E3D load failure 2026-08-19: the checking layer never read the macro
+
+The client's load failed on the first base element:
+
+```
+(47,15)   CP: Syntax error
+^^Y is N and Z is D
+```
+
+The ORI keyword was missing. `base_reference.py` stores an orientation as the
+*clause* (`line[3:]`, stripping "ORI") because that is how it reads the
+reference listing back, while every machine builder stores the full
+`"ORI Z is ..."`. The emitter wrote `self.ori` verbatim, so base elements
+shipped without the keyword. Fixed by normalising in `Primitive.ori_line()`,
+at the single point that does the writing.
+
+**The real failure is that nothing could have caught it.** Every check in this
+project inspected `Primitive` objects — geometry, datums, connectivity,
+composition, 14 mutations — and that entire layer is blind to *how* an object
+becomes text. The repo's `validate_pml` missed it too: a bare clause is
+indistinguishable from an unrecognised attribute, so it produced no finding.
+
+30 pumps passed every check and the macro would not load.
+
+**Generalised rule: a generator needs one check that reads its own output as
+text.** Object-level verification proves the model is right; it says nothing
+about the serialisation. Any place where two code paths store the same field in
+different shapes — here, with and without a keyword prefix — is invisible to
+every check that reads the field rather than the file.
+
+`tools/check_macro_text.py` now parses the finished `.pml` and asserts what only
+the text can show: bare orientation clauses, unrecognised commands, PML2 and
+prologue tokens, unbalanced blocks, and the IR-2/IR-9a ordering rules surviving
+the trip from object to file. It is mutation-tested against the shipped defect
+and four others.
+
+One detail worth keeping: the first version of that checker reported "258
+element blocks left unclosed", because it counted `EQUIPMENT` and
+`SUBEQUIPMENT` as openable. They are grouping elements closed implicitly by the
+next one (IR-5), never by an `END`. A text checker has to model the language's
+block rules, not just its line syntax.
