@@ -26,6 +26,22 @@ Projects/**/evidence/** -text
 *.pml -text
 *.mac -text
 
+# Syntax-study sources. A study pins its source listing by SHA-256 (see
+# tests/test_handra_study.py) exactly as the evidence directories do, but the
+# listings are .txt and live under experiments/<STUDY>/source/, which none of
+# the patterns above reach. PML-STUDY-HANDRA-001 was committed on 2026-09-09
+# with its source unprotected and its hash test passed only in the working tree
+# that produced the file -- it failed on the very next checkout, which is the
+# failure mode this whole section exists to prevent.
+Projects/**/experiments/**/source/** -text
+
+# Native E3D listings supplied by the client. These are verbatim records in the
+# same sense as evidence/ -- a study or a reconciliation hashes them to prove it
+# read what the client actually sent -- and they are usually .txt, so *.pml does
+# not reach them. tests/test_handra_study.py pins the same listing in both its
+# imports/ and experiments/ copies.
+Projects/**/imports/** -text
+
 # Binary project data, listed explicitly so Git never attempts a text merge.
 *.xlsx binary
 *.dwg  binary
