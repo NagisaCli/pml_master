@@ -26,3 +26,7 @@ venv/
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
+
+# Experimental E3D live bridge build and launch artifacts
+integrations/e3d_live/addin/bin/
+integrations/e3d_live/deployment/runtime/
