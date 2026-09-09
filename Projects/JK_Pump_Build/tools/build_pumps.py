@@ -1,5 +1,5 @@
 """
-Generate the complete E3D pump models for the 2026-08-19 project.
+Generate the complete E3D pump models, including the 2026-08-20 r12 rebuild.
 
 Modelling logic
 ---------------
@@ -23,11 +23,12 @@ Shaft centreline
     to clear both the casing radius and the suction flange radius so nothing
     sinks below the foundation.
 
-Nozzle Z
-    Plan positions and directions are hard constraints and are emitted exactly
-    as read.  Only U may be adjusted, and only for the top discharge, which is
-    lifted to sit on the casing crown when the source elevation would leave it
-    buried in or floating above the volute.
+Top-discharge connection
+    The native NOZZLE keeps its r9 CATR, plan position, orientation and
+    flange-face U.  A nozzle no wider than the casing directly penetrates the
+    crown with at least 70% of its HEIG outside.  A wider nozzle is carried by
+    a casing-owned lower socket and CONE whose upper face meets the native
+    nozzle root exactly; no extra primitive neck sits above the reducer.
 """
 
 from __future__ import annotations
@@ -37,17 +38,32 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional
 
+REPO = Path(__file__).resolve().parents[3]
+sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from extract_project_data import load_all                      # noqa: E402
 from recover_nozzle_axes import classify                        # noqa: E402
-from pump_model import (AXIS_VECTOR, BASEPLATE_THICKNESS, OPPOSITE,  # noqa: E402
+from pump_model import (AXIS_VECTOR, OPPOSITE,  # noqa: E402
                         REF, RIB_COUNT, Primitive, PumpModel)
 from base_deform import (ReferenceDeformer, Target,  # noqa: E402
                          parse_reference)
+from wsb.pml_builder import NOZZLE_BORE_COMPONENTS    # noqa: E402
 
-REPO = Path(__file__).resolve().parents[3]
-OUTPUT_DIR = REPO / "Projects" / "JK_Pump_Build" / "output" / "2026-08-19_pumps"
+OUTPUT_DIR = (REPO / "Projects" / "JK_Pump_Build" / "output" /
+              "2026-08-20_top_nozzle_r12")
+
+MOTOR_CONE_OUTER_RATIO = 2.0 / 3.0
+MOTOR_LENGTH_OVERRIDE_TAG = "205-PU-012"
+TOP_NOZZLE_CASING_EMBED = 20.0
+TOP_NOZZLE_CONNECTOR_PROJECTION = 20.0
+TOP_NOZZLE_SOCKET_VISIBLE = 8.0
+TOP_NOZZLE_CASING_SEAT_RATIO = 0.90
+TOP_NOZZLE_MIN_NATIVE_PROJECTION = 25.0
+SMALL_NOZZLE_EXTERNAL_TARGET_RATIO = 0.75
+NOZZLE_DN_BY_COMPONENT = {
+    component: float(dn) for dn, component in NOZZLE_BORE_COMPONENTS.items()
+}
 
 
 def perpendicular(letter: str) -> str:
@@ -59,6 +75,78 @@ def axis_component(east: float, north: float, letter: str) -> float:
     """Signed distance along a cardinal plan direction."""
     vector = AXIS_VECTOR[letter]
     return east * vector[0] + north * vector[1]
+
+
+def _source_envelope(tag: str, sources: dict) -> tuple[float, float, float]:
+    """Plate longitudinal/transverse sizes and governing casing diameter."""
+    plate = sources["location"][tag].baseplate
+    xlen = plate.attrs["XLEN"]
+    ylen = plate.attrs["YLEN"]
+    length, width = max(xlen, ylen), min(xlen, ylen)
+    casing = sources["casing"].get(tag)
+    casing_dia = (casing or {}).get("diameter") or width * 0.72
+    return length, width, casing_dia
+
+
+def _derive_missing_engine(tag: str, sources: dict) -> dict:
+    """
+    Derive a traceable motor/shaft record for a tag absent from the CSV.
+
+    The nearest measured non-MC pump is selected from plate length, plate width
+    and casing diameter. Axial dimensions/offsets follow the plate-length ratio
+    and radial dimensions follow the plate-width ratio. This keeps the complete
+    measured four-part motor and three-part drive-shaft construction while
+    making the fallback fit the target skid. Every use is reported as a
+    Reference Value; the source CSV itself is never edited.
+    """
+    target_length, target_width, target_casing = _source_envelope(tag, sources)
+    ranked = []
+    for donor_tag, donor in sources["engine"].items():
+        if donor.get("is_mc"):
+            continue
+        donor_length, donor_width, donor_casing = _source_envelope(
+            donor_tag, sources)
+        score = (
+            ((donor_length - target_length) / target_length) ** 2
+            + ((donor_width - target_width) / target_width) ** 2
+            + 2.0 * ((donor_casing - target_casing) / target_casing) ** 2
+        )
+        # A geometrically similar but axially overfilled donor is not a sound
+        # fallback. Penalise families whose motor + free-shaft source lengths
+        # already consume nearly the whole donor skid; this prevents a large
+        # driver from being compressed to a token shaft on a shorter target.
+        occupied_ratio = (
+            (donor.get("engine_total_L_mm") or 0.0)
+            + (donor.get("shaft_total_L_mm") or 0.0)
+        ) / donor_length
+        score += 4.0 * max(0.0, occupied_ratio - 0.90) ** 2
+        ranked.append((score, donor_tag, donor, donor_length, donor_width))
+    if not ranked:
+        raise ValueError(f"{tag}: no measured non-MC engine donor is available")
+
+    _, donor_tag, donor, donor_length, donor_width = min(ranked)
+    axial_scale = target_length / donor_length
+    radial_scale = target_width / donor_width
+    record = dict(donor)
+    for key, value in tuple(record.items()):
+        if not isinstance(value, (int, float)) or isinstance(value, bool):
+            continue
+        if key.endswith("_L_mm") or "axial_offset" in key:
+            record[key] = value * axial_scale
+        elif (key.endswith("_D_mm") or key.endswith("_dia_mm")
+              or key.endswith("_D_min_mm") or key.endswith("_D_max_mm")
+              or "radial_offset" in key):
+            record[key] = value * radial_scale
+
+    casing = sources["casing"].get(tag)
+    record["equipment_name"] = ((casing or {}).get("pump_name")
+                                or sources["location"][tag].func or tag)
+    record["pump_type_raw"] = "NON-MC PUMP (DERIVED REFERENCE VALUE)"
+    record["is_mc"] = False
+    record["derived_from_tag"] = donor_tag
+    record["derived_axial_scale"] = axial_scale
+    record["derived_radial_scale"] = radial_scale
+    return record
 
 
 def build_pump(tag: str, sources: dict) -> PumpModel:
@@ -128,6 +216,26 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
         model.reference_values.append(
             f"casing {casing_dia:.0f} dia x {casing_len:.0f} long (DERIVED)")
 
+    # Three project tags have no CSV row. Omitting the complete driver left
+    # those r6 models incomplete, so r7 uses a deterministic nearest measured
+    # non-MC family and labels every resulting dimension as a Reference Value.
+    # The supplied CSV remains immutable.
+    if engine is None:
+        engine = _derive_missing_engine(tag, sources)
+        donor = engine["derived_from_tag"]
+        model.description = str(engine["equipment_name"])[:120]
+        model.facts["engine_source"] = f"DERIVED from {donor}"
+        model.reference_values.append(
+            f"motor/drive layout derived from measured {donor}: axial scale "
+            f"{engine['derived_axial_scale']:.4f}, radial scale "
+            f"{engine['derived_radial_scale']:.4f}")
+        model.unresolved.append(
+            f"no engine_shaft CSV row; motor/drive derived from nearest "
+            f"measured non-MC pump {donor}")
+    else:
+        model.facts["engine_source"] = "engine_shaft_measurements_updated.csv"
+    model.facts["engine_record"] = engine
+
     # ---- shaft centreline ------------------------------------------------
     # The suction nozzle lies on the machine axis, so its elevation is the
     # natural shaft height and is used wherever it is physically possible.
@@ -142,15 +250,20 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
     # shaft is raised to the minimum height that seats the volute, and the
     # adjustment is recorded as a data conflict.  This only ever moves Z, which
     # the task permits; nozzle plan positions and directions stay exact.
-    # The same conflict applies to the driver: its end bells are the widest
-    # part of the machine, so the shaft must clear their radius too.  Handling
-    # both bodies in one place keeps this as shared logic rather than a
-    # per-pump patch.
+    # r6 established an accepted driver clearance envelope for the support
+    # geometry.  r7 replaces the old visual end covers with measured CONEs but
+    # deliberately preserves that envelope, so improving the motor does not
+    # silently reopen the already accepted base/support elevation.
     suction_u = suction["pos"]["up"]
     motor_dia = (engine or {}).get("engine_max_dia_mm")
-    end_bell_dia = (motor_dia or 0.0) * REF["motor_end_dish_dia"]
-    required = max(casing_dia, end_bell_dia) / 2
-    driver = "motor end bell" if end_bell_dia > casing_dia else "casing"
+    accepted_driver_envelope = ((motor_dia or 0.0)
+                                * REF["motor_end_dish_dia"])
+    required = max(casing_dia, accepted_driver_envelope) / 2
+    governing_body = ("accepted r6 driver clearance envelope"
+                      if accepted_driver_envelope > casing_dia else "casing")
+    model.reference_values.append(
+        "r6 driver clearance envelope retained for shaft/support elevation; "
+        "r7 motor end geometry is measured CONE/CYLINDER construction")
 
     # A pump is CARRIED on its mounting; the casing does not rest on the
     # baseplate.  Seating the machine flat on the plate left zero clearance on
@@ -168,12 +281,12 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
         shaft_u = seated_u
         model.unresolved.append(
             f"CONFLICT: suction elevation U {suction_u:.1f} is below the "
-            f"{driver} radius {required:.1f} (casing_reference.txt / "
+            f"{governing_body} radius {required:.1f} (casing_reference.txt / "
             f"engine_shaft CSV); a machine on that axis would sink below the "
             f"foundation. Shaft raised to U {seated_u:.1f} to seat it on the "
             f"baseplate.")
         model.facts["shaft_u_basis"] = (
-            f"raised from suction U {suction_u:.1f} to seat {driver}")
+            f"raised from suction U {suction_u:.1f} to seat {governing_body}")
     else:
         shaft_u = suction_u
         model.facts["shaft_u_basis"] = "suction nozzle elevation (machine axis)"
@@ -205,11 +318,12 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
     model.facts.update(casing=(casing_dia, casing_len),
                        casing_centre=(casing_e, casing_n), shaft_u=shaft_u)
 
-    _build_baseplate(model, plate_e, plate_n, xlen, ylen, zlen, plate.pos["up"])
     # The machine is emitted first so the support can be sized from its real
     # measured underside rather than from a ratio.
     _build_casing(model, casing_e, casing_n, casing_dia, casing_len,
                   shaft_u, long_axis, wet_end, plate_top, is_mc)
+    _build_top_discharge_connection(
+        model, discharge, casing_e, casing_n, casing_dia, casing_len, shaft_u)
     _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaft_u,
                  long_axis, wet_end, motor_end, plate_e, plate_n,
                  half_long, plate_top, is_mc)
@@ -223,15 +337,6 @@ def build_pump(tag: str, sources: dict) -> PumpModel:
     _build_nozzles(model, suction, discharge, casing_e, casing_n,
                    casing_dia, casing_len, shaft_u, location)
     return model
-
-
-def _build_baseplate(model, east, north, xlen, ylen, zlen, up):
-    """The confirmed baseplate, emitted exactly as the project fixes it."""
-    model.add(Primitive(
-        kind="BOX", sube="BASEPLATE",
-        attrs={"XLEN": xlen, "YLEN": ylen, "ZLEN": zlen},
-        east=east, north=north, up=up,
-        note="baseplate: size and underside centre are project data"))
 
 
 def hex_profile(across_flats: float):
@@ -313,7 +418,7 @@ def _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
     The mounting elevations are measured from the machine that has just been
     emitted, so the equipment sits directly on its support with no gap.
     """
-    plate_under = plate_top - BASEPLATE_THICKNESS
+    plate_under = model.facts["plate_under"]
     width = xlen if long_axis == "N" else ylen
     length = ylen if long_axis == "N" else xlen
 
@@ -321,36 +426,36 @@ def _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
     casing_station = ((casing_e - plate_e) * vector[0]
                       + (casing_n - plate_n) * vector[1])
 
-    # The pump mounting must reach the VOLUTE BARREL, which is the body its
-    # brackets clamp.  Aiming at the assembly's lowest point picks the end
-    # cover instead -- a DISH of slightly larger diameter that hangs a little
-    # lower -- and leaves the brackets 5-17 mm short of the barrel.
-    pump_mount = _lowest_of(model, "CASING", kinds=("CYLINDER",))
+    casing_dia, casing_len = model.facts["casing"]
+    shaft_u = model.facts["shaft_u"]
 
     motor_support = model.facts.get("motor_support")
     if motor_support:
         motor_station = ((motor_support["centre_e"] - plate_e) * vector[0]
                          + (motor_support["centre_n"] - plate_n) * vector[1])
-        # The motor's feet bolt to the STATOR BARREL; its end bells are larger
-        # and hang lower, and their overhang is not a gap to close.
-        motor_mount = _lowest_of(model, "DRIVER", kinds=("CYLINDER",))
+        motor_radius = motor_support["diameter"] / 2
+        motor_length = motor_support["barrel_length"]
     else:
-        # No driver modelled: keep the reference's own station spacing and
-        # mounting proportion so the base still looks like itself.
-        motor_station = casing_station - length * (804.62 / 1390.0)
-        motor_mount = plate_top + (pump_mount - plate_top) * (107.0 / 170.0)
+        # No driver modelled: keep the native motor relationship as a clearly
+        # labelled reference value rather than inventing target motor data.
+        motor_station = None
+        motor_radius = None
+        motor_length = None
 
     # Keep both stations on the plate.
     limit = length / 2 - length * 0.10
     casing_station = max(-limit, min(limit, casing_station))
-    motor_station = max(-limit, min(limit, motor_station))
+    if motor_station is not None:
+        motor_station = max(-limit, min(limit, motor_station))
 
     target = Target(
         plate_e=plate_e, plate_n=plate_n,
         plate_top=plate_top, plate_under=plate_under,
         width=width, length=length, wet_end=wet_end,
-        pump_station=casing_station, motor_station=motor_station,
-        pump_mount=pump_mount, motor_mount=motor_mount)
+        pump_machine=casing_station, pump_axis_up=shaft_u,
+        pump_radius=casing_dia / 2, pump_length=casing_len,
+        motor_machine=motor_station, motor_axis_up=shaft_u,
+        motor_radius=motor_radius, motor_length=motor_length)
 
     def emit(kind, attrs, east, north, up, ori, profile, note):
         model.add(Primitive(
@@ -359,15 +464,23 @@ def _build_reference_base(model, plate_e, plate_n, xlen, ylen, plate_top,
             ori=ori, profile=profile or None, note=note))
 
     elements = _reference_elements()
-    ReferenceDeformer(target, elements).build(emit)
+    adapter = ReferenceDeformer(target, elements)
+    adapter.build(emit)
 
     model.facts["base_stations"] = [
-        ("pump", round(casing_station, 1), round(pump_mount, 1)),
-        ("motor", round(motor_station, 1), round(motor_mount, 1)),
+        ("pump", round(adapter.station_target["pump"], 1),
+         round(shaft_u, 1)),
+        ("motor", round(adapter.station_target["motor"], 1),
+         round(shaft_u, 1)),
     ]
+    model.facts["base_adapter"] = {
+        station: tuple(round(value, 6) for value in scale)
+        for station, scale in adapter.scales.items()
+    }
+    model.facts["base_station_targets"] = dict(adapter.station_target)
     model.reference_values.append(
-        "base: /P1501B-BASE geometry, station-translated and height-fitted "
-        "to this pump")
+        "base: all 43 /P1501B-BASE members; skid fitted to the project "
+        "envelope, pump station to the casing, motor station to the stator")
 
 
 _REFERENCE_CACHE = None
@@ -418,139 +531,424 @@ def _build_casing(model, east, north, dia, length, shaft_u, long_axis,
     # machine sequence rather than a single block.
 
 
+def _nozzle_dn(catr: Optional[str]) -> Optional[float]:
+    """Return the verified catalogue nominal diameter for one nozzle."""
+    if not catr:
+        return None
+    return NOZZLE_DN_BY_COMPONENT.get(catr.rsplit("/", 1)[-1])
+
+
+def _top_nozzle_face_u(row: dict, crown: float) -> float:
+    """The r9 flange-face elevation, retained as an invariant in r12."""
+    return crown - 100.0 + (row.get("heig") or 150.0)
+
+
+def _top_nozzle_interface_u(crown: float) -> float:
+    """Upper terminal face shared by an overwidth reducer and native nozzle."""
+    return crown + TOP_NOZZLE_CONNECTOR_PROJECTION
+
+
+def _top_nozzle_resolution(row: dict, crown: float,
+                           casing_width: float) -> Optional[dict]:
+    """Resolve the native root from the two client-required width branches."""
+    nozzle_dia = _nozzle_dn(row.get("catr"))
+    if nozzle_dia is None:
+        return None
+    face_u = _top_nozzle_face_u(row, crown)
+    overwidth = nozzle_dia > casing_width + 0.01
+    if overwidth:
+        root_u = _top_nozzle_interface_u(crown)
+        heig = face_u - root_u
+        external_ratio = 1.0
+    else:
+        external_height = face_u - crown
+        heig = external_height / SMALL_NOZZLE_EXTERNAL_TARGET_RATIO
+        root_u = face_u - heig
+        external_ratio = external_height / heig
+    return {
+        "nozzle_diameter": nozzle_dia,
+        "casing_width": casing_width,
+        "casing_crown_u": crown,
+        "nozzle_face_u": face_u,
+        "nozzle_root_u": root_u,
+        "nozzle_heig": heig,
+        "external_ratio": external_ratio,
+        "overwidth": overwidth,
+    }
+
+
+def _build_top_discharge_connection(model, discharge, casing_e, casing_n, dia,
+                                    casing_width, shaft_u):
+    """Build only the overwidth socket/CONE shown in the client schematic.
+
+    A smaller/equal nozzle uses no additive connector: the native NOZZLE itself
+    penetrates the casing with at least 70% outside.  A wider nozzle receives a
+    lower socket that starts inside the crown and remains visibly proud, then a
+    CONE that expands directly to the native nozzle bottom.
+    """
+    if not discharge or discharge.get("letter") != "U":
+        return
+
+    crown = shaft_u + dia / 2.0
+    resolution = _top_nozzle_resolution(discharge, crown, casing_width)
+    if resolution is None:
+        model.unresolved.append(
+            "top discharge has no verified catalogue DN; casing connector omitted")
+        return
+
+    nozzle_dia = resolution["nozzle_diameter"]
+    nozzle_e = discharge["pos"]["east"]
+    nozzle_n = discharge["pos"]["north"]
+    face_u = resolution["nozzle_face_u"]
+    top_u = resolution["nozzle_root_u"]
+    native_projection = resolution["nozzle_heig"]
+    if resolution["overwidth"] and native_projection < TOP_NOZZLE_MIN_NATIVE_PROJECTION:
+        model.unresolved.append(
+            f"top discharge has only {native_projection:.1f} mm between the "
+            "connector top and fixed flange face; connector omitted")
+        return
+
+    overwidth = resolution["overwidth"]
+    connection = dict(resolution, role=discharge["role"], top_u=top_u)
+
+    if not overwidth:
+        connection["primitive_count"] = 0
+        connection["direct_penetration"] = True
+        connection["bottom_u"] = top_u
+        model.facts.setdefault("top_nozzle_connections", []).append(connection)
+        model.reference_values.append(
+            "top discharge within casing width uses the native NOZZLE directly; "
+            "75% external projection provides margin over the 70% minimum")
+        return
+
+    bottom_u = crown - TOP_NOZZLE_CASING_EMBED
+    connection["bottom_u"] = bottom_u
+    connection["direct_penetration"] = False
+    ori = "ORI Z is U and Y is N"
+    prefix = "top discharge casing connection"
+    seat_dia = casing_width * TOP_NOZZLE_CASING_SEAT_RATIO
+    socket_top = crown + TOP_NOZZLE_SOCKET_VISIBLE
+    transition_top = top_u
+
+    # One MC casing datum (205-PU-054) is offset in plan from its fixed top
+    # nozzle. Preserve both project positions and join them with a solid
+    # casing-owned CYLINDER. It is an additive basic body, not PIPE/BRANCH.
+    delta_e = nozzle_e - casing_e
+    delta_n = nozzle_n - casing_n
+    plan_offset = math.hypot(delta_e, delta_n)
+    if plan_offset > casing_width / 2.0 - TOP_NOZZLE_CASING_EMBED:
+        unit_e = delta_e / plan_offset
+        unit_n = delta_n / plan_offset
+        start_distance = max(0.0, casing_width / 2.0
+                             - TOP_NOZZLE_CASING_EMBED)
+        overlap = min(15.0, seat_dia * 0.10)
+        start_e = casing_e + unit_e * start_distance
+        start_n = casing_n + unit_n * start_distance
+        end_e = nozzle_e + unit_e * overlap
+        end_n = nozzle_n + unit_n * overlap
+        bridge_length = math.hypot(end_e - start_e, end_n - start_n)
+        bridge_axis = ("E" if unit_e > 0 else "W") \
+            if abs(unit_e) >= abs(unit_n) else ("N" if unit_n > 0 else "S")
+        model.add(Primitive(
+            kind="CYLINDER", sube="CASING",
+            attrs={"DIAM": seat_dia, "HEIG": bridge_length},
+            east=(start_e + end_e) / 2.0,
+            north=(start_n + end_n) / 2.0,
+            up=(bottom_u + socket_top) / 2.0,
+            ori=f"ORI Z is {bridge_axis} and Y is U",
+            note="top discharge casing offset bridge: solid basic body"))
+        connection["offset_bridge"] = True
+        model.reference_values.append(
+            "fixed offset top nozzle is joined to the unchanged casing "
+            "position by an overlapping solid CYLINDER basic body")
+    else:
+        connection["offset_bridge"] = False
+
+    model.add(Primitive(
+        kind="CYLINDER", sube="CASING",
+        attrs={"DIAM": seat_dia, "HEIG": socket_top - bottom_u},
+        east=nozzle_e, north=nozzle_n, up=(bottom_u + socket_top) / 2.0,
+        ori=ori,
+        note=f"{prefix}: overwidth lower socket"))
+    model.add(Primitive(
+        kind="CONE", sube="CASING",
+        attrs={"DBOT": seat_dia, "DTOP": nozzle_dia,
+               "HEIG": transition_top - socket_top},
+        east=nozzle_e, north=nozzle_n,
+        up=(socket_top + transition_top) / 2.0,
+        ori=ori,
+        note=f"{prefix}: overwidth smooth reducer transition"))
+    connection["primitive_count"] = 2
+    connection["seat_diameter"] = seat_dia
+
+    model.facts.setdefault("top_nozzle_connections", []).append(connection)
+    model.reference_values.append(
+        "overwidth top discharge uses a 90%-of-width lower socket and one "
+        "concentric CONE; the CONE upper face closes directly on the native "
+        "nozzle bottom with no extra primitive neck")
+
+
+def _motor_cone_length(engine: dict, total: float) -> float:
+    """One shared end-cone length; either measured side may supply it."""
+    candidates = [float(value) for value in (
+        engine.get("engine_part1_rear_cover_L_mm"),
+        engine.get("engine_front_frustum_L_mm"),
+    ) if value is not None and float(value) > 0.01]
+    return sum(candidates) / len(candidates) if candidates else total * 0.08
+
+
+def _motor_segments(model, engine: dict, total: float, maximum: float) -> list[dict]:
+    """Resolve a closed motor whose terminal body at each end is a CONE."""
+    cone_len = _motor_cone_length(engine, total)
+    source_small_len = engine.get("engine_small_cyl_L_mm") or 0.0
+    main_len = ((engine.get("engine_part2_main_body_L_mm") or total)
+                + source_small_len)
+    if model.tag == MOTOR_LENGTH_OVERRIDE_TAG:
+        # This tag's r8 envelope is an explicit user correction. Removing the
+        # terminal small cylinder must not shorten it again.
+        main_len = total - 2 * cone_len
+
+    # r8 placed the CSV rear-small CYLINDER outside the rear cone, so the motor
+    # tail was still cylindrical. The client requires the physical tail itself
+    # to be a frustum. Omit that exterior cylinder and absorb its axial allowance
+    # into the main stator, preserving the already corrected total envelope.
+    raw_sum = main_len + 2 * cone_len
+    correction = total - raw_sum
+    if abs(correction) > 0.01:
+        adjusted = main_len + correction
+        if adjusted <= 1.0:
+            scale = total / raw_sum
+            cone_len *= scale
+            main_len *= scale
+        else:
+            main_len = adjusted
+        if abs(correction) > 0.51:
+            model.unresolved.append(
+                f"CONFLICT: motor component lengths total {raw_sum:.1f} mm "
+                f"against resolved envelope {total:.1f} mm; main barrel fitted "
+                f"to preserve the user-corrected overall construction")
+
+    main_dia = engine.get("engine_part2_main_body_D_mm") or maximum
+    outer_dia = main_dia * MOTOR_CONE_OUTER_RATIO
+
+    model.facts["motor_cone_length"] = cone_len
+    model.facts["motor_cone_outer_diameter"] = outer_dia
+    model.reference_values.append(
+        "user-corrected motor end construction: two similar CONEs, each "
+        "tapering from the main stator to a 2/3-diameter outward face")
+    if (engine.get("engine_small_cyl_L_mm") or 0.0) > 0.01:
+        model.reference_values.append(
+            "rear-small-cylinder source allowance absorbed into the main "
+            "stator so the motor tail terminates directly in a CONE")
+
+    segments: list[dict] = []
+    segments.append({
+        "role": "rear frustum", "kind": "CONE", "length": cone_len,
+        "DBOT": outer_dia, "DTOP": main_dia,
+    })
+    segments.append({
+        "role": "main stator barrel", "kind": "CYLINDER",
+        "length": main_len, "DIAM": main_dia,
+    })
+    segments.append({
+        "role": "front frustum", "kind": "CONE", "length": cone_len,
+        "DBOT": main_dia, "DTOP": outer_dia,
+    })
+    return segments
+
+
 def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaft_u,
                  long_axis, wet_end, motor_end, plate_e, plate_n,
                  half_long, plate_top, is_mc):
     """
-    Bearing housing, shaft, coupling and motor, all on one centreline.
+    Build the measured segmented motor and drive train on one centreline.
 
-    Sizes come from ``engine_shaft_measurements_updated.csv`` where the CSV
-    carries them.  ``N/A`` is never read as zero: an absent shaft record means
-    the pump is close-coupled (the MC arrangement), so no free shaft or
-    coupling is drawn at all.
+    Non-MC motors use the CSV's rear frustum, small barrel, main barrel and
+    front frustum. Their drive train uses two cylinders plus the pump-side
+    circular frustum. Axial shaft part ratios are retained but uniformly fitted
+    between the motor front and a controlled engagement into the casing when
+    source offsets conflict with an attached construction. MC rows explicitly
+    carry no free shaft, so a close-coupled lantern spans the physical gap.
     """
-    vector = AXIS_VECTOR[motor_end]
-    axis = "N" if long_axis == "N" else "E"
-    ori = f"ORI Z is {axis} and Y is U"
+    motor_vector = AXIS_VECTOR[motor_end]
+    wet_vector = AXIS_VECTOR[wet_end]
 
-    if engine is None:
-        model.unresolved.append(
-            "no engine_shaft record: motor and shaft not modelled")
-        return
-
-    motor_len = engine.get("engine_total_L_mm")
+    motor_source_len = engine.get("engine_total_L_mm")
     motor_dia = engine.get("engine_max_dia_mm")
     motor_axial = engine.get("engine_axial_offset_mm")
-    if motor_len is None or motor_dia is None:
+    if motor_source_len is None or motor_dia is None:
         model.unresolved.append("motor length/diameter missing from the CSV")
         return
+    motor_len = float(motor_source_len)
+    if model.tag == MOTOR_LENGTH_OVERRIDE_TAG:
+        cone_len = _motor_cone_length(engine, motor_len)
+        small_len = engine.get("engine_small_cyl_L_mm") or 0.0
+        # The r7 interpretation compressed this motor's main barrel to 717 mm.
+        # The client identified the result as too short. Keep the supplied
+        # 997.4 mm as the main barrel and place its end construction outside it.
+        motor_len = motor_len + float(small_len) + 2 * cone_len
+        model.reference_values.append(
+            f"{model.tag} user-corrected motor envelope {motor_len:.1f} mm: "
+            f"source total {motor_source_len:.1f} mm retained as main barrel, "
+            f"rear small barrel and two end CONEs added outside")
+    model.facts["motor_source_total"] = float(motor_source_len)
+    model.facts["motor_effective_total"] = motor_len
 
-    # The CSV axial offset is measured from the pump datum along the machine
-    # axis.  Its sign is preserved: a negative offset places the motor on the
-    # opposite side of the datum from a positive one.
     motor_centre_offset = abs(motor_axial) if motor_axial is not None else \
         half_long * 0.5
     if motor_axial is None:
         model.unresolved.append("engine_axial_offset is N/A; motor placed by proportion")
         model.reference_values.append("motor axial position DERIVED")
 
-    motor_e = plate_e + vector[0] * motor_centre_offset
-    motor_n = plate_n + vector[1] * motor_centre_offset
+    motor_e = plate_e + motor_vector[0] * motor_centre_offset
+    motor_n = plate_n + motor_vector[1] * motor_centre_offset
+    motor_centre_along = _along(
+        motor_e, motor_n, plate_e, plate_n, wet_vector)
+    motor_start = motor_centre_along - motor_len / 2
+    motor_end_face = motor_centre_along + motor_len / 2
 
-    # ---- bearing housing, on the motor side of the volute ---------------
-    # It starts at the casing back face and runs toward the motor.  On a
-    # close-coupled machine (no free shaft in the CSV) it becomes the lantern
-    # housing and must span the whole gap to the motor face, or the drive train
-    # is visibly parted -- the exact defect the client rejected in r11.
-    bearing_dia = casing_dia * REF["bearing_dia"]
-    casing_back = _along(casing_e, casing_n, plate_e, plate_n, vector) \
-        + casing_len / 2
-    motor_face_along = _along(motor_e, motor_n, plate_e, plate_n, vector) \
-        - motor_len / 2
-    has_free_shaft = engine.get("shaft_total_L_mm") is not None
-    span = motor_face_along - casing_back
+    # ---- measured motor segmentation ----------------------------------
+    resolved = _motor_segments(model, engine, motor_len, motor_dia)
+    cursor = motor_start
+    emitted_segments = []
+    main_primitive = None
+    for segment in resolved:
+        length = segment["length"]
+        centre = cursor + length / 2
+        east = plate_e + wet_vector[0] * centre
+        north = plate_n + wet_vector[1] * centre
+        if segment["kind"] == "CONE":
+            attrs = {"DBOT": segment["DBOT"], "DTOP": segment["DTOP"],
+                     "HEIG": length}
+        else:
+            attrs = {"DIAM": segment["DIAM"], "HEIG": length}
+        primitive = model.add(Primitive(
+            kind=segment["kind"], sube="DRIVER", attrs=attrs,
+            east=east, north=north, up=shaft_u,
+            ori=f"ORI Z is {wet_end} and Y is U",
+            note=f"motor {segment['role']}: engine_shaft CSV"))
+        if segment["role"] == "main stator barrel":
+            main_primitive = primitive
+        emitted_segments.append({
+            **segment, "start": cursor, "end": cursor + length,
+            "east": east, "north": north,
+        })
+        cursor += length
 
-    if not has_free_shaft and span > 1.0:
-        bearing_len = span          # close-coupled: bridge casing to motor
-        note = "lantern/bearing housing: close-coupled, spans casing to motor"
-    else:
-        bearing_len = min(casing_dia * REF["bearing_heig"], max(span, 1.0))
-        note = "bearing housing: proportion from /P1501B"
+    if abs(cursor - motor_end_face) > 0.05:
+        raise ValueError(
+            f"{model.tag}: motor segments end at {cursor}, expected {motor_end_face}")
+    model.facts["motor_segments"] = emitted_segments
+    model.facts["motor_axis_span"] = (motor_start, motor_end_face)
 
-    bearing_along = casing_back + bearing_len / 2
-    bearing_e = plate_e + vector[0] * bearing_along
-    bearing_n = plate_n + vector[1] * bearing_along
-    model.add(Primitive(
-        kind="CYLINDER", sube="BEARING",
-        attrs={"DIAM": bearing_dia, "HEIG": bearing_len},
-        east=bearing_e, north=bearing_n, up=shaft_u, ori=ori,
-        note=note))
-    model.reference_values.append("bearing housing proportioned from /P1501B")
-
-    # ---- free shaft and coupling, only where the CSV carries a shaft ----
-    shaft_len = engine.get("shaft_total_L_mm")
-    motor_face = _axis_position(motor_e, motor_n, vector, -motor_len / 2)
-    bearing_face_along = _along(bearing_e, bearing_n, plate_e, plate_n, vector) \
-        + bearing_len / 2
-    motor_face_along = _along(motor_e, motor_n, plate_e, plate_n, vector) \
-        - motor_len / 2
-    gap = motor_face_along - bearing_face_along
-
-    if shaft_len is None:
-        # MC pumps carry "N/A (MC Pump)" here: close-coupled, no free shaft.
-        model.facts["shaft"] = "N/A -- close-coupled MC arrangement"
-    elif gap > 20.0:
-        shaft_dia = engine.get("shaft_cyl1_D_mm") or casing_dia * REF["shaft_dia"]
-        mid = (bearing_face_along + motor_face_along) / 2
-        shaft_e = plate_e + vector[0] * mid
-        shaft_n = plate_n + vector[1] * mid
-        model.add(Primitive(
-            kind="CYLINDER", sube="COUPLING",
-            attrs={"DIAM": shaft_dia, "HEIG": gap},
-            east=shaft_e, north=shaft_n, up=shaft_u, ori=ori,
-            note="drive shaft spanning bearing housing to motor face"))
-        # Coupling guard hubs at each end of the span.
-        for along, label in ((bearing_face_along + gap * 0.18, "pump hub"),
-                             (motor_face_along - gap * 0.18, "driver hub")):
-            hub_e = plate_e + vector[0] * along
-            hub_n = plate_n + vector[1] * along
+    # ---- measured three-part drive shaft or MC close coupling ----------
+    casing_along = _along(
+        casing_e, casing_n, plate_e, plate_n, wet_vector)
+    casing_back = casing_along - casing_len / 2
+    shaft_total = engine.get("shaft_total_L_mm")
+    if shaft_total is None:
+        gap = casing_back - motor_end_face
+        if gap > 0.5:
+            centre = motor_end_face + gap / 2
             model.add(Primitive(
-                kind="CYLINDER", sube="COUPLING",
-                attrs={"DIAM": shaft_dia * 2.0, "HEIG": gap * 0.22},
-                east=hub_e, north=hub_n, up=shaft_u, ori=ori,
-                note=f"coupling {label}"))
-        model.reference_values.append("coupling hubs proportioned from /P1501B")
+                kind="CYLINDER", sube="BEARING",
+                attrs={"DIAM": casing_dia * REF["bearing_dia"], "HEIG": gap},
+                east=plate_e + wet_vector[0] * centre,
+                north=plate_n + wet_vector[1] * centre,
+                up=shaft_u, ori=f"ORI Z is {wet_end} and Y is U",
+                note="close-coupled MC lantern: spans motor to casing"))
+            model.reference_values.append(
+                "MC close-coupled lantern diameter proportioned from /P1501B")
+        model.facts["shaft"] = "N/A -- close-coupled MC arrangement"
+        model.facts["drive_span"] = (motor_end_face, max(motor_end_face, casing_back))
     else:
-        model.facts["shaft"] = f"close-coupled: gap {gap:.0f} mm"
+        source_parts = [
+            ("cylinder 1", "CYLINDER", engine.get("shaft_cyl1_L_mm"),
+             engine.get("shaft_cyl1_D_mm"), None),
+            ("cylinder 2", "CYLINDER", engine.get("shaft_cyl2_L_mm"),
+             engine.get("shaft_cyl2_D_mm"), None),
+            ("pump-side frustum", "CONE", engine.get("shaft_frust3_L_mm"),
+             engine.get("shaft_frust3_D_min_mm"),
+             engine.get("shaft_frust3_D_max_mm")),
+        ]
+        if any(length is None or diameter is None
+               for _, _, length, diameter, _ in source_parts):
+            model.unresolved.append(
+                "drive-shaft segment data incomplete; free shaft not emitted")
+            model.facts["shaft"] = "unresolved -- incomplete segment data"
+        else:
+            source_sum = sum(float(part[2]) for part in source_parts)
+            if abs(source_sum - shaft_total) > 0.51:
+                model.unresolved.append(
+                    f"CONFLICT: shaft parts total {source_sum:.1f} mm against "
+                    f"shaft_total {shaft_total:.1f} mm; part ratios retained")
 
-    # ---- motor -----------------------------------------------------------
-    model.add(Primitive(
-        kind="CYLINDER", sube="DRIVER",
-        attrs={"DIAM": motor_dia, "HEIG": motor_len},
-        east=motor_e, north=motor_n, up=shaft_u, ori=ori,
-        note="stator barrel: DIAM/HEIG from engine_shaft CSV"))
+            shaft_offset = engine.get("shaft_axial_offset_mm")
+            natural_end = (abs(shaft_offset) + shaft_total / 2
+                           if shaft_offset is not None else casing_back)
+            engagement = min(max(casing_len * 0.15, 10.0), 40.0)
+            target_end = min(max(natural_end, casing_back + engagement),
+                             casing_along)
+            target_span = target_end - motor_end_face
+            if target_span <= 1.0:
+                target_end = max(casing_back, motor_end_face + 1.0)
+                target_span = target_end - motor_end_face
+            fit_scale = target_span / source_sum
+            if not 0.5 <= fit_scale <= 1.5:
+                model.unresolved.append(
+                    f"CONFLICT: shaft structural fit scale {fit_scale:.3f} "
+                    f"outside preferred 0.5..1.5 range")
 
-    # End bells.  IR-1: a DISH sits on its rim, so each is placed on the
-    # barrel end face and faces outward.
-    for direction, sign in ((motor_end, +1.0), (wet_end, -1.0)):
-        end_vector = AXIS_VECTOR[direction]
-        rim_e = motor_e + end_vector[0] * motor_len / 2
-        rim_n = motor_n + end_vector[1] * motor_len / 2
-        model.add(Primitive(
-            kind="DISH", sube="DRIVER",
-            attrs={"DIAM": motor_dia * REF["motor_end_dish_dia"],
-                   "HEIG": motor_dia * REF["motor_end_dish_heig"],
-                   "RADI": motor_dia * REF["motor_end_dish_radi"]},
-            east=rim_e, north=rim_n, up=shaft_u,
-            ori=f"ORI Z is {direction} and Y is U",
-            note="motor end bell: proportion from /P1501B"))
+            cursor = motor_end_face
+            drive_segments = []
+            for role, kind, source_length, first_dia, second_dia in source_parts:
+                length = float(source_length) * fit_scale
+                centre = cursor + length / 2
+                if kind == "CONE":
+                    attrs = {"DBOT": float(first_dia),
+                             "DTOP": float(second_dia), "HEIG": length}
+                else:
+                    attrs = {"DIAM": float(first_dia), "HEIG": length}
+                model.add(Primitive(
+                    kind=kind, sube="DRIVE_SHAFT", attrs=attrs,
+                    east=plate_e + wet_vector[0] * centre,
+                    north=plate_n + wet_vector[1] * centre,
+                    up=shaft_u, ori=f"ORI Z is {wet_end} and Y is U",
+                    note=f"drive shaft {role}: measured shape, axial fit "
+                         f"{fit_scale:.4f}"))
+                drive_segments.append({
+                    "role": role, "kind": kind,
+                    "source_length": float(source_length), "length": length,
+                    "start": cursor, "end": cursor + length,
+                    "diameter_1": float(first_dia),
+                    "diameter_2": (float(second_dia)
+                                   if second_dia is not None else None),
+                })
+                cursor += length
+
+            model.facts["drive_segments"] = drive_segments
+            model.facts["drive_span"] = (motor_end_face, target_end)
+            model.facts["shaft_fit_scale"] = fit_scale
+            model.facts["shaft_source_total"] = shaft_total
+            model.facts["shaft"] = (
+                f"three-part drive shaft, source {shaft_total:.1f} mm, "
+                f"structural axial fit {fit_scale:.4f}")
+            if abs(fit_scale - 1.0) > 0.01:
+                model.reference_values.append(
+                    f"drive-shaft axial lengths uniformly fitted by "
+                    f"{fit_scale:.4f} to close motor/casing interfaces; "
+                    f"source diameters and part ratios retained")
 
     # Cooling ribs: axial ribs on the full 360 degrees, as /P1501B builds them
     # and as the client required.  Each overlaps the stator and projects
     # beyond it.
-    rib_radial = motor_dia * REF["rib_radial"]
-    rib_thick = motor_dia * REF["rib_thick"]
-    radius = motor_dia / 2
+    if main_primitive is None:
+        raise ValueError(f"{model.tag}: motor main barrel was not resolved")
+    main_dia = main_primitive.attrs["DIAM"]
+    main_len = main_primitive.attrs["HEIG"]
+    rib_radial = main_dia * REF["rib_radial"]
+    rib_thick = main_dia * REF["rib_thick"]
+    radius = main_dia / 2
     # The rib straddles the barrel surface so it always overlaps the stator
     # solid and still projects beyond it, which is what the client required.
     seat = radius - rib_radial * 0.25
@@ -562,11 +960,11 @@ def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaf
         offset_tran = math.cos(angle) * seat
         offset_up = math.sin(angle) * seat
         if long_axis == "N":
-            rib_e = motor_e + offset_tran
-            rib_n = motor_n
+            rib_e = main_primitive.east + offset_tran
+            rib_n = main_primitive.north
         else:
-            rib_e = motor_e
-            rib_n = motor_n + offset_tran
+            rib_e = main_primitive.east
+            rib_n = main_primitive.north + offset_tran
 
         # IR-3a: a rectangular plate on a circular body must rotate with its
         # radial bearing.  The rib is expressed in its OWN frame -- local X
@@ -574,7 +972,7 @@ def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaf
         # rotation is carried by ORI, not by swapping world-aligned lengths.
         model.add(Primitive(
             kind="BOX", sube="DRIVER",
-            attrs={"XLEN": rib_radial, "YLEN": motor_len, "ZLEN": rib_thick},
+            attrs={"XLEN": rib_radial, "YLEN": main_len, "ZLEN": rib_thick},
             east=rib_e, north=rib_n, up=shaft_u + offset_up,
             ori=_rib_ori(long_axis, math.degrees(angle)),
             note=f"cooling rib {index + 1}/{RIB_COUNT} at "
@@ -585,20 +983,20 @@ def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaf
     # Terminal box on the motor crown, and its electrical connection.  It is
     # seated so its underside overlaps the stator surface rather than hovering
     # above the rib tips, which would leave it detached from the machine.
-    box = motor_dia * REF["terminal_box"]
+    box = main_dia * REF["terminal_box"]
     box_height = box * 0.6
-    crown = shaft_u + motor_dia / 2
+    crown = shaft_u + main_dia / 2
     box_centre_u = crown + box_height / 2 - box_height * 0.25
     model.add(Primitive(
         kind="BOX", sube="DRIVER",
         attrs={"XLEN": box, "YLEN": box, "ZLEN": box_height},
-        east=motor_e, north=motor_n, up=box_centre_u,
+        east=main_primitive.east, north=main_primitive.north, up=box_centre_u,
         note="terminal box: proportion from /P1501B, seated on the stator"))
     model.reference_values.append("terminal box proportioned from /P1501B")
 
     model.add(Primitive(
         kind="ELCONN", sube="DRIVER",
-        attrs={}, east=motor_e, north=motor_n,
+        attrs={}, east=main_primitive.east, north=main_primitive.north,
         up=box_centre_u + box_height / 2,
         note="electrical connection"))
 
@@ -609,6 +1007,8 @@ def _build_drive(model, engine, casing_e, casing_n, casing_dia, casing_len, shaf
         "bearing_top": shaft_u - motor_dia * 0.42,
         "width": motor_dia * 0.85,
         "length": motor_len * 0.46,
+        "diameter": motor_dia,
+        "barrel_length": motor_len,
         # The stator's full length, which the mounting feet must straddle.
         "span": motor_len,
     }
@@ -658,9 +1058,10 @@ def _build_nozzles(model, suction, discharge, casing_e, casing_n,
     """
     Emit the two catalogue nozzles.
 
-    Plan position and direction are reproduced exactly -- they are hard
-    constraints.  Only the discharge U is adjusted, and only so the flange
-    lands on the casing crown rather than inside or above the volute.
+    Plan position and direction are reproduced exactly.  The r9 emitted
+    flange-face U and CATR remain fixed in r12.  Only an upward nozzle's HEIG
+    changes: small nozzles penetrate the crown with at least 70% outside;
+    overwidth nozzles begin exactly at the reducer upper face.
     """
     catr = {n.name: n.catr for n in location.nozzles}
 
@@ -671,20 +1072,31 @@ def _build_nozzles(model, suction, discharge, casing_e, casing_n,
         east = row["pos"]["east"]
         north = row["pos"]["north"]
         up = row["pos"]["up"]
+        heig = row["heig"] or 150.0
         note = "plan position and direction preserved exactly"
 
         if letter == "U":
-            # A top discharge belongs on the casing crown.  The nozzle POS is
-            # its FLANGE FACE (IR-9a), so it sits a full projection above the
-            # crown, less a deliberate penetration into the volute.
+            # The nozzle POS is its flange face (IR-9a). Preserve that face,
+            # then solve HEIG from the required bottom-face connection.
             crown = shaft_u + casing_dia / 2
-            wanted = crown - 100.0 + (row["heig"] or 150.0)
+            wanted = _top_nozzle_face_u(row, crown)
             if abs(wanted - up) > 1.0:
                 note = (f"Z adjusted {up:.1f} -> {wanted:.1f} so the flange "
                         f"face clears the casing crown at {crown:.1f}")
                 model.facts.setdefault("nozzle_z_adjustments", []).append(
                     f"{row['role']}: {up:.1f} -> {wanted:.1f}")
                 up = wanted
+            resolution = _top_nozzle_resolution(row, crown, casing_len)
+            root_u = (resolution["nozzle_root_u"] if resolution else
+                      _top_nozzle_interface_u(crown))
+            heig = up - root_u
+            old_heig = row["heig"] or 150.0
+            model.facts.setdefault("top_nozzle_heig_adjustments", []).append(
+                f"{row['role']}: {old_heig:.1f} -> {heig:.1f} mm; root U {root_u:.1f}")
+            if resolution and not resolution["overwidth"]:
+                note += "; HEIG adapted for at least 70% direct casing projection"
+            else:
+                note += "; HEIG adapted for exact bottom-to-reducer contact"
         else:
             # A horizontal nozzle stays on the shaft centreline.
             if abs(up - shaft_u) > 1.0:
@@ -695,7 +1107,7 @@ def _build_nozzles(model, suction, discharge, casing_e, casing_n,
 
         model.add(Primitive(
             kind="NOZZLE", sube=row["role"],
-            attrs={"HEIG": row["heig"] or 150.0},
+            attrs={"HEIG": heig},
             east=east, north=north, up=up,
             ori=f"ORI P1 IS {letter}",
             name=f"{model.element}_{row['role']}_NOZZLE",
@@ -707,7 +1119,7 @@ def main() -> int:
     """
     Write the single combined macro.
 
-    The client asked for the combined file only (2026-08-19), so no per-tag
+    The client asked for the combined file only, so no per-tag
     macros are emitted.  It still contains one independent ``EQUI`` per pump,
     never a shared equipment hierarchy.
     """
@@ -715,9 +1127,10 @@ def main() -> int:
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     models = [build_pump(tag, sources) for tag in sorted(sources["location"])]
 
-    combined = OUTPUT_DIR / "JK_Pump_Build_2026-08-19_all_pumps.pml"
+    combined = (OUTPUT_DIR /
+                "JK_Pump_Build_2026-08-20_top_nozzle_r12_all_pumps.pml")
     combined.write_text(
-        "-- JK_Pump_Build -- all pumps, 2026-08-19 rebuild\n"
+        "-- JK_Pump_Build -- all pumps, 2026-08-20 top-nozzle width branches r12\n"
         "-- One independent EQUI per pump.\n"
         + "\n".join(m.to_pml() for m in models), encoding="utf-8")
 

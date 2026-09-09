@@ -21,8 +21,8 @@ Geometry conventions (Iron Rules)
 ---------------------------------
 * ``ORI`` before ``POS`` for every oriented primitive; ``NOZZLE`` is the
   exception and takes ``CATR`` -> ``POS`` -> ``ORI P1 IS`` (IR-2, IR-9a).
-* ``POS`` is the geometric centre for BOX/CYLI/CONE, the rim plane for DISH,
-  and the profile end plane for EXTRUSION (IR-1).
+* ``POS`` is the geometric centre for BOX/CYLI/CONE/PYRAMID, the rim plane for
+  DISH, and the profile end plane for EXTRUSION (IR-1).
 * Each pump is one ``EQUI`` anchored at ``POS E 0 N 0 U 0`` so the
   world-absolute child coordinates below are read in the world frame (IR-7).
 * PML1 only, no render prologue, ``--`` comments (IR-4, IR-5).
@@ -150,7 +150,8 @@ class Primitive:
             lines += ["TEMP -100000degC", "PRES 0pascal", "TPRESS 0pascal",
                       "DUTY unset"]
         else:
-            for key in ("DIAM", "HEIG", "XLEN", "YLEN", "ZLEN",
+            for key in ("DIAM", "DTOP", "DBOT", "HEIG",
+                        "XLEN", "YLEN", "ZLEN",
                         "XBOT", "YBOT", "XTOP", "YTOP", "HEIG2",
                         "XOFF", "YOFF", "RADI"):
                 if key in self.attrs:

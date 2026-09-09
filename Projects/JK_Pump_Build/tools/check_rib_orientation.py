@@ -78,8 +78,8 @@ def main() -> int:
         model = build_pump(tag, sources)
         facts = model.facts
         motor = next((p for p in model.primitives
-                      if p.sube == "DRIVER" and p.kind == "CYLINDER"
-                      and p.attrs.get("HEIG", 0) > 100), None)
+                      if p.sube == "DRIVER"
+                      and "motor main stator barrel" in p.note), None)
         if motor is None:
             continue
         long_axis = facts["long_axis"]

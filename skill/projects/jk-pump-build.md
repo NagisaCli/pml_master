@@ -49,6 +49,11 @@
   on the same horizontal centreline plane. They must not inherit the normal
   suction-defines-longitudinal rule.
 
+> **User-corrected 2026-08-23 / 2026-08-24 (JK_Pump_Build).**
+
+- High-fidelity MC pump template from `205-PU-054` (9 subequipments, 4 nozzles, 274 primitives) replaces `205-PU-038`, `205-PU-018`, `203-PU-020` (rotated 90° CCW, main shaft West) and new pump `204-PU-028` is added at `(22370, 6986, 0)` mm (rotated 90° CW, nozzle East).
+- All 26 non-MC pumps and the native Zone structure are preserved 100% untouched.
+
 These are project-specific requirements and live in the project data/DO rather
 than being generalized as defaults for all pump projects.
 
@@ -1361,7 +1366,7 @@ EXTRUSION washer was silently skipped — 12 unchecked parts per pump, and the
 suite still reported "0 problems". This is IR-11f in its purest form: the
 silence meant the verifier had not looked, not that the geometry was sound.
 
-Adding PYRAMID (base-centre datum, tapering up) and EXTRUSION (profile
+Adding PYRAMID (geometric-centre datum, tapering along local Z) and EXTRUSION (profile
 end-plane datum, IR-1) to `bounds()`, then adding three support-specific
 mutations — floating washer, displaced gusset, sunk rail — restored real
 coverage. All twelve mutations are now caught.
@@ -1749,3 +1754,374 @@ relations legitimately.
 **Generalised rule: when the deliverable is "reproduce this shape", the
 verifier needs a shape metric.** Fit checks and shape checks are independent,
 and passing every fit check tells you nothing about resemblance.
+
+### User-corrected 2026-08-19 (eighth): member count is not reconstruction
+
+The client loaded the preceding candidate and rejected its base: it neither
+fully restored the reference pump base nor adapted the support to each pump.
+The render was authoritative. The numeric suite was green because its shape
+metric checked only inventory and pairwise position ordering; neither property
+tests local primitive axes, machine-relative datums or the shape of a profile.
+
+Four generator errors were present simultaneously:
+
+1. **Duplicate baseplate.** The project BOX was emitted first, then the native
+   base's own five-member skid (including its centre plate) was copied over it.
+   The native skid now replaces the old BOX and its combined envelope is checked
+   against the project plate data.
+2. **One plan scale for three different objects.** Skid, pump support and motor
+   support all used baseplate width/length. r2 uses three mappings: skid to the
+   base envelope, pump station to casing diameter/length, and motor station to
+   stator diameter/length, with station spans capped at their available plate
+   regions.
+3. **Wrong motor datum.** N -804.62 is the reference sole-plate centre, not the
+   motor centre. The native motor is centred at N -880. Mapping the former to a
+   target motor centre erased a real 75.38 mm offset. r2 maps machine centre to
+   machine centre and carries every support offset from it.
+4. **Support penetration removed.** The reference pump saddle reaches U -110
+   against a radius-170 casing bottom at U -170; its 60 mm overlap is part of
+   the construction. The motor stays similarly reach U -125 against a
+   radius-180 stator bottom at U -180. The rejected adapter compressed both to
+   zero overlap, producing shallow supports. r2 preserves 60/170 and 55/180 of
+   target machine radius.
+
+The local-frame defect was just as important. A native PYRAMID with `Y is E`
+has local X along the pump, not across it. Default-oriented elements must gain
+an explicit rotated ORI on S/E/W pumps. LOOP vertices are local profile
+coordinates, and the ten hex washers must scale isotropically with hardware;
+stretching their X/Y coordinates by plate aspect ratio destroys the hexagon.
+
+The replacement verifier addresses every layer one-to-one for source elements
+1..43: kind, station, target position, rotated ORI, local-axis dimensions,
+offsets and profile vertices. Five new mutations reproduce the rejected
+mechanisms (duplicate plate, compressed saddle, distorted hex, shifted motor
+station and swapped gusset axes). The suite catches 24/24 mutations. A separate
+macro comparison proves all 168 non-base SUBE blocks are byte-identical between
+the rejected candidate and r2.
+
+**Generalised rule: a native assembly is defined in member-local frames and in
+machine-relative datums.** Inventory plus world-position ordering is not a
+shape metric. A fidelity check must include orientation, local dimensions,
+profiles and the original member-to-machine relationship.
+
+### User-corrected 2026-08-19 (ninth): placement and ORI used opposite handedness
+
+The client loaded r2 and found every support PYRAMID leaning the wrong way and
+the hex heads offset from their screw shafts. Both defects came from confusing
+an exported origin with the physical feature it represented.
+
+The PYRAMID defect was a reflected transverse frame. For a reference machine
+pointing +N, reference +E is its right-hand transverse direction. The adapter
+instead used -E for member placement while `rotate_ori()` correctly kept +E in
+the local ORI. A left-side gusset was moved to the right side without reversing
+its offset, so its top moved farther outward. The shape checker repeated the
+same reflected `across` vector and therefore certified the defect. r3 uses
+`across = (along_north, -along_east)` consistently and adds an independent
+property: every offset PYRAMID top must be closer to the machine axis than its
+base.
+
+The fastener defect came from an off-origin LOOP. The reference hex profile is
+balanced about approximately (-17.32, +10) in its local frame; EXTRUSION POS is
+the profile origin, not the head midpoint. Machine spacing was adapted
+anisotropically while the regular hex was intentionally scaled isotropically,
+so mapping raw POS pulled the head away from the bolt. r3 pairs each of the ten
+reference hex midpoints to its nearest unique anchor CYLINDER, maps that axis,
+then solves the emitted EXTRUSION POS backwards from the scaled LOOP geometry.
+The rounded emitted macro is parsed independently;
+all 300 head/shaft pairs must remain coaxial within 0.05 mm.
+
+Two mutations reproduce the E3D defects directly: mirror every PYRAMID
+position without changing its ORI, and shift a hex head off its anchor. Both
+must be caught before delivery.
+
+**Generalised rule: rotation and translation must share one handed coordinate
+frame, and an off-origin profile must be adapted from its functional axis, not
+blindly from the owner's POS.** A checker must not derive its comparison
+frame from the same helper it is supposed to audit.
+
+### User-corrected 2026-08-19 (tenth): preserve layout, solve every bearing interface
+
+The client accepted r3's structural combination and plan arrangement but
+rejected its vertical sizing. Pumps in the set have different casing sizes,
+motor sizes and shaft elevations. Keeping reference plate thickness while
+mapping the top of every member independently left sole plates 6..64 mm above
+the skid and amplified the reference's decorative gaps between gusset layers.
+
+r4 keeps the accepted 43-member plan construction, local ORIs, taper direction,
+profiles and fastener axes. It changes only the vertical span of members whose
+job is to join two known bearing surfaces:
+
+1. each sole plate starts on the target skid top and keeps reference-scaled
+   plate thickness;
+2. each lower gusset starts on its station sole top and ends at its adapted
+   upper bearing;
+3. each casing saddle gusset starts on the mounting-pad top and ends at the
+   machine-relative saddle top;
+4. each hex head starts on the sole top and keeps fixed hardware thickness;
+   each anchor starts at the native-scaled embedment and ends at the head top.
+
+The decisive regression is a contact graph containing only structural BOX and
+PYRAMID members. All 23 structural members must be in one component rooted in
+the five-member skid. Anchors and heads are excluded: a fastener touching two
+floating parts is not a load path. Three direct mutations open a sole/skid gap,
+open a gusset/sole gap, and stretch a hex head by support height; all are caught.
+
+**Generalised rule: after a native arrangement is accepted, adapt fabricated
+support height from functional bearing interfaces, not from one homogeneous
+vertical transform. Preserve plan construction and plate/hardware thickness,
+but solve every load-bearing span from the surfaces it must physically join.**
+
+### User-corrected 2026-08-19 (eleventh): AABB crossing is not a bearing
+
+The r4 E3D reload exposed two remaining PYRA gaps. Inner sole gussets 6..9 had
+their bottom faces corrected but retained independently mapped native top
+elevations. Because mounting pads preserve fabricated thickness from their
+mapped top faces, motor gussets stopped below the pad. Outer stays 14..19 kept
+the native clearance above their sole plates and appeared to float at the base.
+
+The prior structural graph still passed. It connected any pair whose axis-
+aligned bounding boxes intersected. Two tapered plates can have overlapping
+bounding boxes, or even cross through an intermediate member, while neither
+terminal face bears on its intended plate. That graph answered proximity, not
+construction.
+
+r5 defines the terminal faces explicitly. Sole gussets 6..9 span from the sole
+top to the station mounting-pad underside. Side and motor stays 14..19 span
+from the sole top to their preserved machine-relative top. The contact graph
+adds an edge only when the lower top face and upper bottom face share the same
+U and their actual horizontal rectangles have positive plan overlap. Hardware
+remains excluded.
+
+Two new mutations shorten an inner gusset below its top plate and lift an outer
+stay base while retaining its top. Both must be detected independently of all
+generic connectivity checks.
+
+**Generalised rule: support verification must name both intended terminal
+surfaces. AABB overlap is useful for broad collision screening, but it cannot
+certify a welded or bearing interface on a tapered member.**
+
+### User-corrected 2026-08-19 (twelfth): PYRAMID POS is the geometric centre
+
+r5 made the intended face-to-face spans explicit but wrote each span's lower U
+directly as PYRAMID POS. The client-loaded E3D result was exactly the failure a
+centre datum predicts: long outer stays extended half their height through the
+skid and below the foundation, while inner gussets extended only half their
+requested height above the lower face and remained short of the top plate.
+
+The native reference independently resolves the datum. Element 6 has POS
+`-236` and HEIG `37`; centre bounds `-254.5..-217.5` join the sole top `-255`
+to the motor-pad underside `-218`. Elements 4/5 have POS `-170` and HEIG `60`;
+centre bounds `-200..-140` start exactly on the pump-pad top `-200`. The former
+base-face interpretation produced unexplained native gaps at both interfaces.
+
+r6 keeps the terminal faces solved in r5 but emits `POS U = (low + high) / 2`.
+The shared bounds function now builds PYRAMID bottom vertices at local
+`Z=-HEIG/2` and top vertices at `Z=+HEIG/2`, with XOFF/YOFF applied only to the
+top face. Correcting this datum also changes the true reference station tops:
+the pump saddle top is `-140`, not `-110`, and the motor station maximum is the
+mounting-pad top `-173`, not a stay top at `-125`.
+
+A dedicated mutation writes the intended bottom into POS again. It must be
+caught as below-foundation geometry before delivery.
+
+**Generalised rule: solve a PYRAMID from physical end faces, then emit their
+midpoint as POS. Its bounds are POS plus or minus half HEIG along local Z; an
+end-face POS interpretation moves both interfaces by half the member height.**
+
+### Client-accepted 2026-08-20 (thirteenth): r6 closes the base rebuild
+
+The client visually reviewed r6 in E3D and accepted it. This promotes
+`output/2026-08-19_pumps_r6/JK_Pump_Build_2026-08-19_base_rebuild_r6_all_pumps.pml`
+from candidate to the current accepted base-rebuild baseline.
+
+The main gain is not only the corrected macro. The project now has a complete
+causal chain from visible symptom to retained regression: reference fidelity,
+right-handed placement/ORI, fastener-axis mapping, per-pump bearing spans,
+terminal-face contact and r6 midpoint PYRAMID bounds. Thirty-two mutations
+exercise those failures, the emitted macro is parsed independently, and all
+168 non-base SUBE blocks remain unchanged.
+
+The main loss was avoidable iteration. Several green local checks certified
+wrong models because they shared the generator's assumptions. Inventory and
+ordering did not prove shape; a reflected frame was self-consistent; an AABB
+crossing did not prove end-face contact; and the final r5 verifier solved the
+right faces but attached them to the wrong PYRAMID reference plane.
+
+**Retained lesson:** begin with native numeric evidence and physical bounds,
+then test properties that can falsify the implementation. For support steel,
+name both terminal interfaces, verify their real faces and foundation bounds,
+and keep acceptance separate from static verification until the client has
+loaded and viewed the macro in E3D.
+
+### Client-requested 2026-08-20 (fourteenth): measured motor cones and drive train
+
+r7 starts from the accepted r6 base and changes the motor/drive scope. The
+updated CSV describes a motor as an overall axial envelope plus rear frustum,
+small rear barrel, main stator barrel and front frustum. The old generic DRIVER
+DISH primitives are therefore removed. Each nonzero end section is a centre-
+datum CONE using its measured end diameters; explicit zero-length sections are
+omitted. Cooling ribs and the terminal box now follow the actual main stator
+segment instead of a coarse full-envelope cylinder.
+
+The free non-MC drive is not a generic bearing-plus-coupling approximation. It
+is exactly two cylinders followed by a pump-side circular frustum. CSV
+diameters and the three axial part ratios remain authoritative, but literal
+offsets do not always close the motor and casing interfaces. r7 uniformly fits
+only the axial lengths from the motor front to controlled casing engagement.
+This is reported per tag; it keeps the measured topology and diameters while
+preventing a detached or deeply intersecting drive train. MC shaft fields are
+N/A, so the three MC pumps use no free DRIVE_SHAFT and retain a close-coupled
+lantern.
+
+Three project tags have no CSV row. Rather than leave the accepted model
+incomplete, a deterministic fallback selects the nearest measured non-MC
+family from plate length, plate width and casing diameter, penalising donor
+families whose motor plus shaft already consume nearly the full skid. Axial
+values scale with plate length and radial values with width. The donor and both
+scales are recorded as Reference Values; the source CSV is unchanged.
+
+**Retained lesson:** interpret a reported total as the contractual envelope and
+the subparts as a closed construction inside it. Preserve measured shape and
+diameters; when raw offsets conflict with physical attachment, adapt the
+minimum axial degrees of freedom and record the fit. An explicit N/A should
+select a structurally different arrangement, not an invented dimension.
+
+### User-corrected 2026-08-20 (fifteenth): symmetric end cones and motor length
+
+The r7 model loaded with the requested motor/drive topology, but the client
+identified two interpretation defects. First, `205-PU-012` looked too short:
+r7 treated its 997.4 mm source total as the complete accessory-inclusive
+envelope and reduced the 959.6 mm-diameter main stator to only 717 mm. Second,
+the rear/front cone diameters followed conflicting fields independently. This
+made the end shapes dissimilar and could make an outward face almost as large
+as, or larger than, the main stator.
+
+r8 applies the client's physical definition. Every motor has two same-length,
+mirrored CONEs. The inner faces equal the main-stator diameter; the outward
+faces equal exactly 2/3 of it, overriding conflicting diameter rows. If only
+one side has a positive measured length, that length supplies both cones. A
+rear small barrel, when present, sits outboard of the rear cone and shares the
+2/3 diameter so there is no step at their interface.
+
+`205-PU-012` is a narrow explicit exception: its 997.4 mm value becomes the
+main-stator length, with the 129.4 mm rear small barrel and two 75.5 mm cones
+outside it. The resolved motor envelope is 1277.8 mm. The free shaft begins at
+the new front face and is uniformly refitted with its source diameters and part
+ratios intact.
+
+**Retained lesson:** a data field named “total” does not outrank a user-confirmed
+physical decomposition when the rendered equipment proves that interpretation
+wrong. Verify mirrored end geometry by the actual inward/outward faces, not by
+the presence of two CONE primitives, and keep a per-tag envelope override narrow.
+
+### User-corrected 2026-08-20 (sixteenth): the terminal motor body must be CONE
+
+r8 passed the two-cone count, symmetry and 2/3-diameter checks but still failed
+the client's physical construction. Twenty-seven non-MC motors placed the CSV
+rear-small CYLINDER outboard of the rear cone. The body chain contained a valid
+rear CONE, yet the actual motor tail was still a cylinder.
+
+r9 removes the terminal rear-small cylinder and absorbs its axial allowance
+into the main stator, preserving the r8 total motor envelope, motor centre,
+front face, shaft fit and base. `205-PU-012` therefore remains 1277.8 mm long;
+its main barrel becomes 1126.8 mm between two 75.5 mm terminal cones.
+
+The verifier now sorts only the axial motor body chain and requires its
+outboard-most primitive to be the rear CONE. A mutation converts that terminal
+cone to CYLINDER and must be caught independently of cone count and diameter
+checks.
+
+**Retained lesson:** counting the requested primitive somewhere in an assembly
+does not prove it forms the requested terminal. Verify ordered topology: identify
+the physical extremum and assert the element type occupying that end.
+
+### User-corrected 2026-08-20 (seventeenth): an up nozzle needs a casing-owned connection
+
+The client accepted r9's motor tail, then identified the next independent
+construction defect: an upward catalogue NOZZLE was treated as connected merely
+because its computed root lay near the casing radius. That did not prove a
+visible, load-bearing casing outlet existed, and the old relational check did
+not require the nozzle footprint to fit the casing's axial width.
+
+r10 freezes every r9 native NOZZLE block byte-canonically: CATR, POS (including
+flange-face U), ORI and HEIG remain unchanged. It adds equipment primitives in
+CASING. Fourteen DN150 openings fit their casing axial width and receive one
+straight seated CYLINDER boss. Fourteen exceed that width and receive a lower
+socket contained to 90% of casing width, a concentric CONE and a DN-sized upper
+CYLINDER neck. The lower body penetrates the crown; the upper body projects
+visibly and overlaps the existing catalogue neck below its unchanged face.
+Every adjacent elevation and diameter closes exactly.
+
+`205-PU-054` exposed a second hidden premise. Its fixed MC casing centre and
+fixed top-nozzle centre are 308 mm apart in plan, outside the 140 mm casing
+barrel width. Neither datum may move. r10 adds one overlapping horizontal
+CYLINDER as a solid casing basic body between the volute and vertical socket;
+it is not a PIPE or BRANCH component.
+
+The verifier now checks occupied lower/upper faces, crown embedment, visible
+projection, nozzle-neck overlap, ordered straight/reducer topology, diameter
+continuity, socket containment and the offset bridge's contact at both ends.
+Four new mutations delete the connector, open an interface, widen the socket
+beyond the casing and remove the offset bridge.
+
+**Retained lesson:** a nozzle datum near a vessel is not evidence of a visible
+equipment-side connection. Freeze the native connection element when required,
+model the casing outlet separately, and verify the real occupied load path and
+its ordered transition geometry. A radial-only reach test that ignores the
+casing's axial extent can certify a physically detached nozzle.
+
+### User-corrected 2026-08-20 (eighteenth): nozzle bottom must meet transition top
+
+r10 preserved each top NOZZLE HEIG while adding a connector that rose to eight
+millimetres below the fixed flange face. Because NOZZLE POS is the flange face,
+the preserved HEIG left every root 100 mm below the casing crown. The new
+primitive body therefore surrounded and overlapped the catalogue nozzle instead
+of closing on its bottom. Its verifier explicitly required this overlap, so the
+wrong spatial premise was shared by generation and checking.
+
+r11 keeps CATR, plan position, flange-face U and ORI fixed, but adapts HEIG on
+the 28 upward nozzles. The casing connector spans from 20 mm inside the crown to
+20 mm above it; the physical nozzle bottom is then solved as
+`flange-face U - HEIG` and required to equal that upper face. Fourteen straight
+bosses, fourteen overwidth CYLINDER/CONE/CYLINDER transitions and the fixed
+`205-PU-054` offset bridge remain. Horizontal nozzles are unchanged.
+
+The relational verifier now evaluates the signed terminal difference. A
+positive value is a gap, a negative value is penetration and only zero within
+tolerance passes. A new mutation increases top-nozzle HEIG by 100 mm without
+moving the face, reproducing r10's overlap and proving this property is checked.
+
+**Retained lesson:** for a catalogue NOZZLE, derive the root from its actual
+datum semantics before building adjacent equipment geometry. A visible overlap
+between bodies is not a connection; certify the two intended terminal faces and
+permit the minimum authorised attribute change needed to make them coincide.
+
+### User-corrected 2026-08-20 (nineteenth): connector topology depends on nozzle width
+
+The client supplied a schematic and clarified that r11 had over-generalised
+the connector. The socket/reducer construction applies only when the verified
+catalogue nozzle DN exceeds the casing barrel's axial width. r11 also retained
+an extra upper CYLINDER between its CONE and native NOZZLE, although the
+schematic requires the NOZZLE bottom to start directly on the CONE top.
+
+r12 uses two explicit branches while retaining the r9 native flange-face datum,
+CATR, plan position and ORI. Fourteen contained nozzles receive no additive
+CASING primitive. Their native NOZZLE HEIG is resolved so the root penetrates
+the casing crown and 75% of the body remains outside, giving margin over the
+client's 70% minimum. Fourteen overwidth nozzles receive exactly a lower
+CYLINDER socket and one concentric CONE. The socket starts 20 mm inside the
+crown and remains visible above it; the CONE top equals the native NOZZLE root.
+There is no primitive upper neck. The fixed `205-PU-054` offset bridge remains
+because moving either source plan datum is prohibited.
+
+The emitted-macro comparison proves that only 14 CASING blocks gain 29 solids
+(14 sockets, 14 CONEs and one offset bridge), while 28 upward DISCHARGE blocks
+change HEIG only. Fourteen overwidth terminal differences are 0.000 mm and the
+fourteen direct-nozzle external ratios are 0.7500. A dedicated mutation doubles
+a direct NOZZLE HEIG and is rejected when its external ratio falls to 0.375.
+
+**Retained lesson:** do not turn a conditional user sketch into a universal
+assembly pattern. Classify first from the stated geometric predicate, then
+verify each branch using its own physical invariant: terminal-face equality for
+the reducer branch, and crown penetration plus minimum external proportion for
+the direct branch.

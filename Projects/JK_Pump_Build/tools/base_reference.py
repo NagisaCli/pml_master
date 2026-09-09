@@ -387,13 +387,12 @@ def build_base_for_pump(transform: BaseTransform,
             across, along = transform.scale_pair(vertex_e, vertex_n)
             profile.append((across, along))
 
-        # Guard the foundation using the element's OWN datum: the reference
-        # keeps nothing below its plate underside, and per-station scaling can
-        # push a member a fraction under.  A BOX is centred on POS, so it is
-        # lifted by whatever its lower half overhangs; PYRAMID and EXTRUSION
-        # grow upward from POS and need only their POS checked.
+        # Guard the foundation using the element's OWN datum. BOX and PYRAMID
+        # are centred on POS; EXTRUSION grows from its profile end plane.
         if element.kind == "BOX":
             low = up - attrs.get("ZLEN", 0.0) / 2
+        elif element.kind == "PYRAMID":
+            low = up - attrs.get("HEIG", 0.0) / 2
         elif element.kind == "CYLINDER":
             # An anchor bolt runs vertically here; its POS is its centre.
             low = up - attrs.get("HEIG", 0.0) / 2

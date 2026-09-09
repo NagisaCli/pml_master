@@ -348,8 +348,10 @@ Client follow-up on the same pass — 2026-08-13
 Client follow-up, third round — 2026-08-13
 ------------------------------------------
 
-- A nozzle is just the nozzle: emit the catalogue NOZZLE only (CATR, POS,
-  ORI P1, HEIG); do not add separate neck/flange primitives beside it.
+- A native nozzle SUBE contains the catalogue NOZZLE only (CATR, POS, ORI P1,
+  HEIG); do not add separate neck/flange primitives inside that SUBE. The later
+  r10 correction permits casing-owned primitive outlet bosses below upward
+  nozzles; those are CASING geometry, not duplicate nozzle or flange solids.
 - Bottom supports must carry physical detail: sole plate on the baseplate
   top + pedestal web + two triangular EXTRUSION gussets + two hold-downs
   with hex nuts, chained plate -> sole -> pedestal -> machine.
@@ -780,3 +782,295 @@ Client instruction — 2026-08-19 (Base_reference.txt is the GEOMETRIC master)
   mirrored base are all caught.
 - Status: 30 pumps, 2646 elements. verify 0, shape 0, text 0, ribs 0,
   19/19 mutations. Re-load required (IR-11d).
+
+Client rejection and correction — 2026-08-19 (base rebuild r2)
+----------------------------------------------------------------
+
+- The client rejected the preceding base rebuild after an E3D visual load:
+  it did not fully reproduce the reference pump base and was not adapted to
+  the corresponding pump. The supplied screenshot is the acceptance evidence;
+  locally clean numeric checks do not override it (IR-11d).
+- The rejected adapter had four independently measurable defects:
+  * it emitted the project's old full BASEPLATE BOX and then all 43 native base
+    members, duplicating the baseplate;
+  * it scaled pump and motor stations from the overall plate dimensions rather
+    than from the target casing and stator dimensions;
+  * it aligned reference motor support N -804.62 to the target motor centre,
+    losing the reference's real 75.38 mm support-to-motor offset (the reference
+    motor centre is N -880);
+  * it compressed the pump support top to the casing underside and the motor
+    support top to the stator underside. In the native reference the pump
+    saddle penetrates 60/170 of casing radius and the motor stays penetrate
+    55/180 of stator radius; removing those overlaps made both supports shallow.
+- Local axes were also mishandled: default-oriented members were not rotated on
+  S/E/W pumps; PYRAMID local X/Y dimensions were treated as world axes; true
+  hex washer profiles were stretched anisotropically.
+- r2 replaces the old transform with a three-frame adapter:
+  * five skid members -> the confirmed project base envelope and datum;
+  * 17 pump-station members -> target casing diameter and axial length;
+  * 21 motor-station members -> target stator diameter and axial length, aligned
+    to the target motor centre while preserving the native machine offset.
+- Every native member is identified by source index 1..43. Kind, station,
+  rotated ORI, local-axis dimensions, offsets and LOOP profile are checked
+  one-to-one. Hardware and gusset plate thickness scale from the 50 mm project
+  plate, not from machine width.
+- The previous combined macro remains unchanged under
+  `output/2026-08-19_pumps/`. The new candidate is isolated under
+  `output/2026-08-19_pumps_r2/`.
+- Status: 30 pumps, 2616 elements; verify 0, reference fidelity 0, text 0,
+  972 ribs correct, 24/24 mutations caught, and all 168 non-base blocks exactly
+  unchanged from the rejected candidate. Fresh E3D visual reload required.
+
+Client E3D correction — 2026-08-19 (PYRAMID handedness and anchor coaxiality)
+-------------------------------------------------------------------------------
+
+- The r2 E3D load is rejected as the current candidate. The client observed
+  that the support PYRAMIDs all lean in the opposite direction and that the
+  hex screw heads do not lie on their screw-shaft axes.
+- Preserve the reference's plan handedness: reference +E is the right-hand
+  transverse direction of reference +N. Member positions and local ORIs must
+  use the same rotation; reflecting positions while rotating ORIs normally is
+  forbidden.
+- Every PYRAMID with XOFF or YOFF must taper toward the pump/motor centreline,
+  never away from it. Verify the resulting top-centre direction numerically.
+- The native hex EXTRUSION LOOP is off-origin. Do not equate EXTRUSION POS with
+  the screw-head centre. Compute the LOOP's physical centre and place it exactly
+  on the paired anchor CYLINDER plan axis after adaptation.
+- Hardware pairing is one-to-one: ten hex heads and ten anchor shafts per pump,
+  with no reused or unmatched axis.
+- Only /P1501B-BASE-derived geometry may change from r2. All non-base SUBE
+  blocks must remain exactly unchanged.
+- Output: `output/2026-08-19_pumps_r3/`. It remains a candidate until a fresh
+  E3D visual reload confirms the result (IR-11d).
+
+Client E3D correction — 2026-08-19 (per-pump support-size adaptation)
+------------------------------------------------------------------------
+
+- The client accepts r3's structural composition and arrangement, including
+  PYRAMID handedness and head/shaft plan coaxiality, but rejects its vertical
+  sizing. Different pump sizes and shaft heights exposed gaps between support
+  members and left sole plates detached from the skid.
+- Preserve the accepted 43-member inventory, plan arrangement, local ORIs,
+  profiles and hardware axes. Adapt only the member heights and bearing faces
+  needed to close the load path for each individual pump.
+- Four native sole plates now keep their hardware-scaled thickness and bear
+  directly on the target skid top. They no longer hang from a mapped upper
+  face, which caused 6..64 mm gaps across the project set.
+- Four lower gussets extend from their station sole-plate top to the already
+  adapted upper bearing. The two casing saddle gussets extend from the pump
+  mounting-pad top to their machine-relative saddle tops. Native decorative
+  air gaps are not preserved when they break the requested construction.
+- Hex-head thickness remains the reference hardware thickness scaled from the
+  50 mm project plate; it is never stretched by shaft elevation. Each anchor
+  starts at the reference-scaled embedment and ends at its paired head top.
+- Structural continuity is checked on BOX/PYRAMID members 1..19 and skid
+  members 40..43 only. All must join one component rooted in the five-member
+  skid; CYLINDER anchors and EXTRUSION heads are excluded so hardware cannot
+  conceal a floating support.
+- Output: `output/2026-08-19_pumps_r4/`. Status: 30 pumps, 2616 elements;
+  verify 0, reference/load-path fidelity 0, emitted text 0, 29/29 mutations,
+  and all 168 non-base blocks unchanged from r3. Fresh E3D reload required.
+
+Client E3D correction — 2026-08-19 (PYRA terminal-face closure)
+------------------------------------------------------------------
+
+- The r4 E3D reload shows progress but remains rejected for two visible PYRA
+  interface defects. The supplied front and side screenshots are authoritative
+  even though the r4 AABB-based structural graph reported continuity.
+- Inner sole gussets 6..9 must be sized separately for each pump: their bottom
+  faces bear on their station sole plates and their top faces meet the underside
+  of the corresponding pump or motor mounting plate. Mapping a native top U is
+  insufficient because the mounting plate keeps fixed fabricated thickness.
+- Outer side/motor stays 14..19 retain the accepted plan arrangement and
+  machine-relative top faces, but their bottom faces must be extended to the
+  corresponding fixed sole-plate top. The native starting clearance is not a
+  valid target construction detail.
+- Contact verification must compare the real horizontal end faces and require
+  positive plan overlap. AABB intersection between two crossing tapered solids
+  does not prove that either end face is seated.
+- Output: `output/2026-08-19_pumps_r5/`. Status: 30 pumps, 2616 elements;
+  all 4 inner-gusset top interfaces and all 6 outer-stay bottom interfaces per
+  pump have zero gap; verify 0, end-face/reference fidelity 0, emitted text 0,
+  31/31 mutations, and all 168 non-base blocks unchanged from r4. Fresh E3D
+  reload required.
+
+Client E3D correction — 2026-08-19 (PYRAMID geometric-centre datum)
+---------------------------------------------------------------------
+
+- The r5 E3D reload is rejected. Long outer PYRAMIDs pass through the skid and
+  below the foundation, while the highlighted inner PYRAMIDs still stop below
+  the mounting top plate.
+- Root cause: r5 solved correct bottom/top faces but emitted the intended bottom
+  face as PYRAMID POS. E3D PYRAMID POS is its geometric centre, so the occupied
+  local-Z span is `POS - HEIG/2 .. POS + HEIG/2`.
+- Native evidence is discriminating: reference element 6 (`POS U -236`,
+  `HEIG 37`) spans `-254.5..-217.5`, joining sole top `-255` to mounting-pad
+  underside `-218`; reference elements 4/5 span `-200..-140` around POS `-170`
+  and start exactly on the pump mounting-pad top `-200`.
+- For every adapted PYRAMID, first solve the required physical low/high faces,
+  then emit `HEIG = high - low` and `POS U = (low + high) / 2`. Never emit a
+  terminal face directly as POS.
+- Update every verifier and mutation to use centre-datum PYRAMID bounds. Require
+  the emitted midpoint explicitly, zero terminal-face gaps, and no occupied
+  support geometry below the foundation.
+- Output: `output/2026-08-19_pumps_r6/`. Status: 30 pumps, 2616 elements;
+  verify 0, reference/end-face fidelity 0, emitted text 0, 32/32 mutations,
+  972 ribs correct, and all 168 non-base blocks unchanged from r5. Fresh E3D
+  reload required.
+
+Client acceptance and retained lessons — 2026-08-20
+----------------------------------------------------
+
+- The client visually reviewed r6 in E3D and accepted it. Treat
+  `output/2026-08-19_pumps_r6/JK_Pump_Build_2026-08-19_base_rebuild_r6_all_pumps.pml`
+  as the current accepted base-rebuild baseline.
+- Preserve the accepted 43-member reference-derived base construction, its
+  right-handed plan mapping, fastener coaxiality and per-pump interface-driven
+  vertical adaptation unless the client explicitly reopens them.
+- The costly part of this task was not syntax but false geometric assumptions
+  shared by the generator and its verifier: inventory/order was mistaken for
+  shape fidelity, AABB crossing for bearing contact, and a terminal face for
+  PYRAMID POS.
+- Future adaptations must solve named physical low/high faces first, emit a
+  PYRAMID midpoint POS, verify actual end-face overlap and reject any occupied
+  support bound below the foundation. A clean local suite remains a candidate
+  until client E3D visual review.
+
+Client motor and drive-train rebuild — 2026-08-20
+--------------------------------------------------
+
+- Starting from the accepted r6 base, replace the two generic DRIVER DISH end
+  covers with the circular-frustum and cylinder construction measured in
+  `engine_shaft_measurements_updated.csv`. A source segment with explicit zero
+  length is omitted; it is not replaced by an invented solid.
+- Treat `engine_total_L_mm` as the governing motor envelope. Emit the measured
+  rear frustum, rear small cylinder, main stator cylinder and front frustum in
+  one closed sequence. Where the MC part sum conflicts with the overall
+  length, retain the envelope and fit the main barrel while reporting the
+  conflict.
+- For every non-MC row, rebuild the free drive shaft as exactly two CYLINDERs
+  followed by one pump-side CONE. Preserve source diameters and axial part
+  ratios. If literal offsets would detach or over-penetrate the assembly,
+  uniformly fit the three axial lengths between the motor front and controlled
+  casing engagement; structural continuity has priority.
+- MC rows explicitly carry `N/A` shaft data. Do not invent a free shaft; retain
+  a continuous close-coupled lantern between motor and casing.
+- `203-PU-020`, `203-PU-026` and `205-PU-004` have no CSV row. Complete them
+  with traceable Reference Values from the nearest measured non-MC family,
+  selected from base envelope/casing similarity and axial occupancy. Scale
+  axial values by plate length and radial values by plate width; never edit the
+  supplied CSV.
+- Preserve the accepted r6 base and support elevation for directly sourced
+  pumps. Completing the three formerly driver-less pumps may adapt their full
+  machine/support relationship, but nozzle plan positions/directions remain
+  hard constraints.
+- Output: `output/2026-08-20_motor_drive_r7/`. Status remains candidate pending
+  a fresh E3D load and client visual acceptance.
+
+Client E3D visual correction — 2026-08-20 (symmetric motor end cones)
+---------------------------------------------------------------------
+
+- r7 is visually rejected as the current motor candidate. `205-PU-012` became
+  too short because the 997.4 mm source total was treated as an envelope that
+  already included every end component, compressing its main stator to 717 mm.
+- Every motor must have a small circular frustum at both axial ends. The front
+  and rear frustums shall have the same resolved length and mirrored shape.
+- Each frustum joins the full main-stator diameter at its inner face and tapers
+  to a smaller outward face. The outward diameter is 2/3 of the main-stator
+  diameter. This user-specified ratio overrides conflicting source diameters.
+- If one frustum length is zero or N/A, use the measured opposite end for both.
+  The motor/outboard tail itself must be the rear CONE. A rear-small-cylinder
+  source allowance must be absorbed into the main stator; no CYLINDER may be
+  emitted beyond the rear cone.
+- For `205-PU-012`, retain the 1277.8 mm corrected motor envelope. Absorb the
+  129.4 mm rear-small-cylinder allowance into the main barrel, which becomes
+  1126.8 mm between two 75.5 mm terminal cones. The existing r8 free-shaft and
+  base adaptation remain unchanged.
+- Preserve every r7 SUBE outside DRIVER. Only `205-PU-012` may additionally
+  change DRIVE_SHAFT and BASE to accommodate the corrected motor length.
+- Output: `output/2026-08-20_motor_drive_r8/`. Status remains candidate pending
+  a fresh E3D load and client visual acceptance.
+
+Client E3D visual correction — 2026-08-20 (motor tail must be CONE)
+-------------------------------------------------------------------
+
+- r8 is visually rejected as the current motor candidate because 27 non-MC
+  motors still place a rear-small CYLINDER outside the rear frustum.
+- The first/outermost axial motor body at the motor tail must be the rear CONE
+  on every pump. Remove any terminal CYLINDER beyond it.
+- Preserve every r8 motor envelope. Absorb the removed rear-small-cylinder
+  length into the main stator rather than shortening or moving the motor.
+- Add an independent axial-order verifier and a mutation that converts the
+  rear terminal CONE to CYLINDER; both must fail if the tail is not a cone.
+- Preserve every r8 SUBE outside DRIVER exactly.
+- Output: `output/2026-08-20_motor_drive_r9/`. Status remains candidate pending
+  a fresh E3D load and client visual acceptance.
+
+Client correction — 2026-08-20 (top-nozzle casing connection)
+--------------------------------------------------------------
+
+- The r9 motor-tail construction is accepted as the working motor baseline.
+- Every pump with an upward native NOZZLE must show a continuous casing-owned
+  connection: the added body starts inside the casing crown and projects a
+  visible distance toward the nozzle.
+- Preserve every r9 native NOZZLE exactly. Do not change CATR, horizontal
+  position, flange-face U, ORI or HEIG; adapt only additive CASING primitives.
+- The added connection is basic-body equipment geometry, never PIPE, BRANCH or
+  a piping component.
+- Compare the verified catalogue nominal nozzle diameter with the casing
+  barrel's axial width. If the nozzle is wider, use a width-contained lower
+  CYLINDER socket, a concentric CONE transition and a DN-sized upper CYLINDER
+  neck. Adjacent faces and diameters must close exactly without a step or gap.
+- A fixed plan offset may not be hidden by moving the nozzle or casing.
+  `205-PU-054` keeps its 308 mm source offset and uses an overlapping solid
+  casing CYLINDER bridge between the volute and vertical socket.
+- Preserve every pre-existing r9 primitive. The only permitted macro delta is
+  additive CASING connector geometry on the 28 up-nozzle pumps.
+- Output: `output/2026-08-20_top_nozzle_r10/`. Status remains candidate pending
+  a fresh E3D load and client visual acceptance.
+
+Client E3D correction — 2026-08-20 (nozzle bottom to transition top)
+--------------------------------------------------------------------
+
+- r10 is visually rejected. It kept the native HEIG, so each up-nozzle root
+  remained 100 mm inside the casing while the new connector rose around the
+  nozzle body. Primitive overlap is not a valid terminal connection.
+- Keep every native nozzle CATR, plan position, flange-face U and ORI fixed.
+  For the 28 upward nozzles only, adapt HEIG so the physical nozzle bottom
+  (`flange-face U - HEIG`) equals the casing connector's upper face.
+- The connector remains casing-owned basic-body geometry. It starts 20 mm
+  inside the casing crown and projects 20 mm above the crown. Overwidth outlets
+  retain the CYLINDER/CONE/CYLINDER topology and exact diameter closure.
+- Verify the real terminal faces numerically: positive difference is a gap,
+  negative difference is penetration, and only zero within tolerance passes.
+- Horizontal nozzles remain fully unchanged. Existing casing, base, motor and
+  drive geometry remain canonical unchanged. `205-PU-054` retains its fixed
+  plan offset and solid horizontal casing bridge.
+- Output: `output/2026-08-20_top_nozzle_r11/`. Status remains candidate pending
+  a fresh E3D load and client visual acceptance.
+
+Client schematic correction — 2026-08-20 (width-dependent top-nozzle branches)
+-------------------------------------------------------------------------------
+
+- r11 is superseded. It incorrectly applied additive connector bodies to all
+  28 upward nozzles and retained an extra upper CYLINDER neck above each
+  overwidth CONE. The client schematic applies only when nozzle DN exceeds the
+  casing barrel's axial width.
+- Preserve native NOZZLE CATR, plan position, flange-face U and ORI. Only HEIG
+  on the 28 upward nozzles may change; all horizontal NOZZLE blocks and every
+  pre-existing r9 primitive remain canonical unchanged.
+- If verified nozzle DN is no greater than casing axial width, add no connector
+  primitive. The native NOZZLE must penetrate the casing crown directly, and
+  at least 70% of its HEIG must remain outside the crown. The r12 Reference
+  Value target is 75% to retain numerical margin above the required minimum.
+- If verified nozzle DN exceeds casing axial width, use exactly a lower
+  casing-owned CYLINDER socket followed by one concentric CONE. The lower
+  socket starts inside the casing and projects visibly above the crown. The
+  native NOZZLE bottom equals the CONE upper face; do not add an upper neck.
+- `205-PU-054` retains its fixed casing/nozzle plan offset and the solid
+  horizontal casing bridge. No casing or nozzle plan datum may move.
+- Verify the emitted macro numerically: 14 overwidth terminal differences must
+  be zero within tolerance; 14 direct nozzles must penetrate the crown and
+  have `(flange-face U - crown U) / HEIG >= 0.70`.
+- Output: `output/2026-08-20_top_nozzle_r12/`. Status remains candidate pending
+  a fresh E3D load and client visual acceptance.

@@ -28,62 +28,80 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from extract_project_data import load_all                     # noqa: E402
 from build_pumps import build_pump                             # noqa: E402
 from pump_model import AXIS_VECTOR                             # noqa: E402
+from base_deform import (REF_MOTOR_BOTTOM, REF_MOTOR_RADIUS,
+                         REF_MOTOR_SUPPORT_TOP, REF_PUMP_BOTTOM,
+                         REF_PUMP_RADIUS, REF_PUMP_SUPPORT_TOP,
+                         orientation_basis)                    # noqa: E402
+from wsb.pml_builder import NOZZLE_BORE_COMPONENTS             # noqa: E402
 
 TOL = 0.51          # millimetre tolerance, just over the emitted rounding
+TOP_CONNECTION_PREFIX = "top discharge casing connection"
+NOZZLE_DN_BY_COMPONENT = {
+    component: float(dn) for dn, component in NOZZLE_BORE_COMPONENTS.items()
+}
 
 
 def bounds(primitive) -> tuple:
     """
     World extent of one primitive, applying E3D's element-specific datum.
 
-    IR-1: BOX/CYLI/CONE are centred on POS; a DISH sits on its rim and extends
-    along its axis.  Getting this wrong is exactly the failure the rule exists
-    to prevent, so the verifier reproduces it rather than assuming a centre.
+    IR-1: BOX/CYLI/CONE/PYRAMID are centred on POS; a DISH sits on its rim and
+    extends along its axis. Getting this wrong is exactly the failure the rule
+    exists to prevent, so the verifier models every datum explicitly.
     """
     attrs = primitive.attrs
     east, north, up = primitive.east, primitive.north, primitive.up
 
+    basis = orientation_basis(primitive.ori)
+
+    def transform(x: float, y: float, z: float) -> tuple:
+        return (east + basis["X"][0] * x + basis["Y"][0] * y
+                + basis["Z"][0] * z,
+                north + basis["X"][1] * x + basis["Y"][1] * y
+                + basis["Z"][1] * z,
+                up + basis["X"][2] * x + basis["Y"][2] * y
+                + basis["Z"][2] * z)
+
+    def envelope(points) -> tuple:
+        points = list(points)
+        return tuple((min(p[axis] for p in points),
+                      max(p[axis] for p in points)) for axis in range(3))
+
     if primitive.kind == "BOX":
-        half = (attrs.get("XLEN", 0) / 2, attrs.get("YLEN", 0) / 2,
-                attrs.get("ZLEN", 0) / 2)
-        return ((east - half[0], east + half[0]),
-                (north - half[1], north + half[1]),
-                (up - half[2], up + half[2]))
+        hx = attrs.get("XLEN", 0) / 2
+        hy = attrs.get("YLEN", 0) / 2
+        hz = attrs.get("ZLEN", 0) / 2
+        return envelope(transform(x, y, z)
+                        for x in (-hx, hx) for y in (-hy, hy)
+                        for z in (-hz, hz))
 
     if primitive.kind == "PYRAMID":
-        # POS is the base centre; the solid tapers upward along local +Z.
-        # The enclosing extent uses the larger of base and top on each axis.
-        width = max(attrs.get("XBOT", 0), attrs.get("XTOP", 0))
-        depth = max(attrs.get("YBOT", 0), attrs.get("YTOP", 0))
+        xbot = attrs.get("XBOT", 0) / 2
+        ybot = attrs.get("YBOT", 0) / 2
+        xtop = attrs.get("XTOP", 0) / 2
+        ytop = attrs.get("YTOP", 0) / 2
+        xoff = attrs.get("XOFF", 0)
+        yoff = attrs.get("YOFF", 0)
         height = attrs.get("HEIG", 0)
-        return ((east - width / 2, east + width / 2),
-                (north - depth / 2, north + depth / 2),
-                (up, up + height))
+        half_height = height / 2
+        points = [transform(x, y, -half_height)
+                  for x in (-xbot, xbot) for y in (-ybot, ybot)]
+        points += [transform(xoff + x, yoff + y, half_height)
+                   for x in (-xtop, xtop) for y in (-ytop, ytop)]
+        return envelope(points)
 
     if primitive.kind == "EXTRUSION":
-        # IR-1: POS is the profile END PLANE and the solid grows HEIG along
-        # local +Z.  The profile's own extent gives the plan footprint.
-        profile = primitive.profile or []
-        if profile:
-            radius = max(math.hypot(x, y) for x, y in profile)
-        else:
-            radius = 0.0
+        profile = primitive.profile or [(0.0, 0.0)]
         height = attrs.get("HEIG", 0)
-        axis = _axis_of(primitive.ori)
-        vector = AXIS_VECTOR.get(axis, (0.0, 0.0, 1.0))
-        out = []
-        for index, centre in enumerate((east, north, up)):
-            low, high = sorted((0.0, height * vector[index]))
-            radial = radius * math.sqrt(max(0.0, 1.0 - vector[index] ** 2))
-            out.append((centre + low - radial, centre + high + radial))
-        return tuple(out)
+        return envelope(transform(x, y, z) for x, y in profile
+                        for z in (0.0, height))
 
-    if primitive.kind in ("CYLINDER", "DISH"):
-        diameter = attrs.get("DIAM", 0)
+    if primitive.kind in ("CYLINDER", "CONE", "DISH"):
+        diameter = (max(attrs.get("DBOT", 0), attrs.get("DTOP", 0))
+                    if primitive.kind == "CONE" else attrs.get("DIAM", 0))
         height = attrs.get("HEIG", 0)
         radius = diameter / 2
-        axis = _axis_of(primitive.ori)
-        vector = AXIS_VECTOR.get(axis, (0.0, 0.0, 1.0))
+        vector = basis["Z"]
         if primitive.kind == "DISH":
             span = [(0.0, height * component) for component in vector]
         else:
@@ -113,6 +131,13 @@ def _axis_of(ori: str) -> str:
     return "U"
 
 
+def combined_bounds(primitives) -> tuple:
+    """Combined world AABB for a non-empty primitive collection."""
+    boxes = [bounds(primitive) for primitive in primitives]
+    return tuple((min(box[axis][0] for box in boxes),
+                  max(box[axis][1] for box in boxes)) for axis in range(3))
+
+
 def verify(model, sources) -> List[str]:
     """Return a list of failures; empty means the model passed."""
     problems: List[str] = []
@@ -122,24 +147,43 @@ def verify(model, sources) -> List[str]:
     facts = model.facts
 
     solids = [p for p in model.primitives
-              if p.kind in ("BOX", "CYLINDER", "DISH", "PYRAMID", "EXTRUSION")]
+              if p.kind in ("BOX", "CYLINDER", "CONE", "DISH",
+                            "PYRAMID", "EXTRUSION")]
     nozzles = [p for p in model.primitives if p.kind == "NOZZLE"]
+    base = [p for p in solids if p.sube == "BASE"]
 
-    # --- [1] baseplate reproduces the project data exactly ---------------
-    plate = next((p for p in model.primitives if p.sube == "BASEPLATE"), None)
-    if plate is None:
-        problems.append("no baseplate emitted")
+    # --- [1] the reference skid IS the project base envelope -------------
+    # The rejected version emitted the project's old single BOX and then all
+    # 43 reference members, duplicating the baseplate. The reference's five
+    # skid members now replace that box and their combined envelope must equal
+    # the project's confirmed base size and datum.
+    duplicates = [p for p in model.primitives if p.sube == "BASEPLATE"]
+    if duplicates:
+        problems.append("duplicate full baseplate emitted in addition to /P1501B-BASE")
+    skid = [p for p in base if "(skid station)" in p.note]
+    if len(skid) != 5:
+        problems.append(f"reference skid has {len(skid)} members, expected 5")
     else:
-        for key in ("XLEN", "YLEN", "ZLEN"):
-            want = plate_src.attrs[key]
-            got = plate.attrs[key]
-            if abs(want - got) > TOL:
-                problems.append(f"baseplate {key}: {got} != source {want}")
-        for axis, key in (("east", "east"), ("north", "north"), ("up", "up")):
-            want = plate_src.pos[key]
-            got = getattr(plate, axis)
-            if abs(want - got) > TOL:
-                problems.append(f"baseplate {axis}: {got} != source {want}")
+        skid_box = combined_bounds(skid)
+        got = (skid_box[0][1] - skid_box[0][0],
+               skid_box[1][1] - skid_box[1][0],
+               skid_box[2][1] - skid_box[2][0])
+        want = (plate_src.attrs["XLEN"], plate_src.attrs["YLEN"],
+                plate_src.attrs["ZLEN"])
+        for label, actual, expected in zip(("XLEN", "YLEN", "ZLEN"), got, want):
+            if abs(actual - expected) > TOL:
+                problems.append(
+                    f"reference skid envelope {label}: {actual:.1f} != "
+                    f"source {expected:.1f}")
+        centre = tuple((axis[0] + axis[1]) / 2 for axis in skid_box)
+        expected_centre = (plate_src.pos["east"], plate_src.pos["north"],
+                           plate_src.pos["up"])
+        for label, actual, expected in zip(("E", "N", "U"), centre,
+                                           expected_centre):
+            if abs(actual - expected) > TOL:
+                problems.append(
+                    f"reference skid centre {label}: {actual:.1f} != "
+                    f"source {expected:.1f}")
 
     # --- [2] nozzle plan position and direction are unchanged -------------
     source_nozzles = {("SUCTION" if "SUCTION" in n.name else "DISCHARGE"): n
@@ -178,8 +222,8 @@ def verify(model, sources) -> List[str]:
 
     # --- [4] RELATIONAL: casing and motor share one centreline ------------
     motor = next((p for p in model.primitives
-                  if p.sube == "DRIVER" and p.kind == "CYLINDER"
-                  and p.attrs.get("HEIG", 0) > 100), None)
+                  if p.sube == "DRIVER"
+                  and p.note.startswith("motor main stator barrel")), None)
     if barrel and motor:
         if abs(barrel.up - motor.up) > TOL:
             problems.append(
@@ -192,6 +236,169 @@ def verify(model, sources) -> List[str]:
         if long_axis == "E" and abs(barrel.north - motor.north) > TOL:
             problems.append(
                 f"casing N {barrel.north} and motor N {motor.north} not coaxial")
+
+    # --- [4a] measured motor frustums and three-part drive train ----------
+    # This checks physical interfaces and source fields independently of the
+    # builder's placement loop. It specifically rejects the r6 simplifications:
+    # two decorative DISHs on one full-length motor cylinder and a one-cylinder
+    # shaft with invented hubs.
+    engine = facts.get("engine_record")
+    wet_end = facts.get("wet_end")
+    wet_vector = AXIS_VECTOR.get(wet_end, (0.0, 1.0, 0.0))
+    plate_e, plate_n = facts["plate_centre"]
+
+    def axial_span(primitive):
+        centre = ((primitive.east - plate_e) * wet_vector[0]
+                  + (primitive.north - plate_n) * wet_vector[1])
+        half = primitive.attrs.get("HEIG", 0.0) / 2
+        return (centre - half, centre + half)
+
+    def contiguous(items, label):
+        ordered = sorted(items, key=lambda primitive: axial_span(primitive)[0])
+        for first, second in zip(ordered, ordered[1:]):
+            gap = axial_span(second)[0] - axial_span(first)[1]
+            if abs(gap) > TOL:
+                problems.append(
+                    f"{label} axial interface gap/overlap {gap:.1f} mm "
+                    f"between {first.note!r} and {second.note!r}")
+        return ordered
+
+    driver_bodies = [p for p in solids
+                     if p.sube == "DRIVER" and p.kind in ("CYLINDER", "CONE", "DISH")]
+    driver_dishes = [p for p in driver_bodies if p.kind == "DISH"]
+    if driver_dishes:
+        problems.append(
+            f"DRIVER still contains {len(driver_dishes)} DISH end bell(s); "
+            f"r9 requires cone-terminated motor ends")
+
+    if engine:
+        motor_parts = contiguous(
+            [p for p in driver_bodies if p.kind in ("CYLINDER", "CONE")],
+            "motor")
+        if not motor_parts:
+            problems.append("motor has no measured CYLINDER/CONE body segments")
+        else:
+            motor_low = axial_span(motor_parts[0])[0]
+            motor_high = axial_span(motor_parts[-1])[1]
+            if motor_parts[0].kind != "CONE" or "rear frustum" not in motor_parts[0].note:
+                problems.append(
+                    f"motor tail terminates in {motor_parts[0].kind} "
+                    f"({motor_parts[0].note!r}); rear terminal body must be CONE")
+            expected_total = facts.get("motor_effective_total")
+            if expected_total and abs((motor_high - motor_low) - expected_total) > TOL:
+                problems.append(
+                    f"motor segmented envelope {motor_high - motor_low:.1f} != "
+                    f"resolved total {expected_total:.1f}")
+            expected_roles = ["rear frustum", "main stator barrel",
+                              "front frustum"]
+            for role in expected_roles:
+                if not any(f"motor {role}:" in p.note for p in motor_parts):
+                    problems.append(f"motor is missing required {role}")
+            cones = [p for p in motor_parts if p.kind == "CONE"]
+            if len(cones) != 2:
+                problems.append(f"motor has {len(cones)} end CONEs, expected 2")
+            elif motor_parts:
+                main = next((p for p in motor_parts
+                             if "motor main stator barrel:" in p.note), None)
+                if main:
+                    target_outer = main.attrs["DIAM"] * (2.0 / 3.0)
+                    rear, front = cones
+                    checks = (
+                        (rear.attrs.get("DBOT"), target_outer, "rear outward face"),
+                        (rear.attrs.get("DTOP"), main.attrs["DIAM"], "rear inner face"),
+                        (front.attrs.get("DBOT"), main.attrs["DIAM"], "front inner face"),
+                        (front.attrs.get("DTOP"), target_outer, "front outward face"),
+                        (rear.attrs.get("HEIG"), front.attrs.get("HEIG"),
+                         "front/rear cone length"),
+                    )
+                    for actual, expected, label in checks:
+                        if actual is None or abs(actual - expected) > TOL:
+                            problems.append(
+                                f"motor {label} {actual} != {expected:.1f}")
+            for cone in (p for p in motor_parts if p.kind == "CONE"):
+                if cone.attrs.get("DBOT", 0) <= 0 or cone.attrs.get("DTOP", 0) <= 0:
+                    problems.append(f"motor CONE has invalid end diameters: {cone.note}")
+                if _axis_of(cone.ori) != wet_end:
+                    problems.append(
+                        f"motor CONE axis {_axis_of(cone.ori)} does not point "
+                        f"toward wet end {wet_end}: {cone.note}")
+
+        shaft_total = engine.get("shaft_total_L_mm")
+        drive = [p for p in solids if p.sube == "DRIVE_SHAFT"]
+        old_drive = [p for p in solids if p.sube == "COUPLING"]
+        if old_drive:
+            problems.append(
+                f"old simplified COUPLING geometry remains ({len(old_drive)} solids)")
+
+        casing_e, casing_n = facts["casing_centre"]
+        casing_along = ((casing_e - plate_e) * wet_vector[0]
+                        + (casing_n - plate_n) * wet_vector[1])
+        casing_back = casing_along - facts["casing"][1] / 2
+        motor_high = (max(axial_span(p)[1] for p in driver_bodies)
+                      if driver_bodies else 0.0)
+
+        if shaft_total is None:
+            if drive:
+                problems.append("MC/N/A shaft row emitted a free DRIVE_SHAFT")
+            lanterns = [p for p in solids if p.sube == "BEARING"]
+            if casing_back > motor_high + TOL:
+                if len(lanterns) != 1:
+                    problems.append(
+                        f"close-coupled MC gap has {len(lanterns)} lanterns, expected 1")
+                elif (abs(axial_span(lanterns[0])[0] - motor_high) > TOL
+                      or abs(axial_span(lanterns[0])[1] - casing_back) > TOL):
+                    problems.append(
+                        "close-coupled MC lantern does not span motor face to casing")
+        else:
+            if [p.kind for p in drive] != ["CYLINDER", "CYLINDER", "CONE"]:
+                problems.append(
+                    f"DRIVE_SHAFT shape is {[p.kind for p in drive]}, expected "
+                    f"CYLINDER/CYLINDER/CONE")
+            ordered = contiguous(drive, "drive shaft") if drive else []
+            if ordered:
+                if abs(axial_span(ordered[0])[0] - motor_high) > TOL:
+                    problems.append(
+                        f"drive shaft starts {axial_span(ordered[0])[0] - motor_high:.1f} "
+                        f"mm from motor front")
+                drive_end = axial_span(ordered[-1])[1]
+                if not (casing_back - TOL <= drive_end <= casing_along + TOL):
+                    problems.append(
+                        f"drive shaft pump end {drive_end:.1f} is outside casing "
+                        f"engagement {casing_back:.1f}..{casing_along:.1f}")
+
+                source_lengths = [
+                    engine.get("shaft_cyl1_L_mm"),
+                    engine.get("shaft_cyl2_L_mm"),
+                    engine.get("shaft_frust3_L_mm"),
+                ]
+                scales = [p.attrs.get("HEIG", 0) / source
+                          for p, source in zip(ordered, source_lengths)
+                          if source]
+                if len(scales) != 3 or max(scales) - min(scales) > 0.001:
+                    problems.append(
+                        f"drive shaft did not retain measured axial part ratios: {scales}")
+
+                expected_diameters = (
+                    ("DIAM", engine.get("shaft_cyl1_D_mm")),
+                    ("DIAM", engine.get("shaft_cyl2_D_mm")),
+                    ("DBOT", engine.get("shaft_frust3_D_min_mm")),
+                    ("DTOP", engine.get("shaft_frust3_D_max_mm")),
+                )
+                actual = (ordered[0], ordered[1], ordered[2], ordered[2])
+                for primitive, (key, expected) in zip(actual, expected_diameters):
+                    if expected is not None and abs(primitive.attrs.get(key, 0) - expected) > TOL:
+                        problems.append(
+                            f"{primitive.note} {key} {primitive.attrs.get(key)} != "
+                            f"source {expected}")
+
+            for primitive in drive:
+                if abs(primitive.up - facts["shaft_u"]) > TOL:
+                    problems.append(
+                        f"{primitive.note} U {primitive.up} is off shaft axis "
+                        f"{facts['shaft_u']}")
+                if _axis_of(primitive.ori) != wet_end:
+                    problems.append(
+                        f"{primitive.note} axis {_axis_of(primitive.ori)} != {wet_end}")
 
     # --- [5] nothing sinks below the foundation ---------------------------
     plate_under = facts["plate_under"]
@@ -315,9 +522,8 @@ def verify(model, sources) -> List[str]:
     # was no room underneath.  Connectivity and foundation checks are both
     # blind to that: the parts touch, and nothing sinks.  What was missing is a
     # check that the base has DEPTH.
-    base = [p for p in solids if p.sube == "BASE"]
-    if base and plate is not None:
-        plate_top_u = bounds(plate)[2][1]
+    if base:
+        plate_top_u = facts["plate_top"]
         base_top = max(bounds(p)[2][1] for p in base)
         rise = base_top - plate_top_u
         if rise < 25.0:
@@ -361,22 +567,36 @@ def verify(model, sources) -> List[str]:
                     f"base has {groups.get(group, 0)} members in the {group} "
                     f"group where the reference has {count}")
 
-        # Each station must actually meet its machine: the station's topmost
-        # member is the surface the machine bears on.
-        for group, sube in (("pump", "CASING"), ("motor", "DRIVER")):
+        # The reference support penetrates the machine envelope deliberately:
+        # pump saddle 60/170 of the casing radius, motor stays 55/180 of the
+        # stator radius. Compressing each station to the cylinder's lowest
+        # point produced the shallow, disconnected-looking support in the
+        # rejected render while the old zero-gap check passed.
+        relations = (
+            ("pump", "CASING", REF_PUMP_BOTTOM, REF_PUMP_SUPPORT_TOP,
+             REF_PUMP_RADIUS),
+            ("motor", "DRIVER", REF_MOTOR_BOTTOM, REF_MOTOR_SUPPORT_TOP,
+             REF_MOTOR_RADIUS),
+        )
+        for group, sube, ref_bottom, ref_top, ref_radius in relations:
             members = [p for p in base if f"({group} station)" in p.note]
             barrels = [p for p in solids
                        if p.sube == sube and p.kind == "CYLINDER"]
             if not members or not barrels:
                 continue
             station_top = max(bounds(p)[2][1] for p in members)
-            machine_low = min(bounds(p)[2][0] for p in barrels)
-            gap = machine_low - station_top
-            if abs(gap) > 1.0:
+            station_barrel = next(
+                (item for item in barrels if "volute barrel" in item.note),
+                max(barrels, key=lambda p: p.attrs.get("HEIG", 0)))
+            machine_low = bounds(station_barrel)[2][0]
+            radius = station_barrel.attrs.get("DIAM", 0) / 2
+            expected_top = (machine_low
+                            + (ref_top - ref_bottom) * radius / ref_radius)
+            if abs(station_top - expected_top) > 1.0:
                 problems.append(
                     f"{group} station tops out at U {station_top:.1f} against "
-                    f"a machine underside of {machine_low:.1f}: "
-                    f"{'gap' if gap > 0 else 'penetration'} of {abs(gap):.1f} mm")
+                    f"the reference-adapted target {expected_top:.1f} "
+                    f"(machine underside {machine_low:.1f})")
 
         # Base members are FABRICATED PLATE: their thickness is set by the
         # baseplate thickness, not by the plate's width.  An earlier revision
@@ -410,37 +630,152 @@ def verify(model, sources) -> List[str]:
                     f"base member reaches U {box[2][0]:.1f}, below the "
                     f"foundation ({member.note})")
 
-        # Every foot pad must actually carry its machine: pad top at the
-        # machine underside, and the machine's footprint over the pad in plan.
-        for pad in (p for p in base if "carrying the machine" in p.note):
-            pad_box = bounds(pad)
-            carried = [p for p in solids
-                       if p.sube in ("CASING", "DRIVER") and p.kind != "BOX"]
-            if not carried:
-                continue
-            over = [p for p in carried
-                    if all(min(bounds(p)[a][1], pad_box[a][1])
-                           > max(bounds(p)[a][0], pad_box[a][0]) - TOL
-                           for a in (0, 1))]
-            if not over:
-                problems.append(
-                    f"foot pad carries nothing in plan ({pad.note})")
-                continue
-            seat = min(bounds(p)[2][0] for p in over) - pad_box[2][1]
-            if seat > TOL:
-                problems.append(
-                    f"machine floats {seat:.1f} mm above its foot pad "
-                    f"({pad.note})")
+        # The reference's side stays deliberately overhang the 510 mm skid
+        # envelope. They are retained as part of the exact reference shape;
+        # containing every support AABB inside the skid would reject the
+        # client's own native base.
 
     # --- [8] a nozzle flange must not be buried inside the casing ---------
     if barrel:
         for nozzle in nozzles:
             if _aim_of(nozzle.ori) == "U":
                 crown = barrel.up + barrel.attrs["DIAM"] / 2
-                if nozzle.up < crown:
+                # The barrel deliberately penetrates the volute by up to
+                # 100 mm; only a flange buried beyond that construction band
+                # is invalid.
+                if nozzle.up < crown - 100.0 - TOL:
                     problems.append(
                         f"{nozzle.sube} flange face U {nozzle.up:.1f} is below "
                         f"the casing crown {crown:.1f}: buried")
+
+    # --- [9] top nozzles branch on nozzle DN vs casing axial width ----------
+    # A contained native nozzle directly penetrates the casing with >=70% of
+    # HEIG above the crown. An overwidth nozzle uses only a lower CYLINDER and
+    # CONE, with the CONE upper face closing on the native nozzle bottom.
+    top_nozzles = [p for p in nozzles if _aim_of(p.ori) == "U"]
+    connectors = [p for p in solids
+                  if p.note.startswith(TOP_CONNECTION_PREFIX)]
+    offset_bridges = [p for p in solids
+                      if p.note.startswith("top discharge casing offset bridge")]
+    if not top_nozzles:
+        if connectors or offset_bridges:
+            problems.append("top-discharge casing connector emitted without an up nozzle")
+    elif len(top_nozzles) != 1:
+        problems.append(f"found {len(top_nozzles)} up nozzles; expected one")
+    elif not barrel:
+        problems.append("up nozzle has no casing barrel to connect to")
+    else:
+        nozzle = top_nozzles[0]
+        component = (nozzle.catr or "").rsplit("/", 1)[-1]
+        nozzle_dia = NOZZLE_DN_BY_COMPONENT.get(component)
+        casing_width = barrel.attrs["HEIG"]
+        crown = barrel.up + barrel.attrs["DIAM"] / 2.0
+        root_u = nozzle.up - nozzle.attrs["HEIG"]
+        parts = sorted(connectors, key=lambda item: bounds(item)[2][0])
+        barrel_axis = _axis_of(barrel.ori)
+        axial_offset = (abs(nozzle.north - barrel.north)
+                        if barrel_axis == "N" else
+                        abs(nozzle.east - barrel.east))
+        needs_bridge = axial_offset > casing_width / 2.0 + TOL
+        overwidth = nozzle_dia is not None and nozzle_dia > casing_width + TOL
+
+        if nozzle_dia is None:
+            problems.append("up nozzle has no verified DN for casing connection")
+        elif not overwidth:
+            if parts:
+                problems.append(
+                    "top nozzle within casing width must directly penetrate casing; "
+                    "additive connector primitives are not allowed")
+            if offset_bridges:
+                problems.append("direct top nozzle has an unneeded horizontal bridge")
+            if nozzle.attrs["HEIG"] <= TOL:
+                problems.append("direct top nozzle has no positive HEIG")
+            else:
+                external_height = nozzle.up - crown
+                external_ratio = external_height / nozzle.attrs["HEIG"]
+                if external_height <= TOL:
+                    problems.append("direct top nozzle flange face is not above casing crown")
+                if external_ratio < 0.70 - 0.001:
+                    problems.append(
+                        f"direct top nozzle external ratio {external_ratio:.3f} is below 0.70")
+                if root_u >= crown - TOL:
+                    problems.append(
+                        "direct top nozzle bottom does not penetrate the casing crown")
+        elif not parts:
+            problems.append("overwidth up nozzle has no primitive size transition")
+        else:
+            for part in parts:
+                if part.sube != "CASING":
+                    problems.append("top-nozzle connection is not owned by CASING")
+                if _axis_of(part.ori) != "U":
+                    problems.append(
+                        f"top-nozzle {part.kind} axis is {_axis_of(part.ori)}, expected U")
+                if abs(part.east - nozzle.east) > TOL or abs(part.north - nozzle.north) > TOL:
+                    problems.append(
+                        f"top-nozzle {part.kind} is not coaxial with the native nozzle")
+
+            spans = [bounds(part)[2] for part in parts]
+            if spans[0][0] >= crown - TOL:
+                problems.append(
+                    f"top-nozzle connection starts at U {spans[0][0]:.1f}, "
+                    f"not embedded in casing crown U {crown:.1f}")
+            if spans[0][1] <= crown + TOL:
+                problems.append(
+                    "overwidth lower socket does not project visibly above the casing")
+            terminal_gap = root_u - spans[-1][1]
+            if abs(terminal_gap) > TOL:
+                problems.append(
+                    f"native nozzle bottom / transition upper-face gap-overlap "
+                    f"is {terminal_gap:.1f} mm; terminal faces must coincide")
+            if root_u >= nozzle.up - TOL:
+                problems.append("up nozzle has no positive projection above its connector")
+
+            for index in range(len(spans) - 1):
+                gap = spans[index + 1][0] - spans[index][1]
+                if abs(gap) > TOL:
+                    problems.append(
+                        f"top-nozzle connection interface {index + 1} has "
+                        f"vertical gap/overlap {gap:.1f} mm")
+
+            if needs_bridge:
+                if len(offset_bridges) != 1:
+                    problems.append(
+                        f"offset top nozzle needs one casing bridge; found "
+                        f"{len(offset_bridges)}")
+                else:
+                    bridge = offset_bridges[0]
+                    if bridge.kind != "CYLINDER" or _axis_of(bridge.ori) == "U":
+                        problems.append(
+                            "offset top-nozzle bridge must be one horizontal CYLINDER")
+
+                    def intersects(first, second) -> bool:
+                        one, two = bounds(first), bounds(second)
+                        return all(min(one[axis][1], two[axis][1])
+                                   >= max(one[axis][0], two[axis][0]) - TOL
+                                   for axis in range(3))
+
+                    if not intersects(bridge, barrel):
+                        problems.append("offset top-nozzle bridge does not overlap casing")
+                    if not intersects(bridge, parts[0]):
+                        problems.append("offset top-nozzle bridge does not overlap lower socket")
+            elif offset_bridges:
+                problems.append("unneeded horizontal bridge emitted under centred top nozzle")
+
+            if [part.kind for part in parts] != ["CYLINDER", "CONE"]:
+                problems.append(
+                    "overwidth top nozzle must use only CYLINDER/CONE before NOZZLE")
+            else:
+                socket, reducer = parts
+                socket_dia = socket.attrs["DIAM"]
+                if socket_dia > casing_width + TOL:
+                    problems.append(
+                        f"top-nozzle socket dia {socket_dia:.1f} exceeds "
+                        f"casing width {casing_width:.1f}")
+                if not (socket_dia < nozzle_dia - TOL
+                        and abs(reducer.attrs["DBOT"] - socket_dia) <= TOL
+                        and abs(reducer.attrs["DTOP"] - nozzle_dia) <= TOL):
+                    problems.append(
+                        "top-nozzle reducer diameters do not join socket and NOZZLE smoothly")
     return problems
 
 

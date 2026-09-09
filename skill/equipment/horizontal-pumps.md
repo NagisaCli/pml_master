@@ -235,6 +235,21 @@ directly through one builder and retain one independent zero-anchored `EQUI` per
 tag. Verify each EQUI block with the same single-pump numerical checks; do not
 concatenate previously written files or nest all pumps under one shared EQUI.
 
+> **User-corrected 2026-08-20 (JK_Pump_Build).** When an upward native NOZZLE
+> must visibly join a horizontal volute, preserve its catalogue element and
+> branch on verified nominal diameter versus casing axial width. If DN is no
+> greater than the casing width, add no connector primitive: the native
+> NOZZLE itself must penetrate the crown and at least 70% of its HEIG must be
+> outside the casing. If DN exceeds the casing width, model the outlet as
+> casing-owned basic bodies, not PIPE/BRANCH: a lower CYLINDER socket that
+> starts inside and projects visibly above the crown, followed by one
+> concentric CONE. The physical native NOZZLE bottom (`face - HEIG`) must equal
+> the CONE upper face directly; do not insert another primitive neck. Require
+> exact face/diameter closure at the socket/CONE and CONE/NOZZLE interfaces.
+> Keep catalogue binding, plan position, flange-face POS and ORI fixed. If
+> fixed nozzle and casing plan datums differ, do not silently move either; add
+> an explicitly documented equipment-side solid bridge or report the conflict.
+
 ## Scaling an accepted native listing to a new baseplate — RECOMMENDED
 
 **(JK_Pump_Build 2026-08-13.)** When a client asks to re-size an accepted
@@ -264,3 +279,183 @@ native E3D data listing while keeping the construction and the nozzle sizes:
   prediction, plate dimensions/datum, bounds above the foundation and inside
   the new plate, support-chain U-span scale invariance, nozzle root
   attachment, and negative-hole rim containment.
+
+## Adapting a native pump-base assembly — user-corrected 2026-08-19
+
+**RECOMMENDED (JK_Pump_Build).** A native base cannot be reconstructed from
+member count and world-position ordering alone. Preserve and verify four layers:
+
+1. source member identity and inventory;
+2. member-local axes, dimensions, offsets and profiles;
+3. the member-to-machine datum (casing centre, motor centre and shaft axis);
+4. the original overlap/contact relationship with the machine envelope.
+
+Use independent mappings for the skid, pump station and motor station. The
+skid fits the project base envelope; pump support scales from casing diameter
+and axial length; motor support scales from stator diameter and length. Do not
+map a sole-plate centre to a motor centre unless the native model proves they
+are the same datum.
+
+An element without an explicit native ORI still has the default local frame.
+When the pump turns in plan, give that element the corresponding explicit ORI;
+swapping world-aligned dimensions does not rotate a PYRAMID, its offsets or an
+EXTRUSION profile. Fabricated gusset thickness and hex hardware scale from
+plate/hardware thickness, while their plan spacing follows the machine. A true
+hex profile scales isotropically or it stops being the reference shape.
+
+### Off-origin base hardware and tapered-gusset handedness — user-corrected 2026-08-19
+
+**RECOMMENDED (JK_Pump_Build).** When a native support is rotated into a target
+pump direction, transform member positions and local ORIs with the same
+right-handed frame. For a machine's longitudinal unit vector `(E, N)`, the
+reference-compatible right-hand transverse vector is `(N, -E)`. Using the
+opposite transverse vector only for positions mirrors every offset PYRAMID
+relative to its ORI and makes inward braces lean outward.
+
+Check the physical result: for any midline brace carrying `XOFF` or `YOFF`,
+the top transverse offset must be no greater than the base offset. This is
+independent of the transformation formula and therefore can catch a mirrored
+implementation.
+
+An EXTRUSION's LOOP may be deliberately off-origin. Its `POS` is the profile
+end-plane origin, not necessarily the midpoint of a nut or washer. When plan
+spacing is scaled anisotropically but a regular hex profile is scaled
+isotropically, map the intended fastener axis first and solve the EXTRUSION POS
+from the transformed LOOP geometry. Verify a one-to-one pairing between every
+hex midpoint and anchor-cylinder axis after emitted-coordinate rounding.
+
+### Interface-driven support sizing — user-corrected 2026-08-19
+
+**RECOMMENDED (JK_Pump_Build).** Once the client accepts a support's member
+combination and plan arrangement, keep that construction stable while adapting
+its height to each machine. Do not apply one vertical scale to sole plates,
+gussets, pads and fasteners: different shaft elevations turn native clearances
+into visible gaps and turn hardware into oversized columns.
+
+Treat each fabricated member as a connection between named bearing surfaces.
+A sole plate begins on the skid top and keeps plate-proportioned thickness. A
+lower gusset spans from that sole top to its upper bearing. An upper saddle
+spans from its mounting pad to its machine-relative top. A fastener head keeps
+hardware-proportioned thickness and bears on the retained plate; its shank
+ends at the head top and begins at the native-scaled embedment.
+
+Verify continuity with a structural contact graph that excludes bolts, nuts
+and washers. Every load-carrying plate, pad and gusset must reach the skid
+through structural members alone. Hardware may clamp a continuous assembly;
+it must never be counted as the bridge that makes a detached assembly pass.
+
+For a tapered PYRAMID, certify its intended terminal faces rather than its
+axis-aligned bounding box. An inner gusset must have its bottom face on the sole
+plate and its top face on the mounting-plate underside. An outer stay must have
+its bottom face on the fixed sole plate even when its top is positioned from a
+machine envelope. Require equal interface U and positive overlap of the actual
+end-face rectangles in plan. Crossing or overlapping AABBs are not evidence of
+a fabricated bearing or weld.
+
+PYRAMID POS is its geometric centre, not either terminal face. After solving a
+required low/high span, emit `HEIG = high - low` and place POS at their midpoint.
+Verify occupied local-Z faces at `POS +/- HEIG/2`. Writing the bottom face to
+POS drives half a tall stay through the skid and leaves the opposite end short
+by the same half-height.
+
+> **User-confirmed 2026-08-20 (JK_Pump_Build).** The client accepted the r6 E3D
+> result after the adapter solved physical terminal faces first and emitted the
+> midpoint as PYRAMID POS. This acceptance closes the preceding r5 failure in
+> which the same intended spans were emitted from a bottom-face POS.
+
+## Data-driven segmented motors and drive shafts — user-corrected 2026-08-20
+
+**RECOMMENDED; not yet client-accepted outside JK_Pump_Build.** A circular
+frustum is a centre-datum CONE with both end diameters; replacing it with a DISH
+changes both shape and datum. For this project the client requires a similar,
+mirrored cone at both ends of every motor. Each cone joins the main stator at
+full diameter and tapers to an outward face at 2/3 diameter. When source end
+diameters conflict with this construction, the user ratio wins. If only one end
+has a measured positive length, use it for both cones.
+
+> **User-corrected 2026-08-20 (JK_Pump_Build).** The prior rule treated every
+> `engine_total` as an accessory-inclusive closed envelope. That made
+> `205-PU-012` visibly too short by compressing its main stator to 717 mm. Its
+> project-specific correction keeps a 1277.8 mm total envelope, absorbs the
+> rear-small-cylinder allowance into a 1126.8 mm main barrel and terminates
+> both ends with 75.5 mm cones.
+> Do not generalise this one tag's number to another motor.
+
+> **User-corrected 2026-08-20 (JK_Pump_Build).** The motor/outboard tail must
+> physically terminate in the rear CONE. A small cylinder outside that cone is
+> not acceptable even when the model contains two correct cones elsewhere.
+> Preserve the required envelope by absorbing that axial allowance into the
+> main stator, and verify the outboard-most body type after sorting by axis.
+
+For a measured free drive comprising cylinders and a pump-side frustum,
+preserve its topology, diameters and axial part ratios. Raw offsets can be less
+reliable than the required physical interfaces. If they leave a gap or excessive
+penetration, uniformly fit only the axial part lengths between the motor face
+and a controlled casing engagement, and disclose the factor. An explicit N/A
+free-shaft record should select a close-coupled construction rather than a
+Reference-Value shaft.
+
+If a project tag has no motor/shaft row, a family-derived fallback must be
+deterministic and traceable. Select donors on machine/skid envelope similarity,
+reject donors that would require extreme compression, scale axial and radial
+dimensions independently from documented target evidence, and label every
+result as a Reference Value until vendor data or client review supersedes it.
+
+---
+
+## Top-discharge volute casing / pump head bend transition — user-confirmed 2026-09-03
+
+**VERIFIED / USER-CONFIRMED.** On centrifugal process pumps with top-centerline
+discharge nozzles, the casing volute wraps circumferentially and transitions
+into the central vertical discharge spool via an intermediate reverse bend:
+
+1. **Main volute ring**: Modeled additively as a full $360^\circ$ ring in the
+   transverse plane (normal axis $Z$ parallel to the pump shaft) using two
+   back-to-back $180^\circ$ `CTORUS` primitives.
+2. **Transition auxiliary bend (`CTORUS`)**: Directly connects to the approach
+   quadrant of the volute ring (e.g. West quadrant for clockwise rotation) with
+   tangent continuity ($G^1$). When the transition bend radius equals the volute
+   radius ($R_2 = R_1$), the sweep is exactly $60^\circ$ (`ANGL 60degree`),
+   shifting the horizontal offset from $E_{\text{center}} - R_1/2$ smoothly into
+   $E_{\text{center}}$ with a strictly vertical ($+U$) tangent.
+3. **Discharge nozzle / straight spool (`CYLINDER` / `NOZZLE`)**: Aligned
+   coaxially on the equipment center vertical axis ($E_{\text{center}}, N_{\text{casing}}$)
+   and seated directly on the transition bend exit elevation ($U_0 + \sqrt{3} R_1$).
+
+```pml
+-- Volute main ring lower half
+NEW CTORUS
+ORI Z IS N AND Y IS D
+POS E 48852mm N 5610.9mm U 622.17mm
+RINS 159.5mm
+ROUT 262.5mm
+ANGL 180degree
+END
+
+-- Volute main ring upper half
+NEW CTORUS
+ORI Z IS N AND Y IS U
+POS E 48852mm N 5610.9mm U 622.17mm
+RINS 159.5mm
+ROUT 262.5mm
+ANGL 180degree
+END
+
+-- West-to-up transition auxiliary bend (60deg S-bend into top centerline)
+NEW CTORUS
+ORI Z IS N AND Y IS D
+POS E 48641mm N 5610.9mm U 987.63mm
+RINS 159.5mm
+ROUT 262.5mm
+ANGL 60degree
+END
+
+-- Top vertical discharge straight spool
+NEW CYLINDER
+ORI Z IS U AND Y IS N
+POS E 48852mm N 5610.9mm U 1137.63mm
+DIAM 103mm
+HEIG 300mm
+END
+```
+
