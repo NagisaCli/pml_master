@@ -131,6 +131,9 @@ class PrimitiveSpec:
     ylen: float = 0.0
     zlen: float = 0.0
     plan_rotation_deg: float = 0.0
+    vertices: Tuple[Tuple[float, float], ...] = ()
+    orientation: str = ""
+    level: Optional[Tuple[int, int]] = None
 
     def __post_init__(self) -> None:
         kind = self.kind.upper()
@@ -142,8 +145,17 @@ class PrimitiveSpec:
             raise ValueError("Primitive group cannot be blank")
         if not self.label.strip():
             raise ValueError("Primitive label cannot be blank")
-        if kind not in {"CYLI", "CONE", "DISH", "BOX"}:
+        if kind not in {"CYLI", "CONE", "DISH", "BOX", "EXTRUSION"}:
             raise ValueError(f"Unsupported primitive kind {kind!r}")
+
+        if kind == "EXTRUSION":
+            if not self.vertices or len(self.vertices) < 3:
+                raise ValueError("EXTRUSION needs at least 3 vertices")
+            if self.height <= 0:
+                raise ValueError(f"EXTRUSION needs positive height, got {self.height}")
+            if not self.orientation.strip():
+                object.__setattr__(self, "orientation", "Y IS N AND Z IS U")
+            return
 
         if kind == "BOX":
             if min(self.xlen, self.ylen, self.zlen) <= 0:
@@ -278,6 +290,70 @@ class PrimitiveSpec:
             plan_rotation_deg=plan_rotation_deg,
         )
 
+    @classmethod
+    def extrusion(
+        cls,
+        group: str,
+        point: Point,
+        height: float,
+        vertices: Iterable[Tuple[float, float]],
+        label: str,
+        *,
+        orientation: str = "Y IS N AND Z IS U",
+        role: str = "detail",
+        level: Optional[Tuple[int, int]] = None,
+    ) -> "PrimitiveSpec":
+        return cls(
+            group=group,
+            kind="EXTRUSION",
+            point=point,
+            label=label,
+            role=role,
+            height=height,
+            orientation=orientation,
+            vertices=tuple(vertices),
+            level=level,
+        )
+
+    @classmethod
+    def hex_nut(
+        cls,
+        group: str,
+        point: Point,
+        across_flats: float,
+        height: float,
+        label: str,
+        *,
+        orientation: str = "Y IS N AND Z IS U",
+        role: str = "hardware",
+        rotation_deg: float = 0.0,
+    ) -> "PrimitiveSpec":
+        r = across_flats / math.sqrt(3.0)
+        half_flat = across_flats / 2.0
+        base_pts = [
+            (r, 0.0),
+            (r / 2.0, half_flat),
+            (-r / 2.0, half_flat),
+            (-r, 0.0),
+            (-r / 2.0, -half_flat),
+            (r / 2.0, -half_flat),
+        ]
+        if abs(rotation_deg) > 1e-9:
+            ang = math.radians(rotation_deg)
+            cos_a, sin_a = math.cos(ang), math.sin(ang)
+            base_pts = [
+                (cos_a * x - sin_a * y, sin_a * x + cos_a * y) for x, y in base_pts
+            ]
+        return cls.extrusion(
+            group=group,
+            point=point,
+            height=height,
+            vertices=base_pts,
+            label=label,
+            role=role,
+            orientation=orientation,
+        )
+
     @property
     def cross_diameter(self) -> float:
         if self.kind == "CONE":
@@ -287,6 +363,18 @@ class PrimitiveSpec:
     def bounds(self) -> Bounds:
         """Local axis-aligned occupied bounds of this primitive."""
         e, n, u = self.point
+        if self.kind == "EXTRUSION":
+            xs = [v[0] for v in self.vertices]
+            ys = [v[1] for v in self.vertices]
+            return (
+                e + min(xs),
+                e + max(xs),
+                n + min(ys),
+                n + max(ys),
+                u,
+                u + self.height,
+            )
+
         if self.kind == "BOX":
             angle = math.radians(self.plan_rotation_deg)
             cosine = abs(math.cos(angle))

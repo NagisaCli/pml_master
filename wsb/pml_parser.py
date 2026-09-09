@@ -55,7 +55,7 @@ __all__ = [
 #: Element types that carry geometry. ``EQUI`` and ``SUBE`` are grouping
 #: elements: they own a position but occupy no space, so treating one as
 #: geometry would read a zero-sized primitive at the equipment origin.
-GEOMETRY_KINDS = frozenset({"CYLI", "CONE", "DISH", "BOX"})
+GEOMETRY_KINDS = frozenset({"CYLI", "CONE", "DISH", "BOX", "EXTRUSION"})
 
 #: Unit vector for each E3D axis letter.
 AXIS_VECTOR: Dict[str, Tuple[float, float, float]] = {
@@ -137,6 +137,8 @@ def parse_primitives(
     current: dict = {}
     in_equipment = False
 
+    extrusion_depth = 0
+
     for raw in script.splitlines():
         line = raw.strip()
 
@@ -144,13 +146,42 @@ def parse_primitives(
             # An EQUI opens a new item and closes the previous one.
             in_equipment = line[len("NEW EQUI /") :] == expected
             current = {}
+            extrusion_depth = 0
             continue
         if not in_equipment:
             continue
 
+        if line.startswith("NEW EXTRUSION"):
+            current = {"kind": "EXTRUSION", "axis": "U", "vertices": []}
+            extrusion_depth = 1
+            continue
+
+        if line == "NEW LOOP" and current.get("kind") == "EXTRUSION":
+            extrusion_depth = 2
+            continue
+
+        if line == "NEW VERTEX" and current.get("kind") == "EXTRUSION":
+            extrusion_depth = 3
+            continue
+
+        if line == "END" and current.get("kind") == "EXTRUSION":
+            extrusion_depth -= 1
+            if extrusion_depth <= 0:
+                if with_bounds:
+                    current["bounds"] = bounds_of(current)
+                if with_lowest_point:
+                    current["u_min"] = lowest_point(current)
+                primitives.append(current)
+                current = {}
+                extrusion_depth = 0
+            continue
+
         if line.startswith("NEW "):
             kind = line[4:].split()[0].upper() if len(line) > 4 else ""
-            current = {"kind": kind, "axis": "U"} if kind in GEOMETRY_KINDS else {}
+            if kind in GEOMETRY_KINDS and kind != "EXTRUSION":
+                current = {"kind": kind, "axis": "U"}
+            else:
+                current = {}
             continue
         if not current:
             continue
@@ -163,6 +194,10 @@ def parse_primitives(
         if plan and current.get("kind") == "BOX":
             current["plan_rotation_deg"] = parse_plan_direction(plan.group(1))
 
+        if current.get("kind") == "EXTRUSION" and line.startswith("ORI "):
+            current["orientation"] = line[4:].strip()
+            continue
+
         orientation = ORI_RE.match(line)
         if orientation:
             current["axis"] = orientation.group(1).upper()
@@ -171,13 +206,19 @@ def parse_primitives(
         position = POS_RE.match(line)
         if position:
             east, north, up = (float(value) for value in position.groups())
-            current.update(east=east, north=north, up=up)
-            if with_bounds:
-                current["bounds"] = bounds_of(current)
-            if with_lowest_point:
-                current["u_min"] = lowest_point(current)
-            primitives.append(current)
-            current = {}
+            if current.get("kind") == "EXTRUSION":
+                if extrusion_depth == 3:
+                    current.setdefault("vertices", []).append((east, north))
+                else:
+                    current.update(east=east, north=north, up=up)
+            else:
+                current.update(east=east, north=north, up=up)
+                if with_bounds:
+                    current["bounds"] = bounds_of(current)
+                if with_lowest_point:
+                    current["u_min"] = lowest_point(current)
+                primitives.append(current)
+                current = {}
 
     return primitives
 
@@ -342,6 +383,20 @@ def bounds_of(primitive: dict) -> Bounds:
     east = primitive["east"]
     north = primitive["north"]
     up = primitive["up"]
+
+    if primitive["kind"] == "EXTRUSION":
+        verts = primitive.get("vertices", [(0.0, 0.0)])
+        xs = [v[0] for v in verts]
+        ys = [v[1] for v in verts]
+        heig = primitive.get("heig", 0.0)
+        return (
+            east + min(xs),
+            east + max(xs),
+            north + min(ys),
+            north + max(ys),
+            up,
+            up + heig,
+        )
 
     if primitive["kind"] == "BOX":
         angle = math.radians(primitive.get("plan_rotation_deg", 0.0))

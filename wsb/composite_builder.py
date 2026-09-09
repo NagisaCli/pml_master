@@ -98,6 +98,15 @@ def _emit_primitive(
             label=primitive.label,
             plan_rotation_deg=primitive.plan_rotation_deg,
         )
+    elif primitive.kind == "EXTRUSION":
+        builder.extrusion(
+            point,
+            primitive.orientation,
+            primitive.height,
+            primitive.vertices,
+            level=primitive.level,
+            label=primitive.label,
+        )
     else:  # pragma: no cover - protected by PrimitiveSpec validation
         raise ValueError(f"Unsupported primitive {primitive.kind}")
 

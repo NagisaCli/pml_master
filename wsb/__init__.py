@@ -24,6 +24,17 @@ Or from the command line::
 from .generate import GenerationResult, generate
 from .drawing_builder import DrawingBuilder, DrawingSpec, PointSpec, build_drawing
 from .extrusion_builder import ExtrusionBuilder, ExtrusionSpec, build_extrusion
+from .handrail_builder import (
+    HandrailBuilder,
+    HandrailSpec,
+    RouteCurve,
+    RoutePoint,
+    build_arc_handrail,
+    build_circular_handrail,
+    build_polyline_handrail,
+    build_rectangular_handrail,
+    build_tank_top_handrail,
+)
 from .pml_builder import PMLBuilder, PMLValidationError, validate_pml
 from .piping_builder import (
     BranchSpec,
@@ -52,9 +63,13 @@ __all__ = [
     "DrawingSpec",
     "ExtrusionBuilder",
     "ExtrusionSpec",
+    "HandrailBuilder",
+    "HandrailSpec",
     "PointSpec",
     "PMLBuilder",
     "PMLValidationError",
+    "RouteCurve",
+    "RoutePoint",
     "ElbowSpec",
     "NativeCatalogueComponentSpec",
     "PipeSpec",
@@ -67,6 +82,11 @@ __all__ = [
     "build_pipe",
     "build_drawing",
     "build_extrusion",
+    "build_arc_handrail",
+    "build_circular_handrail",
+    "build_polyline_handrail",
+    "build_rectangular_handrail",
+    "build_tank_top_handrail",
     "build_tank",
     "BranchSpec",
     "discover_projects",

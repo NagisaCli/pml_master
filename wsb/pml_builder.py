@@ -1167,6 +1167,144 @@ class PMLBuilder:
         self.primitive_count += 1
         return self
 
+    def extrusion(
+        self,
+        position: Tuple[float, float, float],
+        orientation: str,
+        height: float,
+        vertices: Iterable[Tuple[float, float]],
+        *,
+        level: Optional[Tuple[int, int]] = None,
+        label: str = "",
+    ) -> "PMLBuilder":
+        """
+        Native EXTRUSION positioned by its profile end plane.
+
+        Args:
+            position: (east, north, up) of the profile end plane.
+            orientation: Orientation string, e.g. ``'Y IS N AND Z IS U'``.
+            height: Length extruded along local +Z (mm).
+            vertices: Ordered (x, y) coordinates of the 2D profile loop.
+            level: Optional display level tuple (low, high).
+            label: Optional comment written above the primitive.
+        """
+        if height <= 0:
+            raise PMLValidationError(f"EXTRUSION needs positive height, got {height}")
+        vert_list = tuple(vertices)
+        if len(vert_list) < 3:
+            raise PMLValidationError("EXTRUSION LOOP needs at least three vertices")
+        if label:
+            self.comment(label)
+        east, north, up = position
+        ori = " ".join(orientation.upper().split())
+        self._lines.append("NEW EXTRUSION")
+        self._lines.append(f"POS E {_fmt(east)} N {_fmt(north)} U {_fmt(up)}")
+        self._lines.append(f"ORI {ori}")
+        if level is not None:
+            self._lines.append(f"LEVE {level[0]} {level[1]}")
+        self._lines.append(f"HEIG {_fmt(height)}")
+        self._lines.append("")
+        self._lines.append("NEW LOOP")
+        for x, y in vert_list:
+            self._lines.append("NEW VERTEX")
+            self._lines.append(f"POS E {_fmt(x)} N {_fmt(y)} U 0")
+            self._lines.append("END")
+        self._lines.append("END")
+        self._lines.append("END")
+        self.primitive_count += 1
+        return self
+
+    def circular_handrail(
+        self,
+        center_local: Tuple[float, float],
+        radius: float,
+        *,
+        elevation: float = 0.0,
+        name: Optional[str] = None,
+        position: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+        top_rail_height: float = 1250.0,
+        mid_rail_height: float = 750.0,
+        post_spacing: float = 1000.0,
+        tangent_offset: float = 300.0,
+        fillet_radius: float = 100.0,
+        label: Optional[str] = None,
+    ) -> "PMLBuilder":
+        """
+        Native structural circular handrail (HANDRA / RPATH) verified in E3D Design Mk3.1.
+
+        Args:
+            center_local: (East, North) local center of the circle.
+            radius: Outer platform / tank rim radius (mm).
+            elevation: Elevation offset (mm).
+            name: Optional element name.
+            position: Insertion origin (East, North, Up).
+            top_rail_height: Top rail height (mm).
+            mid_rail_height: Intermediate rail height (mm).
+            post_spacing: Post spacing (mm).
+            tangent_offset: Tangent return offset (mm).
+            fillet_radius: Fillet radius on vertices (mm).
+            label: Optional comment written above the element.
+        """
+        from .handrail_builder import build_circular_handrail
+
+        if label:
+            self.comment(label)
+        macro_text = build_circular_handrail(
+            center_local=center_local,
+            radius=radius,
+            elevation=elevation,
+            name=name,
+            position=position,
+            top_rail_height=top_rail_height,
+            mid_rail_height=mid_rail_height,
+            post_spacing=post_spacing,
+            tangent_offset=tangent_offset,
+            fillet_radius=fillet_radius,
+        )
+        self._lines.extend(macro_text.strip().split("\n"))
+        self.primitive_count += 1
+        return self
+
+    def rectangular_handrail(
+        self,
+        length_e: float,
+        width_n: float,
+        *,
+        origin: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+        elevation: float = 0.0,
+        name: Optional[str] = None,
+        top_rail_height: float = 1250.0,
+        mid_rail_height: float = 750.0,
+        post_spacing: float = 1000.0,
+        tangent_offset: float = 300.0,
+        fillet_radius: float = 100.0,
+        show_kickplate: bool = True,
+        label: Optional[str] = None,
+    ) -> "PMLBuilder":
+        """
+        Native structural rectangular platform perimeter handrail.
+        """
+        from .handrail_builder import build_rectangular_handrail
+
+        if label:
+            self.comment(label)
+        macro_text = build_rectangular_handrail(
+            length_e=length_e,
+            width_n=width_n,
+            origin=origin,
+            elevation=elevation,
+            name=name,
+            top_rail_height=top_rail_height,
+            mid_rail_height=mid_rail_height,
+            post_spacing=post_spacing,
+            tangent_offset=tangent_offset,
+            fillet_radius=fillet_radius,
+            show_kickplate=show_kickplate,
+        )
+        self._lines.extend(macro_text.strip().split("\n"))
+        self.primitive_count += 1
+        return self
+
     # -- internals ------------------------------------------------------
 
     def _orient(self, axis: Axis) -> None:
@@ -1174,16 +1312,6 @@ class PMLBuilder:
         Emit the ORI line. Always called before :meth:`_position`, which is what
         keeps Iron Rule 1 structural rather than advisory.
         """
-        # The primitive's LENGTH runs along its Z axis. Verified in AVEVA's own
-        # PML, where the cylinder factory builds its orientation from the axis
-        # direction as Z:
-        #
-        #     gphFactory.pmlobj:632
-        #         !orientation = Z IS $!normal AND X IS $!xDirection
-        #
-        # Putting the axis on Y instead lays every vessel on its side - the
-        # second axis in each pair below is just a roll reference and does not
-        # affect a body of revolution.
         orientations = {
             "U": "ORI Z IS U AND Y IS N",
             "D": "ORI Z IS D AND Y IS N",
