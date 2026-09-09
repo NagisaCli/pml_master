@@ -74,12 +74,12 @@ catalogue family.
 
 ## Primitives — VERIFIED
 
-CYLI, CONE and BOX position by **geometric centre**; DISH positions by its flat
-rim / tangent plane (IR-1). Those rotational basic primitives take `ORI` before
-`POS` (IR-2), with the axis of revolution on Z (IR-3). EXTRUSION positions by
-its **profile end plane** (IR-1) and its `POS`/`ORI` assignment order is
-equivalent in the tested forms — do not transfer the CYLI/CONE centre-datum or
-ORI-before-POS rule to it.
+CYLI, CONE, BOX and PYRAMID position by **geometric centre**; DISH positions by
+its flat rim / tangent plane (IR-1). Those basic primitives take `ORI` before
+`POS` (IR-2); rotational primitives use Z as their axis (IR-3). EXTRUSION
+positions by its **profile end plane** (IR-1) and its `POS`/`ORI` assignment
+order is equivalent in the tested forms — do not transfer a centred-element
+datum to it.
 
 ### CYLI — cylinder
 
@@ -130,6 +130,35 @@ the emitted bearing back and verifies the rotated occupied bounds.
 > plates at non-cardinal bearings distorted when left on global E/N axes.
 > Their local X must be radial and local Y tangential; deriving XLEN/YLEN from
 > absolute E/N deltas is not a rotation.
+
+### PYRAMID — rectangular pyramid/frustum
+
+**VERIFIED in E3D Design Mk3.1.11.0. Use the full keyword `PYRAMID`; the short
+form `PYRA` is not a valid macro primitive.**
+
+```pml
+NEW PYRAMID
+XBOT 20.0
+YBOT 400.0
+XTOP 20.0
+YTOP 300.0
+HEIG 220.0
+XOFF 40.0
+ORI Z IS U AND Y IS N
+POS E 0 N 0 U 180.0
+```
+
+`POS` is the geometric centre. The bottom face is at local `Z = -HEIG/2` and
+the top face at local `Z = +HEIG/2`; therefore a required vertical span
+`U low..high` uses `HEIG = high - low` and `POS U = (low + high) / 2`.
+`XBOT/YBOT` size the bottom rectangle, `XTOP/YTOP` size the top rectangle, and
+`XOFF/YOFF` shift the top-face centre in local X/Y relative to the bottom face.
+
+Evidence: the native `/P1501B-BASE` export and the client's r5 E3D rejection
+described in IR-1 discriminate centre POS from an end-face POS. r5 wrote the
+intended bottom as POS; E3D placed half the PYRAMID below that plane and left
+the opposite end short. The r6 generator and verifier use centre bounds, and
+the client accepted the resulting E3D geometry on 2026-08-20.
 
 ### CONE — frustum
 
@@ -255,6 +284,30 @@ longitudinal datum conversion — the end plane is the datum E3D wants, exactly
 as DISH's rim plane is passed through unchanged. Source study:
 `Projects/E3D_Syntax_Lab/experiments/PML-STUDY-EXTR-001/STUDY.md`.
 
+### CTORUS — circular torus / pipe bend
+
+**VERIFIED in E3D Design Mk3.1.11.0.** Used for smooth return bends, pipe elbows, and atmospheric tank breather / vent goosenecks.
+
+```pml
+NEW CTORUS
+ORI Y IS U AND Z IS N
+POS E 15300.0mm N 19860.0mm U 9720.0mm
+RINS 190.4mm
+ROUT 409.6mm
+ANGL 90degree
+END
+```
+
+- `POS` is the **centre of curvature** of the torus circle in 3D space.
+- `RINS` = inner radius ($R_{bend} - r_{pipe}$).
+- `ROUT` = outer radius ($R_{bend} + r_{pipe}$).
+- `ANGL` = sweep angle (**MUST be in range 0 to 180 degrees**, e.g. `ANGL 90degree` or `ANGL 180degree`).
+  - **VERIFIED (42,88 error):** AVEVA E3D strictly rejects angles $> 180^\circ$ with `(42,88) Angles for TORI must be in the range 0 to 180`.
+  - To model a full $360^\circ$ torus (or any bend $> 180^\circ$), combine two back-to-back $180^\circ$ `CTORUS` primitives rotated $180^\circ$ around their sweep axis.
+  - For S-bend reverse transitions into a top-center discharge (e.g. pump casing volute to vertical centerline spool), a secondary $60^\circ$ reverse `CTORUS` ($R_2 = R_1$) achieves exact $G^1$ tangency from the casing quadrant to the vertical centerline.
+- Local axes: `Z` is the axis of revolution (normal to the bend sweep plane). The arc starts at local `+X` and sweeps around `+Z` towards local `+Y`.
+- Order: attributes/radii → `ORI` → `POS` → `ANGL`.
+
 ---
 
 ## Not available — VERIFIED to fail
@@ -264,8 +317,8 @@ These produce a syntax error in `$M` macro mode:
 | Primitive | Intended use | Use instead |
 |-----------|--------------|-------------|
 | `SNOT` | Slanted-bottom cylinder | Stacked `CYLI` + `BOX` slices |
-| `PYRA` | Rectangular pyramid/frustum | Tapered stacked `BOX` slices |
-| `CTOR` | Circular torus / ring | Arrayed small `CYLI` segments |
+| `PYRA` | Invalid shorthand for a rectangular taper | Full `PYRAMID` keyword |
+| `CTOR` | Invalid abbreviation for circular torus | Full `CTORUS` keyword |
 | `RTOR` | Rectangular torus / ring | Arrayed small `BOX` segments |
 | `NCYLI` | Negative cylinder (hole) | Not available in macro mode |
 | `NBOX` | Negative box (hole) | Not available in macro mode |
@@ -273,6 +326,12 @@ These produce a syntax error in `$M` macro mode:
 Boolean/negative primitives are unavailable in macro mode, which is why models
 here are built additively. This is an advantage, not a limitation: additive
 models stay editable and maintainable downstream.
+
+> **Scope.** Everything in this table is about `$M` macro mode. The live bridge
+> writes through the AVEVA .NET database API instead, where these types exist as
+> `DbElementTypeInstance` members and a `CTORUS` has been observed to
+> instantiate. See *The live bridge writes through a different door* below
+> before concluding a type is unreachable.
 
 > **User-instructed 2026-08-05 (JK_Pump_Build).** The client requested the
 > opposite: use `NCYLINDER` to cut a real hole through a plate instead of
@@ -336,6 +395,190 @@ models stay editable and maintainable downstream.
 > END
 > END
 > ```
+>
+> **VERIFIED 2026-09-04 (User E3D verdict — negative extrusion on rotated parent):**
+> When the parent primitive is rotated (e.g. `CONE` with `ORI Y is U and Z is N`),
+> a child negative primitive's `ORI` and `POS` are evaluated **strictly relative
+> to the parent's local frame**. Never emit `WRT /*` on child negatives (causes
+> multi-metre coordinate explosion, F-24). Solve child ORI in parent frame:
+> $R_{\text{local}} = R_{\text{parent}}^T \cdot R_{\text{world}}$. To sweep East (+E)
+> with profile on the NUDS (North-Up) plane inside a Z=N, Y=U cone, child ORI is
+> `ORI Y IS N AND Z IS W` with start-face `POS E <half_width> N 0 U 0`. A 16-vertex
+> LOOP with $R=10\text{ mm}$ fillets cuts smooth, production-grade cast windows.
+
+
+---
+
+## The live bridge writes through a different door
+
+Everything above concerns `$M` macro mode, where E3D parses PML text. The live
+bridge (`integrations/e3d_live/`) does not use it: the Add-in calls the AVEVA
+.NET database API directly — `DbElement.Create`, typed `SetAttribute`, readback,
+inside an `UndoTransaction`. **A limit of the PML parser is not automatically a
+limit of the database.**
+
+This matters for the table above. `CTOR` fails in macro mode as an invalid
+abbreviation, while the full `CTORUS` keyword works; through the .NET path there
+is no keyword at all, only `DbElementTypeInstance.CTORUS`.
+
+### What the API exposes — VERIFIED by reflection 2026-09-01
+
+Reflection over the installed x86 `Aveva.Core.Database.dll` (run from a 32-bit
+host; an x64 process cannot load it) found all of these on
+`DbElementTypeInstance`:
+
+`CTORUS`, `RTORUS`, `EXTRUSION`, `LOOP`, `VERTEX`, `NBOX`, `NCYLINDER`,
+`NCONE`, `NDISH`.
+
+`DbElement.SetAttribute` has typed overloads for `Int32`, `Double`, `String`,
+`Position` and `Orientation`, and `GetInteger` reads integer attributes back.
+
+### What has actually run in E3D — VERIFIED 2026-09-01
+
+In an isolated Design session on project APS, through the live bridge:
+
+- An ordered `SITE` → `ZONE` → `EQUI` creation, each parent an earlier creation
+  in the same undo transaction, applied and read back exactly as requested.
+- `DESC` and `POS E 0 N 0 U 0` on those three, read back unchanged.
+- A `CTORUS` **instantiated**: `parent.Create(0, DbElementTypeInstance.CTORUS)`
+  succeeded, and the failure that followed came while setting an attribute on
+  the element that already existed.
+- The abort path: that failure rolled the whole transaction back, zero
+  operations committed, every requested name absent afterwards.
+
+### What is still UNCONFIRMED
+
+No geometry family has yet been read back complete through this path —
+`CTORUS`, `RTORUS`, `EXTRUSION`/`LOOP`/`VERTEX`, and the negatives. In
+particular, **creating a negative primitive is not evidence that it subtracts**;
+only a visible hole is.
+
+---
+
+## Attribute names: PML says one thing, the database says another
+
+The command name you write in PML is not always the attribute name the database
+uses. Through macro mode this never shows, because the parser translates. Through
+the .NET API it is fatal — the attribute simply will not resolve.
+
+| PML / command form | Database attribute | Evidence |
+|---|---|---|
+| `RADIUS` | `RADI` | native E3D exports; live bridge mapping |
+| `NAPPFLAG` | `NAPP` | reflection 2026-09-01: `DbAttributeInstance.NAPP` exists, `NAPPFLAG` does not |
+
+Expect more of these. The symptom is an apply that fails on an unresolvable
+attribute, not a wrong value.
+
+### `DESC` is a hierarchy attribute, not a geometry one — VERIFIED 2026-09-01
+
+A live `CTORUS` refused it:
+
+```
+Element CTORUS /AI_T1_CTOR does not have attribute DESC
+```
+
+The whole transaction aborted. `DESC` is proven on `SITE`, `ZONE` and `EQUI`
+(the scaffold above applied with it on all three). For every geometry type it is
+**UNCONFIRMED**, and the live bridge no longer offers it there.
+
+This cannot be settled by reading the DLL. `DbElementType.IsAttributeValid`
+answers it exactly, but the static type table is `null` until a database is
+open, so the question can only be asked from inside a live session.
+
+### Circular and rectangular torus attributes
+
+From AVEVA's own object source — `PMLLIB/common/objects/edgctorus.pmlobj` and
+`edgrtorus.pmlobj` read `.rins` and `.rout` off the database reference, and the
+primitive creation form labels the fields Inside radius, Outside Radius, Angle,
+and Height for RTORUS only:
+
+| Primitive | Size attributes |
+|---|---|
+| `CTORUS` | `RINS`, `ROUT`, `ANGL` |
+| `RTORUS` | `RINS`, `ROUT`, `HEIG`, `ANGL` |
+
+Tube radius is `(ROUT - RINS) / 2`; the centreline radius is
+`(ROUT + RINS) / 2`. `ANGL` is degrees swept. Status: **UNCONFIRMED** in E3D —
+the names are AVEVA-sourced, but no torus has yet been created and measured.
+
+---
+
+## Structural Handrail: HANDRA / RPATH — VERIFIED
+
+**VERIFIED in AVEVA Everything3D 3.1** (`PML-STUDY-HANDRA-001`, user certified 2026-08-31 with full 3D rendering in E3D Design Mk3.1; native export `Projects/E3D_Syntax_Lab/imports/2026-08-31_handra_native.txt`, SHA-256 `76efb61dd2b7ab95517c297a089a2ea6616bbd4265b8f1b5c42aba8de0a43f93`).
+
+Used for structural walkways, platform perimeters, and tank-top handrails.
+
+```pml
+NEW HANDRA
+POS E 34999.64mm S 1251.49mm U 15320mm
+RAILHE 1250mm 750mm
+POSTSP 1000mm
+TANGOF 300mm
+SHOWKP true
+BRAD 100mm
+FIRE 0
+BUIL false
+SHOP false
+
+NEW RPATH
+DRNS E 22.5 N
+DRNE E 22.5 S
+
+NEW POINTR
+FRAD 100mm
+END
+NEW CURVE
+POS E 2057.68mm N 852.32mm U 0mm
+CURTYP THRU
+END
+NEW POINTR
+POS E 2910mm N 2910mm U 0mm
+FRAD 100mm
+END
+NEW CURVE
+POS E 2057.68mm N 4967.68mm U 0mm
+CURTYP THRU
+END
+NEW POINTR
+POS E 0mm N 5820mm U 0mm
+FRAD 100mm
+END
+NEW CURVE
+POS W 2057.68mm N 4967.68mm U 0mm
+CURTYP THRU
+END
+NEW POINTR
+POS W 2910mm N 2910mm U 0mm
+FRAD 100mm
+END
+NEW CURVE
+POS W 2057.68mm N 852.32mm U 0mm
+CURTYP THRU
+END
+NEW POINTR
+FRAD 100mm
+END
+END
+END
+```
+
+### Hierarchy & Semantics
+- **Owner**: Structural framework (`FRMWORK`, e.g. `HANDRA 1 of FRMWORK /402`) or Structure (`STRU`).
+- **`HANDRA` attributes**:
+  - `POS`: Handrail origin / base insertion point.
+  - `RAILHE <top> <mid>`: Dual rail heights (Top rail and intermediate/mid rail elevation above platform grating).
+  - `POSTSP <dist>`: Maximum stanchion/post spacing along the route path.
+  - `TANGOF <dist>`: Tangent offset / return extension.
+  - `SHOWKP <true/false>`: Toggle visibility of kickplate / toe plate.
+  - `BRAD <radius>`: Corner/return bend radius.
+  - `FIRE <n>`: Fireproofing class.
+  - `BUIL <true/false>`, `SHOP <true/false>`: Fabrication / shop flags.
+- **`RPATH` route path**:
+  - `DRNS <dir>` / `DRNE <dir>`: Start and end tangent direction bearings (e.g. `E 22.5 N`).
+  - `NEW POINTR`: Path control vertices with fillet radius `FRAD <radius>`.
+  - `NEW CURVE`: Arc passing points with `CURTYP THRU` for smooth circular arc interpolation.
+- Reusable generator: `wsb.handrail_builder.build_circular_handrail`.
 
 ---
 
@@ -448,8 +691,14 @@ with `$M`.
 | `CONE` | `DTOP`, `DBOT`, `HEIG` |
 | `DISH` | `DIAM`, `HEIG`, `RADIUS` |
 | `EXTRUSION` | `HEIG`; cross-section from owned `LOOP` / `VERTEX` elements |
+| `CTORUS` | `RINS`, `ROUT`, `ANGL` — AVEVA-sourced, UNCONFIRMED in E3D |
+| `RTORUS` | `RINS`, `ROUT`, `HEIG`, `ANGL` — AVEVA-sourced, UNCONFIRMED in E3D |
 
-Units are millimetres throughout.
+Units are millimetres throughout; `ANGL` is degrees.
+
+`DESC` is **not** in this table on purpose. It belongs to hierarchy elements
+(`SITE`, `ZONE`, `EQUI`), and a live `CTORUS` rejected it outright. See
+*Attribute names: PML says one thing, the database says another* above.
 
 ---
 
@@ -472,7 +721,7 @@ is unproven and what evidence would settle it.
 | Item | Claim | What would verify it |
 |------|-------|----------------------|
 | `SCTN` | Structural sections for platforms/ladders | Confirm specification reference resolves in macro mode |
-| `HANDRA` + circular RPATH | Handrail template built from a closed RPATH with curve elements, a RAILSET and no HRPOST posts | **Contradicted 2026-08-10 (JK-Tank_Build r2):** the block loaded with no error but rendered nothing visible; user reported no handrail formed. A native-proven block (POINTR + FRAD, POSTSE/HRPOST, CLOSEFLAG true) must be observed in E3D before this form is used again; primitives are the fallback |
+| `HANDRA` + circular RPATH | Native structural handrail with RPATH, POINTR (FRAD), and CURVE (CURTYP THRU) | **VERIFIED 2026-08-31 (PML-STUDY-HANDRA-001):** User certified in E3D Design Mk3.1 with complete 3D rendering. The earlier 2026-08-10 failure was caused by an unverified synthetic RAILSET template without native RPATH / POINTR / CURVE elements. |
 
 `SCTN` has not been verified in macro mode here. EXTRUSION's editable hierarchy,
 profile plane, local-Z extrusion axis, end-plane POS datum, assignment-order

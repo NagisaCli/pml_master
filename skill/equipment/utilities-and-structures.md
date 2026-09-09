@@ -88,9 +88,16 @@ Arrangement on the racks:
 | Crane rail top | 16500–18000 mm |
 | Operating floor | U = 4500 mm |
 | Grating | 50 mm thick (`BOX` ZLEN 50) |
-| Handrail top rail | platform + 1100 mm |
-| Handrail mid rail | platform + 550 mm |
-| Handrail post | φ40 mm at 2000 mm spacing |
+| Handrail top rail | platform + 1100–1250 mm (`RAILHE 1250mm 750mm` in native specimen) |
+| Handrail mid rail | platform + 550–750 mm |
+| Handrail post | φ40 mm at 1000–2000 mm spacing (`POSTSP 1000mm` in native specimen) |
+
+### Mandatory Structural Handrail Generator Rule — VERIFIED
+Whenever a platform, mezzanine deck, walkway, or stair requires safety railing, it **MUST** be generated using native `NEW HANDRA` + `NEW RPATH` (`wsb.handrail_builder`) rather than primitive approximations or omitting it. The generator provides:
+- `build_circular_handrail` for circular tank roofs and circular platforms;
+- `build_rectangular_handrail` for rectangular structures and platforms;
+- `build_polyline_handrail` for multi-segment walkways and sloped stair paths;
+- `build_arc_handrail` for open/curved perimeter sectors.
 
 ---
 

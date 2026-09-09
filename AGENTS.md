@@ -37,8 +37,8 @@ Do not read the whole directory. That wastes the context you need for the model.
 
 ## The five things that will break your macro
 
-1. **`POS` is element-specific.** `CYLI`, `CONE` and `BOX` use geometric centre;
-   `DISH` uses its flat rim / tangent plane.
+1. **`POS` is element-specific.** `CYLI`, `CONE`, `BOX` and `PYRAMID` use
+   geometric centre; `DISH` uses its flat rim / tangent plane.
 2. **`ORI` before `POS`.** The reverse order drifts the element silently, with no
    error message.
 3. **PML1 only.** No `!var =`, `COLLECT`, `UNSET`, `ENDS`, `END EQUI`, `!!Alert`.

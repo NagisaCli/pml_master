@@ -111,6 +111,14 @@ Changes are matched by hierarchy and element name first. For unnamed primitives,
 use owner, type, neighbouring elements and key attributes together; ordinal
 position alone is insufficient when a new primitive was inserted.
 
+### Equipment Duplication and Transformation in Zone Macros
+
+When replicating a template equipment model to other equipment items with different orientations:
+- **Unique Subequipment Naming**: Subequipment names starting with `/` (e.g. `/Copy-of-MOTOR_FRAME`) are globally scoped in E3D MDBs. Prepend the target equipment tag (`/<TAG>_MOTOR_FRAME`) to prevent `(2, 102) Name already exists` errors.
+- **Coordinate Frame Separation**: Subequipments with world `POS` use local relative $(dx, dy, dz)$ vectors for child primitives, which must be rotated as local vectors. Subequipments without world `POS` use world $(E, N, U)$ coordinates, which transform relative to the target anchor.
+- **Unoriented Primitives**: Primitives without an explicit `ORI` default to world E-N-U axes. When rotating equipment, inject the rotated default `ORI` (e.g. `ORI Y is W and Z is U` for 90° CCW; `ORI Y is E and Z is U` for 90° CW) so that $XLEN$ and $YLEN$ keep their physical dimensions.
+- **Nozzle Catalogue Bindings**: Ensure trailing `OLD NOZZLE` / `CATR` bindings in the epilogue are duplicated and updated for all newly added or replaced equipment.
+
 ---
 
 ## Phase 5 — Prove nothing was overwritten

@@ -6,9 +6,12 @@ This directory is a *skill*, not an application. It carries the accumulated
 experience of generating AVEVA E3D PML1 macros for pulp & paper equipment. Every
 rule here was paid for by a real failure in E3D Design Mk3.1.11.0.
 
-There is no API and no daemon. You — whichever AI model is reading this — are the
-runtime. Your job is to read the relevant files, generate a macro that loads in
-E3D on the first attempt, and then **write back what you learned**.
+The core skill has no implicit API or daemon. You — whichever AI model is reading
+this — are the runtime. Your job is to read the relevant files, generate a macro
+that loads in E3D on the first attempt, and then **write back what you learned**.
+An experimental, opt-in, project-scoped live bridge is isolated under
+`integrations/e3d_live/`; it must not import project data or global memory unless
+an explicit scope adapter is selected for the active E3D project.
 
 ---
 
@@ -48,9 +51,9 @@ If the input is a manually edited/native-exported PML file, also read
 These are compressed from `skill/knowledge/iron-rules.md`. If you read nothing
 else, read these — but read the full file before emitting geometry.
 
-1. **`POS` is element-specific.** `CYLI`, `CONE` and `BOX` use geometric centre;
-   `DISH` uses its flat rim / tangent plane. Never apply a half-height centre
-   conversion to a DISH.
+1. **`POS` is element-specific.** `CYLI`, `CONE`, `BOX` and `PYRAMID` use
+   geometric centre; `DISH` uses its flat rim / tangent plane. Never apply a
+   half-height centre conversion to a DISH.
 2. **`ORI` before `POS`**, always. The reverse order rotates the position vector
    and the element drifts silently, with no error.
 3. **PML1 only.** No `!var =`, `COLLECT`, `UNSET`, `ENDS`, `END EQUI`, `!!Alert`.

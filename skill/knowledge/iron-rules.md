@@ -11,14 +11,14 @@ Rules are ordered by how expensive the failure is.
 
 ---
 
-## IR-1 — `POS` is element-specific: centre for CYLI/CONE/BOX, rim for DISH,
-end plane for EXTRUSION
+## IR-1 — `POS` is element-specific: centre for CYLI/CONE/BOX/PYRAMID, rim for
+DISH, end plane for EXTRUSION
 
-`CYLI`, `CONE` and `BOX` use their **geometric centre**.  `DISH` uses its flat
-rim / tangent-plane centre where the head joins the shell.  `EXTRUSION` uses
-its **profile end plane**: the LOOP plane sits at `POS` and the solid extends
-`HEIG` toward local +Z.  Do not apply the CYLI/CONE half-height conversion to a
-DISH or an EXTRUSION.
+`CYLI`, `CONE`, `BOX` and `PYRAMID` use their **geometric centre**. `DISH` uses
+its flat rim / tangent-plane centre where the head joins the shell.
+`EXTRUSION` uses its **profile end plane**: the LOOP plane sits at `POS` and the
+solid extends `HEIG` toward local +Z. Do not apply the centred-element
+half-height conversion to a DISH or an EXTRUSION.
 
 An earlier revision of this knowledge base treated the drawing's bottom face as
 the E3D datum for every element; following it put CYLI/CONE primitives half
@@ -37,6 +37,21 @@ A DN2000 x 1500 skirt whose base must sit on the slab at U 300:
 pipeEditor.pmlfrm:7807
     !cylinderPosition = !position.offset(!direction, !height / 2)
 ```
+
+**PYRAMID evidence — VERIFIED 2026-08-19 (JK_Pump_Build).** The native
+`/P1501B-BASE` element 6 has `POS U -236` and `HEIG 37`. A centre datum gives
+the occupied range `-254.5..-217.5`, joining the sole-plate top at `-255` to
+the mounting-pad underside at `-218` within the exported 0.5 mm tolerance.
+Elements 4/5 similarly span `-200..-140` around `POS -170`, starting exactly
+on the pump mounting-pad top at `-200`.
+
+The discriminating failure was r5: it wrote an intended bottom face directly
+to PYRAMID POS and the client-loaded E3D view showed each long outer stay
+extending half its height through the baseplate while each inner gusset stopped
+short of its top plate. Emitting `POS = (bottom + top) / 2` removed both effects
+in r6, which the client accepted after E3D visual review on 2026-08-20.
+Therefore PYRAMID bounds are `POS +/- HEIG/2` along local Z; `XOFF`/`YOFF`
+locate the top face relative to the bottom face.
 
 **DISH evidence.** In `JK_Cooking_Tank_Build`, the generated
 `ACCUMULATOR_TANK` top head had `HEIG 1755.8` and the builder moved its `POS`
@@ -64,11 +79,10 @@ a different amount. The result does not look like a uniform offset that you woul
 notice immediately — it looks like overlapping clutter, with shells, skirts,
 heads and nozzles telescoped into one another.
 
-**Do the conversion once, centrally.** Take the bottom-face point for CYLI/CONE
-from the drawing and add half the extent along the primitive's own axis in
-`wsb.pml_builder.PMLBuilder._position`.  Pass BOX centre points, DISH rim
-points and EXTRUSION profile end-plane points through unchanged
-(`wsb.extrusion_builder`).  Never scatter this arithmetic across call sites.
+**Do the conversion once, centrally.** Take a requested bottom/top span for
+CYLI/CONE/PYRAMID and emit its midpoint. Pass BOX centre points, DISH rim points
+and EXTRUSION profile end-plane points through unchanged. Never scatter this
+arithmetic across call sites.
 
 ---
 
@@ -676,8 +690,8 @@ because it still reads as certain.
 
 Run through this before returning any macro:
 
-- [ ] `POS` uses the correct element datum: CYLI/CONE/BOX centre; DISH rim plane;
-      EXTRUSION profile end plane (IR-1)
+- [ ] `POS` uses the correct element datum: CYLI/CONE/BOX/PYRAMID centre; DISH
+      rim plane; EXTRUSION profile end plane (IR-1)
 - [ ] `ORI` precedes `POS` for every `CYLI` / `CONE` / `DISH` (IR-2)
 - [ ] `POS` precedes `ORI` for every `NOZZLE` — the opposite order (IR-2)
 - [ ] Every `NOZZLE` aimed by `ORI P1 IS <direction>`, never a geometric axis (IR-2)

@@ -184,6 +184,40 @@ Do not copy the same free-floating ladder onto every tank.
 > afterwards. The cone surface near the rim intersects the post zone for the
 > first ~30–40 mm of post height until the frustum is re-sized — report that
 > interaction instead of hiding it.
+>
+> **Mandatory Structural Handrail Rule (2026-08-31, PML-STUDY-HANDRA-001 & JK-Tank_Build R8).**
+> Whenever a tank top, roof deck, or access platform requires perimeter handrails by drawing
+> or project instruction:
+> 1. **Structural Hierarchy Contract**: `HANDRA` is a structural element and **MUST** be
+>    created under `NEW STRU /<tag>_STRU` -> `NEW FRMWORK /<tag>_FRMWORK` -> `NEW HANDRA /<tag>_TOP_HANDRAIL`,
+>    peer to `EQUIPMENT`. Creating `HANDRA` inside `SUBEQUIPMENT` triggers `(41,8) Cannot create a HANDRA at this level`.
+> 2. **Datum Seating Contract**: `STRU` is positioned under `ZONE` (world coordinates). Its
+>    emitted `POS` must equal the true world elevation of the cylinder top rim
+>    ($U_{world} = U_{local\_rim} + U_{equipment\_origin}$).
+> 3. **Ladder Outward Connection Contract (User-corrected 2026-08-31)**: At a vertical access ladder
+>    exit, the perimeter handrail must **NOT** break open or bend inward into the sloped roof cone
+>    (which causes clashing). The handrail turns **radially OUTWARD** at the rim to connect directly
+>    and seamlessly into the two vertical ladder handrail stringers (e.g. at $W 5150\text{ mm}$, $N \pm 240\text{ mm}$).
+> 4. **Ladder Top Safety Cage Extension (User-corrected 2026-08-31)**: The vertical ladder safety
+>    cage (护笼) must extend upward by $+1100\text{ mm}$ all the way to the top handrail elevation
+>    ($U = 27500\text{ mm}$), adding upper safety hoops and extending the 7 vertical cage bars to
+>    provide complete $360^\circ$ fall protection behind the worker's back at the landing.
+
+> **User-corrected 2026-08-28 (JK-Tank_Build roof breather vent).** An atmospheric
+> tank breather / vent elbow is rooted at the **tank roof apex / geometric center**
+> $(E_c, N_c, U_{apex})$, not at an offset perimeter nozzle. It is built as an open
+> $90^\circ$ pipe gooseneck using native `CYLINDER` riser + `CTORUS` ($90^\circ$
+> smooth elbow, `ANGL 90degree`) + horizontal `CYLINDER` discharge spool. It does
+> not use a flanged `NOZZLE` element. A $180^\circ$ hairpin return bend is too
+> restrictive and impedes atmospheric vapour relief; a $90^\circ$ horizontal
+> discharge allows unobstructed venting while preventing vertical rain ingress.
+
+> **User-corrected 2026-08-28 (JK-Tank_Build shell stiffeners).** When removing
+> crude placeholder access ladders (e.g. $\Phi 60\,\text{mm}$ cylinders), always
+> **preserve the tank shell circumferential stiffening rings** (wind girders /
+> stiffener rings with projection $\approx 120\,\text{mm}$ and depth $\approx 100\sim 200\,\text{mm}$)
+> located across the height of the cylindrical shell. Never purge the entire
+> access subequipment if it houses the shell stiffener geometry.
 
 ---
 
