@@ -1,0 +1,28 @@
+python -c "
+import pathlib, json
+p = pathlib.Path(r'C:\Users\A\.gemini\antigravity\brain\e7a23cae-d28f-4987-8fe3-3ca339d02450\.system_generated\logs\transcript_full.jsonl')
+for line in p.read_text(encoding='utf-8', errors='ignore').splitlines():
+    if not line.strip(): continue
+    if '205_TA_056_INTERNAL' in line:
+        try:
+            data = json.loads(line)
+            print('step_index:', data.get('step_index'), 'type:', data.get('type'), 'source:', data.get('source'))
+            # search inside all string values in data
+            def search_dict(d):
+                for k, v in d.items():
+                    if isinstance(v, str) and '205_TA_056_INTERNAL' in v:
+                        print('Found in key:', k, 'len:', len(v))
+                        if v.startswith('$S-') or 'INPUT BEGIN' in v:
+                            out = pathlib.Path('Projects/JK-Tank_Build/imports/2026-08-31_two_tanks_native.txt')
+                            out.parent.mkdir(parents=True, exist_ok=True)
+                            out.write_text(v.strip() + '\n', encoding='utf-8')
+                            print('WROTE SUCCESS to file! lines:', len(v.splitlines()))
+                    elif isinstance(v, dict):
+                        search_dict(v)
+                    elif isinstance(v, list):
+                        for item in v:
+                            if isinstance(item, dict): search_dict(item)
+            search_dict(data)
+        except Exception as e:
+            print('Err:', e)
+"

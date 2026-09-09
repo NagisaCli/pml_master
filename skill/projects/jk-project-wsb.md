@@ -333,3 +333,23 @@ and hashes in `Projects/JK-Tank_Build/archive/2026-08-10_top_handrails_r4/`.
 The reusable correction is recorded in
 [tanks-and-vessels.md](../equipment/tanks-and-vessels.md): a frustum-roof top
 handrail follows the shell-cylinder rim, not the frustum top.
+
+### 2026-08-31 — R8: Native structural handrail (HANDRA/RPATH) & ladder safety integration (CONFIRMED)
+
+The earlier 2026-08-10 failure (F-22) was settled via `PML-STUDY-HANDRA-001`. Replaced
+the 200+ cylinder approximations on `205-TA-056` and `205-TA-001` with native structural
+`HANDRA` / `RPATH` / `POINTR` / `CURVE` (`CURTYP THRU`).
+
+Key rules verified in production (user confirmed: "OK简直完美"):
+1. **Structural Hierarchy Contract**: `HANDRA` must be owned by `STRU` -> `FRMWORK`,
+   never `SUBEQUIPMENT`.
+2. **Absolute Datum Seating Contract**: Handrail base elevation under `ZONE` matches the
+   true world elevation of the cylinder rim ($U_{world} = U_{local\_rim} + U_{equipment\_origin}$).
+3. **Outward Ladder Connection Contract**: Handrails turn radially OUTWARD across the rim
+   to connect directly into the vertical ladder handrail stringers, eliminating sloped roof
+   cone penetration.
+4. **Vertical Ladder Safety Cage Extension**: Ladder safety cages raised $+1100\text{ mm}$
+   (to $U = 27500\text{ mm}$) with added upper hoops and extended bars for complete back protection.
+
+Deliverables: `Projects/JK-Tank_Build/output/WSB_TA_two_tanks_handrails_20260831.pml`
+and `WSB_TA_handrails_20260831.txt`. Preserved user screenshot evidence in `archive/`.

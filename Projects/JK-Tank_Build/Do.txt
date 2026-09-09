@@ -379,3 +379,48 @@ Implementation and hashes: see
 `archive/2026-08-10_top_handrails_r4/REVISION_RECORD.md`. Result:
 `output/WSB_TA_top_handrails_20260810_r4.txt` (CONFIRMED by the user on
 2026-08-10: "可以，干的漂亮"). Frustum size remains the designer's to adjust.
+
+--------------------------------------------------
+20. CAGED LADDERS AND ATMOSPHERIC ROOF VENTS — 2026-08-28 (ACCEPTED by user: "可以的")
+--------------------------------------------------
+
+User direction and refinement on baseline `WSB_TA_top_handrails_20260810_r4.txt`:
+
+1. **Access Ladders & Shell Stiffeners**:
+   - Removed crude $\Phi 60\,\text{mm}$ placeholder ladder lines from all tank `_ACCESS` subequipments.
+   - Preserved all circumferential shell stiffening rings / wind girders across all 16 tanks.
+   - Added full-height welded safety caged ladders with circular safety hoops, vertical straps, standoff brackets, and top walkthrough handrails on tall tanks `205-TA-001` and `205-TA-056`.
+
+2. **Atmospheric Roof Breather Vents**:
+   - Installed open $90^\circ$ gooseneck breather elbows on all 8 atmospheric tanks (`203-TA-006`, `204-TA-034`, `204-TA-035`, `205-TA-001`, `205-TA-011`, `205-TA-029`, `205-TA-045`, `205-TA-056`).
+   - Rooted directly at the **tank roof apex / geometric center** $(E_c, N_c, U_{apex})$.
+   - Geometry: Vertical riser cylinder + native `CTORUS` ($90^\circ$ smooth torus bend, `ANGL 90degree`) + horizontal discharge cylinder spool.
+   - Omitted flanged `NOZZLE` elements to avoid flow restriction and macro binding errors.
+
+3. **Restorations and Cleanups**:
+   - 100% restored authentic `203-TA-044` instrument air receiver with four-directional curved seamless support brackets and baseplate bolt cutouts.
+   - Cleaned two duplicate orphan nozzles (`/Copy-of-203_TA_006_N2_NOZZ` and `/Copy-of-203_TA_006_N5_NOZZ`) and auxiliary aidlines.
+   - Fully synchronized all 96 trailing `OLD NOZZLE` catalogue bindings.
+
+Result macro: `output/WSB_TA_ladders_and_vents_20260827.txt` (ACCEPTED by user: "可以的").
+
+--------------------------------------------------
+21. STRUCTURAL TOP HANDRAILS & LADDER INTEGRATION — 2026-08-31 (CONFIRMED by user: "OK简直完美")
+--------------------------------------------------
+
+Replaced the 200+ crude cylinder handrail approximations on `205-TA-056` and `205-TA-001`
+with native structural `HANDRA` / `RPATH` / `POINTR` / `CURVE` (`CURTYP THRU`) syntax (PML-STUDY-HANDRA-001):
+
+1. **E3D Database Hierarchy**:
+   - `HANDRA` is a structural element and is placed under `NEW STRU /<tag>_STRU` -> `NEW FRMWORK /<tag>_FRMWORK` -> `NEW HANDRA /<tag>_TOP_HANDRAIL`, peer to `EQUIPMENT`.
+2. **Absolute World Elevation Seating**:
+   - World elevation under `ZONE` offsets equipment base elevation:
+     * `205-TA-056`: Seated flush on rim at $U = 26100\text{ mm}$ ($26400 - 300\text{ mm}$ base offset).
+     * `205-TA-001`: Seated flush on rim at $U = 26900\text{ mm}$ ($26400 + 500\text{ mm}$ base offset).
+3. **Outward Ladder Handrail Connection**:
+   - Handrail turns radially OUTWARD at the rim to connect directly and seamlessly into the two vertical ladder handrail stringers (at $W 5150\text{ mm}$ for TA-056 and $W 5600\text{ mm}$ for TA-001, $N \pm 240\text{ mm}$), avoiding sloped roof cone clash.
+4. **Vertical Ladder Safety Cage Top Extension**:
+   - Extended the 7 vertical cage bars and added two upper safety hoops at $U = 27000\text{ mm}$ and $U = 27500\text{ mm}$ ($+1100\text{ mm}$ up to top rail height), providing full $360^\circ$ back protection during ladder egress.
+
+Deliverable macro: `output/WSB_TA_two_tanks_handrails_20260831.pml` (CONFIRMED by user: "OK简直完美").
+
