@@ -213,17 +213,18 @@ def _footplate_hardware(
                     f"{label} anchor washer {index}",
                     role="hardware",
                 ),
-                PrimitiveSpec.cyli(
+                PrimitiveSpec.hex_nut(
                     group,
-                    42.0,
-                    18.0,
                     _point(
                         centre_e + de,
                         centre_n + dn,
                         plate_thickness + 5.0,
                     ),
-                    f"{label} anchor nut {index}",
+                    across_flats=42.0,
+                    height=18.0,
+                    label=f"{label} anchor nut {index}",
                     role="hardware",
+                    rotation_deg=rotation_deg,
                 ),
             )
         )
@@ -275,6 +276,74 @@ def _leg_top_connection(
             ),
         )
     )
+
+
+def _chassis_anchor_hardware(
+    primitives: List[PrimitiveSpec],
+    *,
+    shell_radius: float,
+    count: int,
+    label: str,
+    chassis_thickness: float = 20.0,
+    flange_width: float = 150.0,
+) -> None:
+    """Circular bottom base chassis plate with tightly fixed perimeter anchor bolts.
+
+    The circular base chassis plate extends radial clearance by +150.0 mm beyond
+    the shell radius (diameter = (shell_radius + 150.0) * 2), with height = 20.0
+    mm at elevation 0. Anchor studs, washers, and hexagonal nuts are seated
+    directly on the top face of the chassis plate with all chair brackets removed.
+    """
+    chassis_diameter = (shell_radius + flange_width) * 2.0
+    primitives.append(
+        PrimitiveSpec.cyli(
+            "SUPPORT",
+            chassis_diameter,
+            chassis_thickness,
+            _point(u=0.0),
+            f"{label} bottom base chassis plate",
+            role="support",
+        )
+    )
+    bolt_radius = shell_radius + flange_width * 0.50
+    for index in range(count):
+        angle = 2.0 * math.pi * index / count
+        unit_e = math.cos(angle)
+        unit_n = math.sin(angle)
+        e = unit_e * bolt_radius
+        n = unit_n * bolt_radius
+        rotation_deg = math.degrees(angle) % 360.0
+        washer_u = chassis_thickness
+        nut_u = washer_u + 6.0
+        primitives.extend(
+            (
+                PrimitiveSpec.cyli(
+                    "SUPPORT",
+                    30.0,
+                    80.0,
+                    _point(e, n, 0.0),
+                    f"{label} anchor stud {index + 1:02d}",
+                    role="hardware",
+                ),
+                PrimitiveSpec.cyli(
+                    "SUPPORT",
+                    60.0,
+                    6.0,
+                    _point(e, n, washer_u),
+                    f"{label} anchor washer {index + 1:02d}",
+                    role="hardware",
+                ),
+                PrimitiveSpec.hex_nut(
+                    "SUPPORT",
+                    _point(e, n, nut_u),
+                    across_flats=52.0,
+                    height=24.0,
+                    label=f"{label} anchor nut {index + 1:02d}",
+                    role="hardware",
+                    rotation_deg=rotation_deg,
+                ),
+            )
+        )
 
 
 def _perimeter_anchor_hardware(
@@ -349,13 +418,14 @@ def _perimeter_anchor_hardware(
                     f"{label} anchor washer {index + 1:02d}",
                     role="hardware",
                 ),
-                PrimitiveSpec.cyli(
+                PrimitiveSpec.hex_nut(
                     "SUPPORT",
-                    52.0,
-                    24.0,
                     _point(e, n, 42.0),
-                    f"{label} anchor nut {index + 1:02d}",
+                    across_flats=52.0,
+                    height=24.0,
+                    label=f"{label} anchor nut {index + 1:02d}",
                     role="hardware",
+                    rotation_deg=rotation_deg,
                 ),
             )
         )
@@ -395,12 +465,12 @@ def _rectangular_support_anchors(
                     f"{label} anchor washer {index}",
                     role="hardware",
                 ),
-                PrimitiveSpec.cyli(
+                PrimitiveSpec.hex_nut(
                     "SUPPORT",
-                    42.0,
-                    18.0,
                     _point(e, n, 25.0),
-                    f"{label} anchor nut {index}",
+                    across_flats=42.0,
+                    height=18.0,
+                    label=f"{label} anchor nut {index}",
                     role="hardware",
                 ),
             )
@@ -513,18 +583,149 @@ def _access_ladder(
             attach_e = radial_e * attach_radius + tangent_e * tangent_offset
             attach_n = radial_n * attach_radius + tangent_n * tangent_offset
             bracket_length = face_radius + stand_off - attach_radius
+            primitives.extend(
+                (
+                    PrimitiveSpec.box(
+                        "ACCESS",
+                        90.0,
+                        90.0,
+                        14.0,
+                        _point(attach_e, attach_n, u),
+                        f"{label} {bearing} {side} bracket shell weld pad {level + 1:02d}",
+                        role="access",
+                    ),
+                    PrimitiveSpec.cyli(
+                        "ACCESS",
+                        30.0,
+                        bracket_length,
+                        _point(attach_e, attach_n, u),
+                        f"{label} {bearing} {side} connected ladder bracket {level + 1:02d}",
+                        axis=bearing,
+                        role="access",
+                    ),
+                )
+            )
+
+    # Safety cage (GB 4053.3 / OSHA 1910.28): starts ~2200 mm above base
+    cage_start_u = start_u + 2200.0
+    if top_u > cage_start_u + 600.0:
+        cage_top_u = top_u
+        cage_height = cage_top_u - cage_start_u
+        hoop_count = max(2, int(cage_height // 1200.0) + 1)
+
+        # Smooth circular arc hoop profile (38 vertices total: 19 outer + 19 inner)
+        # Tangential t [-260 .. +260], Radial r [0 .. +650]
+        # Smooth C1 arc: t(alpha) = 260*sin(alpha), r(alpha) = 200 + 450*cos(alpha) for alpha in [-pi/2, +pi/2]
+        outer_tr = [(-half_width, 0.0)]
+        for step in range(17):
+            alpha = -math.pi / 2.0 + math.pi * step / 16.0
+            t = half_width * math.sin(alpha)
+            r = 200.0 + 450.0 * math.cos(alpha)
+            outer_tr.append((t, r))
+        outer_tr.append((half_width, 0.0))
+
+        inner_tr = [(half_width - 8.0, 0.0)]
+        for step in range(16, -1, -1):
+            alpha = -math.pi / 2.0 + math.pi * step / 16.0
+            t = (half_width - 8.0) * math.sin(alpha)
+            r = 200.0 + 442.0 * math.cos(alpha)
+            inner_tr.append((t, r))
+        inner_tr.append((-half_width + 8.0, 0.0))
+
+        hoop_profile = []
+        for t, r in outer_tr + inner_tr:
+            de = t * tangent_e + r * radial_e
+            dn = t * tangent_n + r * radial_n
+            hoop_profile.append((de, dn))
+
+        # Add hoops and hoop-to-rail welded mounting lug clips
+        for k in range(hoop_count):
+            u_hoop = (
+                cage_start_u + k * cage_height / (hoop_count - 1)
+                if hoop_count > 1
+                else cage_start_u
+            )
             primitives.append(
-                PrimitiveSpec.cyli(
+                PrimitiveSpec.extrusion(
                     "ACCESS",
-                    30.0,
-                    bracket_length,
-                    _point(attach_e, attach_n, u),
-                    f"{label} {bearing} {side} connected ladder bracket "
-                    f"{level + 1:02d}",
-                    axis=bearing,
+                    _point(ladder_e, ladder_n, u_hoop),
+                    40.0,
+                    hoop_profile,
+                    f"{label} {bearing} ladder safety cage hoop {k + 1:02d}",
                     role="access",
                 )
             )
+            # Welded mounting lug clips connecting hoop ends to tubular stringer rails
+            for side, tangent_offset in (("left", -half_width), ("right", half_width)):
+                clip_e = ladder_e + tangent_e * tangent_offset + radial_e * 15.0
+                clip_n = ladder_n + tangent_n * tangent_offset + radial_n * 15.0
+                primitives.append(
+                    PrimitiveSpec.box(
+                        "ACCESS",
+                        60.0,
+                        30.0,
+                        48.0,
+                        _point(clip_e, clip_n, u_hoop + 20.0),
+                        f"{label} {bearing} {side} hoop weld clip {k + 1:02d}",
+                        role="access",
+                    )
+                )
+
+        # 7 vertical safety bars evenly distributed along the smooth outer perimeter
+        bar_locations_tr = [
+            (-half_width, 100.0),  # left flank bar
+            (half_width * math.sin(-math.pi / 3.0), 200.0 + 450.0 * math.cos(-math.pi / 3.0)),  # -60 deg
+            (half_width * math.sin(-math.pi / 6.0), 200.0 + 450.0 * math.cos(-math.pi / 6.0)),  # -30 deg
+            (0.0, 650.0),  # front apex
+            (half_width * math.sin(math.pi / 6.0), 200.0 + 450.0 * math.cos(math.pi / 6.0)),   # +30 deg
+            (half_width * math.sin(math.pi / 3.0), 200.0 + 450.0 * math.cos(math.pi / 3.0)),   # +60 deg
+            (half_width, 100.0),  # right flank bar
+        ]
+        for bar_idx, (t, r) in enumerate(bar_locations_tr, start=1):
+            bar_e = ladder_e + t * tangent_e + r * radial_e
+            bar_n = ladder_n + t * tangent_n + r * radial_n
+            # Continuous vertical safety round bar
+            primitives.append(
+                PrimitiveSpec.cyli(
+                    "ACCESS",
+                    20.0,
+                    cage_height,
+                    _point(bar_e, bar_n, cage_start_u),
+                    f"{label} {bearing} ladder cage vertical bar {bar_idx:02d}",
+                    axis="U",
+                    role="access",
+                )
+            )
+            # Top rounded weld termination cap
+            primitives.append(
+                PrimitiveSpec.cyli(
+                    "ACCESS",
+                    26.0,
+                    16.0,
+                    _point(bar_e, bar_n, cage_top_u),
+                    f"{label} {bearing} ladder cage bar top weld cap {bar_idx:02d}",
+                    axis="U",
+                    role="access",
+                )
+            )
+            # Welded junction collars at every crossing with flat hoops
+            for k in range(hoop_count):
+                u_hoop = (
+                    cage_start_u + k * cage_height / (hoop_count - 1)
+                    if hoop_count > 1
+                    else cage_start_u
+                )
+                primitives.append(
+                    PrimitiveSpec.cyli(
+                        "ACCESS",
+                        28.0,
+                        44.0,
+                        _point(bar_e, bar_n, u_hoop - 2.0),
+                        f"{label} {bearing} ladder cage weld collar {k + 1:02d}_{bar_idx:02d}",
+                        axis="U",
+                        role="access",
+                    )
+                )
 
 
 def _vessel_fittings(
@@ -784,16 +985,16 @@ def _blow_tank_agitator(
                     f"{label} agitator ground anchor washer {index}",
                     role="hardware",
                 ),
-                PrimitiveSpec.cyli(
+                PrimitiveSpec.hex_nut(
                     "INTERNALS",
-                    42.0,
-                    18.0,
                     _point(
                         e,
                         n,
                         baseplate_bottom + baseplate_thickness + 5.0,
                     ),
-                    f"{label} agitator ground anchor nut {index}",
+                    across_flats=42.0,
+                    height=18.0,
+                    label=f"{label} agitator ground anchor nut {index}",
                     role="hardware",
                 ),
             )
@@ -919,24 +1120,26 @@ def _atmospheric_tank(
     added above that capacity cylinder, so the listed capacity is not consumed
     by an assumed roof volume.
     """
+    chassis_thickness = 20.0
+    tank_base_u = chassis_thickness
     shell_height = _cylindrical_height(diameter, capacity)
     roof_rise = diameter * 0.15
-    overall = shell_height + roof_rise
+    overall = tank_base_u + shell_height + roof_rise
     apex_dn = min(300.0, diameter * 0.08)
     primitives: List[PrimitiveSpec] = [
         PrimitiveSpec.cyli(
             "SHELL",
             diameter,
             20.0,
-            _point(u=0.0),
-            "Flat bottom plate at foundation datum",
+            _point(u=tank_base_u),
+            "Flat bottom plate at tank datum",
             role="body",
         ),
         PrimitiveSpec.cyli(
             "SHELL",
             diameter,
             shell_height,
-            _point(u=0.0),
+            _point(u=tank_base_u),
             "Capacity cylinder",
             role="body",
         ),
@@ -945,7 +1148,7 @@ def _atmospheric_tank(
             diameter,
             apex_dn,
             roof_rise,
-            _point(u=shell_height),
+            _point(u=tank_base_u + shell_height),
             "Conical atmospheric roof",
             role="body",
         ),
@@ -957,12 +1160,48 @@ def _atmospheric_tank(
             "Roof apex cap within total-height envelope",
         ),
     ]
+
+    # Stiffening / wind rings and roof curb angle
+    if shell_height >= 3500.0:
+        for ring_idx, frac in enumerate((0.35, 0.70), start=1):
+            ring_u = tank_base_u + shell_height * frac
+            primitives.append(
+                PrimitiveSpec.cyli(
+                    "SHELL",
+                    diameter + 160.0,
+                    120.0,
+                    _point(u=ring_u - 60.0),
+                    f"{display_name} shell stiffening ring {ring_idx:02d}",
+                    role="detail",
+                )
+            )
+    elif shell_height >= 1200.0:
+        primitives.append(
+            PrimitiveSpec.cyli(
+                "SHELL",
+                diameter + 120.0,
+                100.0,
+                _point(u=tank_base_u + shell_height * 0.5 - 50.0),
+                f"{display_name} shell stiffening ring 01",
+                role="detail",
+            )
+        )
+    primitives.append(
+        PrimitiveSpec.cyli(
+            "SHELL",
+            diameter + 120.0,
+            100.0,
+            _point(u=tank_base_u + shell_height - 100.0),
+            f"{display_name} roof curb / compression ring",
+            role="detail",
+        )
+    )
     native_nozzles: List[NativeNozzleSpec] = []
     nozzle_groups: List[str] = []
     schedule = []
     for group, dn, fraction, axis, service in services:
-        elevation = max(dn / 2.0 + 80.0, shell_height * fraction)
-        elevation = min(elevation, shell_height - dn / 2.0 - 80.0)
+        elevation = tank_base_u + max(dn / 2.0 + 80.0, shell_height * fraction)
+        elevation = min(elevation, tank_base_u + shell_height - dn / 2.0 - 80.0)
         _radial_nozzle(
             native_nozzles,
             nozzle_groups,
@@ -976,7 +1215,7 @@ def _atmospheric_tank(
         schedule.append(f"{group} DN{dn} {service}")
 
     vent_offset = diameter * 0.20
-    vent_plate = shell_height + roof_rise * 0.60
+    vent_plate = tank_base_u + shell_height + roof_rise * 0.60
     _vertical_nozzle(
         native_nozzles,
         nozzle_groups,
@@ -990,7 +1229,7 @@ def _atmospheric_tank(
     )
     schedule.append("N4 DN150 high-point vent")
 
-    manway_elevation = min(shell_height - 400.0, max(1200.0, shell_height * 0.25))
+    manway_elevation = tank_base_u + min(shell_height - 400.0, max(1200.0, shell_height * 0.25))
     _radial_nozzle(
         native_nozzles,
         nozzle_groups,
@@ -1003,26 +1242,27 @@ def _atmospheric_tank(
     )
     schedule.append("M1 DN600 shell access manway")
 
-    _perimeter_anchor_hardware(
+    _chassis_anchor_hardware(
         primitives,
         shell_radius=diameter / 2.0,
         count=12,
         label=display_name,
+        chassis_thickness=chassis_thickness,
     )
     if ladder_bearing is not None:
         _access_ladder(
             primitives,
             face_radius=diameter / 2.0,
-            start_u=20.0,
-            top_u=shell_height,
+            start_u=tank_base_u,
+            top_u=tank_base_u + shell_height,
             bearing=ladder_bearing,
             label=display_name,
         )
     _vessel_fittings(
         primitives,
         radius=diameter / 2.0,
-        shell_bottom=0.0,
-        shell_top=shell_height,
+        shell_bottom=tank_base_u,
+        shell_top=tank_base_u + shell_height,
         label=display_name,
     )
 
@@ -1034,7 +1274,7 @@ def _atmospheric_tank(
         overall_height=overall,
         main_dimensions=(
             f"OD {diameter:.0f} mm; capacity cylinder {shell_height:.1f} mm; "
-            f"roof rise {roof_rise:.1f} mm"
+            f"roof rise {roof_rise:.1f} mm; base chassis 20 mm"
         ),
         capacity_m3=capacity,
         primitives=tuple(primitives),
@@ -1043,7 +1283,7 @@ def _atmospheric_tank(
             diameter / 2.0,
             -diameter / 2.0,
             diameter / 2.0,
-            0.0,
+            tank_base_u,
             overall,
         ),
         nozzle_groups=tuple(nozzle_groups),
@@ -1122,9 +1362,11 @@ def _pressure_accumulator(
         if capacity is None:
             raise ValueError("Accumulator needs capacity or a resolved shell height")
         shell_height = _cylindrical_height(diameter, capacity)
+    chassis_thickness = 20.0
+    tank_base_u = chassis_thickness
     head_rise = diameter / 4.0
     bottom_rise = min(head_rise, skirt_height)
-    shell_base = skirt_height
+    shell_base = tank_base_u + skirt_height
     shell_top = shell_base + shell_height
     overall = shell_top + head_rise
     primitives: List[PrimitiveSpec] = [
@@ -1132,16 +1374,8 @@ def _pressure_accumulator(
             "SUPPORT",
             diameter,
             skirt_height,
-            _point(u=0.0),
+            _point(u=tank_base_u),
             "Full-height skirt envelope",
-            role="body",
-        ),
-        PrimitiveSpec.cyli(
-            "SUPPORT",
-            diameter,
-            30.0,
-            _point(u=0.0),
-            "Skirt bearing plate at bottom datum",
             role="body",
         ),
         PrimitiveSpec.dish(
@@ -1170,6 +1404,43 @@ def _pressure_accumulator(
             role="body",
         ),
     ]
+
+    # Stiffening / vacuum rings on cylindrical shell
+    if shell_height >= 8000.0:
+        for ring_idx, frac in enumerate((0.25, 0.50, 0.75), start=1):
+            ring_u = shell_base + shell_height * frac
+            primitives.append(
+                PrimitiveSpec.cyli(
+                    "SHELL",
+                    diameter + 200.0,
+                    160.0,
+                    _point(u=ring_u - 80.0),
+                    f"{display_name} shell stiffening ring {ring_idx:02d}",
+                    role="detail",
+                )
+            )
+    elif shell_height >= 3000.0:
+        primitives.append(
+            PrimitiveSpec.cyli(
+                "SHELL",
+                diameter + 140.0,
+                120.0,
+                _point(u=shell_base + shell_height * 0.5 - 60.0),
+                f"{display_name} shell stiffening ring 01",
+                role="detail",
+            )
+        )
+    # Skirt-to-shell transition ring
+    primitives.append(
+        PrimitiveSpec.cyli(
+            "SUPPORT",
+            diameter + 140.0,
+            100.0,
+            _point(u=tank_base_u + skirt_height - 100.0),
+            f"{display_name} skirt transition stiffener ring",
+            role="support",
+        )
+    )
     native_nozzles: List[NativeNozzleSpec] = []
     nozzle_groups: List[str] = []
     nozzle_specs = (
@@ -1217,17 +1488,18 @@ def _pressure_accumulator(
     )
     schedule.append(f"M1 DN{manway_dn} shell manway")
 
-    _perimeter_anchor_hardware(
+    _chassis_anchor_hardware(
         primitives,
         shell_radius=diameter / 2.0,
         count=16 if diameter > 3000.0 else 8,
         label=display_name,
+        chassis_thickness=chassis_thickness,
     )
     if ladder_bearing is not None:
         _access_ladder(
             primitives,
             face_radius=diameter / 2.0,
-            start_u=20.0,
+            start_u=tank_base_u,
             top_u=shell_top,
             bearing=ladder_bearing,
             label=display_name,
@@ -1254,7 +1526,7 @@ def _pressure_accumulator(
         ParameterRecord(
             "Overall height",
             f"{overall:.1f} mm",
-            "Skirt + shell + top head",
+            "Chassis + skirt + shell + top head",
         ),
     ]
     if capacity is not None:
@@ -1279,9 +1551,11 @@ def _pressure_accumulator(
         ReferenceValue(
             "Detailed pressure-vessel hardware",
             (
-                "16 skirt anchors" if diameter > 3000.0 else "8 skirt anchors"
+                "16 chassis perimeter anchors"
+                if diameter > 3000.0
+                else "8 chassis perimeter anchors"
             )
-            + " with connected clamp plates; "
+            + " on R+150 mm base chassis plate; "
             + (
                 f"{ladder_bearing} fixed ladder with base shoes at 350 mm "
                 "rung pitch; "
@@ -1312,7 +1586,7 @@ def _pressure_accumulator(
         overall_height=overall,
         main_dimensions=(
             f"OD {diameter:.0f} mm; shell {shell_height:.1f} mm; "
-            f"skirt {skirt_height:.0f} mm"
+            f"skirt {skirt_height:.0f} mm; base chassis 20 mm"
         ),
         capacity_m3=capacity,
         primitives=tuple(primitives),
@@ -1321,7 +1595,7 @@ def _pressure_accumulator(
             diameter / 2.0,
             -diameter / 2.0,
             diameter / 2.0,
-            0.0,
+            tank_base_u,
             overall,
         ),
         nozzle_groups=tuple(nozzle_groups),
@@ -1444,6 +1718,14 @@ def _junk_trap(
                 _point(u=shell_top),
                 "Dished top closure",
                 role="body",
+            ),
+            PrimitiveSpec.cyli(
+                "SHELL",
+                diameter + 120.0,
+                100.0,
+                _point(u=shell_base - 50.0),
+                f"{display_name} cone transition stiffener ring",
+                role="detail",
             ),
         )
     )
@@ -1666,13 +1948,39 @@ def _blow_tank(
             top_u=leg_height,
             label=f"Blow-tank support leg {index}",
         )
-    primitives.append(
-        PrimitiveSpec.cyli(
-            "SHELL",
-            3876.0,
-            25.0,
-            _point(u=overall - 25.0),
-            "Top cover plate within authoritative overall height",
+    primitives.extend(
+        (
+            PrimitiveSpec.cyli(
+                "SHELL",
+                3876.0,
+                25.0,
+                _point(u=overall - 25.0),
+                "Top cover plate within authoritative overall height",
+            ),
+            PrimitiveSpec.cyli(
+                "SHELL",
+                7300.0 + 200.0,
+                160.0,
+                _point(u=cone_top_u - 80.0),
+                f"{display_name} bottom cone transition stiffener ring",
+                role="detail",
+            ),
+            PrimitiveSpec.cyli(
+                "SHELL",
+                7300.0 + 200.0,
+                160.0,
+                _point(u=cone_top_u + 8753.0 * 0.5 - 80.0),
+                f"{display_name} main shell wind stiffener ring",
+                role="detail",
+            ),
+            PrimitiveSpec.cyli(
+                "SHELL",
+                7300.0 + 200.0,
+                160.0,
+                _point(u=main_shell_top_u - 80.0),
+                f"{display_name} upper transition stiffener ring",
+                role="detail",
+            ),
         )
     )
 
@@ -1939,6 +2247,24 @@ def _horizontal_condensate_tank() -> EquipmentModel:
                     20.0,
                     _point(n=offset_n, u=10.0),
                     f"Saddle support {index} sole plate and grout interface",
+                    role="support",
+                ),
+                PrimitiveSpec.box(
+                    "SUPPORT",
+                    20.0,
+                    360.0,
+                    saddle_height - 40.0,
+                    _point(e=-600.0, n=offset_n, u=saddle_height / 2.0),
+                    f"Saddle support {index} west stiffener gusset",
+                    role="support",
+                ),
+                PrimitiveSpec.box(
+                    "SUPPORT",
+                    20.0,
+                    360.0,
+                    saddle_height - 40.0,
+                    _point(e=600.0, n=offset_n, u=saddle_height / 2.0),
+                    f"Saddle support {index} east stiffener gusset",
                     role="support",
                 ),
             )

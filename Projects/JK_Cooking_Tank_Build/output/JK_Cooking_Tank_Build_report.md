@@ -1,7 +1,7 @@
 # JK Cooking Plant E3D Equipment — Engineering Deliverable
 
 **Project folder:** `Projects/JK_Cooking_Tank_Build`  
-**Generated:** 2026-07-30 03:18  
+**Generated:** 2026-08-25 20:23  
 **Datum:** equipment bottom centre / foundation bearing plane  
 **Coordinates:** global E3D East, North, Up; millimetres
 
@@ -9,10 +9,10 @@
 
 - Independent equipment macros: **15**
 - Convenience combined macro: **1**
-- E3D primitives: **1801**
+- E3D primitives: **2244**
 - Nozzle/manway assemblies: **80**
 - Catalogue-backed native NOZZLE placeholders: **80**
-- Plan-oriented support/detail BOX elements: **458**
+- Plan-oriented support/detail BOX elements: **140**
 - Explicit Reference Values: **49**
 - Numerical verification: **passed for all equipment**
 
@@ -26,29 +26,29 @@ Select a writable **ZONE** in AVEVA E3D Design, then load either an individual m
 $M <full path to the .pml file>
 ```
 
-Output folder: `C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Cooking_Tank_Build\output`
+Output folder: `C:\Muvsera\Projects\e3d_agent\Projects\JK_Cooking_Tank_Build\output`
 
-Combined macro: `C:\Users\A\Desktop\Projects\e3d_agent\Projects\JK_Cooking_Tank_Build\output\JK_Cooking_Tank_Build.pml`
+Combined macro: `C:\Muvsera\Projects\e3d_agent\Projects\JK_Cooking_Tank_Build\output\JK_Cooking_Tank_Build.pml`
 
 ## Completed equipment
 
 | # | Equipment | Bottom centre E, N, U (mm) | Main dimensions | Overall height | Capacity | Primitives | Nozzle groups |
 |---:|---|---|---|---:|---:|---:|---:|
-| 1 | BLEACH HOT WATER TANK | 18720, -6004, -300 | OD 5020 mm; capacity cylinder 5052.5 mm; roof rise 753.0 mm | 5805.5 mm | 100 m3 | 115 | 5 |
-| 2 | BLOW TANK-1 | 27276, 6034, -300 | TOP→BOTTOM: CY D3876 H2508; CONE 3876→7300 H2944; CY D7300 H8753; CONE 7300→555 H5898; bottom opening 1848 above grade | 21951.0 mm | 380 m3 | 215 | 6 |
-| 3 | BLOW TANK-2 | 27498, 18002, -300 | TOP→BOTTOM: CY D3876 H2508; CONE 3876→7300 H2944; CY D7300 H8753; CONE 7300→555 H5898; bottom opening 1848 above grade | 21951.0 mm | 380 m3 | 215 | 6 |
-| 4 | WARM WATER TANK | 35894, -5970, -300 | OD 5700 mm; capacity cylinder 5682.4 mm; roof rise 855.0 mm | 6537.4 mm | 145 m3 | 117 | 5 |
-| 5 | BROWN HOT WATER TANK | 44004, -6002, -300 | OD 5714 mm; capacity cylinder 5654.5 mm; roof rise 857.1 mm | 6511.6 mm | 145 m3 | 117 | 5 |
-| 6 | JUNK TRAP-1 | 33635, 8034, -300 | OD 1770 mm; shell 1800 mm; hopper 550 mm | 2942.5 mm | — | 114 | 5 |
-| 7 | JUNK TRAP-2 | 33635, 15965, -300 | OD 1770 mm; shell 1800 mm; hopper 550 mm | 2942.5 mm | — | 114 | 5 |
-| 8 | ACCUMULATOR TANK | 44001, 12002, -300 | OD 7023 mm; shell 12907.3 mm; skirt 1800 mm | 16463.0 mm | 500 m3 | 178 | 6 |
-| 9 | ACCUMULATOR TANK AID-1 | 38433, 10002, -300 | OD 2022 mm; shell 4044.0 mm; skirt 800 mm | 5349.5 mm | — | 68 | 6 |
-| 10 | ACCUMULATOR TANK AID-2 | 38433, 14002, -300 | OD 2022 mm; shell 4044.0 mm; skirt 800 mm | 5349.5 mm | — | 68 | 6 |
-| 11 | W-L SERVICE TANK-1 | 44006, 20002, -300 | OD 5000 mm; capacity cylinder 5093.0 mm; roof rise 750.0 mm | 5843.0 mm | 100 m3 | 115 | 5 |
-| 12 | W-L SERVICE TANK-2 | 44004, 27801, -300 | OD 5000 mm; capacity cylinder 5093.0 mm; roof rise 750.0 mm | 5843.0 mm | 100 m3 | 115 | 5 |
-| 13 | MAIN CONDENSATE TANK | 28497, 27796, -300 | Horizontal envelope 3400 × 2017 mm; straight barrel 2391.5 mm | 2717.0 mm | 8 m3 | 44 | 5 |
-| 14 | SPENT LIQUOR TANK | 32502, 27803, -300 | OD 3000 mm; capacity cylinder 1414.7 mm; roof rise 450.0 mm | 1864.7 mm | 10 m3 | 91 | 5 |
-| 15 | B-L TANK | 37501, 27801, -300 | OD 5020 mm; capacity cylinder 5052.5 mm; roof rise 753.0 mm | 5805.5 mm | 100 m3 | 115 | 5 |
+| 1 | BLEACH HOT WATER TANK | 18720, -6004, -300 | OD 5020 mm; capacity cylinder 5052.5 mm; roof rise 753.0 mm; base chassis 20 mm | 5825.5 mm | 100 m3 | 133 | 5 |
+| 2 | BLOW TANK-1 | 27276, 6034, -300 | TOP→BOTTOM: CY D3876 H2508; CONE 3876→7300 H2944; CY D7300 H8753; CONE 7300→555 H5898; bottom opening 1848 above grade | 21951.0 mm | 380 m3 | 370 | 6 |
+| 3 | BLOW TANK-2 | 27498, 18002, -300 | TOP→BOTTOM: CY D3876 H2508; CONE 3876→7300 H2944; CY D7300 H8753; CONE 7300→555 H5898; bottom opening 1848 above grade | 21951.0 mm | 380 m3 | 370 | 6 |
+| 4 | WARM WATER TANK | 35894, -5970, -300 | OD 5700 mm; capacity cylinder 5682.4 mm; roof rise 855.0 mm; base chassis 20 mm | 6557.4 mm | 145 m3 | 135 | 5 |
+| 5 | BROWN HOT WATER TANK | 44004, -6002, -300 | OD 5714 mm; capacity cylinder 5654.5 mm; roof rise 857.1 mm; base chassis 20 mm | 6531.6 mm | 145 m3 | 135 | 5 |
+| 6 | JUNK TRAP-1 | 33635, 8034, -300 | OD 1770 mm; shell 1800 mm; hopper 550 mm | 2942.5 mm | — | 115 | 5 |
+| 7 | JUNK TRAP-2 | 33635, 15965, -300 | OD 1770 mm; shell 1800 mm; hopper 550 mm | 2942.5 mm | — | 115 | 5 |
+| 8 | ACCUMULATOR TANK | 44001, 12002, -300 | OD 7023 mm; shell 12907.3 mm; skirt 1800 mm; base chassis 20 mm | 16483.0 mm | 500 m3 | 274 | 6 |
+| 9 | ACCUMULATOR TANK AID-1 | 38433, 10002, -300 | OD 2022 mm; shell 4044.0 mm; skirt 800 mm; base chassis 20 mm | 5369.5 mm | — | 46 | 6 |
+| 10 | ACCUMULATOR TANK AID-2 | 38433, 14002, -300 | OD 2022 mm; shell 4044.0 mm; skirt 800 mm; base chassis 20 mm | 5369.5 mm | — | 46 | 6 |
+| 11 | W-L SERVICE TANK-1 | 44006, 20002, -300 | OD 5000 mm; capacity cylinder 5093.0 mm; roof rise 750.0 mm; base chassis 20 mm | 5863.0 mm | 100 m3 | 133 | 5 |
+| 12 | W-L SERVICE TANK-2 | 44004, 27801, -300 | OD 5000 mm; capacity cylinder 5093.0 mm; roof rise 750.0 mm; base chassis 20 mm | 5863.0 mm | 100 m3 | 133 | 5 |
+| 13 | MAIN CONDENSATE TANK | 28497, 27796, -300 | Horizontal envelope 3400 × 2017 mm; straight barrel 2391.5 mm | 2717.0 mm | 8 m3 | 48 | 5 |
+| 14 | SPENT LIQUOR TANK | 32502, 27803, -300 | OD 3000 mm; capacity cylinder 1414.7 mm; roof rise 450.0 mm; base chassis 20 mm | 1884.7 mm | 10 m3 | 58 | 5 |
+| 15 | B-L TANK | 37501, 27801, -300 | OD 5020 mm; capacity cylinder 5052.5 mm; roof rise 753.0 mm; base chassis 20 mm | 5825.5 mm | 100 m3 | 133 | 5 |
 
 ## Height and geometry calculations
 
@@ -62,7 +62,7 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Capacity-cylinder height:** 5052.5 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 5805.5 mm  
+- **Overall height:** 5825.5 mm  
   Source/basis: Derived cylinder height + Reference Value roof rise
 - The listed capacity is matched by the cylindrical section alone; the roof is additional geometric free volume.
 - Access and fastener details are isolated from the authoritative body envelope and can be replaced without changing tank data.
@@ -115,7 +115,7 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Capacity-cylinder height:** 5682.4 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 6537.4 mm  
+- **Overall height:** 6557.4 mm  
   Source/basis: Derived cylinder height + Reference Value roof rise
 - The listed capacity is matched by the cylindrical section alone; the roof is additional geometric free volume.
 - Access and fastener details are isolated from the authoritative body envelope and can be replaced without changing tank data.
@@ -128,7 +128,7 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Capacity-cylinder height:** 5654.5 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 6511.6 mm  
+- **Overall height:** 6531.6 mm  
   Source/basis: Derived cylinder height + Reference Value roof rise
 - The listed capacity is matched by the cylindrical section alone; the roof is additional geometric free volume.
 - Access and fastener details are isolated from the authoritative body envelope and can be replaced without changing tank data.
@@ -157,8 +157,8 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Shell height:** 12907.3 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 16463.0 mm  
-  Source/basis: Skirt + shell + top head
+- **Overall height:** 16483.0 mm  
+  Source/basis: Chassis + skirt + shell + top head
 - The outer platform/ring visible in plan is not modelled because no side elevation or steel dimensions were supplied.
 - Top and bottom DISH elements use their rim/tangent-plane POS; the top head is numerically seated on the shell without changing the supplied diameter, capacity or derived height.
 
@@ -168,8 +168,8 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Shell height:** 4044.0 mm  
   Source/basis: Reference Value from equipment aspect ratio
-- **Overall height:** 5349.5 mm  
-  Source/basis: Skirt + shell + top head
+- **Overall height:** 5369.5 mm  
+  Source/basis: Chassis + skirt + shell + top head
 - The outer platform/ring visible in plan is not modelled because no side elevation or steel dimensions were supplied.
 - Top and bottom DISH elements use their rim/tangent-plane POS; the top head is numerically seated on the shell without changing the supplied diameter, capacity or derived height.
 
@@ -179,8 +179,8 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Shell height:** 4044.0 mm  
   Source/basis: Reference Value from equipment aspect ratio
-- **Overall height:** 5349.5 mm  
-  Source/basis: Skirt + shell + top head
+- **Overall height:** 5369.5 mm  
+  Source/basis: Chassis + skirt + shell + top head
 - The outer platform/ring visible in plan is not modelled because no side elevation or steel dimensions were supplied.
 - Top and bottom DISH elements use their rim/tangent-plane POS; the top head is numerically seated on the shell without changing the supplied diameter, capacity or derived height.
 
@@ -192,7 +192,7 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Capacity-cylinder height:** 5093.0 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 5843.0 mm  
+- **Overall height:** 5863.0 mm  
   Source/basis: Derived cylinder height + Reference Value roof rise
 - The listed capacity is matched by the cylindrical section alone; the roof is additional geometric free volume.
 - Access and fastener details are isolated from the authoritative body envelope and can be replaced without changing tank data.
@@ -205,7 +205,7 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Capacity-cylinder height:** 5093.0 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 5843.0 mm  
+- **Overall height:** 5863.0 mm  
   Source/basis: Derived cylinder height + Reference Value roof rise
 - The listed capacity is matched by the cylindrical section alone; the roof is additional geometric free volume.
 - Access and fastener details are isolated from the authoritative body envelope and can be replaced without changing tank data.
@@ -231,7 +231,7 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Capacity-cylinder height:** 1414.7 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 1864.7 mm  
+- **Overall height:** 1884.7 mm  
   Source/basis: Derived cylinder height + Reference Value roof rise
 - The listed capacity is matched by the cylindrical section alone; the roof is additional geometric free volume.
 - Access and fastener details are isolated from the authoritative body envelope and can be replaced without changing tank data.
@@ -245,7 +245,7 @@ Where the workbook says `CALCULATE BY DIAMETER AND CAPACITY`, the capacity cylin
   Source/basis: Tank_list.xlsx
 - **Capacity-cylinder height:** 5052.5 mm  
   Source/basis: Derived: V / (pi D^2 / 4)
-- **Overall height:** 5805.5 mm  
+- **Overall height:** 5825.5 mm  
   Source/basis: Derived cylinder height + Reference Value roof rise
 - The listed capacity is matched by the cylindrical section alone; the roof is additional geometric free volume.
 - Access and fastener details are isolated from the authoritative body envelope and can be replaced without changing tank data.
@@ -281,14 +281,14 @@ These values are assumptions pending project/vendor confirmation. They do not ov
 | JUNK TRAP-2 | Detailed hardware | Four anchors, grout/cleats and top gussets per support foot; no dedicated ladder on this low vessel; lifting lugs; nameplate, grounding lug; native NOZZLE placeholders | User-directed visual-detail pass, 2026-07-30; replaceable reference geometry pending vendor GA |
 | ACCUMULATOR TANK | Pressure-vessel configuration | 1800 mm skirt; dished top/bottom; head rise D/4 | Batch-cooking liquor accumulator duty and skill/equipment/tanks-and-vessels.md pressure-vessel guidance |
 | ACCUMULATOR TANK | Nozzle/manway schedule | N1 DN400 liquor inlet; N2 DN400 liquor outlet; N3 DN250 circulation return; N4 DN150 instrument / equalizing connection; N5 DN150 top vent / relief; M1 DN600 shell manway | Minimum process-logical accumulator connections; plan bearings follow the visible top-view connections |
-| ACCUMULATOR TANK | Detailed pressure-vessel hardware | 16 skirt anchors with connected clamp plates; N fixed ladder with base shoes at 350 mm rung pitch; four lifting lugs; nameplate, grounding lug; native NOZZLE placeholders | User-directed visual-detail pass, 2026-07-30; replaceable reference geometry pending vendor GA |
+| ACCUMULATOR TANK | Detailed pressure-vessel hardware | 16 chassis perimeter anchors on R+150 mm base chassis plate; N fixed ladder with base shoes at 350 mm rung pitch; four lifting lugs; nameplate, grounding lug; native NOZZLE placeholders | User-directed visual-detail pass, 2026-07-30; replaceable reference geometry pending vendor GA |
 | ACCUMULATOR TANK AID-1 | Pressure-vessel configuration | 800 mm skirt; dished top/bottom; head rise D/4 | Batch-cooking liquor accumulator duty and skill/equipment/tanks-and-vessels.md pressure-vessel guidance |
 | ACCUMULATOR TANK AID-1 | Nozzle/manway schedule | N1 DN250 liquor inlet; N2 DN250 liquor outlet; N3 DN150 circulation return; N4 DN150 instrument / equalizing connection; N5 DN150 top vent / relief; M1 DN500 shell manway | Minimum process-logical accumulator connections; plan bearings follow the visible top-view connections |
-| ACCUMULATOR TANK AID-1 | Detailed pressure-vessel hardware | 8 skirt anchors with connected clamp plates; no dedicated ladder on the auxiliary vessel; four lifting lugs; nameplate, grounding lug; native NOZZLE placeholders | User-directed visual-detail pass, 2026-07-30; replaceable reference geometry pending vendor GA |
+| ACCUMULATOR TANK AID-1 | Detailed pressure-vessel hardware | 8 chassis perimeter anchors on R+150 mm base chassis plate; no dedicated ladder on the auxiliary vessel; four lifting lugs; nameplate, grounding lug; native NOZZLE placeholders | User-directed visual-detail pass, 2026-07-30; replaceable reference geometry pending vendor GA |
 | ACCUMULATOR TANK AID-1 | Cylindrical shell height | 4044.0 mm | No capacity or side view supplied; approximately 2D for the small auxiliary accumulator vessel |
 | ACCUMULATOR TANK AID-2 | Pressure-vessel configuration | 800 mm skirt; dished top/bottom; head rise D/4 | Batch-cooking liquor accumulator duty and skill/equipment/tanks-and-vessels.md pressure-vessel guidance |
 | ACCUMULATOR TANK AID-2 | Nozzle/manway schedule | N1 DN250 liquor inlet; N2 DN250 liquor outlet; N3 DN150 circulation return; N4 DN150 instrument / equalizing connection; N5 DN150 top vent / relief; M1 DN500 shell manway | Minimum process-logical accumulator connections; plan bearings follow the visible top-view connections |
-| ACCUMULATOR TANK AID-2 | Detailed pressure-vessel hardware | 8 skirt anchors with connected clamp plates; no dedicated ladder on the auxiliary vessel; four lifting lugs; nameplate, grounding lug; native NOZZLE placeholders | User-directed visual-detail pass, 2026-07-30; replaceable reference geometry pending vendor GA |
+| ACCUMULATOR TANK AID-2 | Detailed pressure-vessel hardware | 8 chassis perimeter anchors on R+150 mm base chassis plate; no dedicated ladder on the auxiliary vessel; four lifting lugs; nameplate, grounding lug; native NOZZLE placeholders | User-directed visual-detail pass, 2026-07-30; replaceable reference geometry pending vendor GA |
 | ACCUMULATOR TANK AID-2 | Cylindrical shell height | 4044.0 mm | No capacity or side view supplied; approximately 2D for the small auxiliary accumulator vessel |
 | W-L SERVICE TANK-1 | Roof rise | 750.0 mm (0.15 D) | skill/equipment/tanks-and-vessels.md, conical-roof default |
 | W-L SERVICE TANK-1 | Nozzle/manway schedule | N1 DN250 white-liquor service inlet; N2 DN300 white-liquor outlet; N3 DN200 overflow / return; N4 DN150 high-point vent; M1 DN600 shell access manway | Minimum process-logical atmospheric-tank connections; bearings reconciled with the supplied top view |

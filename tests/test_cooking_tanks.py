@@ -63,7 +63,7 @@ def test_capacity_tank_height_formula_is_exact() -> None:
         if primitive.label == "Capacity cylinder"
     )
     assert shell.height == expected_shell
-    assert model.overall_height == expected_shell + diameter * 0.15
+    assert model.overall_height == 20.0 + expected_shell + diameter * 0.15
 
 
 def test_blow_tank_profile_preserves_authoritative_top_to_bottom_string() -> None:
@@ -255,19 +255,19 @@ def test_blow_tank_nozzles_keep_their_relative_body_locations() -> None:
 
 def test_r5_scope_freeze_keeps_non_blow_macros_byte_identical_to_r4() -> None:
     expected_hashes = {
-        "BLEACH_HOT_WATER_TANK": "2c421878b2ca2bcfacafdd3113fbe03091c796b575963f3f3aaa631f9a705dbe",
-        "WARM_WATER_TANK": "3225d1fff3fdaad92ceba68894be4dfb3ac0e4702bfaa816b87ecae2727b9b9e",
-        "BROWN_HOT_WATER_TANK": "8ec9d27a75004bae9516451434e9b0427daac8fd3242d7d02b1204fbea9e3b32",
-        "JUNK_TRAP_1": "bd7c4e2c20c63097609b5207bb724d669ead420f19c264f03e6c81daa62a279f",
-        "JUNK_TRAP_2": "13580042f39aeb2292ff4e61b0320aaabdbf23a32e02237f3af398cb9dac0a4c",
-        "ACCUMULATOR_TANK": "4208e0d68a802aeff3b5e6e914b0637a7a5703ef6783927887a2dd04b02b5cc3",
-        "ACCUMULATOR_TANK_AID_1": "a43dbcb46a1f9cd43e27fcd1720a5703ecb92057c0417f4cb5cbda2697917131",
-        "ACCUMULATOR_TANK_AID_2": "608bc9ad71f69eff1ab7260c29a6f63c2dcff4a8735f06c4fb92fbe3ba9156b4",
-        "W_L_SERVICE_TANK_1": "aedca83d6aaa3c09bf63f6e3a542f4ce946e002623f6c388a45d3b91ae25b7d9",
-        "W_L_SERVICE_TANK_2": "b00d51c5592940897ebd590dbdb23f2d6845db89ca2047c1a835a3d68c64f55e",
-        "MAIN_CONDENSATE_TANK": "67d06efa8212022d12f44022a031bedc7de6f446085d20eaf5d4b2d16bfcc4d2",
-        "SPENT_LIQUOR_TANK": "8971478c3e9ac2e37ce465987e0a8f7040dcfcdd5c0961d230ad89bb3b911d0f",
-        "B_L_TANK": "1ff5d3b18fda190a98fb010e2384a69674b74a6ffc05d4991bc63c75e06ca9a6",
+        "BLEACH_HOT_WATER_TANK": "fee9685eece1936bd36f95461adacf86a6723f87c610b9cdafad2c4a1a687ffa",
+        "WARM_WATER_TANK": "7aea87d1290672dadc01bf7ef35f36b070f9f5baa7ba3c770ff2b7008a54f9e2",
+        "BROWN_HOT_WATER_TANK": "ed45993618d81de65c1b2e67e20238aa15e3526f6fb73e930b47a4e0465c4012",
+        "JUNK_TRAP_1": "6d0f6274df8e7da57b919e464388aaa2da2441bd8675c3c33a630a73fca36094",
+        "JUNK_TRAP_2": "806d5215ba5cf5978a2856308b69157068ce533a7ee7ae17295a70c70e87c6bb",
+        "ACCUMULATOR_TANK": "f4ada0d4650fc86ff1d5a15e71f5004bc3e98aa7f4023dac8db92903c76c35ca",
+        "ACCUMULATOR_TANK_AID_1": "afb481971830bc367a70f55105f6cc6060967028d87ae47432ab1a40a6f4ea8a",
+        "ACCUMULATOR_TANK_AID_2": "af0412f8d6469daac12cbeb627147bbee975bce60eeb5dff0299fc7db89f3724",
+        "W_L_SERVICE_TANK_1": "ca7f7a5dc68737e2f75a2de7c1fe56bd8697400db7ca91346c86cae4cacca639",
+        "W_L_SERVICE_TANK_2": "2f74d33b60bc579ea00ed0267fb749e069ca2d154fb841ed18bb21287ce1cf56",
+        "MAIN_CONDENSATE_TANK": "223e806aa128e2147e05bbf1472dc4785d9d50272af36e816043cf3c8480db94",
+        "SPENT_LIQUOR_TANK": "7a7b4800951c674a3bc17fd6596cd87ce56c1521236e8603b1a41790110c0053",
+        "B_L_TANK": "6e9e6e2bf4f52d8fd87f01a8c7fc9d2ff873d18c29c75c7471d30b6cff6bb12b",
     }
     for model in MODELS:
         if model.name.startswith("BLOW_TANK_"):
@@ -302,17 +302,28 @@ def test_supports_and_anchor_bolts_have_physical_connection_parts() -> None:
         )
         assert sum("anchor clamp washer plate" in label for label in labels) == 16
 
-    ground_or_skirt = [
+    chassis_tanks = [
         model
         for model in MODELS
-        if any("anchor chair web" in p.label for p in model.primitives)
+        if any("bottom base chassis plate" in p.label for p in model.primitives)
     ]
-    assert len(ground_or_skirt) == 10
-    for model in ground_or_skirt:
-        clamp_count = sum("anchor clamp plate" in p.label for p in model.primitives)
-        chair_count = sum("anchor chair web" in p.label for p in model.primitives)
+    assert len(chassis_tanks) == 10
+    for model in chassis_tanks:
+        chassis = next(
+            p
+            for p in model.primitives
+            if "bottom base chassis plate" in p.label
+        )
+        assert chassis.height == 20.0
+        assert chassis.bounds()[4] == 0.0
+        assert chassis.bounds()[5] == 20.0
+        # All support chair brackets and webs removed on chassis tanks:
+        assert not any("anchor chair web" in p.label for p in model.primitives)
+        assert not any("anchor clamp plate" in p.label for p in model.primitives)
         stud_count = sum("anchor stud" in p.label for p in model.primitives)
-        assert clamp_count == chair_count == stud_count
+        nut_count = sum("anchor nut" in p.label for p in model.primitives)
+        washer_count = sum("anchor washer" in p.label for p in model.primitives)
+        assert stud_count == nut_count == washer_count
 
 
 def test_rotated_box_pml_uses_verified_plan_bearing_before_position() -> None:
@@ -349,46 +360,36 @@ def test_rotated_box_pml_uses_verified_plan_bearing_before_position() -> None:
     assert any("before ORI" in problem for problem in validate_pml(bad))
 
 
-def test_perimeter_anchor_plates_are_radial_and_tangent_to_the_shell() -> None:
-    off_axis_count = 0
+def test_ten_tanks_have_elevated_chassis_and_five_tanks_retain_supports() -> None:
+    EXCLUDED_5 = {
+        "MAIN_CONDENSATE_TANK",
+        "BLOW_TANK_1",
+        "BLOW_TANK_2",
+        "JUNK_TRAP_1",
+        "JUNK_TRAP_2",
+    }
     for model in MODELS:
-        clamps = [
-            p for p in model.primitives if "anchor clamp plate" in p.label
-        ]
-        if not clamps:
-            continue
-        macro = build_equipment_macro(model)
-        for clamp in clamps:
-            centre_radius = math.hypot(clamp.point[0], clamp.point[1])
-            expected_angle = (
-                math.degrees(math.atan2(clamp.point[1], clamp.point[0])) % 360.0
+        if model.name in EXCLUDED_5:
+            assert not any(
+                "bottom base chassis plate" in p.label for p in model.primitives
             )
-            assert clamp.plan_rotation_deg == pytest.approx(expected_angle)
-            assert clamp.xlen == pytest.approx(240.0)
-            assert clamp.ylen == pytest.approx(90.0)
-
-            index = clamp.label.rsplit(" ", 1)[-1]
-            stud = next(
+            if "CONDENSATE" in model.name:
+                assert any("Saddle support" in p.label for p in model.primitives)
+            else:
+                assert any("support leg" in p.label for p in model.primitives)
+        else:
+            chassis = next(
                 p
                 for p in model.primitives
-                if p.label.endswith(f"anchor stud {index}")
+                if "bottom base chassis plate" in p.label
             )
-            stud_radius = math.hypot(stud.point[0], stud.point[1])
-            shell_radius = stud_radius - 150.0
-            assert centre_radius - clamp.xlen / 2.0 < shell_radius
-            assert centre_radius + clamp.xlen / 2.0 > stud_radius
-
-            if not math.isclose(
-                expected_angle % 90.0, 0.0, abs_tol=1e-9
-            ):
-                off_axis_count += 1
-                start = macro.index(f"-- {clamp.label}")
-                block = macro[start : macro.index("\n\n", start)]
-                assert "ORI Z IS U AND X IS " in block
-                assert block.index("ORI Z IS U AND X IS ") < block.index(
-                    "POS E "
-                )
-    assert off_axis_count > 0
+            shell_radius = (
+                model.primitives[1].cross_diameter / 2.0
+            )
+            assert chassis.diameter == (shell_radius + 150.0) * 2.0
+            assert chassis.height == 20.0
+            assert model.body_envelope[4] == 20.0  # body elevated by 20mm
+            assert min(p.bounds()[4] for p in model.primitives) == 0.0
 
 
 def test_generation_writes_fifteen_macros_and_combined_file(tmp_path) -> None:
@@ -398,3 +399,66 @@ def test_generation_writes_fifteen_macros_and_combined_file(tmp_path) -> None:
     assert result.combined_path is not None and result.combined_path.is_file()
     assert result.report_path is not None and result.report_path.is_file()
     assert all(path.is_file() for path in result.macro_paths)
+
+
+def test_base_anchor_nuts_are_hexagonal_extrusions() -> None:
+    for model in MODELS:
+        anchor_nuts = [p for p in model.primitives if "anchor nut" in p.label]
+        assert len(anchor_nuts) > 0, f"{model.name} has no anchor nuts"
+        for nut in anchor_nuts:
+            assert nut.kind == "EXTRUSION", f"{nut.label} is not EXTRUSION"
+            assert len(nut.vertices) == 6, f"{nut.label} does not have 6 hex vertices"
+            assert nut.height > 0.0, f"{nut.label} height <= 0"
+        macro = build_equipment_macro(model)
+        assert "NEW EXTRUSION" in macro
+        assert "NEW LOOP" in macro
+        assert "NEW VERTEX" in macro
+
+
+def test_vertical_access_ladders_have_safety_cages() -> None:
+    tanks_with_ladders = [
+        model for model in MODELS
+        if any("ladder rail" in p.label for p in model.primitives)
+    ]
+    assert len(tanks_with_ladders) == 9  # 9 vertical tanks have ladders
+    for model in tanks_with_ladders:
+        hoops = [p for p in model.primitives if "ladder safety cage hoop" in p.label]
+        vertical_bars = [p for p in model.primitives if "ladder cage vertical bar" in p.label]
+        weld_clips = [p for p in model.primitives if "hoop weld clip" in p.label]
+        weld_collars = [p for p in model.primitives if "ladder cage weld collar" in p.label]
+        weld_caps = [p for p in model.primitives if "ladder cage bar top weld cap" in p.label]
+        bracket_pads = [p for p in model.primitives if "bracket shell weld pad" in p.label]
+
+        assert len(hoops) >= 2, f"{model.name} ladder lacks safety cage hoops"
+        assert len(vertical_bars) == 7, f"{model.name} ladder does not have 7 vertical cage bars"
+        assert len(weld_clips) == len(hoops) * 2, f"{model.name} missing hoop weld clips"
+        assert len(weld_collars) == len(hoops) * 7, f"{model.name} missing weld collars"
+        assert len(weld_caps) == 7, f"{model.name} missing bar top weld caps"
+        assert len(bracket_pads) >= 4, f"{model.name} missing bracket shell weld pads"
+
+        for hoop in hoops:
+            assert hoop.kind == "EXTRUSION"
+            assert len(hoop.vertices) >= 36, f"{hoop.label} vertices < 36 for smooth arc"
+        for bar in vertical_bars:
+            assert bar.kind == "CYLI"
+            assert bar.diameter == 20.0
+
+
+def test_tanks_have_appropriate_stiffeners_and_reinforcements() -> None:
+    for model in MODELS:
+        if model.name.startswith("BLOW_TANK_"):
+            stiffeners = [p for p in model.primitives if "stiffener ring" in p.label]
+            assert len(stiffeners) == 3, f"{model.name} missing blow-tank stiffener rings"
+        elif "WATER_TANK" in model.name or "SERVICE_TANK" in model.name or "B_L_TANK" in model.name:
+            stiffeners = [p for p in model.primitives if "stiffening ring" in p.label or "roof curb" in p.label]
+            assert len(stiffeners) >= 2, f"{model.name} missing shell stiffeners / roof curb"
+        elif "ACCUMULATOR" in model.name:
+            stiffeners = [p for p in model.primitives if "stiffener" in p.label or "stiffening ring" in p.label]
+            assert len(stiffeners) >= 2, f"{model.name} missing accumulator stiffeners"
+        elif "CONDENSATE" in model.name:
+            stiffeners = [p for p in model.primitives if "stiffener gusset" in p.label]
+            assert len(stiffeners) == 4, f"{model.name} missing saddle stiffener gussets"
+        elif "JUNK_TRAP" in model.name:
+            stiffeners = [p for p in model.primitives if "cone transition stiffener ring" in p.label]
+            assert len(stiffeners) == 1, f"{model.name} missing junk trap cone stiffener"
+
