@@ -255,3 +255,10 @@ tested ELBOW: both orders placed it identically.
   lesson for balanced high-detail modeling: use EXTRUSION for real section
   geometry, preserve simpler primitives where they are physically correct and
   verify every fine detail as part of a connected assembly.
+- Added `PML-STUDY-HANDRA-001` (2026-08-31) and `wsb.handrail_builder`. Learned native
+  structural `HANDRA` / `RPATH` / `POINTR` / `CURVE` syntax from an authentic E3D data
+  listing. Captures dual rail heights (`RAILHE`), post spacing (`POSTSP`), tangent offset
+  (`TANGOF`), kickplate visibility (`SHOWKP`), bend radius (`BRAD`), fillet radius (`FRAD`),
+  and circular arc interpolation (`CURTYP THRU`). Certified and **VERIFIED in E3D Design Mk3.1**
+  by user visual rendering. Reusable generators include `build_circular_handrail`,
+  `build_rectangular_handrail`, `build_polyline_handrail`, and `build_arc_handrail`.

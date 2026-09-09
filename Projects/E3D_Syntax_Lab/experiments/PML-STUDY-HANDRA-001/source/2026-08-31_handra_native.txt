@@ -1,0 +1,79 @@
+$S-  -- Synonym translation OFF
+-- ----------------------------------------------------------------
+-- Data Listing    Date : 31 Aug 2026 02:27
+
+ONERROR GOLABEL /ERROR3
+
+INPUT BEGIN
+NEW HANDRA
+POS E 34999.64mm S 1251.49mm U 15320mm
+RAILHE 1250mm 750mm
+POSTSP 1000mm
+TANGOF 300mm
+SHOWKP true
+BRAD 100mm
+FIRE 0
+BUIL false
+SHOP false
+
+NEW RPATH
+DRNS E 22.5 N
+DRNE E 22.5 S
+
+NEW POINTR
+FRAD 100mm
+
+END
+NEW CURVE
+POS E 2057.68mm N 852.32mm U 0mm
+CURTYP THRU
+
+END
+NEW POINTR
+POS E 2910mm N 2910mm U 0mm
+FRAD 100mm
+
+END
+NEW CURVE
+POS E 2057.68mm N 4967.68mm U 0mm
+CURTYP THRU
+
+END
+NEW POINTR
+POS E 0mm N 5820mm U 0mm
+FRAD 100mm
+
+END
+NEW CURVE
+POS W 2057.68mm N 4967.68mm U 0mm
+CURTYP THRU
+
+END
+NEW POINTR
+POS W 2910mm N 2910mm U 0mm
+FRAD 100mm
+
+END
+NEW CURVE
+POS W 2057.68mm N 852.32mm U 0mm
+CURTYP THRU
+
+END
+NEW POINTR
+FRAD 100mm
+
+END
+END
+END
+INPUT END  HANDRA 1 of FRMWORK /402
+INPUT FINISH
+-- Switch synonyms back on if an error occurs.
+LABEL /ERROR3
+handle ANY
+$S+
+RETURN ERROR
+endhandle
+
+-- End Data Listing    Date : 31 Aug 2026 02:27
+$S+  -- Synonym translation ON
+-- ----------------------------------------------------------------
