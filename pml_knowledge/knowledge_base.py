@@ -7,6 +7,7 @@ patterns, and industrial equipment specifications.
 """
 
 import json
+import math
 import re
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -76,23 +77,42 @@ class PMLKnowledgeBase:
         import re
         query_words = set(re.findall(r'\b[a-z][a-z0-9_]{1,}\b', query_lower))
 
-        # 1) Keyword match scoring
+        # 1) Keyword match scoring.
+        #
+        # Term frequency is normalised by document length.  Raw counts make
+        # relevance a proxy for size: an append-only project log accumulates
+        # ordinary words until it outranks the short, canonical reference on
+        # that reference's own subject.  jk-pump-build.md reached 46 uses of
+        # "centre" against iron-rules.md's 18 purely by being 2.2x longer, and
+        # started winning datum queries that the Iron Rules must own.
+        #
+        # Dividing by a length factor keeps a document competitive on the
+        # terms it is actually about, while the heading and index bonuses --
+        # which are evidence of aboutness rather than of mere length -- are
+        # scaled by the same factor so they are not swamped in a long file.
+        # sqrt damps the correction so a thorough document is not punished for
+        # being thorough; it is the classic tf-idf length-normalisation trick.
+        lengths = {d: max(len(t), 1) for d, t in self.documents.items()}
+        median_length = sorted(lengths.values())[len(lengths) // 2] \
+            if lengths else 1
+
         scores: Dict[str, float] = {}
         for doc_id, text in self.documents.items():
             text_lower = text.lower()
-            score = 0
+            norm = max(math.sqrt(lengths[doc_id] / median_length), 1.0)
+            score = 0.0
             for word in query_words:
                 if len(word) < 2:
                     continue
                 count = text_lower.count(word)
-                score += count * 3
+                score += count * 3 / norm
                 for line in text.split('\n'):
                     if line.startswith('#') and word in line.lower():
-                        score += 50
+                        score += 50 / norm
                 if word in self.index:
                     for (d, _) in self.index[word]:
                         if d == doc_id:
-                            score += 30
+                            score += 30 / norm
             if score > 0:
                 scores[doc_id] = score
 
@@ -101,14 +121,28 @@ class PMLKnowledgeBase:
         # intentionally repetitive; that is useful for safety questions but
         # slow when the user is asking "which element should represent this
         # shape?" or supplying a native export for a syntax study.
+        # The boost must PROMOTE the routed document, not merely add a fixed
+        # bonus.  Keyword score is raw term frequency over the whole document
+        # and therefore grows without bound as a project log accumulates
+        # entries, while a flat "+750" stays constant.  The long-running
+        # jk-pump-build log had already reached ~1065 on this query against
+        # the spatial map's ~282 and was outranking it on sheer length; the
+        # flat bonus was one project entry away from being overtaken.
+        # Routing is an intent decision, so lift the target clear of the
+        # current leader instead of betting on a magic constant.
+        def route_to(doc_id: str, margin: float = 1.25) -> None:
+            if doc_id not in self.documents:
+                return
+            leader = max(scores.values(), default=0.0)
+            scores[doc_id] = max(scores.get(doc_id, 0.0),
+                                 leader * margin + 1.0)
+
         spatial_terms = {
             "shape", "spatial", "intent", "construct", "construction",
             "selection", "choose",
         }
         if query_words & spatial_terms:
-            doc_id = "knowledge/pml-spatial-lookup"
-            if doc_id in self.documents:
-                scores[doc_id] = scores.get(doc_id, 0) + 750
+            route_to("knowledge/pml-spatial-lookup")
 
         native_study = (
             {"native", "export"} <= query_words
@@ -116,9 +150,17 @@ class PMLKnowledgeBase:
             or {"syntax", "study"} <= query_words
         )
         if native_study:
-            doc_id = "workflows/learning-from-native-exports"
-            if doc_id in self.documents:
-                scores[doc_id] = scores.get(doc_id, 0) + 750
+            route_to("workflows/learning-from-native-exports")
+
+        # Element-position datum semantics are safety rules, not project-log
+        # anecdotes. Long project histories naturally repeat "primitive",
+        # "position", "datum" and "centre" as failures accumulate; route a
+        # direct datum query back to the canonical Iron Rules unless the user
+        # explicitly asked for the spatial selector or native-study workflow.
+        datum_safety = ("datum" in query_words
+                        or {"primitive", "position"} <= query_words)
+        if datum_safety and not native_study and not (query_words & spatial_terms):
+            route_to("knowledge/iron-rules")
 
         # 2) Extract matching chunks
         results = []
