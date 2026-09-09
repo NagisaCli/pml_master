@@ -84,6 +84,36 @@ Restraint keeps this knowledge base trustworthy:
   user stayed silent, that is not validation.
 - **Numbers without a source.** Better to record nothing than something
   unverifiable — see the evidence standard in [SKILL.md](../../SKILL.md).
+- **A fix that is written but not committed, recorded as done.** This is the
+  most expensive entry in the list, because it reads as closed. On 2026-08-19
+  the pump log recorded that `route_to()` and length normalisation now shipped.
+  Both were real — and both sat uncommitted in one working tree for three
+  weeks, so every clone kept the old scoring and the test they fixed stayed red
+  for thirteen commits. The entry was accurate about that desk and wrong about
+  the project, and it removed the only signal that anything was outstanding.
+  **Uncommitted work is indistinguishable from work that was never done.** When
+  an entry says a fix was made, the commit is what makes that true.
+
+---
+
+## Keep the current-state file short
+
+A project log has two kinds of content and they grow differently. What is true
+now is bounded and gets *edited*. How it came to be true is unbounded and gets
+*appended*. Left in one file the second buries the first: `jk-pump-build.md`
+reached 120 kB — nearly four times the Iron Rules — of which 17 kB was current
+state.
+
+That costs twice. An agent told to read the project log spends its context on
+revision history it did not ask for, and retrieval starts ranking the log above
+the reference documents on sheer term count — which is why `search()` needs
+both length normalisation and an explicit datum route to hold the line.
+
+So: **the file that gets read is the one that must stay short.** Split a
+project log once its history outgrows its current state — `<project>.md` for
+what is true now, `<project>-history.md` for the rounds, each linking to the
+other. Split, never delete: the history is the evidence behind every claim in
+the current-state file.
 
 ---
 
