@@ -17,6 +17,7 @@ from .composite_schema import Bounds, EquipmentModel, PrimitiveSpec
 from .pml_builder import PMLBuilder, nozzle_component_path
 from .pml_parser import (
     AXIS_VECTOR,
+    PLAN_ROTATED_KINDS,
     bounds_of,
     equipment_name_to_element,
     parse_nozzles,
@@ -98,6 +99,19 @@ def _emit_primitive(
             label=primitive.label,
             plan_rotation_deg=primitive.plan_rotation_deg,
         )
+    elif primitive.kind == "PYRAMID":
+        builder.pyramid(
+            primitive.xbot,
+            primitive.ybot,
+            primitive.xtop,
+            primitive.ytop,
+            primitive.height,
+            point,
+            xoff=primitive.xoff,
+            yoff=primitive.yoff,
+            plan_rotation_deg=primitive.plan_rotation_deg,
+            label=primitive.label,
+        )
     elif primitive.kind == "EXTRUSION":
         builder.extrusion(
             point,
@@ -111,8 +125,23 @@ def _emit_primitive(
         raise ValueError(f"Unsupported primitive {primitive.kind}")
 
 
-def emit_equipment(model: EquipmentModel, builder: PMLBuilder) -> None:
-    """Emit one independent EQUI and its SUBE hierarchy."""
+def emit_equipment(
+    model: EquipmentModel,
+    builder: PMLBuilder,
+    *,
+    equi_position: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+    equi_attributes: Sequence[str] = (),
+    sube_attributes: Sequence[str] = (),
+) -> None:
+    """
+    Emit one independent EQUI and its SUBE hierarchy.
+
+    ``equi_position`` and the attribute lines exist for continuing a native
+    baseline: the EQUI then reproduces the owner-relative ``POS`` and the
+    ``FUNC``/``BUIL`` lines the export carries, and every primitive is written
+    in that EQUI's frame (``model.position`` is the bottom centre *in that
+    frame*). The default keeps the EQUI at its owner origin (IR-7).
+    """
     builder.comment()
     builder.banner(model.display_name)
     builder.comment(
@@ -125,9 +154,9 @@ def emit_equipment(model: EquipmentModel, builder: PMLBuilder) -> None:
         builder.comment(f"Listed capacity: {model.capacity_m3:g} m3")
     builder.comment()
 
-    builder.equi(model.name)
+    builder.equi(model.name, position=equi_position, attributes=equi_attributes)
     for group in model.groups():
-        builder.sube(f"{model.name}_{group}")
+        builder.sube(f"{model.name}_{group}", attributes=sube_attributes)
         for primitive in model.primitives_for_group(group):
             _emit_primitive(primitive, model, builder)
         for nozzle in model.nozzles_for_group(group):
@@ -139,6 +168,7 @@ def emit_equipment(model: EquipmentModel, builder: PMLBuilder) -> None:
                 axis=nozzle.axis,
                 label=nozzle.label,
             )
+    builder.close_all()
 
 
 def _header(builder: PMLBuilder, title: str, scope: str) -> None:
@@ -155,12 +185,32 @@ def _header(builder: PMLBuilder, title: str, scope: str) -> None:
     )
 
 
-def build_equipment_macro(model: EquipmentModel) -> str:
-    """Build and PML-validate one equipment macro."""
+def build_equipment_macro(
+    model: EquipmentModel,
+    *,
+    close_elements: bool = False,
+    equi_position: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+    equi_attributes: Sequence[str] = (),
+    sube_attributes: Sequence[str] = (),
+) -> str:
+    """
+    Build, PML-validate and numerically verify one equipment macro.
+
+    ``close_elements`` selects the END-closed native listing form; the other
+    keywords are passed to :func:`emit_equipment` for a native-baseline
+    continuation. Verification parses the EQUI's primitives back in its own
+    frame, so it is unaffected by where the EQUI itself is placed.
+    """
     validate_equipment_model(model)
-    builder = PMLBuilder(model.name)
+    builder = PMLBuilder(model.name, close_elements=close_elements)
     _header(builder, model.display_name, "One independent equipment model")
-    emit_equipment(model, builder)
+    emit_equipment(
+        model,
+        builder,
+        equi_position=equi_position,
+        equi_attributes=equi_attributes,
+        sube_attributes=sube_attributes,
+    )
     builder.catref_pass()
     builder.footer()
     script = builder.build()
@@ -319,18 +369,24 @@ def verify_equipment_macro(model: EquipmentModel, script: str) -> List[str]:
                 f"{source.kind}, got {actual['kind']}"
             )
             continue
-        if source.kind == "BOX":
+        if source.kind in PLAN_ROTATED_KINDS:
             actual_rotation = actual.get("plan_rotation_deg", 0.0)
-            if (
-                _plan_rotation_difference(
+            # A BOX is symmetric under a half turn; a PYRAMID with an offset
+            # top face is not, so its bearing must match exactly.
+            if source.kind == "BOX":
+                difference = _plan_rotation_difference(
                     actual_rotation, source.plan_rotation_deg
                 )
-                > 0.01
-            ):
+            else:
+                difference = abs(
+                    (actual_rotation - source.plan_rotation_deg + 180.0) % 360.0
+                    - 180.0
+                )
+            if difference > 0.01:
                 problems.append(
                     f"{model.display_name} primitive {index} ({source.label}): "
-                    f"emitted BOX plan rotation {actual_rotation} deg != "
-                    f"expected {source.plan_rotation_deg} deg"
+                    f"emitted {source.kind} plan rotation {actual_rotation} "
+                    f"deg != expected {source.plan_rotation_deg} deg"
                 )
         expected = source.translated_bounds(model.position)
         if not _bounds_close(actual["bounds"], expected):

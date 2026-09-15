@@ -88,6 +88,14 @@ arithmetic across call sites.
 
 ## IR-2 — `ORI` before `POS`
 
+**Check element attribute support before applying this ordering.** A FRMWORK
+does not have `ORI`: the user's Typical_Pipe_Support R1 load stopped with
+`(2,201)` at that assignment. Do not copy primitive positioning headers onto
+administrative owners. The correction emits a bare `NEW FRMW`, with member
+placement retained on the SCTN elements. The ORI rejection is user-observed;
+the revised full macro still requires live acceptance. See the
+[reported failure](../../Projects/Typical_Pipe_Support/results/evidence/2026-09-13_FRMW_ORI_user_report.txt).
+
 ```
 WRONG (POS before ORI rotates the coordinate vector -> severe drift):
 NEW CYLI

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/e3d-live/protocol-2.0.schema.json",
+  "title": "E3D Live Bridge Selection Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "message_type",
+    "request_id",
+    "timestamp_utc",
+    "session",
+    "selection"
+  ],
+  "properties": {
+    "protocol_version": { "const": "2.0" },
+    "message_type": { "const": "selection_snapshot" },
+    "request_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "timestamp_utc": { "type": "string", "minLength": 1, "maxLength": 64 },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bridge_session_id",
+        "process_id",
+        "source",
+        "addin_version",
+        "scope"
+      ],
+      "properties": {
+        "bridge_session_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128
+        },
+        "process_id": { "type": "integer", "minimum": 1 },
+        "source": { "const": "e3d-caf-addin" },
+        "addin_version": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "scope": { "$ref": "#/$defs/scope" }
+      }
+    },
+    "selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["full_name", "element_type", "owner_full_name", "attributes"],
+      "properties": {
+        "full_name": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "element_type": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "owner_full_name": { "type": "string", "maxLength": 1024 },
+        "attributes": {
+          "type": "object",
+          "maxProperties": 64,
+          "propertyNames": {
+            "enum": [
+              "NAME",
+              "DESC",
+              "POS",
+              "ORI",
+              "XLEN",
+              "YLEN",
+              "ZLEN",
+              "HEIG",
+              "DIAM",
+              "DTOP",
+              "DBOT",
+              "CATR",
+              "BORD",
+              "PRES",
+              "TEMP"
+            ]
+          },
+          "additionalProperties": { "type": "string", "maxLength": 4096 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_code", "mdb", "module"],
+      "properties": {
+        "project_code": { "$ref": "#/$defs/scopePart" },
+        "mdb": { "$ref": "#/$defs/scopePart" },
+        "module": { "$ref": "#/$defs/scopePart" }
+      }
+    },
+    "scopePart": {
+      "type": "string",
+      "pattern": "^[A-Z0-9_.-]{1,64}$"
+    }
+  }
+}

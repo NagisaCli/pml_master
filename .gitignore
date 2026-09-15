@@ -27,6 +27,13 @@ venv/
 .ruff_cache/
 .mypy_cache/
 
+# Local exploratory artifacts
+/scratch/
+/scratch_*.png
+/scratch_input.txt
+/scratch_input*.pml
+/Projects/scratch_*
+
 # Experimental E3D live bridge build and launch artifacts
 integrations/e3d_live/addin/bin/
 integrations/e3d_live/deployment/runtime/

@@ -1,0 +1,15 @@
+{
+  "status": "STATIC_PASS_E3D_REVIEW_PENDING",
+  "sections": 2,
+  "positive_hardware_solids": 36,
+  "negative_bores": 12,
+  "hex_heads": 6,
+  "single_solid_washers": 6,
+  "weld_runs": 13,
+  "main_beam_unchanged": true,
+  "brace_cut_end_clearance_to_wall_mm": 64.0,
+  "new_values": "Reference Values; no structural capacity or anchor design certification",
+  "uncertainty": "R2 crescent-head cause unproven; R3 changes loop winding, washer construction and explicit ownership. Catalogue face contact still needs E3D review.",
+  "sha256": "03e1b856c818cdb2c25baebcbefde6a91bf6dd97ee8f403de33dc839e7428ca8",
+  "source_r2_sha256": "129dc71d658babb981e318b64c87371aa77044a9a8406483610b83d18604dbb0"
+}

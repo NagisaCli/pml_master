@@ -109,6 +109,20 @@ like the model was built badly. Recognising it as a datum error saves hours.
 | F-23 | `(47,15) CP: Syntax error In line 44 of Macro .../runsynonym.pmlmac ^^CALLG MSAVEW` on Delete, Save Work, or GUI action after a failed macro load | A macro with `$S-` (Synonym translation OFF) encountered an error and aborted before reaching `$S+` at the end; E3D's global session remains in the `$S-` state, so internal GUI callbacks like `!!runSynonym('CALLG MSAVEW')` cannot expand synonyms and fail as invalid syntax | Type `$S+` directly in the E3D Command Window and press Enter to restore synonym translation; never wrap interactive PML snippets with `$S-` | Confirmed 2026-08-24 in E3D Design; entering `$S+` immediately restores GUI operation |
 | F-24 | Negative extrusion (`NXTRUSION`) inside an already-rotated parent (`CONE` with `ORI Y is U and Z is N`) rotates by 90°, sweeps in reverse, or flies 52 m away (`Position WRT Owner E 52600mm`) when `WRT /*` is written | A negative primitive's `POS` and `ORI` are evaluated strictly within the parent's local reference frame; writing `WRT /*` on a child negative causes E3D to compound hierarchy offsets, placing the cut tens of metres away. Furthermore, child `ORI` compounds with the parent's rotation ($R_{\text{world}} = R_{\text{parent}} \cdot R_{\text{local}}$) | Never emit `WRT /*` on child negatives; compute child `ORI` in parent local frame via $R_{\text{local}} = R_{\text{parent}}^T \cdot R_{\text{world}}$ (for parent `Y is U, Z is N`, child `ORI Y IS N AND Z IS W` yields world $Y=U, Z=E, X=N$) and start face `POS E <offset> N 0 U 0`; use 16-vertex rounded LOOP ($R=10\text{ mm}$) for cast bracket windows | **RESOLVED 2026-09-04** (user verified "这一版很完美") |
 
+**F-25 — unsupported FRMWORK orientation (Typical_Pipe_Support R1).**
+The user reported `(2,201)` on `ORI Y IS N AND Z IS U` immediately after
+`NEW FRMW /TPS_R1_FRAME`. A generic pose header had been copied onto a framework.
+Remove that header from the generator, preserve the member geometry, and reject
+framework `ORI` in the shared validator. **Do not infer retained database state
+from this error line.** The subsequent continuation failed with the framework
+undefined. Before a continuation, verify that its owner currently exists and
+its target members do not; otherwise use a complete fresh namespace as R2 does.
+Evidence:
+[user report](../../Projects/Typical_Pipe_Support/results/evidence/2026-09-13_FRMW_ORI_user_report.txt).
+The [subsequent missing-frame error](../../Projects/Typical_Pipe_Support/results/evidence/2026-09-13_R1_FRAME_undefined_user_report.txt)
+supersedes the earlier continuation recommendation. R2 passes static checks;
+E3D retry pending.
+
 ### What F-8 through F-12 have in common
 
 They are **one bug reported five times**. Each fix was correct as far as it went

@@ -1,0 +1,30 @@
+{
+  "status": "STATIC_PASS_LIVE_PENDING",
+  "hardware_primitives": 174,
+  "native_sections": 2,
+  "hex_heads": 6,
+  "annular_washers": 6,
+  "weld_runs": 13,
+  "source_sections_preserved": true,
+  "wall_plates_preserved": true,
+  "hardware_bounds_enu_mm": [
+    -90.0,
+    90.0,
+    0.0,
+    1145.0,
+    -550.0,
+    100.0
+  ],
+  "limits": [
+    "Source path decoded from chat underscore escapes",
+    "SCTN catalogue and roll not read live",
+    "Angle TOAY face assumed at E=0 with steel to West and down",
+    "Full catalogue steel/weld contact and clashes require E3D",
+    "Load rating, anchor embedment, weld sizing and material grades TBC"
+  ],
+  "revision": "R2",
+  "requires_existing_R1": false,
+  "model_selections_created_before_use": true,
+  "geometry_unchanged_from_corrected_R1": true,
+  "sha256": "129dc71d658babb981e318b64c87371aa77044a9a8406483610b83d18604dbb0"
+}

@@ -1,0 +1,4 @@
+$M C:\e3d\_models\SINGLE\_TYPICAL\_PIPE\_SUPPORT\_R1.pml
+(2,201)   Element FRMWORK /TPS\_R1\_FRAME does not have attribute ORI
+&#x20;In line 12 of Macro C:\e3d\_models\SINGLE\_TYPICAL\_PIPE\_SUPPORT\_R1.pml
+ORI Y IS N AND Z IS U

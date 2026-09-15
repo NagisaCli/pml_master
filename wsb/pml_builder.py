@@ -36,6 +36,7 @@ Primitive    E3D datum          What this builder accepts
 ``CONE``     geometric centre   ``base`` - bottom-face centre, converted
 ``DISH``     flat rim plane     ``base`` - the flat rim, passed through
 ``BOX``      geometric centre   ``centre`` - geometric centre, passed through
+``PYRAMID``  geometric centre   ``centre`` - geometric centre, passed through
 ===========  =================  ==============================================
 """
 
@@ -269,6 +270,35 @@ def validate_pml(script: str) -> List[str]:
     problems.extend(_check_nozzle_catref_first(lines))
     problems.extend(_check_nozzle_heig_plausible(lines))
     problems.extend(_check_element_axis_convention(lines))
+    problems.extend(_check_framework_orientation(lines))
+    return problems
+
+
+def _check_framework_orientation(lines: Sequence[str]) -> List[str]:
+    """Reject ORI in a directly selected/created FRMW header.
+
+    User E3D evidence: Typical_Pipe_Support R1, error (2,201) on line 12.
+    This checks known headers, not a complete database attribute schema.
+    A new element or a cursor-changing command ends the known header scope.
+    """
+    problems: List[str] = []
+    framework_names: set[str] = set()
+    in_framework = False
+    for lineno, raw in enumerate(lines, 1):
+        line = raw.strip().upper()
+        if not line or _COMMENT.match(raw):
+            continue
+        creation = re.match(r"^(?:NEW|OLD)\s+(\w+)(?:\s+(/\S+))?", line)
+        if creation:
+            in_framework = creation[1] in {"FRMW", "FRMWORK", "FRAMEWORK"}
+            if in_framework and creation[2]:
+                framework_names.add(creation[2])
+        elif line.startswith("/"):
+            in_framework = line in framework_names
+        elif re.match(r"^(?:END|OWNER|CE|GOTO|OLD)\b", line):
+            in_framework = False
+        elif in_framework and re.match(r"^(?:ORI|ORIENT|ORIENTATION)\s", line):
+            problems.append(f"L{lineno}: FRMWORK does not have attribute ORI -> {raw.strip()}")
     return problems
 
 
@@ -617,15 +647,26 @@ class PMLBuilder:
     Args:
         name: Label for the macro, used in the header banner only. Equipment
             elements are opened individually with :meth:`equi`.
+        close_elements: Emit the native data-listing closure: ``END`` after
+            every primitive, and ``END`` for each open SUBE/EQUI before the
+            next one opens (and in :meth:`close_all`). The default, open form
+            relies on ``NEW`` climbing to a valid owner, which is how every
+            generated macro in this project has loaded; the closed form is
+            what E3D's own listings use and is the right shape for a block
+            that is spliced into a native export (JK-Tank_Build R8,
+            ``WSB_TA_two_tanks_handrails_20260831.pml``).
     """
 
-    def __init__(self, name: str = "") -> None:
+    def __init__(self, name: str = "", *, close_elements: bool = False) -> None:
         self._lines: List[str] = []
         self._name = _sanitize(name)
         self._equi_names: set[str] = set()
         self._sube_names: set[str] = set()
         #: (name, bore, spec, generic type) per nozzle, for :meth:`catref_pass`.
         self._nozzle_bindings: List[Tuple[str, int, str, str]] = []
+        self._close_elements = close_elements
+        self._equi_open = False
+        self._sube_open = False
         self.primitive_count = 0
         self.equipment_count = 0
         self.nozzle_count = 0
@@ -676,20 +717,37 @@ class PMLBuilder:
         )
         return self
 
-    def equi(self, name: str) -> "PMLBuilder":
+    def equi(
+        self,
+        name: str,
+        *,
+        position: Tuple[float, float, float] = (0.0, 0.0, 0.0),
+        attributes: Iterable[str] = (),
+    ) -> "PMLBuilder":
         """
         Open an equipment element - one per item of equipment.
 
-        The EQUI is explicitly anchored at its owner's origin. A bare ``POS`` in
-        E3D is measured **with respect to the owner**, not the world (the world
-        form is ``POS ... WRT /*``), so every primitive underneath is positioned
-        relative to this element. Anchoring the EQUI at zero keeps the
-        primitives' existing coordinates world-absolute and unchanged: without
-        it the EQUI would take whatever position the current element happens to
-        have, and the whole tank would shift by that amount.
+        The EQUI is explicitly anchored, by default at its owner's origin. A
+        bare ``POS`` in E3D is measured **with respect to the owner**, not the
+        world (the world form is ``POS ... WRT /*``), so every primitive
+        underneath is positioned relative to this element. Anchoring the EQUI
+        at zero keeps the primitives' existing coordinates world-absolute and
+        unchanged: without it the EQUI would take whatever position the
+        current element happens to have, and the whole tank would shift by
+        that amount.
+
+        An explicit ``position`` is for continuing a native baseline whose
+        EQUI already carries an owner-relative POS (the WSB_TA export after
+        the 2026-09-02 relocation places every EQUI at
+        ``E 51267 N 58841 D 300``). The primitives beneath are then written in
+        the EQUI's own frame, and the line here must reproduce the accepted
+        value exactly or the whole item moves.
 
         Args:
             name: Equipment name, unique within the macro.
+            position: Owner-relative (east, north, up) of the EQUI origin.
+            attributes: Extra attribute lines written after ``POS``, verbatim
+                (e.g. the ``FUNC``/``BUIL`` lines a native export carries).
 
         Raises:
             PMLValidationError: if the name has already been used.
@@ -700,18 +758,25 @@ class PMLBuilder:
                 f"Duplicate EQUI name {clean!r} - E3D would create two "
                 f"indistinguishable elements"
             )
+        self.close_all()
         self._equi_names.add(clean)
         self._lines.append(f"NEW EQUI /{clean}")
-        self._lines.append("POS E 0.0 N 0.0 U 0.0")
+        east, north, up = position
+        self._lines.append(f"POS E {_fmt(east)} N {_fmt(north)} U {_fmt(up)}")
+        for line in attributes:
+            self._lines.append(line)
+        self._equi_open = True
         self.equipment_count += 1
         return self
 
-    def sube(self, name: str) -> "PMLBuilder":
+    def sube(self, name: str, *, attributes: Iterable[str] = ()) -> "PMLBuilder":
         """
         Open a sub-equipment grouping under the current EQUI.
 
         Args:
             name: Grouping name, unique within the macro.
+            attributes: Extra attribute lines written after ``NEW SUBE``,
+                verbatim.
 
         Raises:
             PMLValidationError: if the name has already been used, which would
@@ -723,9 +788,39 @@ class PMLBuilder:
                 f"Duplicate SUBE name {clean!r} - E3D would create two "
                 f"indistinguishable elements"
             )
+        self._close_sube()
         self._sube_names.add(clean)
         self._lines.append(f"NEW SUBE /{clean}")
+        for line in attributes:
+            self._lines.append(line)
+        self._sube_open = True
         return self
+
+    def close_all(self) -> "PMLBuilder":
+        """
+        Close the open SUBE and EQUI with ``END`` lines.
+
+        Only emits anything in the END-closed form; the open form has nothing
+        to close because the next ``NEW`` climbs to its owner on its own.
+        Safe to call more than once.
+        """
+        self._close_sube()
+        if self._equi_open:
+            if self._close_elements:
+                self._lines.append("END")
+            self._equi_open = False
+        return self
+
+    def _close_sube(self) -> None:
+        if self._sube_open:
+            if self._close_elements:
+                self._lines.append("END")
+            self._sube_open = False
+
+    def _close_primitive(self) -> None:
+        """``END`` after a primitive in the closed form; nothing otherwise."""
+        if self._close_elements:
+            self._lines.append("END")
 
     # -- catalogue elements ---------------------------------------------
 
@@ -1011,6 +1106,7 @@ class PMLBuilder:
         self._lines.append(f"HEIG {_fmt(height)}")
         self._orient(axis)
         self._position(base, axis=axis, extent=height)
+        self._close_primitive()
         self.primitive_count += 1
         return self
 
@@ -1048,6 +1144,7 @@ class PMLBuilder:
         self._lines.append(f"HEIG {_fmt(height)}")
         self._orient(axis)
         self._position(base, axis=axis, extent=height)
+        self._close_primitive()
         self.primitive_count += 1
         return self
 
@@ -1097,6 +1194,7 @@ class PMLBuilder:
         # conversion made the ACCUMULATOR_TANK top head float by HEIG / 2 in
         # the user's E3D session (JK_Cooking_Tank_Build, 2026-07-30).
         self._position(base)
+        self._close_primitive()
         self.primitive_count += 1
         return self
 
@@ -1164,6 +1262,78 @@ class PMLBuilder:
                 f"ORI Z IS U AND X IS {_plan_direction(rotation)}"
             )
         self._position(centre)
+        self._close_primitive()
+        self.primitive_count += 1
+        return self
+
+    def pyramid(
+        self,
+        xbot: float,
+        ybot: float,
+        xtop: float,
+        ytop: float,
+        height: float,
+        centre: Tuple[float, float, float],
+        *,
+        xoff: float = 0.0,
+        yoff: float = 0.0,
+        plan_rotation_deg: float = 0.0,
+        label: str = "",
+    ) -> "PMLBuilder":
+        """
+        Rectangular pyramid/frustum positioned by its **geometric centre**.
+
+        VERIFIED in E3D Design Mk3.1.11.0 (native ``/P1501B-BASE`` export and
+        the JK_Pump_Build r6 acceptance, 2026-08-20): the bottom rectangle sits
+        at local ``-HEIG/2`` and the top rectangle at ``+HEIG/2``, so a
+        required span ``low..high`` is emitted as ``HEIG = high - low`` at
+        ``POS U = (low + high) / 2``. ``XOFF``/``YOFF`` shift the top face in
+        the element's local X/Y, which with equal faces gives a sheared prism -
+        the verified form for an inclined leg or stay. The full keyword
+        ``PYRAMID`` is required; ``PYRA`` is not a macro primitive.
+
+        Args:
+            xbot, ybot: Bottom rectangle (mm).
+            xtop, ytop: Top rectangle (mm).
+            height: Vertical extent along local Z (mm).
+            centre: (east, north, up) of the geometric centre.
+            xoff, yoff: Top-face centre offset from the bottom-face centre, in
+                local X/Y (mm).
+            plan_rotation_deg: Local X bearing measured from East towards
+                North, exactly as for :meth:`box`.
+            label: Optional comment written above the primitive.
+        """
+        if height <= 0 or min(xbot, ybot) <= 0 or min(xtop, ytop) < 0:
+            raise PMLValidationError(
+                f"PYRAMID needs positive height and faces, got "
+                f"{xbot}x{ybot} -> {xtop}x{ytop}, height={height}"
+            )
+        if not all(math.isfinite(v) for v in (xoff, yoff, plan_rotation_deg)):
+            raise PMLValidationError(
+                f"PYRAMID offsets/rotation must be finite, got "
+                f"{xoff}, {yoff}, {plan_rotation_deg}"
+            )
+        if label:
+            self.comment(label)
+        self._lines.append("NEW PYRAMID")
+        self._lines.append(f"XBOT {_fmt(xbot)}")
+        self._lines.append(f"YBOT {_fmt(ybot)}")
+        self._lines.append(f"XTOP {_fmt(xtop)}")
+        self._lines.append(f"YTOP {_fmt(ytop)}")
+        self._lines.append(f"HEIG {_fmt(height)}")
+        if abs(xoff) > 1e-9:
+            self._lines.append(f"XOFF {_fmt(xoff)}")
+        if abs(yoff) > 1e-9:
+            self._lines.append(f"YOFF {_fmt(yoff)}")
+        rotation = plan_rotation_deg % 360.0
+        if abs(rotation) > 1e-9:
+            self._lines.append(
+                f"ORI Z IS U AND X IS {_plan_direction(rotation)}"
+            )
+        else:
+            self._lines.append("ORI Z IS U AND Y IS N")
+        self._position(centre)
+        self._close_primitive()
         self.primitive_count += 1
         return self
 
@@ -1380,6 +1550,7 @@ class PMLBuilder:
                 ORI/POS ordering fault. This is a defensive backstop - building
                 only through this class should make it unreachable.
         """
+        self.close_all()
         script = "\n".join(self._lines).rstrip() + "\n"
         problems = validate_pml(script)
         if problems:

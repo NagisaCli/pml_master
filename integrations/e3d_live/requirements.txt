@@ -1,0 +1,2 @@
+# Pinned official client: repeatable Responses API behavior and SDK retries.
+openai==3.3.1

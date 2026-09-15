@@ -17,6 +17,7 @@ starting from the equipment knowledge base.
 | JK_Pump_Build | `Projects/JK_Pump_Build/` | 30 horizontal process/MC pumps; individual macros plus one combined loader, one EQUI per tag | Final combined macro visually accepted in E3D; ongoing customization memory retained | [jk-pump-build.md](jk-pump-build.md) — current state; rounds in [jk-pump-build-history.md](jk-pump-build-history.md) |
 | JK_Cooking_Tank_Build | `Projects/JK_Cooking_Tank_Build/` | 15 cooking-plant tanks/vessels; compound Blow Tank profiles, accumulators, junk traps and a horizontal condensate receiver | R5 loaded and visually accepted; R6 native-export rework (base plates + slimmed supports) archived 2026-08-02 | [jk-cooking-tank-build.md](jk-cooking-tank-build.md) |
 | E3D_Syntax_Lab | `Projects/E3D_Syntax_Lab/` | Native-export-driven syntax studies and E3D certification packages | PIPE core rounds 1–2 VERIFIED in E3D Design Mk3.1.11.0 | [e3d-syntax-lab.md](e3d-syntax-lab.md) |
+| Typical_Pipe_Support | `Projects/Typical_Pipe_Support/` | Standalone STRUCT cantilever, hex screws and welded connection review | R2 screenshot reviewed; reconstructed R3 static PASS, E3D review pending | [typical-pipe-support.md](typical-pipe-support.md) |
 
 Each entry has **two homes**: the folder under `Projects/` holds its data,
 `DO.txt` and deliverables; the log here holds the experience. See

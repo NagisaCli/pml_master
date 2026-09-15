@@ -713,6 +713,18 @@ N = 0.
 
 ---
 
+## Framework attribute restriction — VERIFIED by user error
+
+`FRMW`, `FRMWORK` and `FRAMEWORK` name the framework element. Do not emit
+`ORI` on that element. Typical_Pipe_Support R1 failed with `(2,201)` at line 12:
+`Element FRMWORK /TPS_R1_FRAME does not have attribute ORI`.
+See the [user report](../../Projects/Typical_Pipe_Support/results/evidence/2026-09-13_FRMW_ORI_user_report.txt).
+The project now emits `NEW FRMW` without a pose header; the redundant framework
+`POS` was also removed, without claiming that its rejection was observed.
+Member section endpoints remain unchanged. The shared validator rejects `ORI`
+in a known framework header. This restriction is verified; successful loading
+of the corrected complete support is still pending.
+
 ## EXPERIMENTAL — do not rely on without testing
 
 Nothing is currently promoted here. Entries added to this section must state what

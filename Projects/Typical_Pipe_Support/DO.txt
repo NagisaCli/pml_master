@@ -1,0 +1,25 @@
+Scope: standalone typical pipe support, requested 2026-09-13.
+Use STRUCT as the primary frame. Improve realistic welded connections and
+replace circular fasteners with genuine hexagonal screw heads.
+Source: C:\e3d_models\SINGLE_TYPICAL_PIPE_SUPPORT.pml. Chat backslash-underscore
+sequences were initially misread as directory separators; decoding the underscore
+escapes yields this existing file. Zone identity and failing line content match.
+The desktop copy is identical. No separate manually edited source was supplied.
+Preserve beam endpoints, both profiles and justification, wall-plate envelopes,
+wall datum N=0, beam top U=0, and all six fastener centres.
+Use an independent R3 review namespace. No deletion and no automatic SAVEWORK.
+All additional connection and fastener dimensions are Reference Values.
+Receiving E3D catalogue, section roll, full section contact, and visual acceptance
+remain required before this becomes an accepted baseline.
+
+R1 live feedback: E3D rejects ORI on FRMWORK at line 12. The framework pose
+header was removed. A subsequent resume failed because TPS_R1_FRAME was absent.
+An earlier error line does not establish current database contents. The current
+R2 delivery was a complete load from a writable SITE, creating its own
+ZONE, STRU, FRMW, sections and hardware. R1 resume is superseded.
+
+Current work: user confirmed the screenshot shows unedited R2 and requested a
+realistic reconstruction. R3 may revise brace cut endpoints along the existing
+bearing, node outlines, weld lengths, fastener geometry and mounting-plate holes.
+The main beam, profile references, plate envelopes and six mounting centres stay.
+Do not treat a crescent-like head image as proof of a particular rendering cause.

@@ -19,6 +19,8 @@ import math
 from dataclasses import dataclass
 from typing import Iterable, Optional, Tuple
 
+from .pml_parser import pyramid_bounds
+
 __all__ = [
     "Bounds",
     "EquipmentModel",
@@ -110,10 +112,13 @@ class PrimitiveSpec:
     One resolved E3D primitive in equipment-local coordinates.
 
     ``point`` is the base-face centre for CYLI/CONE, the rim-plane centre for
-    DISH and the geometric centre for BOX. ``plan_rotation_deg`` rotates a BOX
-    local X axis from East towards North while keeping local Z vertical.
-    ``role='body'`` marks the authoritative vessel envelope; supports, nozzle
-    assemblies and visible detail use other role names.
+    DISH and the geometric centre for BOX and PYRAMID. ``plan_rotation_deg``
+    rotates a BOX or PYRAMID local X axis from East towards North while
+    keeping local Z vertical. A PYRAMID's top rectangle may be shifted by
+    ``xoff``/``yoff`` in that local frame, which is how an inclined leg or
+    stay is drawn from verified primitives (IR-1). ``role='body'`` marks the
+    authoritative vessel envelope; supports, nozzle assemblies and visible
+    detail use other role names.
     """
 
     group: str
@@ -130,6 +135,12 @@ class PrimitiveSpec:
     xlen: float = 0.0
     ylen: float = 0.0
     zlen: float = 0.0
+    xbot: float = 0.0
+    ybot: float = 0.0
+    xtop: float = 0.0
+    ytop: float = 0.0
+    xoff: float = 0.0
+    yoff: float = 0.0
     plan_rotation_deg: float = 0.0
     vertices: Tuple[Tuple[float, float], ...] = ()
     orientation: str = ""
@@ -145,7 +156,7 @@ class PrimitiveSpec:
             raise ValueError("Primitive group cannot be blank")
         if not self.label.strip():
             raise ValueError("Primitive label cannot be blank")
-        if kind not in {"CYLI", "CONE", "DISH", "BOX", "EXTRUSION"}:
+        if kind not in {"CYLI", "CONE", "DISH", "BOX", "PYRAMID", "EXTRUSION"}:
             raise ValueError(f"Unsupported primitive kind {kind!r}")
 
         if kind == "EXTRUSION":
@@ -168,6 +179,26 @@ class PrimitiveSpec:
                     f"BOX plan rotation must be finite, got "
                     f"{self.plan_rotation_deg}"
                 )
+            object.__setattr__(
+                self, "plan_rotation_deg", self.plan_rotation_deg % 360.0
+            )
+            return
+        if kind == "PYRAMID":
+            if self.height <= 0:
+                raise ValueError(
+                    f"PYRAMID needs positive height, got {self.height}"
+                )
+            if min(self.xbot, self.ybot) <= 0 or min(self.xtop, self.ytop) < 0:
+                raise ValueError(
+                    f"PYRAMID needs XBOT/YBOT > 0 and XTOP/YTOP >= 0, got "
+                    f"{self.xbot} x {self.ybot} -> {self.xtop} x {self.ytop}"
+                )
+            for value in (self.xoff, self.yoff, self.plan_rotation_deg):
+                if not math.isfinite(value):
+                    raise ValueError(
+                        f"PYRAMID offsets and rotation must be finite, got "
+                        f"{self.xoff}, {self.yoff}, {self.plan_rotation_deg}"
+                    )
             object.__setattr__(
                 self, "plan_rotation_deg", self.plan_rotation_deg % 360.0
             )
@@ -291,6 +322,48 @@ class PrimitiveSpec:
         )
 
     @classmethod
+    def pyramid(
+        cls,
+        group: str,
+        xbot: float,
+        ybot: float,
+        xtop: float,
+        ytop: float,
+        height: float,
+        centre: Point,
+        label: str,
+        *,
+        xoff: float = 0.0,
+        yoff: float = 0.0,
+        plan_rotation_deg: float = 0.0,
+        role: str = "detail",
+    ) -> "PrimitiveSpec":
+        """
+        Rectangular frustum positioned by its **geometric centre**.
+
+        With equal top and bottom rectangles and a non-zero ``xoff``/``yoff``
+        this is a sheared prism: the verified way to draw an inclined leg or
+        stay whose axis is not one of the six cardinal directions. Local X is
+        the ``plan_rotation_deg`` bearing, so for a vessel leg ``xoff`` is the
+        radial splay of the top face relative to the bottom face.
+        """
+        return cls(
+            group=group,
+            kind="PYRAMID",
+            point=centre,
+            label=label,
+            role=role,
+            xbot=xbot,
+            ybot=ybot,
+            xtop=xtop,
+            ytop=ytop,
+            height=height,
+            xoff=xoff,
+            yoff=yoff,
+            plan_rotation_deg=plan_rotation_deg,
+        )
+
+    @classmethod
     def extrusion(
         cls,
         group: str,
@@ -388,6 +461,19 @@ class PrimitiveSpec:
                 n + half_n,
                 u - self.zlen / 2.0,
                 u + self.zlen / 2.0,
+            )
+
+        if self.kind == "PYRAMID":
+            return pyramid_bounds(
+                self.point,
+                self.xbot,
+                self.ybot,
+                self.xtop,
+                self.ytop,
+                self.height,
+                xoff=self.xoff,
+                yoff=self.yoff,
+                plan_rotation_deg=self.plan_rotation_deg,
             )
 
         de, dn, du = _AXIS_VECTOR[self.axis]

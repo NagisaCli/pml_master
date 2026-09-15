@@ -1,0 +1,185 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/e3d-live/control-protocol-2.0.schema.json",
+  "title": "E3D Live Bridge Controlled Write Messages",
+  "$defs": {
+    "scope": { "$ref": "protocol.schema.json#/$defs/scope" },
+    "session": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bridge_session_id", "process_id", "source", "addin_version", "scope"],
+      "properties": {
+        "bridge_session_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "process_id": { "type": "integer", "minimum": 1 },
+        "source": { "const": "e3d-caf-addin" },
+        "addin_version": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "scope": { "$ref": "#/$defs/scope" }
+      }
+    },
+    "operation": { "$ref": "preview-response.schema.json#/$defs/operation" },
+    "configureAssistant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version", "message_type", "bridge_session_id", "process_id",
+        "scope", "provider", "model", "api_key"
+      ],
+      "properties": {
+        "protocol_version": { "const": "2.0" },
+        "message_type": { "const": "configure_assistant" },
+        "bridge_session_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "process_id": { "type": "integer", "minimum": 1 },
+        "scope": { "$ref": "#/$defs/scope" },
+        "provider": {
+          "enum": ["openai_responses", "token_rhythm_chat"]
+        },
+        "model": { "type": "string", "maxLength": 128 },
+        "api_key": { "type": "string", "minLength": 1, "maxLength": 512 }
+      }
+    },
+    "configureAssistantResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version", "status", "backend", "model", "endpoint_origin",
+        "access_mode", "api_key_persistence"
+      ],
+      "properties": {
+        "protocol_version": { "const": "2.0" },
+        "status": { "const": "configured" },
+        "backend": { "enum": ["openai_responses", "token_rhythm_chat"] },
+        "model": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "endpoint_origin": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "access_mode": { "enum": ["read_only", "controlled_write"] },
+        "api_key_persistence": { "const": "memory_only" }
+      }
+    },
+    "authorizeRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version", "message_type", "request_id", "timestamp_utc",
+        "session", "change_set_id", "target_element", "operation_ids",
+        "persist_requested"
+      ],
+      "properties": {
+        "protocol_version": { "const": "2.0" },
+        "message_type": { "const": "apply_authorization_request" },
+        "request_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "timestamp_utc": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "session": { "$ref": "#/$defs/session" },
+        "change_set_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "target_element": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "operation_ids": {
+          "type": "array", "minItems": 1, "maxItems": 16,
+          "items": { "type": "string", "minLength": 1, "maxLength": 128 }
+        },
+        "persist_requested": { "type": "boolean" }
+      }
+    },
+    "authorizeResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version", "request_id", "status", "authorization_id",
+        "change_set_id", "expires_at_utc", "scope", "target_element",
+        "persist_requested", "operations"
+      ],
+      "properties": {
+        "protocol_version": { "const": "2.0" },
+        "request_id": { "type": "string" },
+        "status": { "const": "authorized" },
+        "authorization_id": { "type": "string", "minLength": 1 },
+        "change_set_id": { "type": "string", "minLength": 1 },
+        "expires_at_utc": { "type": "string", "minLength": 1 },
+        "scope": { "$ref": "#/$defs/scope" },
+        "target_element": { "type": "string", "minLength": 1 },
+        "persist_requested": { "type": "boolean" },
+        "operations": {
+          "type": "array", "minItems": 1, "maxItems": 16,
+          "items": { "$ref": "#/$defs/operation" }
+        }
+      }
+    },
+    "operationResult": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation_id", "attribute", "before_value", "requested_value",
+        "after_value", "status"
+      ],
+      "properties": {
+        "operation_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "attribute": {
+          "enum": ["DESC", "XLEN", "YLEN", "ZLEN", "HEIG", "DIAM", "DTOP", "DBOT"]
+        },
+        "before_value": { "type": "string", "maxLength": 4096 },
+        "requested_value": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "after_value": { "type": "string", "maxLength": 4096 },
+        "status": { "enum": ["applied", "failed", "rolled_back"] }
+      }
+    },
+    "applyResultRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version", "message_type", "request_id", "timestamp_utc",
+        "session", "authorization_id", "change_set_id", "target_element",
+        "status", "persistence", "message", "operation_results"
+      ],
+      "properties": {
+        "protocol_version": { "const": "2.0" },
+        "message_type": { "const": "apply_result" },
+        "request_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "timestamp_utc": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "session": { "$ref": "#/$defs/session" },
+        "authorization_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "change_set_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "target_element": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "status": {
+          "enum": [
+            "applied", "applied_not_persisted", "rejected", "stale",
+            "rolled_back", "failed"
+          ]
+        },
+        "persistence": { "enum": ["none", "in_memory", "save_work"] },
+        "message": { "type": "string", "maxLength": 1000 },
+        "operation_results": {
+          "type": "array", "maxItems": 16,
+          "items": { "$ref": "#/$defs/operationResult" }
+        }
+      }
+    },
+    "applyResultReceipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol_version", "request_id", "status", "change_set_id",
+        "authorization_id", "execution_status", "persistence", "recorded_at_utc"
+      ],
+      "properties": {
+        "protocol_version": { "const": "2.0" },
+        "request_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "status": { "const": "recorded" },
+        "change_set_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "authorization_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "execution_status": {
+          "enum": [
+            "applied", "applied_not_persisted", "rejected", "stale",
+            "rolled_back", "failed"
+          ]
+        },
+        "persistence": { "enum": ["none", "in_memory", "save_work"] },
+        "recorded_at_utc": { "type": "string", "minLength": 1, "maxLength": 64 }
+      }
+    }
+  },
+  "oneOf": [
+    { "$ref": "#/$defs/configureAssistant" },
+    { "$ref": "#/$defs/configureAssistantResponse" },
+    { "$ref": "#/$defs/authorizeRequest" },
+    { "$ref": "#/$defs/authorizeResponse" },
+    { "$ref": "#/$defs/applyResultRequest" },
+    { "$ref": "#/$defs/applyResultReceipt" }
+  ]
+}

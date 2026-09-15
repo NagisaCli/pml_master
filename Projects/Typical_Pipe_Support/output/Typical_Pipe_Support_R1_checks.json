@@ -1,0 +1,29 @@
+{
+  "status": "STATIC_PASS_LIVE_PENDING",
+  "hardware_primitives": 174,
+  "native_sections": 2,
+  "hex_heads": 6,
+  "annular_washers": 6,
+  "weld_runs": 13,
+  "source_sections_preserved": true,
+  "wall_plates_preserved": true,
+  "hardware_bounds_enu_mm": [
+    -90.0,
+    90.0,
+    0.0,
+    1145.0,
+    -550.0,
+    100.0
+  ],
+  "limits": [
+    "Source identity provisional",
+    "SCTN catalogue and roll not read live",
+    "Angle TOAY face assumed at E=0 with steel to West and down",
+    "Full catalogue steel/weld contact and clashes require E3D",
+    "Load rating, anchor embedment, weld sizing and material grades TBC"
+  ],
+  "source_sha256": "52c523d709d5f46bd0a9a4fd10f7cbb36eeac5046c1cf45896c45abc09f3806c",
+  "output_sha256": "66481150c551200370317f53124c41b2247865280a4690f30a1cb8d4d1a2408e",
+  "resume_sha256": "3bb9c4abdcceab889c3a459d012b9dae79d8288fabb8f183b81a95ba13f42129",
+  "framework_header_fix": "Removed ORI and unneeded POS; E3D retry pending"
+}

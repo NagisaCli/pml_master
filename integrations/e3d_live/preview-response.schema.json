@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://local.invalid/e3d-live/preview-response-2.0.schema.json",
+  "title": "E3D Live Bridge Controlled Change Preview",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol_version",
+    "request_id",
+    "status",
+    "mode",
+    "backend",
+    "analysis",
+    "change_set",
+    "changes",
+    "persistence"
+  ],
+  "properties": {
+    "protocol_version": { "const": "2.0" },
+    "request_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "status": { "const": "preview_ready" },
+    "mode": { "enum": ["preview_only", "controlled_write"] },
+    "backend": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "model"],
+      "properties": {
+        "kind": { "type": "string" },
+        "model": { "type": ["string", "null"] }
+      }
+    },
+    "analysis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["summary", "observations", "warnings"],
+      "properties": {
+        "summary": { "type": "string" },
+        "observations": { "type": "array", "items": { "type": "string" } },
+        "warnings": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "change_set": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "change_set_id",
+        "status",
+        "executable",
+        "requires_user_approval",
+        "expires_at_utc",
+        "scope",
+        "target_element",
+        "operations"
+      ],
+      "properties": {
+        "schema_version": { "const": "2.0" },
+        "change_set_id": { "type": ["string", "null"], "maxLength": 128 },
+        "status": { "const": "proposal" },
+        "executable": { "type": "boolean" },
+        "requires_user_approval": { "const": true },
+        "expires_at_utc": { "type": ["string", "null"], "maxLength": 64 },
+        "scope": { "$ref": "protocol.schema.json#/$defs/scope" },
+        "target_element": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "operations": {
+          "type": "array",
+          "maxItems": 16,
+          "items": { "$ref": "#/$defs/operation" }
+        }
+      }
+    },
+    "changes": { "type": "array", "maxItems": 0 },
+    "persistence": { "const": "not_applied" }
+  },
+  "$defs": {
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "operation_id",
+        "operation_type",
+        "target_element",
+        "attribute",
+        "expected_current_value",
+        "proposed_value",
+        "reason"
+      ],
+      "properties": {
+        "operation_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "operation_type": { "const": "set_attribute" },
+        "target_element": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "attribute": {
+          "enum": [
+            "DESC",
+            "XLEN",
+            "YLEN",
+            "ZLEN",
+            "HEIG",
+            "DIAM",
+            "DTOP",
+            "DBOT"
+          ]
+        },
+        "expected_current_value": { "type": "string", "maxLength": 4096 },
+        "proposed_value": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 1000 }
+      }
+    }
+  }
+}

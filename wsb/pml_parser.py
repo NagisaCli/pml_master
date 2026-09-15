@@ -28,6 +28,9 @@ because that is the whole point of verifying numerically:
   its height either side along its axis.
 * ``BOX`` -- ``POS`` is the geometric centre, spanning half of each of
   ``XLEN``/``YLEN``/``ZLEN``.
+* ``PYRAMID`` -- ``POS`` is the geometric centre; the bottom rectangle sits at
+  local ``-HEIG/2`` and the top rectangle, shifted by ``XOFF``/``YOFF``, at
+  ``+HEIG/2`` (IR-1, verified 2026-08-19 on the native ``/P1501B-BASE``).
 * ``DISH`` -- ``POS`` is the flat rim / tangent plane, and the element spans
   from there *along* its axis, not either side of it.
 """
@@ -50,12 +53,16 @@ __all__ = [
     "parse_plan_direction",
     "parse_primitives",
     "plan_half_extents",
+    "pyramid_bounds",
+    "PLAN_ROTATED_KINDS",
 ]
 
 #: Element types that carry geometry. ``EQUI`` and ``SUBE`` are grouping
 #: elements: they own a position but occupy no space, so treating one as
 #: geometry would read a zero-sized primitive at the equipment origin.
-GEOMETRY_KINDS = frozenset({"CYLI", "CONE", "DISH", "BOX", "EXTRUSION"})
+GEOMETRY_KINDS = frozenset(
+    {"CYLI", "CONE", "DISH", "BOX", "PYRAMID", "EXTRUSION"}
+)
 
 #: Unit vector for each E3D axis letter.
 AXIS_VECTOR: Dict[str, Tuple[float, float, float]] = {
@@ -68,7 +75,16 @@ AXIS_VECTOR: Dict[str, Tuple[float, float, float]] = {
 }
 
 #: Axial extent attributes read off a primitive.
-_DIMENSION_ATTRIBUTES = ("DIAM", "HEIG", "XLEN", "YLEN", "ZLEN", "DTOP", "DBOT")
+_DIMENSION_ATTRIBUTES = (
+    "DIAM", "HEIG", "XLEN", "YLEN", "ZLEN", "DTOP", "DBOT",
+    "XBOT", "YBOT", "XTOP", "YTOP", "XOFF", "YOFF",
+)
+
+#: Elements whose local X may be turned to a plan bearing with
+#: ``ORI Z IS U AND X IS <bearing>``. BOX is the verified form
+#: (``spcwfitspecsel.pmlfrm:2423``); PYRAMID takes the same ORI command and
+#: keeps local Z vertical, so its rectangles and offsets turn with local X.
+PLAN_ROTATED_KINDS = frozenset({"BOX", "PYRAMID"})
 
 ORI_RE = re.compile(r"^ORI\s+Z\s+IS\s+([UDENSW])\b", re.IGNORECASE)
 NOZZLE_ORI_RE = re.compile(r"^ORI\s+P1\s+IS\s+([UDENSW])\b", re.IGNORECASE)
@@ -138,6 +154,7 @@ def parse_primitives(
     in_equipment = False
 
     extrusion_depth = 0
+    negative_depth = 0
 
     for raw in script.splitlines():
         line = raw.strip()
@@ -147,8 +164,23 @@ def parse_primitives(
             in_equipment = line[len("NEW EQUI /") :] == expected
             current = {}
             extrusion_depth = 0
+            negative_depth = 0
             continue
         if not in_equipment:
+            continue
+
+        # A negative child must not overwrite the still-open positive extrusion
+        # or be parsed as its LOOP vertices/pose. Keep the positive until its END.
+        if negative_depth:
+            if line.startswith("NEW "):
+                negative_depth += 1
+            elif line == "END":
+                negative_depth -= 1
+            continue
+        if current.get("kind") == "EXTRUSION" and re.match(
+            r"^NEW\s+(?:NCYLI\w*|NBOX|NCONE|NDISH|NPYRAMID|NXTR\w*)\b", line, re.I
+        ):
+            negative_depth = 1
             continue
 
         if line.startswith("NEW EXTRUSION"):
@@ -191,7 +223,7 @@ def parse_primitives(
                 current[attribute.lower()] = float(line.split()[1])
 
         plan = BOX_PLAN_ORI_RE.match(line)
-        if plan and current.get("kind") == "BOX":
+        if plan and current.get("kind") in PLAN_ROTATED_KINDS:
             current["plan_rotation_deg"] = parse_plan_direction(plan.group(1))
 
         if current.get("kind") == "EXTRUSION" and line.startswith("ORI "):
@@ -416,6 +448,19 @@ def bounds_of(primitive: dict) -> Bounds:
             up + half_u,
         )
 
+    if primitive["kind"] == "PYRAMID":
+        return pyramid_bounds(
+            (east, north, up),
+            primitive.get("xbot", 0.0),
+            primitive.get("ybot", 0.0),
+            primitive.get("xtop", 0.0),
+            primitive.get("ytop", 0.0),
+            primitive.get("heig", 0.0),
+            xoff=primitive.get("xoff", 0.0),
+            yoff=primitive.get("yoff", 0.0),
+            plan_rotation_deg=primitive.get("plan_rotation_deg", 0.0),
+        )
+
     diameter = max(
         primitive.get("diam", 0.0),
         primitive.get("dbot", 0.0),
@@ -449,6 +494,55 @@ def bounds_of(primitive: dict) -> Bounds:
         u_min -= radius
         u_max += radius
     return (e_min, e_max, n_min, n_max, u_min, u_max)
+
+
+def pyramid_bounds(
+    centre: Tuple[float, float, float],
+    xbot: float,
+    ybot: float,
+    xtop: float,
+    ytop: float,
+    height: float,
+    *,
+    xoff: float = 0.0,
+    yoff: float = 0.0,
+    plan_rotation_deg: float = 0.0,
+) -> Bounds:
+    """
+    Axis-aligned extent of a PYRAMID from its centre datum.
+
+    The bottom rectangle (``xbot`` x ``ybot``) is centred on the local origin
+    at ``-height/2``; the top rectangle (``xtop`` x ``ytop``) is centred at
+    (``xoff``, ``yoff``) at ``+height/2``. Both rectangles turn with local X
+    when the element is plan-rotated. The extent is the enclosing box of the
+    eight corners, which is exact for the vertical span and conservative in
+    plan -- the same convention as a rotated BOX.
+
+    Shared by the writer (:class:`wsb.composite_schema.PrimitiveSpec`) and
+    this parser so the two cannot disagree about where a PYRAMID sits.
+    """
+    east, north, up = centre
+    angle = math.radians(plan_rotation_deg)
+    cosine, sine = math.cos(angle), math.sin(angle)
+    corners = []
+    for cx, cy, sx, sy in (
+        (0.0, 0.0, xbot, ybot),
+        (xoff, yoff, xtop, ytop),
+    ):
+        for dx in (-sx / 2.0, sx / 2.0):
+            for dy in (-sy / 2.0, sy / 2.0):
+                lx, ly = cx + dx, cy + dy
+                corners.append(
+                    (cosine * lx - sine * ly, sine * lx + cosine * ly)
+                )
+    return (
+        east + min(c[0] for c in corners),
+        east + max(c[0] for c in corners),
+        north + min(c[1] for c in corners),
+        north + max(c[1] for c in corners),
+        up - height / 2.0,
+        up + height / 2.0,
+    )
 
 
 def lowest_point(primitive: dict) -> float:
