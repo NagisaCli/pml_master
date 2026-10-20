@@ -6,9 +6,9 @@ Reconciled continuation of:
 r3 (platform disc + handrail on the roof-frustum top) rendered correctly but
 the user corrected the position:
 
-> 可以，楼梯正常出现；但是位置不对，我要的围绕圆柱顶端的大圆转，
-> 而不是圆柱上圆台顶端的小圆；你直接插在圆柱顶端圆面上绕着转，
-> 然后我再调整圆台大小
+> Approved, stairs appear normally; but position wrong, what I want is circling around the big circle at the cylinder top,
+> not the small circle at the frustum top; place them directly on the cylinder top surface circling around,
+> and I will adjust the cone frustum size later
 
 So the handrail ring moves from the frustum top (small circle, DTOP) to the
 top of the shell cylinder (big circle): TA-001 DIAM 10800 / TA-056 DIAM 9900,

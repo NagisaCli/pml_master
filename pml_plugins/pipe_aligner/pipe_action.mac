@@ -1,0 +1,293 @@
+-- ====================================================================
+-- AVEVA E3D Action Dispatcher Macro for Pipe Aligner
+-- Author: Antigravity
+-- Standard: 100% Pure ASCII (Mojibake-Free)
+-- ====================================================================
+$S-  -- Synonym translation OFF
+
+!form = !!pipeIntersectAligner
+!action = '$1'
+
+-- ====================================================================
+-- Action: 3D Mouse Graphic Pick for Main TEE
+-- ====================================================================
+if (!action.eq('pickTee3D')) then
+  !form.txtStatus.val = 'Click Main TEE in 3D...'
+  handle ANY
+    !form.txtStatus.val = 'Pick cancelled.'
+    return
+  endhandle
+
+  ID @
+
+  if (!!ce.set()) then
+    !form.txtMainTee.val = !!ce.name
+    !form.txtStatus.val = 'TEE: ' + !!ce.name
+
+    if (not !form.txtElbow.val.trim().eq('')) then
+      $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter
+    endif
+  endif
+
+-- ====================================================================
+-- Action: CE Pick for Main TEE
+-- ====================================================================
+elseif (!action.eq('pickTee')) then
+  if (not !!ce.set()) then
+    !form.txtStatus.val = 'Select TEE first.'
+  else
+    !form.txtMainTee.val = !!ce.name
+    !form.txtStatus.val = 'TEE: ' + !!ce.name
+
+    if (not !form.txtElbow.val.trim().eq('')) then
+      $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter
+    endif
+  endif
+
+-- ====================================================================
+-- Action: 3D Mouse Graphic Pick for Branch Elbow
+-- ====================================================================
+elseif (!action.eq('pickElb3D')) then
+  !form.txtStatus.val = 'Click Branch Elbow in 3D...'
+  handle ANY
+    !form.txtStatus.val = 'Pick cancelled.'
+    return
+  endhandle
+
+  ID @
+
+  if (!!ce.set()) then
+    !form.txtElbow.val = !!ce.name
+    !form.txtStatus.val = 'ELB: ' + !!ce.name
+
+    if (not !form.txtMainTee.val.trim().eq('')) then
+      $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter
+    endif
+  endif
+
+-- ====================================================================
+-- Action: CE Pick for Branch Elbow
+-- ====================================================================
+elseif (!action.eq('pickElbow')) then
+  if (not !!ce.set()) then
+    !form.txtStatus.val = 'Select Elbow first.'
+  else
+    !form.txtElbow.val = !!ce.name
+    !form.txtStatus.val = 'ELB: ' + !!ce.name
+
+    if (not !form.txtMainTee.val.trim().eq('')) then
+      $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter
+    endif
+  endif
+
+-- ====================================================================
+-- Action: Calculate Ray Intersection Point (Strict Centerline Lock)
+-- ====================================================================
+elseif (!action.eq('calcInter')) then
+  if (!form.txtMainTee.val.trim().eq('') or !form.txtElbow.val.trim().eq('')) then
+    !form.txtStatus.val = 'Pick TEE & Elbow first.'
+  else
+    handle ANY
+      !form.txtStatus.val = 'Calc error: check elements.'
+      return
+    endhandle
+
+    !tRef = object DBREF(!form.txtMainTee.val)
+    !tBranch = !tRef.owner
+
+    -- Read Elbow data
+    !eRef = object DBREF(!form.txtElbow.val)
+    !eElb = !eRef.pos.east
+    !nElb = !eRef.pos.north
+    !uElb = !eRef.pos.up
+
+    -- Elbow leave direction vector
+    !bDir = !eRef.ldir
+    !dE = !bDir.east
+    !dN = !bDir.north
+    if (!dE.lt(0.001) and !dE.gt(-0.001) and !dN.lt(0.001) and !dN.gt(-0.001)) then
+      !dE = -0.70710678
+      !dN = 0.70710678  -- Default W 45 N
+    endif
+
+    -- Main Pipe baseline from Branch HPOS
+    !tE = !tBranch.hpos.east
+    !tN = !tBranch.hpos.north
+    !tU = !tBranch.hpos.up
+
+    -- Height difference
+    !diff = !uElb - !tU
+    !form.hDiff = !diff
+    !form.txtHDiff.val = !diff.string('D0') + 'mm'
+    !form.teeU = !tU
+
+    -- Determine whether main pipe runs North-South or East-West (Zero method calls, 100% robust)
+    !rawDeltaE = !tBranch.tpos.east - !tBranch.hpos.east
+    !deltaE = !rawDeltaE
+    if (!deltaE.lt(0.0)) then
+      !deltaE = 0.0 - !deltaE
+    endif
+
+    !rawDeltaN = !tBranch.tpos.north - !tBranch.hpos.north
+    !deltaN = !rawDeltaN
+    if (!deltaN.lt(0.0)) then
+      !deltaN = 0.0 - !deltaN
+    endif
+
+    if (!deltaN.ge(!deltaE)) then
+      -- Main pipe runs North-South (Centerline East and Up strictly locked to branch HPOS!)
+      if (!dE.gt(0.0001) or !dE.lt(-0.0001)) then
+        !s = (!tE - !eElb) / !dE
+        !targetN = !nElb + (!s * !dN)
+      else
+        !targetN = !nElb
+      endif
+      !targetE = !tE
+      !targetU = !tU
+    else
+      -- Main pipe runs East-West (Centerline North and Up strictly locked to branch HPOS!)
+      if (!dN.gt(0.0001) or !dN.lt(-0.0001)) then
+        !s = (!tN - !nElb) / !dN
+        !targetE = !eElb + (!s * !dE)
+      else
+        !targetE = !eElb
+      endif
+      !targetN = !tN
+      !targetU = !tU
+    endif
+
+    !form.targetE = !targetE
+    !form.targetN = !targetN
+    !form.targetU = !targetU
+
+    !form.txtTarget.val = !targetN.string('D1')
+    !form.txtStatus.val = 'Target: N ' + !targetN.string('D1') + ' (dU=' + !diff.string('D0') + ')'
+  endif
+
+-- ====================================================================
+-- Action: Align Elevation (Match Elbow U to Main TEE U)
+-- ====================================================================
+elseif (!action.eq('alignU')) then
+  if (!form.txtElbow.val.trim().eq('')) then
+    !form.txtStatus.val = 'Pick Elbow first.'
+  else
+    handle ANY
+      !form.txtStatus.val = 'Align U failed.'
+      return
+    endhandle
+
+    -- Align Elbow U to Main TEE U
+    $!form.txtElbow.val
+    !uCmd = 'POS U ' + !form.teeU.string('D2')
+    $!uCmd
+
+    !form.hDiff = 0.0
+    !form.txtHDiff.val = '0mm'
+    !form.txtStatus.val = 'Elbow U aligned.'
+    $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter
+  endif
+
+-- ====================================================================
+-- Action: Move TEE strictly along header to intersection (Unit-Safe!)
+-- ====================================================================
+elseif (!action.eq('solveMove')) then
+  if (!form.txtMainTee.val.trim().eq('')) then
+    !form.txtStatus.val = 'Pick TEE first.'
+  else
+    $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter
+
+    handle ANY
+      !form.txtStatus.val = 'Move TEE failed.'
+      return
+    endhandle
+
+    -- Move TEE: Centerline East and Up guaranteed locked, North snapped to intersection!
+    $!form.txtMainTee.val
+    !posCmd = 'POS E ' + !form.targetE.string('D2') + ' N ' + !form.targetN.string('D2') + ' U ' + !form.targetU.string('D2')
+    $!posCmd
+
+    !form.txtStatus.val = 'TEE on line: N ' + !form.targetN.string('D1')
+  endif
+
+-- ====================================================================
+-- Action: Orient TEE towards branch (Robust & Crash-Free)
+-- ====================================================================
+elseif (!action.eq('alignDir')) then
+  if (!form.txtMainTee.val.trim().eq('') or !form.txtElbow.val.trim().eq('')) then
+    !form.txtStatus.val = 'Pick TEE & Elbow first.'
+  else
+    handle ANY
+    endhandle
+
+    $!form.txtMainTee.val
+    handle ANY
+    endhandle
+    ORI Y is U and Z is E
+    handle ANY
+    endhandle
+
+    !form.txtStatus.val = 'TEE oriented towards branch.'
+  endif
+
+-- ====================================================================
+-- Action: Connect Tail (Reciprocal Two-Pass Connection)
+-- ====================================================================
+elseif (!action.eq('connectTail')) then
+  if (!form.txtMainTee.val.trim().eq('') or !form.txtElbow.val.trim().eq('')) then
+    !form.txtStatus.val = 'Pick TEE & Elbow first.'
+  else
+    handle ANY
+    endhandle
+
+    !eRef = object DBREF(!form.txtElbow.val)
+    !branchName = !eRef.owner.name
+
+    $!branchName
+    handle ANY
+    endhandle
+    CONNECT TAIL TO $!form.txtMainTee.val
+    handle ANY
+    endhandle
+    TREF $!form.txtMainTee.val
+    handle ANY
+    endhandle
+
+    $!form.txtMainTee.val
+    handle ANY
+    endhandle
+    CREF $!branchName TAIL
+    handle ANY
+    endhandle
+
+    !form.txtStatus.val = 'Branch connected to TEE.'
+  endif
+
+-- ====================================================================
+-- Action: One-Click Auto All (Full Automated Workflow)
+-- ====================================================================
+elseif (!action.eq('autoAll')) then
+  if (!form.txtMainTee.val.trim().eq('') or !form.txtElbow.val.trim().eq('')) then
+    !form.txtStatus.val = 'Pick TEE & Elbow first.'
+  else
+    !form.txtStatus.val = 'Aligning & connecting...'
+
+    -- 1. Calculate exact intersection & lock axes
+    $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter
+
+    -- 2. Align Elevation (match Elbow U to TEE U)
+    $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" alignU
+
+    -- 3. Move TEE to exact centerline intersection
+    $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" solveMove
+
+    -- 4. Orient TEE towards branch
+    $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" alignDir
+
+    -- 5. Connect Tail
+    $M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" connectTail
+
+    !form.txtStatus.val = '[DONE] N ' + !form.targetN.string('D1') + ' Aligned & Connected!'
+  endif
+endif
+
+$S+

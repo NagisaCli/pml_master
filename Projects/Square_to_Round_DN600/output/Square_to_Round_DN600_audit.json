@@ -1,0 +1,267 @@
+{
+  "status": "PASS_OFFLINE",
+  "equipment": 1,
+  "subequipment": 3,
+  "positive_solids": 109,
+  "transition_triangular_panels": 100,
+  "negative_cylinders": 13,
+  "flange_bolt_holes": 12,
+  "overall_bounds_mm": [
+    [
+      -410.0,
+      -410.0,
+      0.0
+    ],
+    [
+      410.0,
+      410.0,
+      500.0
+    ]
+  ],
+  "dn": 600,
+  "outlet_od_mm": 610.0,
+  "outlet_id_mm": 598.0,
+  "flange_clear_opening_mm": [
+    720,
+    720
+  ],
+  "square_neck_clear_opening_mm": [
+    720,
+    720
+  ],
+  "hole_xy_mm": [
+    [
+      -387.5,
+      -387.5
+    ],
+    [
+      -387.5,
+      -129.5
+    ],
+    [
+      -387.5,
+      129.5
+    ],
+    [
+      -387.5,
+      387.5
+    ],
+    [
+      387.5,
+      -387.5
+    ],
+    [
+      387.5,
+      -129.5
+    ],
+    [
+      387.5,
+      129.5
+    ],
+    [
+      387.5,
+      387.5
+    ],
+    [
+      -129.5,
+      -387.5
+    ],
+    [
+      129.5,
+      -387.5
+    ],
+    [
+      -129.5,
+      387.5
+    ],
+    [
+      129.5,
+      387.5
+    ]
+  ],
+  "quarter_circle_facets": 24,
+  "circle_chord_sagitta_mm": 0.16330081970846622,
+  "panel_vertex_expansion_mm": 0.3,
+  "outlet_joint_overlap_mm": 4,
+  "section_ray_checks": [
+    {
+      "elevation_mm": 0,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 40,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 78,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 79,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 80,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 81,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 298.91982544125784,
+      "minimum_radial_wall_mm": 6.088149403084344,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 82,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.221333573882191,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 83,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.413288041606393,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 84,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.0,
+      "minimum_radial_wall_mm": 6.605242509330537,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 85,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 299.6876433121544,
+      "minimum_radial_wall_mm": 6.076814389941262,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 100,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 302.13371193598965,
+      "minimum_radial_wall_mm": 6.076814389941262,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 150,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 310.1600277237478,
+      "minimum_radial_wall_mm": 6.076814389941262,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 250,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 326.21265929926415,
+      "minimum_radial_wall_mm": 6.076814389941262,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 350,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 342.2652908747804,
+      "minimum_radial_wall_mm": 6.076814389941319,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 450,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 358.3179224502968,
+      "minimum_radial_wall_mm": 6.076814389941262,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 456,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 359.2810803448278,
+      "minimum_radial_wall_mm": 6.718919655172215,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 458,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 359.6021329763381,
+      "minimum_radial_wall_mm": 6.397867023661888,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 460,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 359.92318560784844,
+      "minimum_radial_wall_mm": 6.076814392151562,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 462,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 360.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 470,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 360.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    },
+    {
+      "elevation_mm": 480,
+      "rays": 1440,
+      "covered_rays": 1440,
+      "minimum_inner_radius_mm": 360.0,
+      "minimum_radial_wall_mm": 6.0,
+      "maximum_internal_radial_gap_mm": 0.0
+    }
+  ],
+  "native_E3D_load": "PENDING",
+  "native_visual_acceptance": "PENDING",
+  "save_work": "NOT_REQUESTED",
+  "reopen_persistence": "PENDING",
+  "receiving_catalogue_P_points": "NOT_BOUND_FABRICATED_STUB",
+  "notes": [
+    "Polar sampling does not certify pressure integrity or manufacture.",
+    "Thin triangular prisms are a faceted approximation; native rendering requires review."
+  ],
+  "pml_sha256": "36d9d601e5099d1251b386ddb4e89907076b30f4ad3c7fb5294fec89b11733d1",
+  "source_plan_sha256": "9f2222e6c130978dae411331a93bbeb78e21e5c93bca7363a1bf3e36ae7a53a2"
+}

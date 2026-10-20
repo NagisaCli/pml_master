@@ -64,7 +64,7 @@ untouched; every revision is insertion-only.
 `203_TA_019`, `203_TA_044`, `204_TA_021`, `205_TA_016`, `205_TA_036`,
 `205_TA_052`.
 
-| Tag | Host subequipment | 底盘 (plate/ring DIAM, mm) | Bolts | Size |
+| Tag | Host subequipment | Baseplate (plate/ring DIAM, mm) | Bolts | Size |
 |-----|-------------------|----------------------------|-------:|------|
 | 203_TA_006 | SHELL | 6000 | 20 | M48 |
 | 203_TA_024 | SUPPORT | 2300 | 12 | M30 |
@@ -93,13 +93,13 @@ M48 = AF 75/h 38.
 ## Anchor-bolt design
 
 Each bolt is inserted inside the existing SHELL/SUPPORT subequipment, in the
-same local coordinate frame as the 底盘:
+same local coordinate frame as the baseplate:
 
 - **Stud** — `CYLINDER`, DIAM 30/36/42/48, axis U, embedded 8×d below the
   plate bottom and protruding 1×d above the nut top.
 - **Nut** — `EXTRUSION` + `LOOP` + 6 `VERTEX` (verified hex form), profile
   plane ON the plate top: nut bottom face flush with the plate top
-  ("螺帽紧贴底盘", anchor style). Verified to 0.5 mm for all 260.
+  ("hex nut flush on baseplate", anchor style). Verified to 0.5 mm for all 260.
 - **Bolt circle** — radius = plate/ring radius − 100 mm, on the exposed
   annulus outside the shell wall (>= 40 mm clearance, verified per tank).
 

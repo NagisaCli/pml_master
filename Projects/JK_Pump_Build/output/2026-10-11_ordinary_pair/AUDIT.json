@@ -1,0 +1,100 @@
+{
+  "template": "imports\\2026-09-10_TEM.txt",
+  "template_sha256": "50c22a325a390f4ef7bd0fb91eabde19adfd69bbec43180f7980ea06d6dac09a",
+  "individual_macros": [
+    {
+      "tag": "203-PU-010",
+      "native_nodes": 196,
+      "positive_solids": 104,
+      "negative_children": 2,
+      "subequipment": 6,
+      "nozzles": 2,
+      "baseplate_bounds_mm": [
+        -862.0,
+        862.0,
+        -380.0,
+        380.0,
+        0.0,
+        50.0
+      ],
+      "minimum_solid_elevation_mm": 0.0,
+      "discharge_terminal_gap_mm": 0.0,
+      "maximum_anchor_hex_axis_offset_mm": 0.006009,
+      "status": "Offline verification passed; native E3D loading and visual acceptance pending"
+    },
+    {
+      "tag": "204-PU-022",
+      "native_nodes": 196,
+      "positive_solids": 104,
+      "negative_children": 2,
+      "subequipment": 6,
+      "nozzles": 2,
+      "baseplate_bounds_mm": [
+        -862.0,
+        862.0,
+        -380.0,
+        380.0,
+        0.0,
+        50.0
+      ],
+      "minimum_solid_elevation_mm": 0.0,
+      "discharge_terminal_gap_mm": 0.0,
+      "maximum_anchor_hex_axis_offset_mm": 0.006009,
+      "status": "Offline verification passed; native E3D loading and visual acceptance pending"
+    }
+  ],
+  "combined_review_layout": [
+    {
+      "tag": "203-PU-010",
+      "native_nodes": 196,
+      "positive_solids": 104,
+      "negative_children": 2,
+      "subequipment": 6,
+      "nozzles": 2,
+      "baseplate_bounds_mm": [
+        -862.0,
+        862.0,
+        -380.0,
+        380.0,
+        0.0,
+        50.0
+      ],
+      "minimum_solid_elevation_mm": 0.0,
+      "discharge_terminal_gap_mm": 0.0,
+      "maximum_anchor_hex_axis_offset_mm": 0.006009,
+      "status": "Offline verification passed; native E3D loading and visual acceptance pending"
+    },
+    {
+      "tag": "204-PU-022",
+      "native_nodes": 196,
+      "positive_solids": 104,
+      "negative_children": 2,
+      "subequipment": 6,
+      "nozzles": 2,
+      "baseplate_bounds_mm": [
+        -862.0,
+        862.0,
+        1140.0,
+        1900.0,
+        0.0,
+        50.0
+      ],
+      "minimum_solid_elevation_mm": 0.0,
+      "discharge_terminal_gap_mm": 0.0,
+      "maximum_anchor_hex_axis_offset_mm": 0.006009,
+      "status": "Offline verification passed; native E3D loading and visual acceptance pending"
+    }
+  ],
+  "verifier_mutations": {
+    "wrong_plate_width": "rejected",
+    "buried_gusset": "rejected",
+    "missing_native_solid": "rejected",
+    "missing_catalogue": "rejected",
+    "moved_local_hole": "rejected"
+  },
+  "file_sha256": {
+    "203-PU-010.pml": "e64f4232226c4f2a072374a0520f62095ea6816ed21697872c673e7f146aeace",
+    "204-PU-022.pml": "b02fa74256880e539ae7fcaf9f5f739296845a337d786b413e0d95dc89b1aca0",
+    "JK_Pump_Build_203_PU_010_204_PU_022_20261011.pml": "74829c379e9a572d76fae1a50506f369aba415282ba839c4d2500267f8486b35"
+  }
+}

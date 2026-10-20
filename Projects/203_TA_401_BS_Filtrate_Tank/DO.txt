@@ -1,0 +1,60 @@
+# 203-TA-401 BS FILTRATE TANK — E3D modelling requirement
+
+## Origin
+
+User request, 2026-09-21:
+
+> This is the original PDF drawing of the filtrate tank associated with the
+> dilute-stock machine. Please use the PDF drawing together with the nozzle
+> modification annotations in the DWG file to build a detailed PML-based E3D
+> model. Ensure that all dimensions, nozzle locations and orientations,
+> equipment geometry, structural details, and other parameters strictly follow
+> the drawings and annotations. The model should be dimensionally accurate,
+> physically reasonable, and sufficiently detailed for engineering use.
+
+## Source documents
+
+Both are held unchanged under `imports/`:
+
+| File | What it is |
+|------|------------|
+| `900135359BS Filtrate Tank.pdf` | ANDRITZ drawing 900135359 rev 0, "DDW FILTRATE TANK / MAIN DIMENSIONAL DRAWING", A1 1:40, drawn J.Leino 07.07.2026, marked **PRELIMINARY** |
+| `900135359BS Filtrate Tank.pdf.dwg` | the same sheet imported to AutoCAD 2025 (AC1032, author YHL, 2026-09-21 08:39) with three proportionally scaled 1:1 view copies, an equipment-layout plan, and nozzle-modification notes on layers `PARAMETERS` / `AM_5` / `FOUNDATION` |
+
+The DWG's added view copies are drawn at **1:1 in model units**, so every value
+measured out of them is a millimetre. All dimensions in `equipment_data.py`
+were taken numerically from the DXF (LibreDWG conversion), never scaled off a
+raster image.
+
+## Standing decisions
+
+Taken with the user on 2026-09-21; these outrank any default.
+
+1. **N2.2 is DN300.** The DWG annotations disagree — two plan-view notes say
+   DN300, the section-view note says DN200, and the PDF connection list says
+   DN200. The user directed DN300. The modified C-C copy draws the neck at
+   Ø324.0, which is DN300 pipe OD 323.9, so the modified geometry agrees with
+   the chosen size.
+2. **Tank-local orientation, drawing 0° = North.** The model is built in
+   drawing orientation with its bottom centre at E 0 / N 0 / U 0. The DWG's
+   "Plan View ... for Equipment Layout (Tank rotated 180° for installation
+   based on site conditions)" is **not** baked in: rotate the EQUI 180° about
+   U when setting the tank out in the plant.
+3. **Full internals.** Both air-separation cylinders, the four radial ribs, the
+   curved separation wall and the soap launder are modelled, in a dedicated
+   `_INTERNALS` subequipment that can be hidden or deleted in one action.
+4. **Same catalogue as JK-Tank_Build.** Nozzles bind
+   `/150lb_Ansi_Flanged/AAZFBB0xx` by bore, as `wsb.pml_builder`'s
+   `NOZZLE_BORE_COMPONENTS` maps them. Every bore this vessel needs
+   (DN15/25/80/100/250/300/600) exists in that family.
+
+## Outstanding — to be supplied
+
+* Installation coordinate (E / N / U of the bottom centre) and the plant
+  bearing of the tank's 0° mark. Until issued, the EQUI sits at the origin.
+* Confirmation of the N2.2 size against the process datasheet — the drawing
+  itself is internally inconsistent and still carries HOLD on every
+  elevation and direction column.
+* The drawing is PRELIMINARY: pressure class, flange standard, insulation and
+  every nozzle ELEVATION/DIRECTION cell are marked HOLD by ANDRITZ. Re-check
+  this model against the certified issue.

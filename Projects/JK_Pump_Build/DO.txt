@@ -1074,3 +1074,23 @@ Client schematic correction — 2026-08-20 (width-dependent top-nozzle branches)
   have `(flange-face U - crown U) / HEIG >= 0.70`.
 - Output: `output/2026-08-20_top_nozzle_r12/`. Status remains candidate pending
   a fresh E3D load and client visual acceptance.
+
+Client ordinary-pump pair request -- 2026-10-11
+----------------------------------------------
+
+- Generate ordinary pumps 203-PU-010 and 204-PU-022 using the latest archived
+  ordinary-pump native template, `imports/2026-09-10_TEM.txt` (204-PU-006).
+- User baseplate dimensions for both: Length 1724 mm; Width 760 mm. Retain
+  the standing 50 mm thickness. Pump/driver/support geometry is not scaled.
+- Preserve native local axes, PYRAMID profiles, motor/shaft relationships and
+  DN100/DN150 nozzle bindings. Installation coordinates/orientation and duty
+  were not supplied and remain TBC; template-derived values are Reference Values.
+- Deliver individual macros with bottom-centre at (0,0,0) plus a combined
+  review layout with second pump at (0,1520,0) mm. Temporary spacing is a
+  Reference Value, not contractual installation data.
+- Document the native DRIVER BOX negative-thickness repair (-5.25 to +5.25 mm),
+  0.045 mm outer-rail inward shifts and 0.005 mm rail-face rounding corrections.
+- Output: `output/2026-10-11_ordinary_pair/`; repeatable tool:
+  `tools/build_ordinary_pair_20261011.py`. Native source remains immutable.
+- Status: finished-output numeric/PML checks pass; E3D loading, receiving
+  catalogue availability, visual acceptance and persistence remain pending.

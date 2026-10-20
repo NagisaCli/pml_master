@@ -94,6 +94,23 @@ wrong, model it as given and say so separately.
 
 ---
 
+## Detail is a continuing modeling commitment
+
+**User-directed 2026-09-28:** Keep pursuing detail and use E3D's basic solids
+flexibly. A successful macro load is the start of geometric review: refine
+silhouettes, transitions, openings, attachment points and visible construction
+until they agree with the governing references and the requested level of detail.
+
+Choose primitives by physical shape, and compose them when one solid cannot
+represent the feature. Triangular EXTRUSION panels are an option for a curved,
+changing-section transition; native NOZZLEs retain editable piping interfaces.
+Preserve source dimensions and project boundaries, identify assumed details as
+Reference Value / TBC, and balance resolution with editing and loading cost.
+Read [detail and composite surfaces](skill/knowledge/detail-and-composite-surfaces.md)
+when refining joints or approximating a complex surface.
+
+---
+
 ## Writing language (project rule)
 
 All project content written into this repository must be standard English:

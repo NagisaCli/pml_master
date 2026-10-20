@@ -6,13 +6,13 @@ Reconciled continuation of:
 r2 (HANDRA + RPATH CURTYP THRU + RAILSET, no posts) loaded in E3D but rendered
 nothing and the user rejected it:
 
-> 没有形成楼梯，放置的位置也不对；应是圆盘底座；
+> No handrail formed, wrong position; needs circular disc bases;
 
 This revision replaces the unverified HANDRA/RPATH template form with plain
 CYLI primitives under a new SUBEQUIPMENT per tank, so the geometry is
 guaranteed visible and placed on the real roof-frustum top platform:
 
-* a circular platform disc (圆盘底座) closing the frustum top face;
+* a circular platform disc closing the frustum top face;
 * one circular base plate per post;
 * vertical posts at the platform rim (post spacing <= 1000 mm);
 * top rail (platform + 1100 mm) and mid rail (platform + 550 mm) built from

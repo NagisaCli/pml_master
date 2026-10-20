@@ -33,6 +33,9 @@ venv/
 /scratch_input.txt
 /scratch_input*.pml
 /Projects/scratch_*
+/crop_ne_ladder.png
+/f2_*.png
+/Claude outputs/
 
 # Experimental E3D live bridge build and launch artifacts
 integrations/e3d_live/addin/bin/

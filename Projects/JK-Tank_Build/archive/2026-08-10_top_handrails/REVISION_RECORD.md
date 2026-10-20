@@ -1,7 +1,7 @@
 # WSB Tank Top Handrail Pass — 2026-08-10 (r2 candidate)
 
 **State:** r2 loaded in E3D but the result is NOT accepted; work paused per
-the user ("明天继续" — continue tomorrow). Saved as-is.
+the user ("continue tomorrow"). Saved as-is.
 
 Revision history:
 
@@ -19,21 +19,21 @@ Revision history:
 The ZONE-level error is gone (the macro loaded), but the user rejected the
 result:
 
-> 没有形成楼梯，放置的位置也不对；应是圆盘底座；
+> No handrail formed, wrong position; needs circular disc bases;
 
 Verbatim record: `evidence/2026-08-10_r2_user_feedback.txt`.
 
 Interpretation to investigate tomorrow (not yet confirmed with the user):
 
-1. **"没有形成楼梯"** — the expected circular handrail did not appear (the
+1. **"No handrail formed"** — the expected circular handrail did not appear (the
    user may describe the expected result loosely as a stair-like enclosure);
    the HANDRA/RPATH form produced nothing visible or something unintended.
-2. **"放置的位置也不对"** — the geometry that did appear is not on the tank
+2. **"Wrong position"** — the geometry that did appear is not on the tank
    top platform; likely the HANDRA `POS` / RPATH point coordinate semantics
    (relative vs absolute) do not match how E3D interprets them in this
    context. Need a minimal coordinate probe before regenerating.
-3. **"应是圆盘底座"** — the handrail posts must sit on circular disc base
-   plates (圆盘底座), not whatever the current HANDRA defaults generate. If we
+3. **"Needs circular disc bases"** — the handrail posts must sit on circular disc base
+   plates (circular disc base), not whatever the current HANDRA defaults generate. If we
    keep HANDRA, the post/base needs an explicit HRPOST/TMPLATE or catalogue
    part; alternatively fall back to primitives (CYLI posts + EXTRUSION rail
    segments + CYLI disc bases).

@@ -213,6 +213,19 @@ than leave a visually plausible but physically floating detail.
 
 ## Verification properties
 
+**Native-template adaptation -- RECOMMENDED, 2026-10-11:** preserve complete
+primitive-local axes, including tilted motor-fin BOX frames and Y-first axis
+clauses. A generated-model convention that expects Z first is not proof that
+a native orientation is invalid. The shared `native_orientation_basis` checks
+cardinal/quadrant orthonormal frames; `validate_pml(native_templates=True)`
+opts into this check without relaxing nozzle binding or ORI/POS ordering.
+Keep negative children and EXTRUSION vertices in their actual parent frames.
+Bounds-check every native dimension before reuse: the 2026-09-10 ordinary TEM
+carried one DRIVER BOX with `ZLEN -5.25mm`. Its absolute-span repair and native
+rail-rounding corrections are documented in the
+[ordinary-pair candidate report](../../Projects/JK_Pump_Build/output/2026-10-11_ordinary_pair/REPORT.md),
+with native E3D visual acceptance still pending.
+
 - baseplate underside centre and dimensions are numerically unchanged;
 - nothing falls below the foundation datum;
 - every primitive remains within the allowed equipment footprint unless the
@@ -458,4 +471,47 @@ DIAM 103mm
 HEIG 300mm
 END
 ```
+
+---
+
+## Horizontal liquid ring vacuum pump packages — user-confirmed 2026-10-10
+
+**VERIFIED / USER-CONFIRMED.** Liquid ring vacuum pump units (e.g., Brown Stock
+Drum Displacer vacuum pumps, tag pattern `*-PU-*` or `*-VP-*`) are skid-mounted,
+horizontal rotating packages consisting of a horizontal driver (TEFC motor),
+bearing bracket, liquid ring pump casing, and side-mounted seal-water circulation
+auxiliaries:
+
+### Drawing interpretation: Plan view vs. Elevation view
+
+On plant layout CAD drawings (floor arrangement / piping plan views):
+1. **Plan view appearance**: A rectangular perimeter with an internal cylinder
+   and crosshaired concentric circles is almost always a **Plan View (top-down)**
+   of a horizontal package, NOT an elevation view of a vertical pump.
+2. **Concentric circles with crosshairs**: Indicate top vertical nozzle
+   flanges/necks pointing upwards (`ORI P1 IS U`), viewed along their centerline.
+3. **Shaft centerline**: Lies horizontal (typically along the long axis of the
+   skid, e.g. North-South `ORI Z IS N AND Y IS U`), with centerline elevation
+   derived from base skid height plus pump shaft centerline height (typically
+   $U \approx 300\text{--}400\text{ mm}$ above foundation).
+
+### Layout components and hierarchy
+
+1. **Base Skid (`SUBE /..._SKID`)**: Structural perimeter channel frame sitting
+   directly on the foundation floor ($U = 0\text{ mm}$).
+2. **Motor (`SUBE /..._MOTOR`)**: TEFC motor barrel, axial cooling fins, end
+   bells, terminal box, and fan cowl facing rearwards.
+3. **Bearing & Coupling Bracket (`SUBE /..._BRACKET`)**: Intermediate pedestal
+   and protective coupling guard connecting motor and pump shaft.
+4. **Vacuum Pump Casing (`SUBE /..._CASING`)**: Horizontal cylindrical chamber
+   with end covers, shaft seal housings, and suction/discharge manifolds.
+5. **Auxiliary Unit (`SUBE /..._AUX`)**: Side-mounted seal-water circulation pump
+   or separator pot on the skid extension.
+6. **Nozzles (`NOZZLE`)**:
+   - Main suction (N1): DN150 top vertical (`ORI P1 IS U`).
+   - Auxiliary discharge (N2): DN50 horizontal or vertical tie-in.
+   - Aux separator/pump connection (N3): DN100 top vertical (`ORI P1 IS U`).
+   - Always ensure nozzle names are distinct from sub-equipment names (e.g.,
+     use suffix `_NOZZ` to avoid E3D `(41,12) Name already used` errors).
+
 

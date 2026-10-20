@@ -10,13 +10,24 @@ import math
 from pathlib import Path
 from collections import Counter, defaultdict
 
-PACKAGE_DIR = Path(r"C:\Users\A\Desktop\流程图\E3D_管架与电缆桥架全套三维建模交付包")
+def get_col(row, *keys, default=""):
+    for k in keys:
+        if k in row:
+            return row[k]
+    for target in keys:
+        t_low = target.lower()
+        for col_name, val in row.items():
+            if t_low in col_name.lower():
+                return val
+    return default
+
+PACKAGE_DIR = Path(r"C:\Users\A\Desktop\Flowcharts\E3D_Pipe_Rack_Cable_Tray_Package")
 OUTPUT_DIR_ORIGINAL = PACKAGE_DIR / "output"
 OUTPUT_DIR_ASCII_C = Path(r"C:\e3d_models")
 OUTPUT_DIR_ASCII_DESKTOP = Path(r"C:\Users\A\Desktop\e3d_models")
 
-PS_CSV = PACKAGE_DIR / "01_全厂管道支架空间定位数据表_全量208处精准版.csv"
-BRACKET_CSV = PACKAGE_DIR / "02_电缆桥架网道系统与支架精细化定位数据表_全量94处_9.1M版.csv"
+PS_CSV = PACKAGE_DIR / "01_Pipe_Support_Spatial_Positioning_208_Precision.csv"
+BRACKET_CSV = PACKAGE_DIR / "02_Cable_Tray_Network_94_Brackets_9.1M.csv"
 CAD_TRAY_PML = Path(r"C:\Muvsera\Projects\e3d_live\Projects\CAD_Cable_Tray_Network\output\CAD_Cable_Tray_Network_R1.pml")
 
 # 1. Base Plant Coordinate Shift
@@ -277,28 +288,155 @@ def emit_r3_hardware_details(lines, tag, p1, p2, L, ux, uy, tx, ty, beam_dir, tr
         ])
     lines.append("END")
 
-    # 3. Fillet Welds
+    # 3. Fillet Welds (Realistic physical welded connection joints for supporting steel plates)
     lines.append(f"NEW SUBE /SUBE-{tag}-WELDS")
     lines.append("ORI Y IS N AND Z IS U")
     lines.append("POS E 0 N 0 U 0")
 
     weld_w = 75.0 if not is_heavy else 133.0
-    w_top_n = p1[1] + 16.0 * uy
-    w_top_e = p1[0] + 16.0 * ux
+
+    # [1] Beam Root Fillet Weld (connecting beam bottom flange to upper mount plate)
+    bw_e = p1[0] - 0.5 * weld_w * tx + 16.0 * ux
+    bw_n = p1[1] - 0.5 * weld_w * ty + 16.0 * uy
+    bw_u = p1[2] - h_beam
     lines.extend([
-        "-- BEAM_ROOT_WELD_TOP",
+        "-- BEAM_ROOT_WELD (6 mm leg fillet, beam bottom flange to upper plate)",
         "NEW EXTRUSION",
-        f"ORI Y IS {beam_dir} AND Z IS U",
-        f"POS E {w_top_e:.1f} N {w_top_n:.1f} U {p1[2]:.1f}",
+        f"ORI Y IS U AND Z IS {trans_dir}",
+        f"POS E {bw_e:.1f} N {bw_n:.1f} U {bw_u:.1f}",
         "LEVE 5 10",
         f"HEIG {weld_w:.1f}",
         "NEW LOOP",
-        "NEW VERTEX POS E 0 0 0 END",
-        "NEW VERTEX POS E 6 0 0 END",
-        "NEW VERTEX POS E 0 -6 0 END",
+        "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END",
+        "NEW VERTEX POS E 6.0 N 0.0 U 0.0 END",
+        "NEW VERTEX POS E 0.0 N -6.0 U 0.0 END",
         "END",
         "END"
     ])
+
+    # [2] Haunch Top Welds (both sides, connecting root haunch stiffener to beam bottom flange)
+    for side in (-1, 1):
+        hw_e = p1[0] + 4.0 * side * tx + 28.0 * ux
+        hw_n = p1[1] + 4.0 * side * ty + 28.0 * uy
+        hw_u = p1[2] - h_beam
+        if side == -1:
+            loop_verts = [
+                "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END",
+                "NEW VERTEX POS E 6.0 N 0.0 U 0.0 END",
+                "NEW VERTEX POS E 0.0 N -6.0 U 0.0 END"
+            ]
+        else:
+            loop_verts = [
+                "NEW VERTEX POS E 0.0 N -6.0 U 0.0 END",
+                "NEW VERTEX POS E -6.0 N 0.0 U 0.0 END",
+                "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END"
+            ]
+        lines.extend([
+            f"-- HAUNCH_TOP_WELD_{side} (6 mm leg fillet, haunch to beam flange)",
+            "NEW EXTRUSION",
+            f"ORI Y IS U AND Z IS {beam_dir}",
+            f"POS E {hw_e:.1f} N {hw_n:.1f} U {hw_u:.1f}",
+            "LEVE 5 10",
+            "HEIG 92.0",
+            "NEW LOOP",
+            *loop_verts,
+            "END",
+            "END"
+        ])
+
+    # [3] Haunch Wall Welds (both sides, connecting root haunch stiffener to upper mount plate)
+    for side in (-1, 1):
+        hww_e = p1[0] + 4.0 * side * tx + 16.0 * ux
+        hww_n = p1[1] + 4.0 * side * ty + 16.0 * uy
+        hww_u = p1[2] - h_beam - 64.0
+        if side == -1:
+            loop_verts = [
+                "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END",
+                "NEW VERTEX POS E -6.0 N 0.0 U 0.0 END",
+                "NEW VERTEX POS E 0.0 N 6.0 U 0.0 END"
+            ]
+        else:
+            loop_verts = [
+                "NEW VERTEX POS E 0.0 N 6.0 U 0.0 END",
+                "NEW VERTEX POS E 6.0 N 0.0 U 0.0 END",
+                "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END"
+            ]
+        lines.extend([
+            f"-- HAUNCH_WALL_WELD_{side} (6 mm leg fillet, haunch to upper mount plate)",
+            "NEW EXTRUSION",
+            f"ORI Y IS {beam_dir} AND Z IS U",
+            f"POS E {hww_e:.1f} N {hww_n:.1f} U {hww_u:.1f}",
+            "LEVE 5 10",
+            "HEIG 48.0",
+            "NEW LOOP",
+            *loop_verts,
+            "END",
+            "END"
+        ])
+
+    # [4] Knee Brace Gusset Welds (when knee brace is present)
+    if has_knee:
+        n_end = 16.0 + 0.717 * (L - 16.0)
+        # Upper Gusset to Beam Flange Welds (both faces: e_off = -4, +4 from gusset center)
+        for e_off, sign in ((-4.0, -1), (4.0, 1)):
+            ug_e = p1[0] + e_off * tx + (n_end - 145.0) * ux
+            ug_n = p1[1] + e_off * ty + (n_end - 145.0) * uy
+            ug_u = p1[2] - h_beam
+            if sign == -1:
+                loop_verts = [
+                    "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END",
+                    "NEW VERTEX POS E 6.0 N 0.0 U 0.0 END",
+                    "NEW VERTEX POS E 0.0 N -6.0 U 0.0 END"
+                ]
+            else:
+                loop_verts = [
+                    "NEW VERTEX POS E 0.0 N -6.0 U 0.0 END",
+                    "NEW VERTEX POS E -6.0 N 0.0 U 0.0 END",
+                    "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END"
+                ]
+            lines.extend([
+                f"-- UPPER_GUSSET_BEAM_WELD_{sign} (6 mm leg fillet, gusset to beam flange)",
+                "NEW EXTRUSION",
+                f"ORI Y IS U AND Z IS {beam_dir}",
+                f"POS E {ug_e:.1f} N {ug_n:.1f} U {ug_u:.1f}",
+                "LEVE 5 10",
+                "HEIG 190.0",
+                "NEW LOOP",
+                *loop_verts,
+                "END",
+                "END"
+            ])
+
+        # Lower Gusset to Lower Wall Plate Welds (both faces: e_off = -4, +4 from gusset center)
+        for e_off, sign in ((-4.0, -1), (4.0, 1)):
+            lg_e = p1[0] + e_off * tx + 16.0 * ux
+            lg_n = p1[1] + e_off * ty + 16.0 * uy
+            lg_u = p1[2] - h_beam - 368.0
+            if sign == -1:
+                loop_verts = [
+                    "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END",
+                    "NEW VERTEX POS E -6.0 N 0.0 U 0.0 END",
+                    "NEW VERTEX POS E 0.0 N 6.0 U 0.0 END"
+                ]
+            else:
+                loop_verts = [
+                    "NEW VERTEX POS E 0.0 N 6.0 U 0.0 END",
+                    "NEW VERTEX POS E 6.0 N 0.0 U 0.0 END",
+                    "NEW VERTEX POS E 0.0 N 0.0 U 0.0 END"
+                ]
+            lines.extend([
+                f"-- LOWER_GUSSET_WALL_WELD_{sign} (6 mm leg fillet, gusset to lower plate)",
+                "NEW EXTRUSION",
+                f"ORI Y IS {beam_dir} AND Z IS U",
+                f"POS E {lg_e:.1f} N {lg_n:.1f} U {lg_u:.1f}",
+                "LEVE 5 10",
+                "HEIG 108.0",
+                "NEW LOOP",
+                *loop_verts,
+                "END",
+                "END"
+            ])
+
     lines.append("END")
 
     # 4. Screw Assemblies
@@ -332,10 +470,10 @@ def generate_master_models():
     with open(PS_CSV, "r", encoding="utf-8-sig") as f:
         ps_rows = list(csv.DictReader(f))
 
-    ps_tag_totals = Counter(clean_tag(r.get("支架总编号 (Support Tag)", "PS")) for r in ps_rows)
+    ps_tag_totals = Counter(clean_tag(get_col(r, "Support Tag", default="PS")", "PS"))) for r in ps_rows)
     ps_tag_seen = defaultdict(int)
     for r in ps_rows:
-        raw_tag = r.get("支架总编号 (Support Tag)", "PS")
+        raw_tag = get_col(r, "Support Tag", default="PS")", "PS"))
         base_tag = clean_tag(raw_tag)
         if ps_tag_totals[base_tag] > 1:
             ps_tag_seen[base_tag] += 1
@@ -347,7 +485,7 @@ def generate_master_models():
 
     tier1_ps, tier2_ps, tier3_ps = [], [], []
     for r in ps_rows:
-        elev = r.get("安装标高 / 高程范围 (Elevation / Level)", "").strip()
+        elev = str(get_col(r, "Elevation / Level", default="")).strip()
         if "0.000 ~ +5.000M" in elev:
             tier1_ps.append(r)
         elif ("5.000 ~ +6.500M" in elev) or ("6.500 ~ +10.000M" in elev):
@@ -360,19 +498,20 @@ def generate_master_models():
         hdw_body = []
 
         for r in tier_rows:
-            raw_tag = r.get("支架总编号 (Support Tag)", "PS")
+            raw_tag = get_col(r, "Support Tag", default="PS")", "PS"))
             tag = r['e3d_tag']
             inst = r['instance_info']
-            p1 = parse_pt(r.get("生根连接点_E3D (Connection Anchor E3D)"))
-            p2 = parse_pt(r.get("白框端点_E3D (Box Interface E3D)"))
-            meas_len = float(r.get("支架俯视角实测长度_mm (Plan Measured Length)", 0) or 0)
-            profile_str = r.get("结构截面形式 (Structural Profile)", "")
+            p1 = parse_pt(get_col(r, "Connection Anchor E3D")")))
+            p2 = parse_pt(get_col(r, "Box Interface E3D")")))
+            meas_len = float(get_col(r, "Plan Measured Length", default=0) or 0)
+            profile_str = get_col(r, "Structural Profile", default="")", ""))
 
-            # Apply overall plant EN shift
-            p1[0] += BASE_SHIFT_E
-            p1[1] += BASE_SHIFT_N
-            p2[0] += BASE_SHIFT_E
-            p2[1] += BASE_SHIFT_N
+            # Apply overall plant EN shift if not already shifted
+            if p1[0] < 40000.0:
+                p1[0] += BASE_SHIFT_E
+                p1[1] += BASE_SHIFT_N
+                p2[0] += BASE_SHIFT_E
+                p2[1] += BASE_SHIFT_N
 
             dx = p2[0] - p1[0]
             dy = p2[1] - p1[1]
@@ -386,7 +525,7 @@ def generate_master_models():
             ux, uy = u
             tx, ty = t
 
-            is_heavy = ("H型钢" in profile_str or "重型" in profile_str or L > 2500.0)
+            is_heavy = ("H-Beam" in profile_str or "Heavy" in profile_str or L > 2500.0)
             sp_comp = "/BS-UB203x133x25" if is_heavy else "/BS-PFC150x75x18"
             h_beam = 203.0 if is_heavy else 150.0
 
@@ -458,24 +597,32 @@ def generate_master_models():
     bracket_hdw_body = []
 
     for r in bracket_rows:
-        tag = r.get("支架总编号 (Support Tag)", "ET")
+        tag = get_col(r, "Support Tag", default="ET")
         cad_x = float(r["CAD_X (mm)"]) if "CAD_X (mm)" in r else float(r.get("E3D_X_East (mm)", 0)) - CAD_TRAY_DX
         cad_y = float(r["CAD_Y (mm)"]) if "CAD_Y (mm)" in r else float(r.get("E3D_Y_North (mm)", 0)) - CAD_TRAY_DY
         e = cad_x + CAD_TRAY_DX
         n = cad_y + CAD_TRAY_DY
         u = float(r.get("E3D_Z_Up (mm)", 9100.0))
-        arm_len = float(r.get("悬臂挑臂实测长度_mm (Arm Length)", 500.0))
-        tray_w = float(r.get("承载桥架宽度_mm (Tray Width)", 450.0))
-        ori_str = r.get("托臂安装朝向 (Bracket Orientation)", "")
+        arm_len = float(get_col(r, "Arm Length", default=500.0)", 500.0)))
+        tray_w = float(get_col(r, "Tray Width", default=450.0)", 450.0)))
+        ori_str = get_col(r, "Bracket Orientation", default="")", ""))
 
-        if "南北" in ori_str:
-            sy = -1.0 if "South" in ori_str else 1.0
+        if "North-South" in ori_str or "NS" in ori_str or "North" in ori_str or "South" in ori_str:
+            # ET-S brackets on south corridor point North into the plant corridor to support the tray
+            if tag.startswith("ET-S") or "Pointing North" in ori_str or "North" in ori_str:
+                sy = 1.0
+            elif "Pointing South" in ori_str or "South" in ori_str:
+                sy = -1.0
+            elif "South" in ori_str and "North" not in ori_str:
+                sy = -1.0
+            else:
+                sy = 1.0
             ux, uy = 0.0, sy
             tx, ty = 1.0, 0.0
-            beam_dir = 'S' if sy < 0 else 'N'
+            beam_dir = 'N' if sy > 0 else 'S'
             trans_dir = 'E'
         else:
-            sx = -1.0 if "West" in ori_str else 1.0
+            sx = -1.0 if "West" in ori_str and "East" not in ori_str else 1.0
             ux, uy = sx, 0.0
             tx, ty = 0.0, 1.0
             beam_dir = 'W' if sx < 0 else 'E'
@@ -532,10 +679,34 @@ def generate_master_models():
             "NEW VERTEX POS E 69.0 N -175.0 U 0 END",
             "NEW VERTEX POS E -69.0 N -175.0 U 0 END",
             "END",
-            "NEW NCYLINDER DIAM 22.0 HEIG 20.0 ORI Y IS N AND Z IS U POS E 45.0 N 135.0 U 8.0 NAPPFLAG 2 END",
-            "NEW NCYLINDER DIAM 22.0 HEIG 20.0 ORI Y IS N AND Z IS U POS E -45.0 N 135.0 U 8.0 NAPPFLAG 2 END",
-            "NEW NCYLINDER DIAM 22.0 HEIG 20.0 ORI Y IS N AND Z IS U POS E 45.0 N -135.0 U 8.0 NAPPFLAG 2 END",
-            "NEW NCYLINDER DIAM 22.0 HEIG 20.0 ORI Y IS N AND Z IS U POS E -45.0 N -135.0 U 8.0 NAPPFLAG 2 END",
+            "NEW NCYLINDER",
+            "DIAM 22.000000",
+            "HEIG 20.000000",
+            "ORI Y IS N AND Z IS U",
+            "POS E 45.000000 N 135.000000 U 8.000000",
+            "NAPPFLAG 2",
+            "END",
+            "NEW NCYLINDER",
+            "DIAM 22.000000",
+            "HEIG 20.000000",
+            "ORI Y IS N AND Z IS U",
+            "POS E -45.000000 N 135.000000 U 8.000000",
+            "NAPPFLAG 2",
+            "END",
+            "NEW NCYLINDER",
+            "DIAM 22.000000",
+            "HEIG 20.000000",
+            "ORI Y IS N AND Z IS U",
+            "POS E 45.000000 N -135.000000 U 8.000000",
+            "NAPPFLAG 2",
+            "END",
+            "NEW NCYLINDER",
+            "DIAM 22.000000",
+            "HEIG 20.000000",
+            "ORI Y IS N AND Z IS U",
+            "POS E -45.000000 N -135.000000 U 8.000000",
+            "NAPPFLAG 2",
+            "END",
             "END",
             "END",
             f"-- Outer Tip Retainer Stop Block (75x40x40 at outer edge)",
@@ -559,59 +730,13 @@ def generate_master_models():
             emit_r3_screw_assembly(bracket_hdw_body, tag, s_idx, [sc_e, sc_n, sc_u], ux, uy, beam_dir)
 
     # -------------------------------------------------------------
-    # 3. Load CAD Cable Tray Mesh Network (4,968 Bars)
+    # 3. Load CAD Cable Tray Mesh Network (4,968 Bars) Directly
     # -------------------------------------------------------------
-    print("Loading CAD Cable Tray Mesh from:", CAD_TRAY_PML)
+    print("Loading CAD Cable Tray Mesh directly from:", CAD_TRAY_PML)
     with open(CAD_TRAY_PML, "r", encoding="utf-8") as f:
-        cad_tray_lines = f.readlines()
-
-    bar_count = 0
-    in_sube = False
-    cur_xlen, cur_ylen, cur_zlen = "248.0", "12.0", "12.0"
-    tray_mesh_body = []
-
-    for line in cad_tray_lines:
-        line_s = line.strip()
-        if line_s.startswith("NEW SUBE"):
-            in_sube = True
-            m = re.search(r'NEW SUBE\s+(/\S+)', line_s)
-            if m:
-                sube_name = m.group(1)
-                sube_tag = sube_name.replace("/CAD_CABLE_TRAY_NETWORK_9_1_", "/SUBE-CABLE-TRAY-")
-                tray_mesh_body.append(f"NEW SUBE {sube_tag}")
-                tray_mesh_body.append("ORI Y IS N AND Z IS U")
-                tray_mesh_body.append("POS E 0.0 N 0.0 U 0.0")
-        elif line_s.startswith("--") and in_sube:
-            tray_mesh_body.append(line_s)
-        elif line_s.startswith("XLEN"):
-            cur_xlen = line_s.split()[1]
-        elif line_s.startswith("YLEN"):
-            cur_ylen = line_s.split()[1]
-        elif line_s.startswith("ZLEN"):
-            cur_zlen = line_s.split()[1]
-        elif line_s.startswith("POS E") and in_sube:
-            m = re.search(r'POS E\s+([-\d\.]+)\s+N\s+([-\d\.]+)\s+U\s+([-\d\.]+)', line_s)
-            if m:
-                raw_x = float(m.group(1))
-                raw_y = float(m.group(2))
-                raw_z = float(m.group(3))
-                new_e = raw_x + CAD_TRAY_DX
-                new_n = raw_y + CAD_TRAY_DY
-                new_u = raw_z
-                tray_mesh_body.extend([
-                    "NEW BOX",
-                    f"XLEN {cur_xlen}",
-                    f"YLEN {cur_ylen}",
-                    f"ZLEN {cur_zlen}",
-                    "ORI Y IS N AND Z IS U",
-                    f"POS E {new_e:.1f} N {new_n:.1f} U {new_u:.1f}",
-                    "END"
-                ])
-                bar_count += 1
-        elif line_s == "END":
-            pass
-
-    print(f"Loaded and shifted {bar_count} CAD cable tray wire mesh bars.")
+        cad_tray_content = f.read().strip()
+    cad_tray_mesh_lines = cad_tray_content.splitlines()
+    print(f"Loaded {len(cad_tray_mesh_lines)} lines directly from CAD Cable Tray Network R1 model.")
 
     # -------------------------------------------------------------
     # 4. Master Cleanup Macro (Self-Healing with handle 2,109)
@@ -642,6 +767,12 @@ def generate_master_models():
         "endhandle",
         "",
         "/EQUI-CABLE-BRACKET-HARDWARE",
+        "handle (2,109)",
+        "elsehandle none",
+        "  DELETE EQUI",
+        "endhandle",
+        "",
+        "/CAD_CABLE_TRAY_NETWORK_9_1",
         "handle (2,109)",
         "elsehandle none",
         "  DELETE EQUI",
@@ -739,6 +870,12 @@ def generate_master_models():
         "  DELETE EQUI",
         "endhandle",
         "",
+        "/CAD_CABLE_TRAY_NETWORK_9_1",
+        "handle (2,109)",
+        "elsehandle none",
+        "  DELETE EQUI",
+        "endhandle",
+        "",
         "/EQUI-CABLE-TRAY-MESH",
         "handle (2,109)",
         "elsehandle none",
@@ -802,14 +939,10 @@ def generate_master_models():
         *bracket_hdw_body,
         "END",  # close EQUI-CABLE-BRACKET-HARDWARE
         "",
-        "-- [6/6] Loading CAD True Cable Tray Wire Mesh Network (4,968 Bars at EL +9.100M)",
+        "-- [6/6] Loading CAD True Cable Tray Wire Mesh Network (4,968 Bars at EL +9.100M per CAD_Cable_Tray_Network_R1.pml)",
         "/ZONE-STRUCT-SUPPORTS",
-        "NEW EQUI /EQUI-CABLE-TRAY-MESH",
-        "ORI Y IS N AND Z IS U",
-        "POS E 0.0 N 0.0 U 0.0",
         "",
-        *tray_mesh_body,
-        "END",  # close EQUI-CABLE-TRAY-MESH
+        *cad_tray_mesh_lines,
         "",
         "SAVEWORK",
         "-- ==============================================================================",
@@ -903,6 +1036,11 @@ def generate_master_models():
         "handle (2,109)",
         "  NEW ZONE /ZONE-STRUCT-SUPPORTS",
         "endhandle",
+        "/STRU-CABLE-TRAYS",
+        "handle (2,109)",
+        "elsehandle none",
+        "  DELETE STRU",
+        "endhandle",
         "/ZONE-STRUCT-SUPPORTS",
         "NEW STRU /STRU-CABLE-TRAYS",
         "NEW FRMW /FRMW-CABLE-BRACKETS",
@@ -918,6 +1056,11 @@ def generate_master_models():
         "handle (2,109)",
         "  NEW ZONE /ZONE-STRUCT-SUPPORTS",
         "endhandle",
+        "/EQUI-CABLE-BRACKET-HARDWARE",
+        "handle (2,109)",
+        "elsehandle none",
+        "  DELETE EQUI",
+        "endhandle",
         "/ZONE-STRUCT-SUPPORTS",
         "NEW EQUI /EQUI-CABLE-BRACKET-HARDWARE",
         "ORI Y IS N AND Z IS U",
@@ -932,6 +1075,11 @@ def generate_master_models():
         "/ZONE-STRUCT-SUPPORTS",
         "handle (2,109)",
         "  NEW ZONE /ZONE-STRUCT-SUPPORTS",
+        "endhandle",
+        "/EQUI-PIPE-SUPPORT-HARDWARE",
+        "handle (2,109)",
+        "elsehandle none",
+        "  DELETE EQUI",
         "endhandle",
         "/ZONE-STRUCT-SUPPORTS",
         "NEW EQUI /EQUI-PIPE-SUPPORT-HARDWARE",
@@ -949,13 +1097,18 @@ def generate_master_models():
         "handle (2,109)",
         "  NEW ZONE /ZONE-STRUCT-SUPPORTS",
         "endhandle",
+        "/CAD_CABLE_TRAY_NETWORK_9_1",
+        "handle (2,109)",
+        "elsehandle none",
+        "  DELETE EQUI",
+        "endhandle",
+        "/EQUI-CABLE-TRAY-MESH",
+        "handle (2,109)",
+        "elsehandle none",
+        "  DELETE EQUI",
+        "endhandle",
         "/ZONE-STRUCT-SUPPORTS",
-        "NEW EQUI /EQUI-CABLE-TRAY-MESH",
-        "ORI Y IS N AND Z IS U",
-        "POS E 0.0 N 0.0 U 0.0",
-        "",
-        *tray_mesh_body,
-        "END",
+        *cad_tray_mesh_lines,
         "SAVEWORK"
     ]
 

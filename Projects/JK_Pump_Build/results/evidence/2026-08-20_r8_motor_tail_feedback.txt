@@ -1,1 +1,1 @@
-需要注意的是，motor尾端必须是圆台，检测处理一下；
+Note that motor tail must be a cone frustum, please inspect and handle;

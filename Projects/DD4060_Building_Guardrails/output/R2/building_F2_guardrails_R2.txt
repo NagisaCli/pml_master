@@ -1,0 +1,190 @@
+-- R2: user-corrected exterior platform; outer three sides guarded, inner side open.
+-- Fresh load only: select the SAME writable ZONE as /New_washer_biulding.
+-- If R1 is already loaded, use the R1_TO_R2 patch instead; do not load both.
+-- Source outer beam: local E 12000..12600, N 2000..8800, top U 9700 owner frame.
+-- Reference Values: outer/south inset 150; north end inset 50; rail radius 40; fillet 50.
+-- Tight north return: provisional section-envelope clearance 17 mm; inspect in E3D.
+-- Existing building, access, catalogue and platform geometry are preserved.
+NEW STRU /DD4060_BUILDING_F2_GUARDRAILS_R2
+DESC 'R2; outer platform three-side guard; inner access open; offline candidate'
+ORI Y IS N AND Z IS U
+POS E 50923.43mm N 37596mm U 9700mm
+BUIL false
+NEW FRMWORK /DD4060_BUILDING_F2_GUARDRAILS_R2/RAILS
+BUIL false
+SHOP false
+
+NEW HANDRA /DD4060_BUILDING_F2_GUARDRAILS_R2/PERIMETER
+POS E 0mm N 0mm U 0mm
+RAILHE 1100mm 550mm
+POSTSP 1200mm
+TANGOF 0mm
+SHOWKP true
+BRAD 50mm
+FIRE 0
+BUIL false
+SHOP false
+
+NEW RPATH
+
+NEW POINTR
+POS E 7790mm N 150mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 7790mm N 990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 6810mm N 990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 6810mm N 150mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 790mm N 150mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 790mm N 990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 4278mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 790.01mm N 4278mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 790.01mm N 7890mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 7890mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 10478mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 741.84mm N 10478mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 741.84mm N 11158mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 11158mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 13810mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 1141.84mm N 13810mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 1141.84mm N 14990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 14990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 150mm N 17550mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 7450mm N 17550mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 7450mm N 14990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 6461.84mm N 14990mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 6461.84mm N 13810mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 7789.98mm N 13810mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 7789.98mm N 14650mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 9701.84mm N 14650mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 9701.84mm N 11958mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 10950mm N 11958mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 10950mm N 8908mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 10309.98mm N 8908mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 10309.98mm N 8750mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 12450.02mm N 8750mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 12450.02mm N 2150mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 10950mm N 2150mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 10950mm N 1308mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 9701.84mm N 1308mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 9701.84mm N 150mm U 0mm
+FRAD 50mm
+END
+NEW POINTR
+POS E 7790mm N 150mm U 0mm
+FRAD 50mm
+END
+END
+END
+
+END
+END

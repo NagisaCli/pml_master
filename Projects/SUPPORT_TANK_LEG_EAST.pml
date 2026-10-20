@@ -1,6 +1,6 @@
 -- ====================================================================
 -- Equipment Support Leg Bracket (Curved Welded Backing Pad)
--- Orientation: Sits on West, Faces East (坐西朝东)
+-- Orientation: Sits on West, Faces East (Facing East)
 -- Tank Bottom Center: E 14000.00 mm, N 38435.00 mm, U 14.50 mm
 -- Tank Diameter: OD = 2022.00 mm (R_in = 1011.00 mm)
 -- CAD Reference: DIGESTER HOUSE LAYOUT_SPM_CTE_10MAR26 (DWG loose-1)

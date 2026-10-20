@@ -1,0 +1,25 @@
+-- ====================================================================
+-- AVEVA E3D Pipe Oblique Aligner Launcher
+-- Author: Antigravity
+-- Standard: 100% Pure ASCII (Mojibake-Free)
+-- ====================================================================
+$S-  -- Synonym translation OFF
+
+handle ANY
+  kill !!pipeIntersectAligner
+endhandle
+
+-- Load form definition
+$M "C:\Users\A\Desktop\PIPE_Aligin\pipe_aligner.pmlfrm"
+
+-- Show form
+show !!pipeIntersectAligner
+
+$P ====================================================================
+$P [SUCCESS] Pipe Oblique Aligner launched!
+$P 1. Pick Main TEE -> Click [3D] or [CE]
+$P 2. Pick Branch Elbow -> Click [3D] or [CE]
+$P 3. Click [ONE-CLICK ALIGN & CONNECT] to finish!
+$P ====================================================================
+
+$S+  -- Synonym translation ON

@@ -45,4 +45,4 @@ Height 20mm
 Tmrref Nulref
 RepCount 0
 
-管道同轴，整体是像一个“干”，你没有给出你对于这个的预期表现，这里只有一些数据，看起来上面的螺帽是完美套在轴的上端，但是下面的螺帽是串在下轴的的，穿出一部分；
+The pipe is coaxial. The whole thing looks like the character GAN (upright post with two horizontal crossbars) - you did not give your expected behavior for this, only some data. Looks like the upper nut fits on the shaft upper end, but the lower nut is skewered through the lower shaft, protruding through;

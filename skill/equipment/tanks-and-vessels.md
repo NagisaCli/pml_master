@@ -122,7 +122,7 @@ to the shell/skirt. A bolt standing beside the tank with no connecting plate has
 no physical restraining function.
 
 > **User-corrected 2026-08-10 (JK-Tank_Build / WSB).** For visual anchor bolts
-> on a tank bottom, the "底盘" (bearing plate) boundary is the **widest short
+> on a tank bottom, the "base chassis" (bearing plate) boundary is the **widest short
 > cylinder at the lowest elevation** — the exposed base ring or bottom plate
 > that overhangs the shell — not the thinnest or innermost plate. Anchor bolts
 > sit on that ring's exposed annulus, outside the shell wall, with the hex nut
@@ -132,7 +132,7 @@ no physical restraining function.
 > tank (M30–M48 class), not stay a constant tiny fastener. Where a tank has
 > two base rings (an inner one under an inner skirt/shell and an outer one
 > under the outer shell), anchor on the OUTERMOST ring — the inner ring is
-> not the visible 底盘 boundary.
+> not the visible baseplate boundary.
 
 For any baseplate, clamp, chair or gusset arranged around a circular shell, use
 the attachment's **local radial/tangential frame**: the plate's long axis points
@@ -199,7 +199,7 @@ Do not copy the same free-floating ladder onto every tank.
 >    (which causes clashing). The handrail turns **radially OUTWARD** at the rim to connect directly
 >    and seamlessly into the two vertical ladder handrail stringers (e.g. at $W 5150\text{ mm}$, $N \pm 240\text{ mm}$).
 > 4. **Ladder Top Safety Cage Extension (User-corrected 2026-08-31)**: The vertical ladder safety
->    cage (护笼) must extend upward by $+1100\text{ mm}$ all the way to the top handrail elevation
+>    cage (safety cage) must extend upward by $+1100\text{ mm}$ all the way to the top handrail elevation
 >    ($U = 27500\text{ mm}$), adding upper safety hoops and extending the 7 vertical cage bars to
 >    provide complete $360^\circ$ fall protection behind the worker's back at the landing.
 

@@ -1,78 +1,78 @@
-# 203-TA-019 设备与顶层走台结构改造交付报告 (2026-09-14)
+# 203-TA-019 Equipment and Top Walkway Structure Retrofit Delivery Report (2026-09-14)
 
-## 1. 任务概述与工程背景
+## 1. Task Summary and Engineering Context
 
-依据用户指示，针对刚刚从 AVEVA E3D 导出的氧段进料槽 `203-TA-019`（含顶层结构 `/203_TA_019_STRU` 与设备 `/203_TA_019`）实施四项专项改造与几何修正：
-1. **走台改成围绕一圈**：由原先仅覆盖南半侧（$120^\circ$ 扇形）扩展为围绕筒体全周 $360^\circ$ 的完整环形走台（外半径 $R = 1900\,\text{mm}$，内半径 $R = 1000\,\text{mm}$，净宽 $900\,\text{mm}$），保留南侧直梯出入口通道。
-2. **护栏相应修改**：将顶层结构圆弧护栏（`NEW HANDRA`）相应更新为 $360^\circ$ 全环闭合护栏，西半环 `/203_TA_019_TOP_HANDRAIL_A` 与东半环 `_B` 在正北中心交汇，在南侧直梯出入口平滑转折并顺接至直梯立柱。
-3. **补上底下的 Dropleg**：对照立面图图纸（`Model_reference(Part_Side_View)/203-TA-019.png` 明确标注的 `DN800` 落管），在下封头底部（标高 $U = 2000\,\text{mm}$）与地面基础（标高 $U = 0\,\text{mm}$）之间补全同心的 $\Phi 800\,\text{mm}$ Dropleg 柱体及底座法兰板。
-4. **位置修正**：修正原模型中孤悬于西侧的底部泵吸入接管 N9，将其平移修正至正东侧（$E = 16001.5\,\text{mm}, N = 6415\,\text{mm}, U = 500\,\text{mm}$），使其准确穿透 Dropleg 筒体并朝向东侧布置的工艺输送泵；同时严格保持既有已连管道（`/203-POD-350-P12-2501-150/B1` 与 `/203-PUW-600-P12-2460-150/B1`）所连接的 N1、N2 标高和坐标不变。
+Following user instructions, implemented four specialized retrofits and geometric corrections on the oxygen stage feed tank `203-TA-019` (including top structure `/203_TA_019_STRU` and equipment `/203_TA_019`) newly exported from AVEVA E3D:
+1. **Full-Circle Walkway Conversion**: Expanded from the previous south-only arc ($120^\circ$ sector) to a complete $360^\circ$ annular walkway surrounding the shell perimeter ($R_{\text{out}} = 1900\,\text{mm}$, $R_{\text{in}} = 1000\,\text{mm}$, net width $900\,\text{mm}$), preserving the southern vertical ladder access passage.
+2. **Handrail Update**: Updated the top structural curved handrail (`NEW HANDRA`) to a $360^\circ$ fully closed perimeter handrail; west half-ring `/203_TA_019_TOP_HANDRAIL_A` and east half-ring `_B` meet at North center, with smooth turn-ins at the south ladder landing connecting to ladder stringers.
+3. **Bottom Dropleg Addition**: Correlated with the side elevation drawing (`Model_reference(Part_Side_View)/203-TA-019.png` clearly indicating a `DN800` dropleg), completed the concentric $\Phi 800\,\text{mm}$ dropleg column and base flange plate between the bottom dished head ($U = 2000\,\text{mm}$) and grade level foundation ($U = 0\,\text{mm}$).
+4. **Position Correction**: Corrected bottom pump suction nozzle N9 (previously floating on the west side), translating it to the East side ($E = 16001.5\,\text{mm}, N = 6415\,\text{mm}, U = 500\,\text{mm}$) to penetrate the dropleg shell directly facing the process pump; strictly preserved existing connected pipe elevations and coordinates for N1 and N2 (`/203-POD-350-P12-2501-150/B1` and `/203-PUW-600-P12-2460-150/B1`).
 
 ---
 
-## 2. 几何与参数核查对照表
+## 2. Geometry and Parameter Verification Table
 
-- **设备代号**：`203-TA-019`（PML 名称 `/203_TA_019`，RefNo `=18409/227848`）
-- **所属所有者 (Owner)**：`ZONE /WSB_TA`
-- **根容器位置 (Position WRT Owner)**：`POS E 52402.88mm N 58697.69mm U 0mm`（依据用户最新实测参数更新）
-- **内部局部坐标中心**：$E = 15445.0\,\text{mm}, N = 6415.0\,\text{mm}$（所有内部封头、筒身、走台、支腿均相对于此设备基准）
+- **Equipment Tag**: `203-TA-019` (PML Name `/203_TA_019`, RefNo `=18409/227848`)
+- **Owner**: `ZONE /WSB_TA`
+- **Root Container Position (Position WRT Owner)**: `POS E 52402.88mm N 58697.69mm U 0mm` (updated per latest measured survey coordinates)
+- **Internal Local Datum Center**: $E = 15445.0\,\text{mm}, N = 6415.0\,\text{mm}$ (all dish heads, cylinders, walkways, and legs referenced to this datum)
 
-| 部件 / 属性 | 原导出的模型状态 | 改造修正后的交付模型状态 | 工程与图纸依据 |
+| Component / Attribute | Original Exported State | Retrofitted Delivery State | Engineering / Drawing Basis |
 | :--- | :--- | :--- | :--- |
-| **顶层走台** (`EXTRUSION`) | 仅南半侧弧形走台 (W 30° S 至 E 30° S) | **全周 $360^\circ$ 环形走台** (R=1000~1900 mm, 厚 50 mm, 南侧开口 W250~E250) | 俯视图 `Model_Reference(All_Top_View)/203-TA-019.png` 明确为全环圆环走台 |
-| **走台支撑托架** (`BOX`) | 仅南侧 4 组托架 (140°, 160°, 200°, 220°) | **全周 9 组径向托架** (增补 0°北、45°东北、90°东、270°西、315°西北，标高 U=7875) | 均布承托全环走台，严格执行 `Size -> ORI -> POS` |
-| **结构护栏 A (西半环)** | 半圆弧护栏，止于西偏南 30° | **$180^\circ$ 圆弧护栏**，自直梯柱 W240 沿 R=1840 圆弧一直延伸至正北中心 (E 0, N 1840) | 原生 `CURTYP THRU` 圆弧算法，与顶板平齐坐落于 U=8050 |
-| **结构护栏 B (东半环)** | 半圆弧护栏，止于东偏南 30° | **$180^\circ$ 圆弧护栏**，自直梯柱 E240 沿 R=1840 圆弧一直延伸至正北中心 (E 0, N 1840) | 与西半环在正北精准闭合对齐 |
-| **底部 Dropleg 基础板** | 缺失 (下封头下方悬空) | **$\Phi 1050\,\text{mm} \times H 50\,\text{mm}$ 圆形法兰板** (U = 0 ~ 50 mm) | 立面图 `Model_reference(Part_Side_View)/203-TA-019.png` 底部法兰 |
-| **底部 Dropleg 筒体** | 缺失 (U 0 ~ 2000 mm 严重空缺) | **$\Phi 800\,\text{mm} \times H 1950\,\text{mm}$ 垂直落料管** (U = 50 ~ 2000 mm) | 立面图明确标注 `DN800`，顶端紧密贴合下封头最低点 U=2000 |
-| **底部吸入接管 N9** | 位于西侧悬空处 $E = 14888.5\,\text{mm}$ (与泵反向) | **修正至正东侧 $E = 16001.5\,\text{mm}$**, $N = 6415\,\text{mm}, U = 500\,\text{mm}$ | 准确穿透 DN800 Dropleg 筒壁，法兰朝东正对工艺泵吸入口 |
-| **顶部连管管口 N1** | $E = 16100\,\text{mm}, N = 6415\,\text{mm}, U = 8600\,\text{mm}$ | **$100\%$ 保持不变** | 连接既有管道 `203-POD-350-P12-2501-150/B1` |
-| **顶部进料管口 N2** | $E = 15445\,\text{mm}, N = 6415\,\text{mm}, U = 8700\,\text{mm}$ | **$100\%$ 保持不变** | 连接既有管道 `203-PUW-600-P12-2460-150/B1` |
-| **其他管口 N4 ~ N8** | 坐标与高度原样保留 | **$100\%$ 原样保留** | 仪表与排空管口 |
-| **4 组倾斜支撑腿及地脚** | 原样保留 | **$100\%$ 原样保留** | 4 组四棱台+垫板+地脚螺栓支腿结构完整保留 |
-| **南侧爬梯与安全护笼** | 原样保留 | **$100\%$ 原样保留** | 爬梯柱、横档、8 层护笼箍筋与竖条完整保留 |
+| **Top Walkway** (`EXTRUSION`) | South-only arc walkway (W 30° S to E 30° S) | **Full $360^\circ$ Annular Walkway** (R=1000~1900 mm, thickness 50 mm, south opening W250~E250) | Top view `Model_Reference(All_Top_View)/203-TA-019.png` clearly shows full annular walkway |
+| **Walkway Brackets** (`BOX`) | South-side 4 bracket sets only (140°, 160°, 200°, 220°) | **Full perimeter 9 radial brackets** (added 0° N, 45° NE, 90° E, 270° W, 315° NW at U=7875) | Uniform support for full walkway, strictly following `Size -> ORI -> POS` |
+| **Structural Handrail A (West)** | Semicircular handrail terminating at W 30° S | **$180^\circ$ Arc Handrail**, extending from ladder stringer W240 along R=1840 arc to North center (E 0, N 1840) | Native `CURTYP THRU` arc algorithm, flush with deck at U=8050 |
+| **Structural Handrail B (East)** | Semicircular handrail terminating at E 30° S | **$180^\circ$ Arc Handrail**, extending from ladder stringer E240 along R=1840 arc to North center (E 0, N 1840) | Seamlessly closed with West handrail at North center |
+| **Bottom Dropleg Baseplate** | Missing (bottom dished head floating unsupported) | **$\Phi 1050\,\text{mm} \times H 50\,\text{mm}$ Circular Flange Plate** (U = 0 ~ 50 mm) | Elevation drawing `Model_reference(Part_Side_View)/203-TA-019.png` bottom flange |
+| **Bottom Dropleg Column** | Missing (severe void at U 0 ~ 2000 mm) | **$\Phi 800\,\text{mm} \times H 1950\,\text{mm}$ Vertical Dropleg** (U = 50 ~ 2000 mm) | Elevation drawing clearly marks `DN800`, top connects flush to dished head vertex U=2000 |
+| **Bottom Suction Nozzle N9** | West side floating at $E = 14888.5\,\text{mm}$ (opposite pump) | **Corrected to East side $E = 16001.5\,\text{mm}$**, $N = 6415\,\text{mm}, U = 500\,\text{mm}$ | Penetrates DN800 dropleg wall, flange faces East toward process pump suction |
+| **Top Connecting Nozzle N1** | $E = 16100\,\text{mm}, N = 6415\,\text{mm}, U = 8600\,\text{mm}$ | **100% Unchanged** | Connects to existing pipe `203-POD-350-P12-2501-150/B1` |
+| **Top Feed Nozzle N2** | $E = 15445\,\text{mm}, N = 6415\,\text{mm}, U = 8700\,\text{mm}$ | **100% Unchanged** | Connects to existing pipe `203-PUW-600-P12-2460-150/B1` |
+| **Other Nozzles N4 ~ N8** | Coordinates and elevations retained | **100% Retained** | Instrument and vent nozzles |
+| **4 Inclined Support Legs & Feet** | Retained as-is | **100% Retained** | 4 sets of pyramid legs + baseplates + anchor bolts fully preserved |
+| **South Access Ladder & Safety Cage** | Retained as-is | **100% Retained** | Ladder stringers, rungs, 8 safety cage hoops, and vertical bars fully preserved |
 
 ---
 
-## 3. 几何标高连续性严密验证
+## 3. Geometric Elevation Continuity Verification
 
 ```
-+-------------------------------------------------------------+  U = 8500 mm (上封头顶端)
-|                    NEW DISH 上碟形封头                       |
-+-------------------------------------------------------------+  U = 8000 mm (筒顶切线面 / 走台面 U=8000)
-|                                                             |  (走台顶面 U=8050，护栏面坐落于 U=8050)
++-------------------------------------------------------------+  U = 8500 mm (Top Dished Head Apex)
+|                    NEW DISH Top Head                        |
++-------------------------------------------------------------+  U = 8000 mm (Cylinder Tangent / Walkway U=8000)
+|                                                             |  (Walkway top U=8050, handrail base seated at U=8050)
 |                                                             |
-|                    NEW CYLINDER 主直筒                      |
+|                    NEW CYLINDER Main Shell                  |
 |                  (DIAM 2000mm, HEIG 5500mm)                 |
 |                                                             |
-+-------------------------------------------------------------+  U = 2500 mm (筒底切线面 / 支腿支撑处)
-|                    NEW DISH 下碟形封头                       |
-+-------------------------------------------------------------+  U = 2000 mm (下封头最低顶点)
++-------------------------------------------------------------+  U = 2500 mm (Bottom Tangent / Leg Support Interface)
+|                    NEW DISH Bottom Head                     |
++-------------------------------------------------------------+  U = 2000 mm (Bottom Dish Head Apex)
 |                                                             |
-|              NEW CYLINDER 补全的 DN800 Dropleg 落管          |  <--- N9 中心标高 U = 500 mm
-|                  (DIAM 800mm, HEIG 1950mm)                  |       朝向正东 E = 16001.5 mm
+|              NEW CYLINDER DN800 Dropleg Pipe                |  <--- N9 Center Elevation U = 500 mm
+|                  (DIAM 800mm, HEIG 1950mm)                  |       Facing East E = 16001.5 mm
 |                                                             |
-+-------------------------------------------------------------+  U = 50 mm (底法兰顶面)
-|              NEW CYLINDER Dropleg 基础法兰板                 |
-+-------------------------------------------------------------+  U = 0 mm (地面基础基准标高)
++-------------------------------------------------------------+  U = 50 mm (Bottom Flange Top)
+|              NEW CYLINDER Dropleg Foundation Flange Plate   |
++-------------------------------------------------------------+  U = 0 mm (Grade Foundation Datum)
 ```
 
-每个接口的几何公差为 **0.0 mm**，没有任何缝隙与干涉。
+Geometric tolerance between all interfaces is **0.0 mm**, with zero clash and zero gap.
 
 ---
 
-## 4. 交付文件与质量检验
+## 4. Deliverables and Quality Verification
 
-- **PML 交付文件**：
-  - **组合宏（两节点一体）**：[`WSB_TA_203_TA_019_retrofit_20260914.pml`](file:///c:/Muvsera/Projects/pml_master/Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_retrofit_20260914.pml)
-  - **主体设备宏（推荐，走台+DN800 Dropleg+东向N9）**：[`WSB_TA_203_TA_019_EQUI_20260914.pml`](file:///c:/Muvsera/Projects/pml_master/Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_EQUI_20260914.pml)
-  - **结构护栏宏（顶层环形护栏）**：[`WSB_TA_203_TA_019_STRU_20260914.pml`](file:///c:/Muvsera/Projects/pml_master/Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_STRU_20260914.pml)
-- **生成工具脚本**：`Projects/JK-Tank_Build/tools/generate_203_ta_019_retrofit.py`
-- **自动化测试用例**：`tests/test_203_ta_019_retrofit.py`
-- **E3D 导入层级说明**：
-  - E3D 报错 `(41,8) Cannot create a STRU at this level.` 是因为当前选中元素 (CE) 停留在 `EQUIPMENT` 或非 `ZONE` 层级。
-  - 导入前必须确保当前选中的是父级 **ZONE**，或使用上述专用的设备宏/结构宏分别在对应 Zone 下导入。
-- **验证结果**：
-  - `pytest tests/test_203_ta_019_retrofit.py`：**9 项测试全部通过** (100% Passed)。
-  - `validate_pml()` 审查：**0 个新增违规，0 个语法错误**，严格遵循 AVEVA E3D PML1 标准与铁律（`Size -> ORI -> POS`）。
-  - 全流程堆栈平衡：`NEW` 与 `END` 严密配对闭合，剩余堆栈为 0。
+- **PML Deliverables**:
+  - **Combined Macro (Both Nodes Unified)**: [`WSB_TA_203_TA_019_retrofit_20260914.pml`](file:///c:/Muvsera/Projects/pml_master/Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_retrofit_20260914.pml)
+  - **Main Equipment Macro (Recommended: Walkway + DN800 Dropleg + East N9)**: [`WSB_TA_203_TA_019_EQUI_20260914.pml`](file:///c:/Muvsera/Projects/pml_master/Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_EQUI_20260914.pml)
+  - **Structural Handrail Macro (Top Ring Handrail)**: [`WSB_TA_203_TA_019_STRU_20260914.pml`](file:///c:/Muvsera/Projects/pml_master/Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_STRU_20260914.pml)
+- **Generator Script**: `Projects/JK-Tank_Build/tools/generate_203_ta_019_retrofit.py`
+- **Automated Test Suite**: `tests/test_203_ta_019_retrofit.py`
+- **E3D Hierarchy Notes**:
+  - E3D error `(41,8) Cannot create a STRU at this level.` occurs if Current Element (CE) is inside `EQUIPMENT` or non-`ZONE` hierarchy.
+  - Prior to import, ensure the parent **ZONE** is selected as CE, or import the dedicated EQUI and STRU macros under their respective Zone containers.
+- **Verification Results**:
+  - `pytest tests/test_203_ta_019_retrofit.py`: **9/9 tests passed** (100% Passed).
+  - `validate_pml()` audit: **0 new findings, 0 syntax errors**, strictly adhering to AVEVA E3D PML1 standards and Iron Rules (`Size -> ORI -> POS`).
+  - Full-process stack balance: `NEW` and `END` strictly paired; remaining stack depth is 0.

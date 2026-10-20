@@ -725,6 +725,79 @@ Member section endpoints remain unchanged. The shared validator rejects `ORI`
 in a known framework header. This restriction is verified; successful loading
 of the corrected complete support is still pending.
 
+---
+
+## Multi-Discipline Supports (MDS / SUPPORT Hierarchy) — NATIVE-OBSERVED
+
+Learned from user native export `PS_grammar_reference.txt` and verified in AVEVA
+E3D Supports module:
+
+```pml
+NEW SITE /SITE-SUPPORTS-AREA01
+PURP SUPP
+
+NEW ZONE /ZONE-PIPE-SUPPORTS
+DESC 'Pipe Supports Network'
+FUNC 'Support'
+PURP SUPP
+
+NEW SUPPORT /PS-01-00107
+BUIL false
+
+NEW STRUCTURE /PS-01-00107/STRU
+DESC 'Pipe Support PS-01-00107'
+BUIL false
+PDNAME unset
+:MDSFrameDir N
+:MDSSuppType 'SPECIAL'
+
+NEW FRMWORK /PS-01-00107/STRU/MAIN
+BUIL false
+SHOP false
+GRADE 0
+FIRE 0
+PTSP unset
+INSC unset
+PDNAME unset
+
+NEW SCTN /PS-01-00107/STRU/BEAM
+BUIL false
+SHOP false
+DRNS -X
+POSS X 103952mm Y 58755.6mm Z 3500mm
+POSE X 100713.5mm Y 58755.6mm Z 3500mm
+JUSL CTOP
+GRADE 0
+FIRE 0
+SPRE SPCOMPONENT /BS-UB203x133x25
+END
+END
+
+NEW SUBSTRUCTURE /PS-01-00107/STRU/BASEPLATE
+BUIL false
+SHOP false
+PDNAME unset
+NEW EXTRUSION
+...
+END
+END
+
+END
+END
+```
+
+### Hierarchy Rules
+1. **Top-Level `SUPPORT`**: Every physical pipe support or cable tray bracket is an
+   independent `SUPPORT` element. Grouping all supports into a single global
+   `EQUIPMENT` or `STRUCTURE` breaks E3D picking and prevents individual adjustment.
+2. **Zone Tagging**: The parent `ZONE` must declare `PURP SUPP` and `FUNC 'Support'`.
+3. **Atomic Manipulation**: Moving, rotating or deleting `SUPPORT /<NAME>` moves
+   its framework (`FRMWORK`) and hardware (`SUBSTRUCTURE`) together.
+4. **Supports Browser Compatibility**: The `:MDSSuppType` UDA (e.g. `'SPECIAL'`,
+   `'FT03'` for pipe frameworks, `'CT01'` for cable tray brackets) and
+   `:MDSFrameDir` identify the support in E3D's native Supports Browser and tools.
+
+
 ## EXPERIMENTAL — do not rely on without testing
 
 Nothing is currently promoted here. Entries added to this section must state what

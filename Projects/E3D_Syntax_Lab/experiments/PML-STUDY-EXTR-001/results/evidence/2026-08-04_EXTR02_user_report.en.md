@@ -20,11 +20,11 @@ this rendering against it.
 
 ## The user's closing observation
 
-> 管道同轴，整体是像一个"干"，你没有给出你对于这个的预期表现，这里只有一些数据，看起来上面的螺帽是完美套在轴的上端，但是下面的螺帽是串在下轴的的，穿出一部分；
+> The pipe is coaxial. The whole thing looks like the character GAN (upright post with two horizontal crossbars) - you did not give your expected behavior for this, only some data. Looks like the upper nut fits on the shaft upper end, but the lower nut is skewered through the lower shaft, protruding through;
 
 Rendered:
 
-> The pipe is coaxial. The whole thing looks like the character 干 — you didn't
+> The pipe is coaxial. The whole thing looks like the character GAN (upright post with two crossbars) — you didn't
 > state what you expected it to look like, there's only data here. The upper nut
 > looks as though it sits perfectly over the top end of the shaft, but the lower
 > nut is skewered onto the lower shaft with part of the shaft passing through
@@ -34,13 +34,13 @@ Rendered:
 
 Two words carry geometric meaning and lose it in a loose translation:
 
-- **像一个"干"** — the character 干 used as a picture, not as a word: an upright
+- **Like the character "GAN"** — the character GAN used as a picture, not as a word: an upright
   stroke crossed by two horizontal bars. That is a description of the shape
   under test — a shank with two heads on it — and it is why
   `RESULTS-EXTR-ROUND1.md` describes the assembly as "a vertical stem with two
   lateral bars". "Looks like a stem" would drop the two bars, which are the
   whole point.
-- **串** — skewered or threaded *through*, as food on a skewer. It says the
+- **Skewered ("Chuan")** — skewered or threaded *through*, as food on a skewer. It says the
   shaft passes through the lower nut and emerges past it. "Threaded onto" would
   suggest a screwed-on cap sitting outside the shank, which is the opposite of
   what was measured.

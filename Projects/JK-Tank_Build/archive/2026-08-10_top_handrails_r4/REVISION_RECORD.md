@@ -1,15 +1,15 @@
 # WSB Tank Top Handrails — r4 (position corrected to the cylinder top, pending E3D acceptance)
 
-**State:** r4 CONFIRMED by the user on 2026-08-10 ("可以，干的漂亮") after
+**State:** r4 CONFIRMED by the user on 2026-08-10 ("Approved, nicely done") after
 loading in E3D. Accepted baseline for the next continuation.
 
 ## Why r4 exists
 
 r3 rendered the handrail correctly but the user corrected its position:
 
-> 可以，楼梯正常出现；但是位置不对，我要的围绕圆柱顶端的大圆转，
-> 而不是圆柱上圆台顶端的小圆；你直接插在圆柱顶端圆面上绕着转，
-> 然后我再调整圆台大小
+> Approved, stairs appear normally; but position wrong, what I want is circling around the big circle at the cylinder top,
+> not the small circle at the frustum top; place them directly on the cylinder top surface circling around,
+> and I will adjust the cone frustum size later
 
 Verbatim evidence: user message 2026-08-10 (continuation of the R5/R6 job).
 
@@ -43,7 +43,7 @@ NEW SUBEQUIPMENT /205_TA_056_TOP_HANDRAIL
 | 205-TA-056 | DIAM 9900 at U 26400 (R 4950) | R 4850 (inset 100 mm) | 32 | 952 mm |
 
 The base-plate outer edge is flush with the cylinder rim, so every plate sits
-fully on the cylinder top face (圆面) while the ring reads as following the big
+fully on the cylinder top face while the ring reads as following the big
 circle. Post bottom is on the cylinder top face (U 26400); post top and top
 rail centreline are at U 27500 (face + 1100 mm); mid rail centreline at
 U 26950 (face + 550 mm). Rail circles use 144 / 128 tangent CYLI segments —
@@ -88,7 +88,7 @@ The existing roof frustum (TA-001 DBOT 10800 -> DTOP 6000; TA-056 DBOT 9900 ->
 DTOP 6500) rises from the same rim the handrail follows. The cone surface
 passes through the post zone for roughly the first 30–40 mm above the face at
 this rail radius. This is the expected temporary condition the user accepted
-("我再调整圆台大小" — the frustum will be adjusted afterwards); if the posts
+("I will adjust the cone frustum size later" — the frustum will be adjusted afterwards); if the posts
 must clear the cone as-built, the user is asked to supply the adjusted frustum
 bottom diameter and the rail radius will be moved accordingly.
 

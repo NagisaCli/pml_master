@@ -276,14 +276,14 @@ User direction on the native export `jk_tank_edited_by_me.txt` (zone
 /WSB_TA):
 
 - All tanks EXCEPT 203-TA-044, 203-TA-019, 204-TA-021, 205-TA-016,
-  205-TA-036 and 205-TA-052 receive bottom hex bolts ("底盘六角钉").
+  205-TA-036 and 205-TA-052 receive bottom hex bolts ("base hex bolts").
 - The bolt count scales with tank size (bottom plate / support base-ring
   diameter): 8 / 12 / 16 / 20 / 24.
-- Anchor-bolt style: the hex nut sits flush ON the plate top ("螺帽要紧贴
-  底盘") and the stud is embedded below the plate into the foundation.
+- Anchor-bolt style: the hex nut sits flush ON the plate top ("hex nut flush on
+  baseplate") and the stud is embedded below the plate into the foundation.
 - Nut size scales with tank size (M30–M48) for physical plausibility.
 - The bolt circle must lie on the exposed base-ring annulus OUTSIDE the
-  shell wall; the 底盘 is the widest short cylinder at the lowest elevation.
+  shell wall; the baseplate is the widest short cylinder at the lowest elevation.
 - 205-TA-059 anchors on its OUTER base ring (DIAM 3000, SHELL) — not the
   inner DIAM 1800 ring in SUPPORT; 16 × M36.
 - All other structure is preserved; only new bolt blocks are inserted inside
@@ -317,7 +317,7 @@ User direction on the native export `jk_tank_edited_by_me_hexbolts.txt`
 Implementation and hashes: see
 `archive/2026-08-10_top_handrails/REVISION_RECORD.md`. Result:
 `output/WSB_TA_top_handrails_20260810_r2.txt` (r2 loaded but NOT accepted —
-user: "没有形成楼梯，放置的位置也不对；应是圆盘底座"; paused, continue next day).
+user: "No handrail formed, wrong position; needs circular disc bases"; paused, continue next day).
 
 --------------------------------------------------
 18. TOP PLATFORM HANDRAIL r3 — 2026-08-10 (candidate, pending E3D acceptance)
@@ -331,7 +331,7 @@ Continuation of item 17, same working baseline
 - One new SUBEQUIPMENT per tank (`/205_TA_001_TOP_PLATFORM`,
   `/205_TA_056_TOP_PLATFORM`), inserted after each tank's existing ACCESS
   SUBEQUIPMENT:
-  * circular platform disc closing the frustum top (圆盘底座): DIAM 6000 x 12
+  * circular platform disc closing the frustum top (circular disc base): DIAM 6000 x 12
     at U 28200 (TA-001) / DIAM 6500 x 12 at U 27700 (TA-056), top face flush
     with the cone top;
   * 20 / 24 posts (DIAM 48.3, height 1090 mm, spacing 895 / 812 mm) on
@@ -347,7 +347,7 @@ Implementation and hashes: see
 `archive/2026-08-10_top_handrails_r3/REVISION_RECORD.md`. Result:
 `output/WSB_TA_top_handrails_20260810_r3.txt` (pending E3D visual acceptance).
 Open: confirm the second tank tag (205-TA-006 does not exist; 205-TA-056 is
-modelled) and whether "扶梯/楼梯" means the top platform handrail or a spiral
+modelled) and whether "stair/handrail" means the top platform handrail or a spiral
 access stair up the shell.
 
 --------------------------------------------------
@@ -358,8 +358,7 @@ User corrected the r3 position (same baseline `jk_tank_edited_by_me_hexbolts.txt
 
 - r3 rendered the handrail normally but on the wrong circle. The user wants it
   circling the SHELL-CYLINDER top big circle, not the frustum-top small circle:
-  "我要的围绕圆柱顶端的大圆转，而不是圆柱上圆台顶端的小圆；你直接插在
-  圆柱顶端圆面上绕着转，然后我再调整圆台大小".
+  "What I want is circling around the big circle at the cylinder top, not the small circle at the frustum top; place them directly on the cylinder top surface circling around, and I will adjust the cone frustum size later".
 - r4 therefore drops the frustum-top platform disc and places the handrail on
   the cylinder top face at U 26400:
   * 205-TA-001: rail circle R 5300 (cylinder DIAM 10800, rim R 5400), 36 posts
@@ -378,10 +377,10 @@ User corrected the r3 position (same baseline `jk_tank_edited_by_me_hexbolts.txt
 Implementation and hashes: see
 `archive/2026-08-10_top_handrails_r4/REVISION_RECORD.md`. Result:
 `output/WSB_TA_top_handrails_20260810_r4.txt` (CONFIRMED by the user on
-2026-08-10: "可以，干的漂亮"). Frustum size remains the designer's to adjust.
+2026-08-10: "Approved, nicely done". Frustum size remains the designer's to adjust.
 
 --------------------------------------------------
-20. CAGED LADDERS AND ATMOSPHERIC ROOF VENTS — 2026-08-28 (ACCEPTED by user: "可以的")
+20. CAGED LADDERS AND ATMOSPHERIC ROOF VENTS — 2026-08-28 (ACCEPTED by user: "Approved")
 --------------------------------------------------
 
 User direction and refinement on baseline `WSB_TA_top_handrails_20260810_r4.txt`:
@@ -402,10 +401,10 @@ User direction and refinement on baseline `WSB_TA_top_handrails_20260810_r4.txt`
    - Cleaned two duplicate orphan nozzles (`/Copy-of-203_TA_006_N2_NOZZ` and `/Copy-of-203_TA_006_N5_NOZZ`) and auxiliary aidlines.
    - Fully synchronized all 96 trailing `OLD NOZZLE` catalogue bindings.
 
-Result macro: `output/WSB_TA_ladders_and_vents_20260827.txt` (ACCEPTED by user: "可以的").
+Result macro: `output/WSB_TA_ladders_and_vents_20260827.txt` (ACCEPTED by user: "Approved").
 
 --------------------------------------------------
-21. STRUCTURAL TOP HANDRAILS & LADDER INTEGRATION — 2026-08-31 (CONFIRMED by user: "OK简直完美")
+21. STRUCTURAL TOP HANDRAILS & LADDER INTEGRATION — 2026-08-31 (CONFIRMED by user: "OK, perfectly completed")
 --------------------------------------------------
 
 Replaced the 200+ crude cylinder handrail approximations on `205-TA-056` and `205-TA-001`
@@ -422,5 +421,19 @@ with native structural `HANDRA` / `RPATH` / `POINTR` / `CURVE` (`CURTYP THRU`) s
 4. **Vertical Ladder Safety Cage Top Extension**:
    - Extended the 7 vertical cage bars and added two upper safety hoops at $U = 27000\text{ mm}$ and $U = 27500\text{ mm}$ ($+1100\text{ mm}$ up to top rail height), providing full $360^\circ$ back protection during ladder egress.
 
-Deliverable macro: `output/WSB_TA_two_tanks_handrails_20260831.pml` (CONFIRMED by user: "OK简直完美").
+Deliverable macro: `output/WSB_TA_two_tanks_handrails_20260831.pml` (CONFIRMED by user: "OK, perfectly completed").
+
+--------------------------------------------------
+22. 203-TA-019 LADDER F2 PROXIMITY & INTERMEDIATE WALKWAY HANDRAIL ENCLOSURE — 2026-09-16 (CONFIRMED by user: "Approved")
+--------------------------------------------------
+
+User direction on native export `yes.txt` (equipment `/203_TA_019`, structure `/203_TA_019_STRU`):
+- Vertical ladder F2 (flight from intermediate platform L1 at U=3100 to top platform L2 at U=5100) was positioned out in the middle of the annular walkway (rungs at R=1080 mm, stiles at R=1125..1129 mm) and had cage hoops on the floor blocking pedestrian passage.
+- Optimized ladder F2 to be close to the cylinder shell (close to the cylinder shell): shifted 60 mm radially inward along S 25 W; rung midpoint at R=1020.2 mm (20 mm shell clearance), stiles at R=1067..1072 mm (67..72 mm shell clearance), shell brackets shortened to XLEN 60 mm, footplates seated flush at inner platform rim.
+- Enclosed platform handrail along the outside perimeter (enclosed from the platform outer perimeter): extended `/JK203_TA019_MID_HANDRAIL_A` along R=1440 mm arc from 49 deg to 81 deg (`E 225.27mm N 1422.27mm`) to seamlessly meet `MID_HANDRAIL_B`, fully enclosing the outer rim and keeping the intermediate platform walkway completely clear (>370 mm clear deck width, without obstructing the intermediate platform walkway).
+- Removed floor-level cage hoops and inward slot returns obstructing the walkway.
+- 100% preserved all 4 support legs, shell, nozzles N1..N9, manway ID600, and lower ladder F1.
+
+Deliverables: `output/WSB_TA_203_TA_019_retrofit_20260916.pml`, `WSB_TA_203_TA_019_STRU_20260916.pml`, `WSB_TA_203_TA_019_EQUI_20260916.pml`, and working copy updated in-place at `C:\Users\A\Downloads\yes.txt`.
+Verified: 6/6 pytest assertions pass; stack balanced to 0; 0 new validate_pml findings.
 

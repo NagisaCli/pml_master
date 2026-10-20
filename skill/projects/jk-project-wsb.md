@@ -243,7 +243,7 @@ Deliverable:
 `Projects/JK-Tank_Build/output/WSB_TA_hexbolts_20260810_r3.txt`; archive and
 hashes in `Projects/JK-Tank_Build/archive/2026-08-10_hexbolts/`.
 
-**User accepted r3 on 2026-08-10** ("可以，将错误原因记好"). The recorded
+**User accepted r3 on 2026-08-10** ("Approved, make sure to record the root causes"). The recorded
 error causes, kept for the next continuation:
 
 1. r1 — plate boundary read as the thinnest lowest cylinder instead of the
@@ -266,7 +266,7 @@ Assumptions flagged in the record: size classes, count bands and embedment
 
 No new lessons promoted: the hex `EXTRUSION` form was already VERIFIED and the
 workflow (preserve native export, insert-only patch, numeric verification)
-reused the existing rules unchanged. The one reusable refinement — "the 底盘
+reused the existing rules unchanged. The one reusable refinement — "the baseplate
 boundary is the widest short cylinder at the lowest elevation, and anchor
 bolts go on its exposed annulus" — is captured in
 [tanks-and-vessels.md](../equipment/tanks-and-vessels.md) guidance below.
@@ -275,7 +275,7 @@ bolts go on its exposed annulus" — is captured in
 
 Continuing the R5 top-handrail job: r2 (native HANDRA + RPATH `CURTYP THRU` +
 RAILSET, no posts) loaded but rendered nothing the user could see; the user
-rejected it with "没有形成楼梯，放置的位置也不对；应是圆盘底座" (no handrail
+rejected it with "No handrail formed, wrong position; needs a circular disc base" (no handrail
 formed, wrong position, needs a circular disc base) and asked to continue the
 next day.
 
@@ -285,7 +285,7 @@ primitives inserted as one new SUBEQUIPMENT per tank
 EQUIPMENT blocks:
 
 - circular platform disc closing the frustum top (DIAM 6000 x 12 at U 28200 /
-  DIAM 6500 x 12 at U 27700) — the 圆盘底座;
+  DIAM 6500 x 12 at U 27700) — the circular disc base;
 - 20 / 24 posts (DIAM 48.3, spacing <= 1000 mm) on individual circular base
   plates (DIAM 200 x 10) at the rail circle (platform rim inset 150 mm);
 - top rail at platform + 1100 mm and mid rail at + 550 mm, built from 80 / 96
@@ -303,7 +303,7 @@ in `Projects/JK-Tank_Build/archive/2026-08-10_top_handrails_r3/`.
 Reference values flagged in the record: tube OD 48.3 mm, base plate
 DIAM 200 x 10, disc thickness 12 mm, rail inset 150 mm, top/mid rail heights
 1100 / 550 mm. Open: confirm the second tank is 205-TA-056 (205-TA-006 does
-not exist), and confirm the user's "楼梯/扶梯" wording means the top platform
+not exist), and confirm the user's "stair/handrail" wording means the top platform
 handrail and not a spiral access stair up the shell.
 
 **Lesson recorded (F-22 in diagnosing-failures.md):** a HANDRA block with an
@@ -314,7 +314,7 @@ is proven in E3D.
 
 ### 2026-08-10 — r4: handrail moved to the cylinder-top big circle (CONFIRMED)
 
-The user accepted that r3 rendered ("可以，楼梯正常出现") but corrected the
+The user accepted that r3 rendered ("Approved, stairs appear normally") but corrected the
 position: the handrail must circle the shell-cylinder top big circle, not the
 frustum-top small circle; the frustum will be adjusted by the designer
 afterwards. r4 drops the platform disc and places the handrail on the cylinder
@@ -322,9 +322,9 @@ top face at U 26400 — TA-001 rail circle R 5300 (36 posts), TA-056 rail circle
 R 4850 (32 posts), base plates flush at the rim, top rail +1100 mm, mid rail
 +550 mm, 144/128 tangent CYLI segments. The cone surface near the rim passes
 through the post zone for ~30–40 mm until the frustum is re-sized; this is
-reported rather than hidden (user said "我再调整圆台大小").
+reported rather than hidden (user said "I will adjust the cone frustum size later").
 
-**User confirmed r4 on 2026-08-10** ("可以，干的漂亮"). The r4 file is the
+**User confirmed r4 on 2026-08-10** ("Approved, nicely done"). The r4 file is the
 accepted working baseline for the next continuation.
 
 Deliverable:
@@ -340,7 +340,7 @@ The earlier 2026-08-10 failure (F-22) was settled via `PML-STUDY-HANDRA-001`. Re
 the 200+ cylinder approximations on `205-TA-056` and `205-TA-001` with native structural
 `HANDRA` / `RPATH` / `POINTR` / `CURVE` (`CURTYP THRU`).
 
-Key rules verified in production (user confirmed: "OK简直完美"):
+Key rules verified in production (user confirmed: "OK, perfectly completed"):
 1. **Structural Hierarchy Contract**: `HANDRA` must be owned by `STRU` -> `FRMWORK`,
    never `SUBEQUIPMENT`.
 2. **Absolute Datum Seating Contract**: Handrail base elevation under `ZONE` matches the
@@ -353,3 +353,46 @@ Key rules verified in production (user confirmed: "OK简直完美"):
 
 Deliverables: `Projects/JK-Tank_Build/output/WSB_TA_two_tanks_handrails_20260831.pml`
 and `WSB_TA_handrails_20260831.txt`. Preserved user screenshot evidence in `archive/`.
+
+### 2026-09-02 — R9: WSB_TA Equipment Global Relocation (CONFIRMED)
+
+Relocated all 22 equipment items and 2 roof handrail structures by displacement vector ($\Delta E = 51267\text{ mm}, \Delta N = 58841\text{ mm}, \Delta U = 0\text{ mm}$) by modifying only root container `POS` lines (`Note: only shift equipment position`).
+- For 16 equipment items with explicit `POS`, translated coordinates.
+- For 6 droplegs without explicit `POS`, injected `POS E 51267mm N 58841mm U 0mm`.
+- For 2 roof handrail structures (`/205_TA_056_STRU` and `/205_TA_001_STRU`), injected `POS E 51267mm N 58841mm U 0mm` to maintain perfect sync with tower roof.
+All internal primitives, nozzles, ladders, and bolts preserved byte-for-byte; 0 new `validate_pml` findings.
+
+Deliverables: `Projects/JK-Tank_Build/output/WSB_TA_relocate_20260902.txt` and `WSB_TA_relocate_20260902.pml`.
+
+### 2026-09-16 — R10: 203_TA_019 Ladder F2 & Walkway Handrail Retrofit (CONFIRMED)
+
+User instruction:
+> "In yes.txt, the straight ladder from level 2 to level 3 of the O2 OXYGEN STAGE FEED tank needs optimization: the ladder itself must be closer to the cylinder shell, and the handrail must enclose from the outer perimeter of the platform without obstructing the middle walkway; keep other elements unchanged; adjust detailed positions cleanly;"
+
+Defects in incoming baseline `yes.txt`:
+1. **Walkway Obstruction by Stile Footplates & Over-offset**: Ladder Flight 2 ($U = 3100$ to $5100\text{ mm}$) had its stile footplates centered at $R \approx 1125\text{ mm}$, protruding deep into the intermediate annular platform walkway ($R_{\text{in}} = 1025\text{ mm}$, $R_{\text{out}} = 1500\text{ mm}$).
+2. **Floor-level Safety Cage Clash**: Safety cage hoops (`CAGE_HOOP_1` at $U = 3100\text{ mm}$) and vertical cage bars were grounded onto the walkway deck, severing walkway circulation.
+3. **Open Perimeter Fall Gap**: The outer platform handrail stopped abruptly at azimuth $49.0^\circ$ and restarted at $81.0^\circ$, leaving an open $32^\circ$ perimeter gap, while returning inward towards the ladder, blocking access.
+
+Resolution implemented:
+1. **Radial Inward Translation**: Shifted ladder stiles, rungs, and brackets $60\text{ mm}$ radially inward towards the cylinder shell along azimuth vector $S\,25^\circ\,W$:
+   - Stile A: $E = 16175.16, N = 7200.05, U = 4108$ ($R = 1072.1\text{ mm}$, clearance to shell $72.1\text{ mm}$).
+   - Stile B: $E = 15592.87, N = 7471.57, U = 4108$ ($R = 1066.9\text{ mm}$, clearance to shell $66.9\text{ mm}$).
+   - Rungs 01–08: $E = 15884.02, N = 7335.81$ ($R_{\text{mid}} = 1020.2\text{ mm}$, clearance to shell $20.2\text{ mm}$).
+   - Brackets: `XLEN 60mm` centered between shell pads and stiles.
+   - Footplates: Seated flush at inner rim $R \approx 1070\text{ mm}$, completely clear of pedestrian walkway.
+2. **Continuous Outer Handrail Enclosure**: Extended `/JK203_TA019_MID_HANDRAIL_A` along $R = 1440\text{ mm}$ arc from $49.0^\circ$ (`E 944.73, N 1086.78`) through $65.0^\circ$ (`E 608.57, N 1305.08`) to $81.0^\circ$ (`E 225.27, N 1422.27`), meeting `_B` with continuous closure `DRNE W 9 N`.
+3. **Removed Walkway Cage Hoops**: Removed floor-level cage hoops and top inward slot returns. Pedestrian annular clearance on intermediate platform increased to $> 370\text{ mm}$.
+4. **100% Byte Preservation**: Retained byte-for-byte identity on all 4 support legs, column/flange/web members, foundation bolts, shell cylinders, dish heads, nozzles N1–N9, manway ID600, and lower ladder Flight 1.
+5. **Zero Stack Drift & Strict PML1**: Stack-balanced to 0; pre-existing native dump warnings dropped from 201 to 174 (28 fewer warnings due to strict `Size -> ORI -> POS` order on modified elements).
+
+User confirmed: "Approved".
+
+Deliverables:
+- Working file updated: `C:\Users\A\Downloads\yes.txt`
+- Repository archive: `Projects/JK-Tank_Build/imports/2026-09-16_yes_203_TA_019.txt`
+- Combined macro: `Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_retrofit_20260916.pml`
+- Structure macro: `Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_STRU_20260916.pml`
+- Equipment macro: `Projects/JK-Tank_Build/output/WSB_TA_203_TA_019_EQUI_20260916.pml`
+- Pytest verification: `tests/test_203_ta_019_retrofit_20260916.py`
+

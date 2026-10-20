@@ -27,10 +27,21 @@ from pathlib import Path
 from typing import Dict, List, Optional
 
 DESKTOP = Path(r"C:\Users\A\Desktop")
-LOCATION_NOZZLE = DESKTOP / "location_nozzle_reference.txt"
-ENGINE_SHAFT = DESKTOP / "engine_shaft_measurements_updated.csv"
-CASING = DESKTOP / "casing_reference.txt"
-MC_OFFSET = DESKTOP / "mc_pump_casing_location_relative_center.txt"
+IMPORTS = Path(__file__).resolve().parents[1] / "imports"
+
+def _resolve(filename: str, fallback_prefix: str = "2026-08-19_") -> Path:
+    p = DESKTOP / filename
+    if p.exists():
+        return p
+    fb = IMPORTS / f"{fallback_prefix}{filename}"
+    if fb.exists():
+        return fb
+    return p
+
+LOCATION_NOZZLE = _resolve("location_nozzle_reference.txt")
+ENGINE_SHAFT = _resolve("engine_shaft_measurements_updated.csv")
+CASING = _resolve("casing_reference.txt")
+MC_OFFSET = _resolve("mc_pump_casing_location_relative_center.txt")
 
 # ``POS E 13971mm N 14114.3mm U 25mm`` -> signed east/north/up in millimetres.
 _POS_TOKEN = re.compile(r"\b([ENSWUD])\s*(-?[\d.]+)\s*mm", re.IGNORECASE)

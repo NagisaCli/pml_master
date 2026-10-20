@@ -2,6 +2,17 @@
 
 ## Scope and status
 
+- **2026-10-11 ordinary-pump continuation (candidate):** generated 203-PU-010
+  and 204-PU-022 from this checkout's latest archived ordinary template,
+  `imports/2026-09-10_TEM.txt`. Both baseplates are 1724 x 760 x 50 mm.
+  Native machine/support relationships are retained without scaling; the
+  source's -5.25 mm DRIVER BOX and tiny rail envelope/face rounding errors
+  are explicitly repaired. Individual macros use local bottom-centre zero;
+  the combined file uses temporary review spacing, not plant coordinates.
+  Finished-output numerical checks and five verifier mutations pass. E3D
+  loading/catalogue/visual/persistence acceptance is pending. See
+  [the pair report](../../Projects/JK_Pump_Build/output/2026-10-11_ordinary_pair/REPORT.md).
+
 - 30 pump tags from `Projects/JK_Pump_Build/Pump_details.xlsx`.
 - One independent `.pml` file per tag.
 - One directly generated `JK_Pump_Build_All_Pumps.pml` loading macro containing

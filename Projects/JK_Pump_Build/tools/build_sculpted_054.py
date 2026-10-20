@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
 Generator for High-Fidelity Sculpted MC Pump Model: /205_PU_054
-- Full detail preservation ("不精简")
-- Missing fasteners/bolts completed ("补齐漏件")
-- Coordinates normalized and CAD offsets removed ("坐标归一")
-- Nozzles and engineering attributes perfected ("管口和属性完善")
-- Motor rear hollowed fan cowl, internal shaft, fan hub & radial blades ("发动机后部镂空与内部细节")
-- Auxiliary degassing/vacuum system completed and sculpted ("辅助系统补完雕刻")
+- Full detail preservation (No simplification)
+- Missing fasteners/bolts completed (Completed missing fasteners)
+- Coordinates normalized and CAD offsets removed (Normalized coordinates)
+- Nozzles and engineering attributes perfected (Attributes and nozzles finalized)
+- Motor rear hollowed fan cowl, internal shaft, fan hub & radial blades (Rear fan cowl and internals)
+- Auxiliary degassing/vacuum system completed and sculpted (Auxiliary system sculpted)
 """
 
 import math
@@ -37,7 +37,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 1. SUBEQUIPMENT /205_PU_054_BASE (公共底座与地脚系统)
+    # 1. SUBEQUIPMENT /205_PU_054_BASE (Common Baseplate and Foundation System)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_BASE")
     lines.append("BUIL false")
@@ -323,7 +323,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 2. SUBEQUIPMENT /205_PU_054_CASING (主泵体与蜗壳段)
+    # 2. SUBEQUIPMENT /205_PU_054_CASING (Main Pump Casing and Volute Section)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_CASING")
     lines.append("BUIL false")
@@ -377,7 +377,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 3. SUBEQUIPMENT /205_PU_054_BEARING (轴承托架与悬臂过渡段)
+    # 3. SUBEQUIPMENT /205_PU_054_BEARING (Bearing Housing and Cantilever Transition)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_BEARING")
     lines.append("BUIL false")
@@ -477,7 +477,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 4. SUBEQUIPMENT /205_PU_054_DRIVER (主电机细致化：散热筋、接线盒、吊耳、后部镂空风罩与内部风扇叶片)
+    # 4. SUBEQUIPMENT /205_PU_054_DRIVER (Main Driver: Cooling Fins, Terminal Box, Lifting Lugs, Rear Cowl)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_DRIVER")
     lines.append("BUIL false")
@@ -665,7 +665,7 @@ def build_sculpted_054_pml():
     lines.append("END")
 
     # -------------------------------------------------------------------------
-    # 细致雕刻：电机后端镂空风罩与内部细节 (Rear Fan Cowl & Internal Details)
+    # Sculpted: Rear Fan Cowl & Internal Details
     # -------------------------------------------------------------------------
     # Rear Stator Transition & NDE Bearing Shield
     lines.append("NEW CYLINDER")
@@ -733,7 +733,7 @@ def build_sculpted_054_pml():
         lines.append("ZLEN 180mm")
         lines.append("END")
 
-    # Outer Hollow Fan Cowl Shell (风罩外筒)
+    # Outer Hollow Fan Cowl Shell
     lines.append("NEW CYLINDER")
     lines.append("ORI Z is N and Y is U")
     lines.append("POS E 48852mm N 3733.2mm U 622.17mm")
@@ -748,7 +748,7 @@ def build_sculpted_054_pml():
     lines.append("END")
     lines.append("END")
 
-    # Rear Cowl Dome Cone with Air Intake Grill Slots (镂空格栅吸风孔)
+    # Rear Cowl Dome Cone with Air Intake Grill Slots
     lines.append("NEW CONE")
     lines.append("ORI Z is S and Y is U")
     lines.append("POS E 48852mm N 3595.7mm U 622.17mm")
@@ -838,7 +838,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 5. SUBEQUIPMENT /205_PU_054_MOTOR_FRAME (辅机导轨滑移底座与补齐第4颗螺栓)
+    # 5. SUBEQUIPMENT /205_PU_054_MOTOR_FRAME (Motor Slide Base and 4th Bolt)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_MOTOR_FRAME")
     lines.append("POS E 48499.16mm N 6841.31mm U 397.17mm")
@@ -890,7 +890,7 @@ def build_sculpted_054_pml():
         lines.append("HEIG 35mm")
         lines.append("END")
 
-    # Belt tensioning lead screws & adjustment hex nuts (雕刻张紧丝杆与锁紧螺母)
+    # Belt tensioning lead screws & adjustment hex nuts
     for np in [168, -168]:
         n_str = f"N {np}mm" if np >= 0 else f"S {-np}mm"
         lines.append("NEW CYLINDER")
@@ -910,7 +910,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 6. SUBEQUIPMENT /205_PU_054_AID_MOTOR_1 (辅机电机1主体与底座)
+    # 6. SUBEQUIPMENT /205_PU_054_AID_MOTOR_1 (Auxiliary Motor 1 Body and Base)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_AID_MOTOR_1")
     lines.append("POS E 48027.22mm N 4194mm D 42mm")
@@ -1337,7 +1337,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 7. SUBEQUIPMENT /205_PU_054_AID_MOTOR_2 (真空脱气泵、皮带轮罩壳与归一化拉伸体)
+    # 7. SUBEQUIPMENT /205_PU_054_AID_MOTOR_2 (Vacuum Degassing Pump, Belt Guard and Extrusions)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_AID_MOTOR_2")
     lines.append("BUIL false")
@@ -1346,7 +1346,7 @@ def build_sculpted_054_pml():
     lines.append("INSC unset")
     lines.append("")
 
-    # Normalized Belt Guard Extrusion & Nxtrusion (CAD大坐标完全归一化)
+    # Normalized Belt Guard Extrusion & Nxtrusion (CAD Coordinates Normalized)
     lines.append("NEW EXTRUSION")
     lines.append("ORI Z is W and Y is U")
     lines.append("POS E 48393mm N 6416mm U 622.17mm")
@@ -1567,7 +1567,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 8. SUBEQUIPMENT /205_PU_054_SUCTION (主进料吸入管口)
+    # 8. SUBEQUIPMENT /205_PU_054_SUCTION (Main Suction Nozzle)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_SUCTION")
     lines.append("BUIL false")
@@ -1591,7 +1591,7 @@ def build_sculpted_054_pml():
     lines.append("")
 
     # =========================================================================
-    # 9. SUBEQUIPMENT /205_PU_054_DISCHARGE (主出料排出管口)
+    # 9. SUBEQUIPMENT /205_PU_054_DISCHARGE (Main Discharge Nozzle)
     # =========================================================================
     lines.append("NEW SUBEQUIPMENT /205_PU_054_DISCHARGE")
     lines.append("BUIL false")

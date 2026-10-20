@@ -29,7 +29,9 @@ justify. Unknown syntax remains visible as a gap rather than being guessed.
 | Routed pipe section | `NEW BRANCH /<name>` | Under its `PIPE` | Head/tail and owned catalogue components define the centreline | NATIVE-OBSERVED / OFFICIAL-SUPPORTED |
 | Plant/site/zone creation | `NEW SITE`, `NEW ZONE` observed | Above `PIPE`/`EQUI` | Native data-listing form is under current certification | NATIVE-OBSERVED |
 | Structural hierarchy (`FRMWORK`, etc.) | `HANDRA 1 of FRMWORK /<name>` | Under structural `ZONE` | Structural framework parent for beams, columns, and handrails | NATIVE-OBSERVED |
+| Multi-Discipline Support | `NEW SUPPORT /<name>` | Under `ZONE` with `PURP SUPP` | Individual pipe support or cable tray bracket owning `STRUCTURE`/`FRMWORK` and `SUBSTRUCTURE` | NATIVE-OBSERVED |
 | Structural handrail | `NEW HANDRA` + `NEW RPATH` | Under `FRMWORK` / `STRU` | Dual rails (`RAILHE`), posts (`POSTSP`), route points (`POINTR`), curves (`CURVE`) | VERIFIED — E3D Design Mk3.1 |
+
 
 ---
 
@@ -50,10 +52,12 @@ justify. Unknown syntax remains visible as a gap rather than being guessed.
 | Hollow ring | Array of small `BOX`/`CYLI` segments | Segment dimensions and bearings | Only when justified and attachment is verified | One axial `CYLI`, which becomes a solid disc | RECOMMENDED |
 | Sloped or irregular body | Additive slices of verified primitives | Per-slice dimensions | Approximation with explicit resolution | Invented negative/Boolean forms | RECOMMENDED |
 | Extruded custom section | `EXTRUSION` + owned `LOOP` / ordered `VERTEX` | `HEIG`; LOOP local-XY profile | Non-standard constant section, true polygonal head | Guessing the longitudinal POS datum or using it for every solid | VERIFIED — hierarchy, axis and end-plane POS datum |
+| Curved transition with changing section | Assembly of thin triangular `EXTRUSION` panels | Ordered triangle profiles, local frames, thickness and subdivision | [Hollow transition fitting](detail-and-composite-surfaces.md) with explicit approximation and joint checks | Treating a faceted assembly as an exact smooth or automatically watertight surface | RECOMMENDED — user-endorsed approach 2026-09-28; validate each implementation |
 | Detailed fastener / screw | Head by head form: `EXTRUSION` for hex, `DISH` for dome/button, `BOX` for square; shank and thread root `CYLI`; transitions `CONE` | Per-element size attributes | Real fastener detail where the drawing or study justifies it | One familiar primitive for every head form | VERIFIED — user-accepted PML-STUDY-SCREW-001/01 (2026-08-05); each element form individually VERIFIED |
 | Circular torus / pipe bend | `CTORUS` | `RINS`, `ROUT`, `ANGL` | Gooseneck breather elbow, smooth pipe bend | Multi-cylinder stacked step bends | VERIFIED — E3D Design Mk3.1.11.0 |
 | Structural / platform handrail | `HANDRA` + `RPATH` | `RAILHE`, `POSTSP`, `TANGOF`, `BRAD`; path `POINTR` / `CURVE` | Platform, tank-top, and walkway railing | Synthetic RAILSET with no POINTR | VERIFIED — user-certified 2026-08-31 in E3D Design Mk3.1 (PML-STUDY-HANDRA-001) |
-| Catalogue structural member | `SCTN` candidate | Catalogue/project dependent | Await native specimen + live catalogue trial | Guessing specification paths | EXPERIMENTAL |
+| Catalogue structural member | `SCTN` | `POSS`, `POSE`, `DRNS`, `DRNE`, `JUSL`, `SPRE` | Structural beam, column or brace under `FRMWORK` | Guessing specification paths | NATIVE-OBSERVED |
+
 
 ---
 

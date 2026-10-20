@@ -142,6 +142,13 @@ element-specific datum and dimensions, then assert:
 
 Then run the [Iron Rules checklist](../knowledge/iron-rules.md#pre-delivery-checklist).
 
+Review visible detail as well: match the governing silhouette, then inspect
+transitions, flange seating, bores and attachments at close range. Refine the
+primitive composition where a joint remains visibly wrong; use
+[detail and composite surfaces](../knowledge/detail-and-composite-surfaces.md)
+for changing-section transitions. Preserve the source envelope and distinguish
+offline geometry checks from native E3D visual acceptance.
+
 This is automated:
 
 ```bash

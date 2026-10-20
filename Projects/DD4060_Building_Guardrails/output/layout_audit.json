@@ -1,0 +1,1045 @@
+{
+  "status": "OFFLINE_LAYOUT_PASS_NATIVE_ACCEPTANCE_PENDING",
+  "source_sha256": "c87af66310ac7b74281ad7339f17256ee4b79985c1bbd52a8448b761fe436dc0",
+  "source_counts": {
+    "EQUIPMENT": 1,
+    "SUBEQUIPMENT": 1,
+    "EXTRUSION": 46,
+    "LOOP": 46,
+    "VERTEX": 190,
+    "STRUCTURE": 1,
+    "FRMWORK": 7,
+    "PANEL": 162,
+    "PLOOP": 162,
+    "PAVERT": 1896,
+    "GENSEC": 346,
+    "SPINE": 346,
+    "POINSP": 692,
+    "JLDATUM": 600,
+    "PLDATUM": 600,
+    "FIXING": 600,
+    "HANDRA": 47,
+    "RPATH": 53,
+    "POINTR": 149,
+    "STRFLT": 6
+  },
+  "preservation": "All received bytes and all existing hierarchy/attributes remain unchanged; additive macro only.",
+  "coordinate_frame": "Same ZONE owner frame as the received building; absolute world frame is not asserted.",
+  "building_origin_mm": [
+    50923.43,
+    37596.0,
+    -300.0
+  ],
+  "access_origin_mm": [
+    59225.27,
+    48814.0,
+    13705.8
+  ],
+  "access_axes": [
+    [
+      -1.0,
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      -1.0,
+      0.0
+    ],
+    [
+      0.0,
+      0.0,
+      1.0
+    ]
+  ],
+  "slab_top_mm": 9700.0,
+  "rail_top_mm": 10800.0,
+  "rail_mid_mm": 10250.0,
+  "post_spacing_mm": 1200.0,
+  "route_length_mm": 67463.73999999996,
+  "route_vertices_including_closure": 37,
+  "minimum_segment_mm": 591.84,
+  "minimum_route_to_obstacle_envelope_mm": 189.99999999999272,
+  "minimum_rail_clearance_after_fillet_allowance_mm": 99.99999999999272,
+  "minimum_route_to_slab_edge_mm": 150.0,
+  "obstacles_checked": 64,
+  "peripheral_domain_remnants": [],
+  "floor_stair_entries": [
+    {
+      "name": "/DD4060-ACCESS-R6/ST-FLOOR-L1-S",
+      "xy_mm": [
+        1051.8399999999965,
+        1618.0
+      ],
+      "entry_to_rail_distance_mm": 680.4000188124617,
+      "width_mm": 900.0
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/ST-FLOOR-L1-N",
+      "xy_mm": [
+        2913.8399999999965,
+        16638.0
+      ],
+      "entry_to_rail_distance_mm": 912.0,
+      "width_mm": 900.0
+    }
+  ],
+  "reference_values_mm": {
+    "edge_inset": 150.0,
+    "section_radius": 125.0,
+    "rail_radius": 40.0,
+    "clearance": 100.0,
+    "fillet": 50.0,
+    "minimum_edge_bay_return_gap": 300.0
+  },
+  "route_building_xy_mm": [
+    [
+      7790.0,
+      150.0
+    ],
+    [
+      7790.0,
+      990.0
+    ],
+    [
+      6810.0,
+      990.0
+    ],
+    [
+      6810.0,
+      150.0
+    ],
+    [
+      790.0,
+      150.0
+    ],
+    [
+      790.0,
+      990.0
+    ],
+    [
+      150.0,
+      990.0
+    ],
+    [
+      150.0,
+      4278.0
+    ],
+    [
+      790.01,
+      4278.0
+    ],
+    [
+      790.01,
+      7890.0
+    ],
+    [
+      150.0,
+      7890.0
+    ],
+    [
+      150.0,
+      10478.0
+    ],
+    [
+      741.84,
+      10478.0
+    ],
+    [
+      741.84,
+      11158.0
+    ],
+    [
+      150.0,
+      11158.0
+    ],
+    [
+      150.0,
+      13810.0
+    ],
+    [
+      1141.84,
+      13810.0
+    ],
+    [
+      1141.84,
+      14990.0
+    ],
+    [
+      150.0,
+      14990.0
+    ],
+    [
+      150.0,
+      17550.0
+    ],
+    [
+      7450.0,
+      17550.0
+    ],
+    [
+      7450.0,
+      14990.0
+    ],
+    [
+      6461.84,
+      14990.0
+    ],
+    [
+      6461.84,
+      13810.0
+    ],
+    [
+      7789.98,
+      13810.0
+    ],
+    [
+      7789.98,
+      14650.0
+    ],
+    [
+      9701.84,
+      14650.0
+    ],
+    [
+      9701.84,
+      11958.0
+    ],
+    [
+      10950.0,
+      11958.0
+    ],
+    [
+      10950.0,
+      8908.0
+    ],
+    [
+      10309.98,
+      8908.0
+    ],
+    [
+      10309.98,
+      4278.0
+    ],
+    [
+      10950.0,
+      4278.0
+    ],
+    [
+      10950.0,
+      1308.0
+    ],
+    [
+      9701.84,
+      1308.0
+    ],
+    [
+      9701.84,
+      150.0
+    ],
+    [
+      7790.0,
+      150.0
+    ]
+  ],
+  "bypassed_obstacles": [
+    {
+      "name": "building/extrusion-53",
+      "category": "Concrete column",
+      "bounds_mm": [
+        0.040000000000873115,
+        0.0,
+        600.0,
+        800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-59",
+      "category": "Concrete column",
+      "bounds_mm": [
+        7000.0,
+        -0.010000000002037268,
+        7600.0,
+        800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-71",
+      "category": "Concrete column",
+      "bounds_mm": [
+        10499.980000000003,
+        7099.959999999999,
+        11100.019999999997,
+        7700.0
+      ]
+    },
+    {
+      "name": "building/extrusion-83",
+      "category": "Concrete column",
+      "bounds_mm": [
+        0.010000000002037268,
+        7100.0,
+        600.010000000002,
+        7700.0
+      ]
+    },
+    {
+      "name": "building/extrusion-89",
+      "category": "Concrete column",
+      "bounds_mm": [
+        0.05000000000291038,
+        14000.0,
+        600.0199999999968,
+        14800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-101",
+      "category": "Concrete column",
+      "bounds_mm": [
+        6999.980000000003,
+        14000.0,
+        7599.980000000003,
+        14800.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-SL2--1740",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        9891.839999999997,
+        818.0,
+        10191.839999999997,
+        1118.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-EL2-N",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10786.839999999997,
+        8418.0,
+        11086.839999999997,
+        8718.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-EL1-S",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10786.839999999997,
+        12148.0,
+        11086.839999999997,
+        12448.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-W-6600",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        251.8399999999965,
+        4468.0,
+        551.8399999999965,
+        4768.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-W-400",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        251.8399999999965,
+        10668.0,
+        551.8399999999965,
+        10968.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-E-6600",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10551.839999999997,
+        4468.0,
+        10851.839999999997,
+        4768.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-N-7500",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        651.8399999999965,
+        14018.0,
+        951.8399999999965,
+        14318.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-N-1500",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        6651.8399999999965,
+        14018.0,
+        6951.8399999999965,
+        14318.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-N--1740",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        9891.839999999997,
+        14018.0,
+        10191.839999999997,
+        14318.0
+      ]
+    }
+  ],
+  "all_obstacles": [
+    {
+      "name": "building/extrusion-53",
+      "category": "Concrete column",
+      "bounds_mm": [
+        0.040000000000873115,
+        0.0,
+        600.0,
+        800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-59",
+      "category": "Concrete column",
+      "bounds_mm": [
+        7000.0,
+        -0.010000000002037268,
+        7600.0,
+        800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-65",
+      "category": "Concrete column",
+      "bounds_mm": [
+        10499.980000000003,
+        -0.01999999999679858,
+        11100.019999999997,
+        800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-71",
+      "category": "Concrete column",
+      "bounds_mm": [
+        10499.980000000003,
+        7099.959999999999,
+        11100.019999999997,
+        7700.0
+      ]
+    },
+    {
+      "name": "building/extrusion-83",
+      "category": "Concrete column",
+      "bounds_mm": [
+        0.010000000002037268,
+        7100.0,
+        600.010000000002,
+        7700.0
+      ]
+    },
+    {
+      "name": "building/extrusion-89",
+      "category": "Concrete column",
+      "bounds_mm": [
+        0.05000000000291038,
+        14000.0,
+        600.0199999999968,
+        14800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-95",
+      "category": "Concrete column",
+      "bounds_mm": [
+        10499.980000000003,
+        14000.0,
+        11099.980000000003,
+        14800.0
+      ]
+    },
+    {
+      "name": "building/extrusion-101",
+      "category": "Concrete column",
+      "bounds_mm": [
+        6999.980000000003,
+        14000.0,
+        7599.980000000003,
+        14800.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-SHOE-S-10075",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        1011.8399999999965,
+        993.0,
+        1311.8399999999965,
+        1293.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-SHOE-S-9125",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        1011.8399999999965,
+        1943.0,
+        1311.8399999999965,
+        2243.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-SHOE-5863",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        2288.8399999999965,
+        16488.0,
+        2588.8399999999965,
+        16788.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-SHOE-4913",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        3238.8399999999965,
+        16488.0,
+        3538.8399999999965,
+        16788.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-SL2--700",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        8851.839999999997,
+        818.0,
+        9151.839999999997,
+        1118.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-SL2--1740",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        9891.839999999997,
+        818.0,
+        10191.839999999997,
+        1118.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-SL1-3900-10150",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        4251.8399999999965,
+        918.0,
+        4551.8399999999965,
+        1218.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-SL1-3000-10150",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        5151.8399999999965,
+        918.0,
+        5451.8399999999965,
+        1218.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-SL1-3000-9190",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        5151.8399999999965,
+        1878.0,
+        5451.8399999999965,
+        2178.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-EL2-S",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10786.839999999997,
+        7738.0,
+        11086.839999999997,
+        8038.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-EL2-N",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10786.839999999997,
+        8418.0,
+        11086.839999999997,
+        8718.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-EL1-S",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10786.839999999997,
+        12148.0,
+        11086.839999999997,
+        12448.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-P-EL1-N",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10786.839999999997,
+        13138.0,
+        11086.839999999997,
+        13438.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-W-6600",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        251.8399999999965,
+        4468.0,
+        551.8399999999965,
+        4768.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-W-4800",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        251.8399999999965,
+        6268.0,
+        551.8399999999965,
+        6568.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-W-400",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        251.8399999999965,
+        10668.0,
+        551.8399999999965,
+        10968.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-E-6600",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10551.839999999997,
+        4468.0,
+        10851.839999999997,
+        4768.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-E-4800",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        10551.839999999997,
+        6268.0,
+        10851.839999999997,
+        6568.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-S-7500",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        651.8399999999965,
+        2168.0,
+        951.8399999999965,
+        2468.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-S-4775",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        3311.8399999999965,
+        2168.0,
+        3611.8399999999965,
+        2468.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-S-1000",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        7151.8399999999965,
+        2168.0,
+        7451.8399999999965,
+        2468.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-S--1740",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        9891.839999999997,
+        2168.0,
+        10191.839999999997,
+        2468.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-N-7500",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        651.8399999999965,
+        14018.0,
+        951.8399999999965,
+        14318.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-N-4775",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        3376.8399999999965,
+        14018.0,
+        3676.8399999999965,
+        14318.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-N-1500",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        6651.8399999999965,
+        14018.0,
+        6951.8399999999965,
+        14318.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/EMB-C-N--1740",
+      "category": "Plate envelope",
+      "bounds_mm": [
+        9891.839999999997,
+        14018.0,
+        10191.839999999997,
+        14318.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-SL1-S",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        4806.209961642351,
+        943.0,
+        5351.8399999999965,
+        1193.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-SL1-E",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        5176.8399999999965,
+        945.6999999999971,
+        5426.8399999999965,
+        1553.6656768996909
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-EL2-1",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10866.839999999997,
+        8238.43778283141,
+        11116.839999999997,
+        8690.300000000003
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-EL1",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10866.839999999997,
+        12786.573296166142,
+        11116.839999999997,
+        13410.300000000003
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-W-1",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        276.8399999999965,
+        5427.610145184721,
+        526.8399999999965,
+        6468.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-E-1",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10576.839999999997,
+        5427.610145184721,
+        10826.839999999997,
+        6468.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-SE-1",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        8569.88938513081,
+        2193.0,
+        10091.839999999997,
+        2443.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/VB-N-1",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        3476.8399999999965,
+        14043.0,
+        5271.491468862354,
+        14293.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-SL2--700",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        8876.839999999997,
+        843.0,
+        9126.839999999997,
+        1093.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-SL2--1740",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        9916.839999999997,
+        843.0,
+        10166.839999999997,
+        1093.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-SL1-3900-10150",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        4276.8399999999965,
+        943.0,
+        4526.8399999999965,
+        1193.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-SL1-3000-10150",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        5176.8399999999965,
+        943.0,
+        5426.8399999999965,
+        1193.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-SL1-3000-9190",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        5176.8399999999965,
+        1903.0,
+        5426.8399999999965,
+        2153.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-EL2-S",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10866.839999999997,
+        7763.0,
+        11116.839999999997,
+        8013.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-EL2-N",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10866.839999999997,
+        8443.0,
+        11116.839999999997,
+        8693.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-EL1-S",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10866.839999999997,
+        12173.0,
+        11116.839999999997,
+        12423.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/P-EL1-N",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10866.839999999997,
+        13163.0,
+        11116.839999999997,
+        13413.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-W-6600",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        276.8399999999965,
+        4493.0,
+        526.8399999999965,
+        4743.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-W-4800",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        276.8399999999965,
+        6293.0,
+        526.8399999999965,
+        6543.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-W-400",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        276.8399999999965,
+        10693.0,
+        526.8399999999965,
+        10943.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-E-6600",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10576.839999999997,
+        4493.0,
+        10826.839999999997,
+        4743.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-E-4800",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        10576.839999999997,
+        6293.0,
+        10826.839999999997,
+        6543.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-S-7500",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        676.8399999999965,
+        2193.0,
+        926.8399999999965,
+        2443.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-S-4775",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        3401.8399999999965,
+        2193.0,
+        3651.8399999999965,
+        2443.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-S-1000",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        7176.8399999999965,
+        2193.0,
+        7426.8399999999965,
+        2443.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-S--1740",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        9916.839999999997,
+        2193.0,
+        10166.839999999997,
+        2443.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-N-7500",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        676.8399999999965,
+        14043.0,
+        926.8399999999965,
+        14293.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-N-4775",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        3401.8399999999965,
+        14043.0,
+        3651.8399999999965,
+        14293.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-N-1500",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        6676.8399999999965,
+        14043.0,
+        6926.8399999999965,
+        14293.0
+      ]
+    },
+    {
+      "name": "/DD4060-ACCESS-R6/C-N--1740",
+      "category": "Access member envelope",
+      "bounds_mm": [
+        9916.839999999997,
+        14043.0,
+        10166.839999999997,
+        14293.0
+      ]
+    }
+  ],
+  "open_acceptance": [
+    "Native E3D macro loading and generated catalogue geometry",
+    "Visual review of support bypasses, corner posts and toe plates",
+    "Receiving-host clash check, post/base anchorage and civil design",
+    "Save Work and reopen persistence"
+  ]
+}

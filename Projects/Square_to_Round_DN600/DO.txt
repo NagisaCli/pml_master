@@ -1,0 +1,33 @@
+Create one standalone vertical square-to-round transition from the user-supplied
+plan image. The user confirmed the round outlet is DN600.
+
+Governing dimensions, in millimetres:
+- Overall height: 500 (user instruction).
+- Square flange outside: 820 x 820 (drawing).
+- Square flange clear opening: 720 x 720 (drawing).
+- Flange border: 50 (drawing and dimensional reconciliation).
+- Bolt holes: 12 x diameter 14 (drawing).
+- Bolt-line edge distance: 22.5. Per-side hole ordinates from the first
+  hole: 0, 258, 517, 775. Corners are shared between adjacent sides.
+- Outlet designation: DN600 (user clarification); do not interpret DN as
+  an exact measured inside or outside diameter.
+
+Hierarchy: one EQUI, with SUBE groups ordered physically top to bottom:
+01 square flange, 02 transition, 03 round outlet.
+
+Reference Values, replace when the receiving specification is supplied:
+- Flange thickness 20.
+- Transition and pipe wall thickness 6.
+- DN600 Series A outside diameter 610; clear bore 598 with the assumed wall.
+  Basis: United Steel, Fittings Beveling, DN600 Series A table, and its
+  LSAW steel pipe table. This does not select a pressure class or certify
+  the complete fabricated fitting against a product standard.
+- Axial allocation: flange 20, transition component 400, outlet 80.
+- Transition component: 380 tapered length plus 20 square neck.
+- Local bottom-centre datum (0, 0, 0); outlet points downwards.
+- 24 facets per quarter-circle; small documented panel-joint overlap.
+
+Generate reviewable PML and an offline geometric audit. Do not load a live
+database or Save Work without a separately established receiving scope.
+Use an open fabricated round stub; no circular flange is shown in the source.
+No receiving catalogue is specified, so do not invent a native NOZZLE/CATR.

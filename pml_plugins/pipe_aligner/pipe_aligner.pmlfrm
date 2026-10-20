@@ -1,0 +1,63 @@
+-- ====================================================================
+-- AVEVA E3D PML2 Form: Pipe Oblique Aligner (Ultra-Compact Mini UI)
+-- Form Name: !!pipeIntersectAligner
+-- Author: Antigravity
+-- Standard: 100% Pure ASCII (Mojibake-Free)
+-- ====================================================================
+
+setup form !!pipeIntersectAligner dialog
+  title 'Pipe Aligner (Mini)'
+
+  member .targetE is REAL
+  member .targetN is REAL
+  member .targetU is REAL
+  member .teeU is REAL
+  member .hDiff is REAL
+
+  -- Row 1: Main TEE
+  text .txtMainTee 'TEE:' at xmin+1 ymin+0.6 width 18 is STRING
+  button .btnTee3D '3D' at xmax+0.5 ymin width 4 callback '$M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" pickTee3D'
+  button .btnTeeCE 'CE' at xmax+0.5 ymin width 4 callback '$M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" pickTee'
+
+  -- Row 2: Branch Elbow
+  text .txtElbow 'ELB:' at xmin+1 ymax+0.35 width 18 is STRING
+  button .btnElb3D '3D' at xmax+0.5 ymin width 4 callback '$M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" pickElb3D'
+  button .btnElbCE 'CE' at xmax+0.5 ymin width 4 callback '$M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" pickElbow'
+
+  -- Row 3: Target N and Elevation Difference
+  text .txtTarget 'Target N:' at xmin+1 ymax+0.35 width 11 is STRING
+  text .txtHDiff 'dU:' at xmax+0.8 ymin width 6 is STRING
+  button .btnCalc 'Calc' at xmax+0.5 ymin width 5 callback '$M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" calcInter'
+
+  -- Row 4: One-Click Action & Close
+  button .btnAutoAll '[ ONE-CLICK ALIGN & CONNECT ]' at xmin+1 ymax+0.45 width 27 callback '$M "C:\Users\A\Desktop\PIPE_Aligin\pipe_action.mac" autoAll'
+  button .btnClose 'X' at xmax+0.5 ymin width 3 cancel
+
+  -- Row 5: Mini Status
+  text .txtStatus '' at xmin+1 ymax+0.35 width 31 is STRING
+exit
+
+define method .pipeIntersectAligner()
+  !this.targetE = 0.0
+  !this.targetN = 0.0
+  !this.targetU = 0.0
+  !this.teeU = 0.0
+  !this.hDiff = 0.0
+
+  !this.txtMainTee.val = ''
+  !this.txtElbow.val = ''
+  !this.txtTarget.val = '-'
+  !this.txtHDiff.val = '0mm'
+  !this.txtStatus.val = 'Click [3D] or [CE] to pick.'
+
+  handle ANY
+  endhandle
+  if (!!ce.set()) then
+    if (!!ce.type.eq('TEE')) then
+      !this.txtMainTee.val = !!ce.name
+      !this.teeU = !!ce.pos.up
+    elseif (!!ce.type.eq('ELBO') or !!ce.type.eq('BEND')) then
+      !this.txtElbow.val = !!ce.name
+    endif
+  endif
+endmethod

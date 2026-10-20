@@ -8,7 +8,7 @@ Pending user visual acceptance.
 r2 (`output/WSB_TA_top_handrails_20260810_r2.txt`) loaded in E3D but the user
 rejected the result:
 
-> 没有形成楼梯，放置的位置也不对；应是圆盘底座；
+> No handrail formed, wrong position; needs circular disc bases;
 
 Verbatim evidence: `../2026-08-10_top_handrails/evidence/2026-08-10_r2_user_feedback.txt`.
 
@@ -46,7 +46,7 @@ NEW SUBEQUIPMENT /205_TA_056_TOP_PLATFORM
 | 205-TA-056 | E 67030 / N 21008 | 27700 mm | 3250 mm | 3100 mm | 24 (812 mm spacing) |
 
 The platform disc closes the open top face of the roof frustum
-(`CONE DTOP 6000` / `DTOP 6500`) — the "圆盘底座" the user asked for. Each post
+(`CONE DTOP 6000` / `DTOP 6500`) — the "circular disc base" the user asked for. Each post
 stands on its own circular base plate on that disc. Top rail centreline is
 1100 mm above the platform, mid rail 550 mm (per `skill/equipment/utilities-and-structures.md`).
 The rail circle is inset 150 mm from the platform rim so the post base plates
@@ -104,7 +104,7 @@ equals the baseline with the two blocks removed.
 - `205-TA-006` does not exist in the export; `205-TA-056` is modelled as the
   intended second tank (the only other 205-series frustum-top platform tank).
   Confirm the tag.
-- If the user intended a spiral access stair (螺旋扶梯) around the tank shell
+- If the user intended a spiral access stair around the tank shell
   rather than a top platform handrail, this candidate does not cover it — say
   so in the next message and the geometry will be reworked.
 

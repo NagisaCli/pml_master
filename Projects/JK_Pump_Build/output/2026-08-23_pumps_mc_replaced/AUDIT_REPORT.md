@@ -34,7 +34,7 @@
    - Matrix: $\Delta E' = -\Delta N, \quad \Delta N' = +\Delta E, \quad \Delta U' = +\Delta U$
    - Shaft Vector: `ORI Y is U and Z is W`
 
-2. **`204_PU_028` (90° CW Rotation — 东西横躺管口朝E)**:
+2. **`204_PU_028` (90° CW Rotation — East-West Laying Nozzle Facing East)**:
    - Forward machine direction (+Shaft axis): **+E (East)**
    - Motor/Driver: West (-E)
    - Casing/Suction: East (+E)
@@ -64,7 +64,7 @@
 - Suction Nozzle: `E 15991mm N 5685mm U 622.17mm` (`ORI Y is U and Z is S`)
 - Discharge Nozzle: `E 16137mm N 5685mm U 1017.97mm` (`ORI Y is W and Z is N`)
 
-#### `/204_PU_028` (NEW — 东西横躺管口朝东 +E)
+#### `/204_PU_028` (NEW — East-West Laying Nozzle Facing East +E)
 - Baseplate Center: `E 22370mm N 6986mm U 25mm`
 - Casing Cylinder: `E 23244.9mm N 6986mm U 622.17mm` (`ORI Y is U and Z is E`)
 - Driver Cylinder: `E 21728.8mm N 6986mm U 622.17mm` (`ORI Y is U and Z is E`)

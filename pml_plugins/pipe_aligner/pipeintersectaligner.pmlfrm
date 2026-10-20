@@ -1,0 +1,402 @@
+-- ====================================================================
+-- AVEVA E3D PML2 Form: Pipe Oblique Intersection and Alignment Tool
+-- Form Name: !!pipeIntersectAligner
+-- Author: Antigravity
+-- Standard: AVEVA Everything3D PML2 / Form Definition
+-- ====================================================================
+
+setup form !!pipeIntersectAligner dialog resizable
+  title 'E3D Pipe Oblique Intersection and Alignment Tool (Pipe Oblique Aligner)'
+
+  member .targetE is REAL
+  member .targetN is REAL
+  member .targetU is REAL
+
+  -- ==================================================================
+  -- 1. Target Component Picking
+  -- ==================================================================
+  frame .fElements '1. Select Target Components' at xmin ymin
+    text .lblTee 'Main Run TEE:' at xmin+1 ymin+1 width 16
+    text .txtMainTee '' at xmax+1 ymin width 26 is STRING
+    button .btnPickTee 'Pick (CE)' at xmax+1 ymin width 11 callback '!this.pickTee()'
+
+    text .lblTeePos 'TEE Pos (POS):' at xmin+1 ymax+0.4 width 16
+    text .txtTeePos 'Unassigned' at xmax+1 ymin width 38 is STRING
+
+    text .lblElbow 'Branch ELBO:' at xmin+1 ymax+0.4 width 16
+    text .txtElbow '' at xmax+1 ymin width 26 is STRING
+    button .btnPickElbow 'Pick (CE)' at xmax+1 ymin width 11 callback '!this.pickElbow()'
+
+    text .lblElbPos 'ELBO Pos (POS):' at xmin+1 ymax+0.4 width 16
+    text .txtElbPos 'Unassigned' at xmax+1 ymin width 38 is STRING
+
+    text .lblElbLdir 'ELBO Leave Dir:' at xmin+1 ymax+0.4 width 16
+    text .txtElbLdir 'Unassigned' at xmax+1 ymin width 38 is STRING
+  exit
+
+  -- ==================================================================
+  -- 2. Orientation & Angle Configuration (Auto Detect & Manual Presets)
+  -- ==================================================================
+  frame .fDir '2. Pipeline Orientation & Oblique Angle' at xmin ymax+0.5
+    option .optMainDir 'Main Run Direction:' at xmin+1 ymin+1 width 20
+    option .optBranchDir 'Branch Direction:' at xmax+2 ymin width 26
+  exit
+
+  -- ==================================================================
+  -- 3. Geometric Analysis & Intersection Calculation
+  -- ==================================================================
+  frame .fAnalysis '3. Spatial Intersection Solver' at xmin ymax+0.5
+    text .lblHDiff 'Elev Diff (Delta U):' at xmin+1 ymin+1 width 18
+    text .txtHDiff '0.00 mm' at xmax+1 ymin width 18 is STRING
+    button .btnFixU 'Level Elevation' at xmax+2 ymin width 14 callback '!this.alignElevation()'
+
+    text .lblTarget 'Axis Intersect Target:' at xmin+1 ymax+0.4 width 18
+    text .txtTarget 'Click Calc Button' at xmax+1 ymin width 30 is STRING
+    button .btnCalc 'Calc Intersect' at xmax+2 ymin width 14 callback '!this.calcIntersection()'
+  exit
+
+  -- ==================================================================
+  -- 4. Core Alignment Actions
+  -- ==================================================================
+  frame .fActions '4. Step Execution & Auto Alignment (Actions)' at xmin ymax+0.5
+    button .btnMove '1. Move TEE to Intersect' at xmin+1 ymin+1 width 17 callback '!this.moveTeeToIntersection()'
+    button .btnOrient '2. Align Coaxial Parallel' at xmax+2 ymin width 17 callback '!this.alignOrientation()'
+    button .btnConnect '3. Connect Tail Closed' at xmax+2 ymin width 17 callback '!this.connectTail()'
+
+    button .btnAutoAll 'Auto All (Level Elev + Move TEE + Coaxial Align + Connect Tail)' at xmin+1 ymax+0.6 width 56 callback '!this.autoAll()'
+  exit
+
+  -- ==================================================================
+  -- 5. Status bar
+  -- ==================================================================
+  text .txtStatus 'Ready. Select component in 3D view or tree, then click Pick (CE).' at xmin ymax+0.4 width 60 is STRING
+  button .btnClose 'Close' at xmax-8 ymax+0.4 width 8 cancel
+exit
+
+-- ====================================================================
+-- Form Methods Implementation
+-- ====================================================================
+
+-- Constructor / Initialization
+define method .pipeIntersectAligner()
+  !this.targetE = 0.0
+  !this.targetN = 0.0
+  !this.targetU = 0.0
+
+  -- Main run direction dropdown
+  !mDirs = object ARRAY()
+  !mDirs.append('Auto Detect')
+  !mDirs.append('North (+Y)')
+  !mDirs.append('South (-Y)')
+  !mDirs.append('East (+X)')
+  !mDirs.append('West (-X)')
+  !this.optMainDir.dtext = !mDirs
+  !this.optMainDir.val = 1
+
+  -- Branch direction dropdown
+  !bDirs = object ARRAY()
+  !bDirs.append('From Elbow (Auto)')
+  !bDirs.append('W 45 N')
+  !bDirs.append('W 45 S')
+  !bDirs.append('E 45 N')
+  !bDirs.append('E 45 S')
+  !bDirs.append('West (-X)')
+  !bDirs.append('East (+X)')
+  !this.optBranchDir.dtext = !bDirs
+  !this.optBranchDir.val = 1
+
+  -- Auto detect CE
+  handle ANY
+  endhandle
+  if (!!ce.set()) then
+    if (!!ce.type.eq('TEE')) then
+      !this.txtMainTee.val = !!ce.name
+      !this.updateTeeInfo()
+    elseif (!!ce.type.eq('ELBO')) then
+      !this.txtElbow.val = !!ce.name
+      !this.updateElbowInfo()
+    endif
+  endif
+endmethod
+
+-- Pick main run TEE
+define method .pickTee()
+  handle ANY
+    !this.txtStatus.val = 'Failed to get element. Please click TEE in 3D view or tree.'
+    return
+  endhandle
+
+  if (not !!ce.set()) then
+    !this.txtStatus.val = 'No element selected! Please select main run TEE first.'
+    return
+  endif
+
+  !this.txtMainTee.val = !!ce.name
+  !this.updateTeeInfo()
+  !this.calcIntersection()
+endmethod
+
+-- Update TEE information
+define method .updateTeeInfo()
+  handle ANY
+    return
+  endhandle
+  !ref = object DBREF(!this.txtMainTee.val)
+  !pos = !ref.pos
+  !this.txtTeePos.val = 'E ' + !pos.east.string('D2') + '  N ' + !pos.north.string('D2') + '  U ' + !pos.up.string('D2')
+  !this.txtStatus.val = 'Locked main run TEE: ' + !this.txtMainTee.val
+endmethod
+
+-- Pick branch ELBO
+define method .pickElbow()
+  handle ANY
+    !this.txtStatus.val = 'Failed to get element. Please click ELBO in 3D view or tree.'
+    return
+  endhandle
+
+  if (not !!ce.set()) then
+    !this.txtStatus.val = 'No element selected! Please select branch ELBO first.'
+    return
+  endif
+
+  !this.txtElbow.val = !!ce.name
+  !this.updateElbowInfo()
+  !this.calcIntersection()
+endmethod
+
+-- Update ELBO information
+define method .updateElbowInfo()
+  handle ANY
+    return
+  endhandle
+  !ref = object DBREF(!this.txtElbow.val)
+  !pos = !ref.pos
+  !this.txtElbPos.val = 'E ' + !pos.east.string('D2') + '  N ' + !pos.north.string('D2') + '  U ' + !pos.up.string('D2')
+  !this.txtElbLdir.val = !ref.ldir.string()
+
+  -- Calculate elevation difference
+  if (not !this.txtMainTee.val.trim().eq('')) then
+    handle ANY
+    endhandle
+    !tRef = object DBREF(!this.txtMainTee.val)
+    !hDiff = !pos.up - !tRef.pos.up
+    !this.txtHDiff.val = !hDiff.string('D2') + ' mm'
+  endif
+  !this.txtStatus.val = 'Locked branch ELBO: ' + !this.txtElbow.val
+endmethod
+
+-- Action 1: Level elevation (align ELBO elevation to TEE)
+define method .alignElevation()
+  if (!this.txtMainTee.val.trim().eq('') or !this.txtElbow.val.trim().eq('')) then
+    !this.txtStatus.val = 'Please pick TEE and ELBO first!'
+    return
+  endif
+
+  handle ANY
+    !this.txtStatus.val = 'Failed to adjust elevation. Check write permissions.'
+    return
+  endhandle
+
+  !tRef = object DBREF(!this.txtMainTee.val)
+  !targetU = !tRef.pos.up
+
+  $!this.txtElbow.val
+  POS U $!targetU
+
+  !this.updateElbowInfo()
+  !this.calcIntersection()
+  !this.txtStatus.val = '[Success] ELBO elevation aligned to U ' + !targetU.string('D2') + ' mm!'
+endmethod
+
+-- Action 2: Calculate intersection line
+define method .calcIntersection()
+  if (!this.txtMainTee.val.trim().eq('') or !this.txtElbow.val.trim().eq('')) then
+    return
+  endif
+
+  handle ANY
+    !this.txtStatus.val = 'Intersection calculation failed. Verify component attributes.'
+    return
+  endhandle
+
+  !tRef = object DBREF(!this.txtMainTee.val)
+  !e1 = !tRef.pos.east
+  !n1 = !tRef.pos.north
+  !u1 = !tRef.pos.up
+
+  -- Determine main run axis
+  !optM = !this.optMainDir.val
+  if (!optM.eq(2)) then
+    !de1 = 0.0 ; !dn1 = 1.0   -- North
+  elseif (!optM.eq(3)) then
+    !de1 = 0.0 ; !dn1 = -1.0  -- South
+  elseif (!optM.eq(4)) then
+    !de1 = 1.0 ; !dn1 = 0.0   -- East
+  elseif (!optM.eq(5)) then
+    !de1 = -1.0 ; !dn1 = 0.0  -- West
+  else
+    -- Read ADIR / LDIR
+    !mDir = !tRef.adir
+    !de1 = !mDir.east
+    !dn1 = !mDir.north
+    if (!de1.abs().lt(0.001) and !dn1.abs().lt(0.001)) then
+      !mDir = !tRef.ldir
+      !de1 = !mDir.east
+      !dn1 = !mDir.north
+    endif
+    if (!de1.abs().lt(0.001) and !dn1.abs().lt(0.001)) then
+      !de1 = 0.0 ; !dn1 = 1.0 -- Default along North
+    endif
+  endif
+
+  !eRef = object DBREF(!this.txtElbow.val)
+  !e2 = !eRef.pos.east
+  !n2 = !eRef.pos.north
+  !u2 = !eRef.pos.up
+
+  -- Determine branch axis
+  !optB = !this.optBranchDir.val
+  if (!optB.eq(2)) then
+    !de2 = -0.70710678 ; !dn2 = 0.70710678  -- W 45 N
+  elseif (!optB.eq(3)) then
+    !de2 = -0.70710678 ; !dn2 = -0.70710678 -- W 45 S
+  elseif (!optB.eq(4)) then
+    !de2 = 0.70710678 ; !dn2 = 0.70710678   -- E 45 N
+  elseif (!optB.eq(5)) then
+    !de2 = 0.70710678 ; !dn2 = -0.70710678  -- E 45 S
+  elseif (!optB.eq(6)) then
+    !de2 = -1.0 ; !dn2 = 0.0                -- West
+  elseif (!optB.eq(7)) then
+    !de2 = 1.0 ; !dn2 = 0.0                 -- East
+  else
+    -- Read LDIR
+    !bDir = !eRef.ldir
+    !de2 = !bDir.east
+    !dn2 = !bDir.north
+    if (!de2.abs().lt(0.001) and !dn2.abs().lt(0.001)) then
+      !de2 = -0.70710678 ; !dn2 = 0.70710678 -- Default W 45 N
+    endif
+  endif
+
+  -- 2D intersection equations:
+  -- dE1 * t - dE2 * s = e2 - e1
+  -- dN1 * t - dN2 * s = n2 - n1
+  !det = ((0.0 - !de1) * !dn2) + (!dn1 * !de2)
+  if (!det.abs().lt(0.0001)) then
+    !this.txtTarget.val = 'Parallel or collinear, no intersection'
+    !this.txtStatus.val = 'Warning: Branch direction parallel to main run, no intersection point!'
+    return
+  endif
+
+  !deltaE = !e2 - !e1
+  !deltaN = !n2 - !n1
+
+  !t = ((!deltaN * !de2) - (!deltaE * !dn2)) / !det
+
+  !tE = !e1 + (!t * !de1)
+  !tN = !n1 + (!t * !dn1)
+  !tU = !u1
+
+  !this.targetE = !tE
+  !this.targetN = !tN
+  !this.targetU = !tU
+
+  !this.txtTarget.val = 'E ' + !tE.string('D2') + '  N ' + !tN.string('D2') + '  U ' + !tU.string('D2')
+  !this.txtStatus.val = 'Intersection solved: Target point at N ' + !tN.string('D2') + ' mm'
+endmethod
+
+-- Action 3: Move TEE to intersection
+define method .moveTeeToIntersection()
+  if (!this.txtMainTee.val.trim().eq('')) then
+    !this.txtStatus.val = 'Please pick main run TEE first!'
+    return
+  endif
+
+  !this.calcIntersection()
+  if (!this.targetE.eq(0.0) and !this.targetN.eq(0.0)) then
+    !this.txtStatus.val = 'No intersection calculated yet. Click Calc Intersect first.'
+    return
+  endif
+
+  handle ANY
+    !this.txtStatus.val = 'Failed to move TEE. Check if branch is locked.'
+    return
+  endhandle
+
+  $!this.txtMainTee.val
+  !cmd = 'POS E ' + !this.targetE.string('D2') + 'mm N ' + !this.targetN.string('D2') + 'mm U ' + !this.targetU.string('D2') + 'mm'
+  $!cmd
+
+  !this.updateTeeInfo()
+  !this.txtStatus.val = '[Success] TEE moved to intersection point!'
+endmethod
+
+-- Action 4: Align ports coaxial parallel
+define method .alignOrientation()
+  if (!this.txtMainTee.val.trim().eq('') or !this.txtElbow.val.trim().eq('')) then
+    !this.txtStatus.val = 'Please pick TEE and ELBO first!'
+    return
+  endif
+
+  handle ANY
+    !this.txtStatus.val = 'Port alignment failed. Check component connection points.'
+    return
+  endhandle
+
+  -- 1. ELBO Leave port points toward TEE
+  $!this.txtElbow.val
+  DIR LEAV TOWARDS P3 OF $!this.txtMainTee.val
+
+  -- 2. TEE P3 port points opposite to ELBO
+  $!this.txtMainTee.val
+  DIR P3 OPPOSITE TO LDIR OF $!this.txtElbow.val
+
+  !this.updateElbowInfo()
+  !this.updateTeeInfo()
+  !this.txtStatus.val = '[Success] ELBO Leave port and TEE P3 port aligned coaxially!'
+endmethod
+
+-- Action 5: Connect branch tail closed
+define method .connectTail()
+  if (!this.txtMainTee.val.trim().eq('') or !this.txtElbow.val.trim().eq('')) then
+    !this.txtStatus.val = 'Please pick TEE and ELBO first!'
+    return
+  endif
+
+  handle ANY
+    !this.txtStatus.val = 'Tail connection failed. Check bore and spec compatibility.'
+    return
+  endhandle
+
+  !eRef = object DBREF(!this.txtElbow.val)
+  !branchName = !eRef.owner.name
+
+  $!branchName
+  CONNECT TAIL TO $!this.txtMainTee.val
+
+  !this.txtStatus.val = '[Success] Branch tail connected to TEE P3 port!'
+endmethod
+
+-- Action 6: Full auto alignment and connection
+define method .autoAll()
+  if (!this.txtMainTee.val.trim().eq('') or !this.txtElbow.val.trim().eq('')) then
+    !this.txtStatus.val = 'Please pick TEE and ELBO first!'
+    return
+  endif
+
+  !this.txtStatus.val = 'Executing full auto alignment and connection...'
+
+  -- 1. Level elevation
+  !this.alignElevation()
+
+  -- 2. Calculate intersection and move TEE
+  !this.moveTeeToIntersection()
+
+  -- 3. Align port orientations
+  !this.alignOrientation()
+
+  -- 4. Connect branch tail
+  !this.connectTail()
+
+  !this.txtStatus.val = '[Completed] Elevation leveled, TEE aligned, ports coaxial, branch connected!'
+endmethod

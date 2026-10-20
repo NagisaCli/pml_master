@@ -1,0 +1,867 @@
+-- ====================================================================
+-- 203-TA-401  BS FILTRATE TANK (DDW FILTRATE TANK)
+-- ====================================================================
+-- Source: ANDRITZ 900135359 rev 0 (PRELIMINARY) + DWG nozzle modification
+-- Revision: R2 - precision rebuild: true solids, exact arc, true rafters
+-- Datum: bottom centre of the tank at E 0 N 0 U 0
+-- Azimuth: drawing 0 deg modelled as North, clockwise positive
+-- Note: drawing orientation - rotate the EQUI 180 deg about U for site
+-- Units: millimetres
+
+NEW EQUI /203_TA_401
+POS E 0.0 N 0.0 U 0.0
+DESC '203-TA-401 BS FILTRATE TANK (DDW FILTRATE TANK) | ID6000 H8000 | ANDRITZ 900135359 + DWG nozzle modification | R2'
+-- ====================================================================
+-- SHELL / BOTTOM / ROOF
+-- ====================================================================
+NEW SUBE /203_TA_401_SHELL
+-- Flat bottom plate, 60 mm proud of the shell (measured R3066.8)
+NEW CYLI
+DIAM 6133.6
+HEIG 9.5
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 4.8
+
+END
+-- Shell ID 6000 x 6.35 wall - a true hollow solid, so the internals read without hiding anything
+NEW CYLI
+DIAM 6012.7
+HEIG 8003.8
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 4001.9
+
+NEW NCYLINDER
+DIAM 6000.0
+HEIG 8007.8
+END
+END
+
+-- Shell stiffening ring at U 3500, 100 x 9.5 flat (measured 6211.4 over the shell) - a real ring, not a disc
+NEW CYLI
+DIAM 6212.0
+HEIG 9.5
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 3500.0
+
+NEW NCYLINDER
+DIAM 6012.7
+HEIG 13.5
+END
+END
+
+-- Shell stiffening ring at U 5000, 100 x 9.5 flat (measured 6211.4 over the shell) - a real ring, not a disc
+NEW CYLI
+DIAM 6212.0
+HEIG 9.5
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 5000.0
+
+NEW NCYLINDER
+DIAM 6012.7
+HEIG 13.5
+END
+END
+
+-- Shell stiffening ring at U 6500, 100 x 9.5 flat (measured 6211.4 over the shell) - a real ring, not a disc
+NEW CYLI
+DIAM 6212.0
+HEIG 9.5
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 6500.0
+
+NEW NCYLINDER
+DIAM 6012.7
+HEIG 13.5
+END
+END
+
+-- Conical roof plate, 12.0 deg (measured 11.98 deg over 2333 mm of run)
+NEW CONE
+DTOP 1305.5
+DBOT 6012.7
+HEIG 500.9
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 8254.2
+
+END
+-- Roof centre collar (measured R652.73 / R646.37)
+NEW CYLI
+DIAM 1305.5
+HEIG 200.0
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 8604.7
+
+NEW NCYLINDER
+DIAM 1292.8
+HEIG 204.0
+END
+END
+
+-- Roof centre deck plate - N8 rises from here
+NEW CYLI
+DIAM 1305.5
+HEIG 8.0
+ORI Z IS U AND Y IS N
+POS E 0.0 N 0.0 U 8708.7
+
+END
+-- Roof rafters, 8 off at 45 deg centres, 80 wide x 163 deep, R652 to R2985 on the 12 deg slope
+NEW EXTRUSION
+POS E -40.0 N -0.0 U 0.0
+ORI Y IS U AND Z IS E
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- rafter at az 45
+NEW EXTRUSION
+POS E -28.3 N 28.3 U 0.0
+ORI Y IS U AND Z IS S 45 E
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- rafter at az 90
+NEW EXTRUSION
+POS E -0.0 N 40.0 U 0.0
+ORI Y IS U AND Z IS S
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- rafter at az 135
+NEW EXTRUSION
+POS E 28.3 N 28.3 U 0.0
+ORI Y IS U AND Z IS W 45 S
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- rafter at az 180
+NEW EXTRUSION
+POS E 40.0 N -0.0 U 0.0
+ORI Y IS U AND Z IS W
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- rafter at az 225
+NEW EXTRUSION
+POS E 28.3 N -28.3 U 0.0
+ORI Y IS U AND Z IS N 45 W
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- rafter at az 270
+NEW EXTRUSION
+POS E -0.0 N -40.0 U 0.0
+ORI Y IS U AND Z IS N
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- rafter at az 315
+NEW EXTRUSION
+POS E -28.3 N -28.3 U 0.0
+ORI Y IS U AND Z IS E 45 N
+HEIG 80.0
+
+NEW LOOP
+NEW VERTEX
+POS E 651.5 N 8504.3 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8008.4 U 0
+END
+NEW VERTEX
+POS E 2984.8 N 8171.4 U 0
+END
+NEW VERTEX
+POS E 651.5 N 8667.3 U 0
+END
+END
+END
+-- ====================================================================
+-- INTERNALS - air separation cylinders, separation wall, soap launder
+-- ====================================================================
+END
+NEW SUBE /203_TA_401_INTERNALS
+-- Outer air-separation cylinder base ring (measured R1186.34)
+NEW CYLI
+DIAM 2372.7
+HEIG 12.0
+ORI Z IS U AND Y IS N
+POS E -501.9 N 0.0 U 6.0
+
+NEW NCYLINDER
+DIAM 2214.2
+HEIG 16.0
+END
+END
+
+-- Outer air-separation cylinder ID 2201.5 to U 4298; axis offset E -501.9 from the tank
+NEW CYLI
+DIAM 2214.2
+HEIG 4298.0
+ORI Z IS U AND Y IS N
+POS E -501.9 N 0.0 U 2149.0
+
+NEW NCYLINDER
+DIAM 2201.5
+HEIG 4302.0
+END
+END
+
+-- Inner air-separation (seal) cylinder ID 1502.5 to U 5105
+NEW CYLI
+DIAM 1515.2
+HEIG 5105.0
+ORI Z IS U AND Y IS N
+POS E -501.9 N 0.0 U 2552.5
+
+NEW NCYLINDER
+DIAM 1502.5
+HEIG 5109.0
+END
+END
+
+-- Radial rib between the air-separation cylinders, 4 off (measured at 90 deg centres about the cylinder axis)
+NEW BOX
+XLEN 343.1
+YLEN 10.0
+ZLEN 4298.0
+ORI Z IS U AND X IS E 54.5 N
+POS E 37.7 N 756.5 U 2149.0
+
+END
+NEW BOX
+XLEN 343.1
+YLEN 10.0
+ZLEN 4298.0
+ORI Z IS U AND X IS S 54.7 E
+POS E 256.4 N -536.9 U 2149.0
+
+END
+NEW BOX
+XLEN 343.1
+YLEN 10.0
+ZLEN 4298.0
+ORI Z IS U AND X IS W 56.2 S
+POS E -1018.8 N -772.1 U 2149.0
+
+END
+NEW BOX
+XLEN 343.1
+YLEN 10.0
+ZLEN 4298.0
+ORI Z IS U AND X IS N 55.8 W
+POS E -1270.4 N 522.3 U 2149.0
+
+END
+-- Curved separation wall to U 7800 - one RTORUS, R9000.00/9006.35 about a centre 10502.3 from the tank axis; sector 30.759 deg from bearing 149.619, both ends derived onto the shell bore
+NEW RTORUS
+RINS 9000.00
+ROUT 9006.35
+HEIG 7800.0
+ANGL 30.758596degree
+ORI Z IS U AND X IS N 59.6191 W
+POS E 10144.4 N -2718.5 U 3900.0
+END
+
+-- Soap launder floor, R2400-3000, az 264.5-339.6 (chord at R2400 = the dimensioned 2921)
+NEW RTORUS
+RINS 2400.00
+ROUT 3000.00
+HEIG 8.0
+ANGL 75.100000degree
+ORI Z IS U AND X IS N 20.4 W
+POS E 0.0 N 0.0 U 5174.0
+END
+
+-- Soap launder inner wall
+NEW RTORUS
+RINS 2392.00
+ROUT 2400.00
+HEIG 230.0
+ANGL 75.100000degree
+ORI Z IS U AND X IS N 20.4 W
+POS E 0.0 N 0.0 U 5285.0
+END
+
+-- Soap launder radial dividers and end plates (measured)
+NEW BOX
+XLEN 600.0
+YLEN 8.0
+ZLEN 230.0
+ORI Z IS U AND X IS W 5.5 S
+POS E -2687.6 N -258.8 U 5285.0
+
+END
+NEW BOX
+XLEN 600.0
+YLEN 8.0
+ZLEN 230.0
+ORI Z IS U AND X IS N 83.6 W
+POS E -2683.2 N 301.0 U 5285.0
+
+END
+NEW BOX
+XLEN 600.0
+YLEN 8.0
+ZLEN 230.0
+ORI Z IS U AND X IS N 66.9 W
+POS E -2483.5 N 1059.3 U 5285.0
+
+END
+NEW BOX
+XLEN 600.0
+YLEN 8.0
+ZLEN 230.0
+ORI Z IS U AND X IS N 50.2 W
+POS E -2074.4 N 1728.3 U 5285.0
+
+END
+NEW BOX
+XLEN 600.0
+YLEN 8.0
+ZLEN 230.0
+ORI Z IS U AND X IS N 33.5 W
+POS E -1490.2 N 2251.5 U 5285.0
+
+END
+NEW BOX
+XLEN 600.0
+YLEN 8.0
+ZLEN 230.0
+ORI Z IS U AND X IS N 20.4 W
+POS E -941.1 N 2530.7 U 5285.0
+
+END
+-- ====================================================================
+-- NOZZLES - one SUBE each (IR-8)
+-- ====================================================================
+END
+NEW SUBE /203_TA_401_N1_1
+-- N1.1 DN300 U4500 - Filtrate in - inner seal tank (2 x DN200 extraction filtrate combined); CHORD entry: pierces the shell at az 336.8, bore axis az 335.0 (walls measured 325.7 apart on a line 96.2 off the tank axis)
+NEW NOZZLE /203_TA_401_N1_1_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0WW
+POS E -1374.5 N 3171.1 U 4500.0
+ORI P1 IS N 25 W
+HEIG 450.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N1_2
+-- N1.2 DN300 U4300 az 150.4 - Filtrate in - outer tank (2 x DN150 washing filtrate combined) | MODIFIED: az 155.4 -> 150.4; flange face R3459.5, projection 453.2
+NEW NOZZLE /203_TA_401_N1_2_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0WW
+POS E 1708.8 N -3008.0 U 4300.0
+ORI P1 IS S 29.6 E
+HEIG 453.2
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N2_1
+-- N2.1 DN250 U476 az 0.0 - Pump out - rotated 180 deg | MODIFIED: az 180.0 -> 0.0; flange face R3254.1, projection 247.8
+NEW NOZZLE /203_TA_401_N2_1_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0VV
+POS E 0.0 N 3254.1 U 476.0
+ORI P1 IS N
+HEIG 247.8
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N2_2
+-- N2.2 DN300 U476 az 60.0 - Pump out to digester displacement liquor tank - rotated 30 deg CCW | MODIFIED: az 90.0 -> 60.0; flange face R3301.9, projection 295.6
+NEW NOZZLE /203_TA_401_N2_2_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0WW
+POS E 2859.5 N 1651.0 U 476.0
+ORI P1 IS E 30 N
+HEIG 295.6
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N5
+-- N5 DN80 U600 az 345.0 - Level instrument, PN40 pad flange - rotated 180 deg | MODIFIED: az 165.0 -> 345.0; flange face R3085.0, projection 78.7
+NEW NOZZLE /203_TA_401_N5_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+POS E -798.5 N 2979.9 U 600.0
+ORI P1 IS N 15 W
+HEIG 78.7
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+-- N5 reinforcing pad (PN40 pad flange, measured to R3051.8)
+NEW BOX
+XLEN 45.5
+YLEN 200.0
+ZLEN 200.0
+ORI Z IS U AND X IS N 15 W
+POS E -784.0 N 2925.9 U 600.0
+
+END
+END
+NEW SUBE /203_TA_401_N6
+-- N6 DN100 U0 az 15.0 - Drain - rotated 15 deg CCW | MODIFIED: az 30.0 -> 15.0; flange face R3301.2, projection 294.8
+NEW NOZZLE /203_TA_401_N6_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0NN
+POS E 854.4 N 3188.7 U 0.0
+ORI P1 IS E 75 N
+HEIG 294.8
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N8
+-- N8 DN300 - Vent - roof centre, vertical; neck rises from the roof deck at U 8704.7, flange face U 8809.4 (both measured)
+NEW NOZZLE /203_TA_401_N8_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0WW
+POS E 0.0 N 0.0 U 8809.4
+ORI P1 IS U
+HEIG 104.7
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N9
+-- N9 DN300 U6589 az 30.0 - Overflow outlet - vertical down off the seal box | MODIFIED: az 45.0 -> 30.0
+NEW NOZZLE /203_TA_401_N9_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0WW
+POS E 1772.1 N 3069.4 U 6589.0
+ORI P1 IS D
+HEIG 300.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N11
+-- N11 DN15 U8000 az 30.0 - Overflow water in - seal box top | MODIFIED: az 45.0 -> 30.0
+NEW NOZZLE /203_TA_401_N11_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0DD
+POS E 1611.3 N 2790.9 U 8000.0
+ORI P1 IS U
+HEIG 50.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N12
+-- N12 DN25 U6389 az 30.0 - Overflow drain - seal box bottom | MODIFIED: az 45.0 -> 30.0
+NEW NOZZLE /203_TA_401_N12_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0FF
+POS E 1611.3 N 2790.9 U 6389.0
+ORI P1 IS D
+HEIG 200.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_N13
+-- N13 DN80 U8283 az 30.0 - Overflow vent - seal box top | MODIFIED: az 45.0 -> 30.0
+NEW NOZZLE /203_TA_401_N13_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB0LL
+POS E 1772.1 N 3069.4 U 8283.0
+ORI P1 IS U
+HEIG 333.0
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+END
+NEW SUBE /203_TA_401_MW
+-- MW DN600 U700 az 270.0 - Davit-type manway ID600; flange face R3215.0, projection 208.7
+NEW NOZZLE /203_TA_401_MW_NOZZ
+CATR SPCOMPONENT /150lb_Ansi_Flanged/AAZFBB033
+POS E -3215.0 N -0.0 U 700.0
+ORI P1 IS W
+HEIG 208.7
+TEMP -100000
+PRES 0
+TPRESS 0
+DUTY unset
+END
+
+-- ====================================================================
+-- N9 OVERFLOW WATER-SEAL BOX (E-E 1:15)
+-- ====================================================================
+END
+NEW SUBE /203_TA_401_OVERFLOW
+-- Overflow seal box, 5.0 plate, U 6589-7950 (E-E total 1361); opening to the shell 250 high at U 6975
+NEW BOX
+XLEN 400.0
+YLEN 500.0
+ZLEN 1361.0
+ORI Z IS U AND X IS E 60 N
+POS E 1603.2 N 2776.8 U 7269.5
+
+NEW NBOX
+XLEN 390.0
+YLEN 490.0
+ZLEN 1351.0
+END
+END
+
+-- Overflow downcomer 323.9 x 5.0 at R3544.2 (view A '3542'), az 30.0
+NEW CYLI
+DIAM 323.9
+HEIG 1361.0
+ORI Z IS U AND Y IS N
+POS E 1772.1 N 3069.4 U 7269.5
+
+NEW NCYLINDER
+DIAM 313.9
+HEIG 1365.0
+END
+END
+
+-- ====================================================================
+-- ACCESS / EARTHING / ANCHORING
+-- ====================================================================
+END
+NEW SUBE /203_TA_401_ACCESS
+-- Inspection hatch IH: ID500 opening through a 670 curb at R1934.4 az 349.6 (roof plate U 8232); curb measured U 8189..8284
+NEW CYLI
+DIAM 670.0
+HEIG 120.0
+ORI Z IS U AND Y IS N
+POS E -349.2 N 1902.6 U 8240.0
+
+NEW NCYLINDER
+DIAM 500.0
+HEIG 124.0
+END
+END
+
+-- Inspection hatch hinged quick-lock cover with safety grating
+NEW CYLI
+DIAM 720.0
+HEIG 15.0
+ORI Z IS U AND Y IS N
+POS E -349.2 N 1902.6 U 8307.5
+
+END
+-- Tank nameplate NP at U 1200 az 290.0 (measured az 287.9..292.1 at R3144)
+NEW BOX
+XLEN 8.0
+YLEN 220.0
+ZLEN 150.0
+ORI Z IS U AND X IS N 70 W
+POS E -2954.4 N 1075.3 U 1200.0
+
+END
+END
+NEW SUBE /203_TA_401_EARTHING
+-- Grounding lugs GL, 4 off at az 10.0/100.0/190.0/280.0 (measured in views A and C-C, projecting to R3156)
+NEW BOX
+XLEN 150.0
+YLEN 60.0
+ZLEN 12.0
+ORI Z IS U AND X IS E 80 N
+POS E 535.1 N 3034.5 U 300.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 60.0
+ZLEN 12.0
+ORI Z IS U AND X IS S 80 E
+POS E 3034.5 N -535.1 U 300.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 60.0
+ZLEN 12.0
+ORI Z IS U AND X IS W 80 S
+POS E -535.1 N -3034.5 U 300.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 60.0
+ZLEN 12.0
+ORI Z IS U AND X IS N 80 W
+POS E -3034.5 N 535.1 U 300.0
+
+END
+END
+NEW SUBE /203_TA_401_SUPPORT
+-- Anchor shell pads, 6 off at az 15.0/75.0/135.0/195.0/255.0/315.0 (measured)
+NEW BOX
+XLEN 150.0
+YLEN 250.0
+ZLEN 300.0
+ORI Z IS U AND X IS E 75 N
+POS E 797.5 N 2976.4 U 850.0
+
+END
+-- Holding-down strap down to the anchor plate
+NEW BOX
+XLEN 20.0
+YLEN 150.0
+ZLEN 1000.0
+ORI Z IS U AND X IS E 75 N
+POS E 814.3 N 3039.1 U 500.0
+
+END
+-- Anchor plate 200x200x10 embedded in the foundation base (DWG FOUNDATION note: total 12 pieces)
+NEW BOX
+XLEN 200.0
+YLEN 200.0
+ZLEN 10.0
+ORI Z IS U AND X IS E 75 N
+POS E 814.3 N 3039.1 U 5.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 250.0
+ZLEN 300.0
+ORI Z IS U AND X IS E 15 N
+POS E 2976.4 N 797.5 U 850.0
+
+END
+NEW BOX
+XLEN 20.0
+YLEN 150.0
+ZLEN 1000.0
+ORI Z IS U AND X IS E 15 N
+POS E 3039.1 N 814.3 U 500.0
+
+END
+NEW BOX
+XLEN 200.0
+YLEN 200.0
+ZLEN 10.0
+ORI Z IS U AND X IS E 15 N
+POS E 3039.1 N 814.3 U 5.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 250.0
+ZLEN 300.0
+ORI Z IS U AND X IS S 45 E
+POS E 2178.8 N -2178.8 U 850.0
+
+END
+NEW BOX
+XLEN 20.0
+YLEN 150.0
+ZLEN 1000.0
+ORI Z IS U AND X IS S 45 E
+POS E 2224.8 N -2224.8 U 500.0
+
+END
+NEW BOX
+XLEN 200.0
+YLEN 200.0
+ZLEN 10.0
+ORI Z IS U AND X IS S 45 E
+POS E 2224.8 N -2224.8 U 5.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 250.0
+ZLEN 300.0
+ORI Z IS U AND X IS W 75 S
+POS E -797.5 N -2976.4 U 850.0
+
+END
+NEW BOX
+XLEN 20.0
+YLEN 150.0
+ZLEN 1000.0
+ORI Z IS U AND X IS W 75 S
+POS E -814.3 N -3039.1 U 500.0
+
+END
+NEW BOX
+XLEN 200.0
+YLEN 200.0
+ZLEN 10.0
+ORI Z IS U AND X IS W 75 S
+POS E -814.3 N -3039.1 U 5.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 250.0
+ZLEN 300.0
+ORI Z IS U AND X IS W 15 S
+POS E -2976.4 N -797.5 U 850.0
+
+END
+NEW BOX
+XLEN 20.0
+YLEN 150.0
+ZLEN 1000.0
+ORI Z IS U AND X IS W 15 S
+POS E -3039.1 N -814.3 U 500.0
+
+END
+NEW BOX
+XLEN 200.0
+YLEN 200.0
+ZLEN 10.0
+ORI Z IS U AND X IS W 15 S
+POS E -3039.1 N -814.3 U 5.0
+
+END
+NEW BOX
+XLEN 150.0
+YLEN 250.0
+ZLEN 300.0
+ORI Z IS U AND X IS N 45 W
+POS E -2178.8 N 2178.8 U 850.0
+
+END
+NEW BOX
+XLEN 20.0
+YLEN 150.0
+ZLEN 1000.0
+ORI Z IS U AND X IS N 45 W
+POS E -2224.8 N 2224.8 U 500.0
+
+END
+NEW BOX
+XLEN 200.0
+YLEN 200.0
+ZLEN 10.0
+ORI Z IS U AND X IS N 45 W
+POS E -2224.8 N 2224.8 U 5.0
+
+END
+
+-- End of macro - 1 equipment, 60 primitives.
+END
+END

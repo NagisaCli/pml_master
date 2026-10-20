@@ -237,7 +237,7 @@ class PMLValidationError(RuntimeError):
     """Raised when a generated macro violates a PML1 rule."""
 
 
-def validate_pml(script: str) -> List[str]:
+def validate_pml(script: str, *, native_templates: bool = False) -> List[str]:
     """
     Check a PML macro for syntax that would break E3D, returning one message per
     problem found. An empty list means the script passed.
@@ -248,6 +248,10 @@ def validate_pml(script: str) -> List[str]:
     2. PML2 variable assignment outside comments.
     3. ``POS`` emitted before ``ORI`` within a primitive block, which silently
        rotates the position vector and drifts the element.
+
+    ``native_templates=True`` additionally accepts source-backed two-axis
+    cardinal/quadrant orientations, checking their orthonormal frame. Default
+    generated-model conventions and all nozzle/order checks remain in force.
     """
     problems: List[str] = []
     lines = script.split("\n")
@@ -269,7 +273,7 @@ def validate_pml(script: str) -> List[str]:
     problems.extend(_check_nozzle_pos_before_ori(lines))
     problems.extend(_check_nozzle_catref_first(lines))
     problems.extend(_check_nozzle_heig_plausible(lines))
-    problems.extend(_check_element_axis_convention(lines))
+    problems.extend(_check_element_axis_convention(lines, native_templates=native_templates))
     problems.extend(_check_framework_orientation(lines))
     return problems
 
@@ -468,7 +472,7 @@ def _check_nozzle_pos_before_ori(lines: Sequence[str]) -> List[str]:
     return problems
 
 
-def _check_element_axis_convention(lines: Sequence[str]) -> List[str]:
+def _check_element_axis_convention(lines: Sequence[str], *, native_templates: bool = False) -> List[str]:
     """
     Verify each element family orients on the axis E3D actually uses.
 
@@ -499,6 +503,18 @@ def _check_element_axis_convention(lines: Sequence[str]) -> List[str]:
             block_start = lineno
             continue
         if not re.match(r"^ORI\b", line, re.IGNORECASE):
+            continue
+        if native_templates and block in {"CYLI", "CYLINDER", "CONE", "DISH", "BOX", "PYRAMID", "EXTRUSION", "CTORUS"}:
+            # Native listings legitimately put Y before Z and rotate motor
+            # fin boxes out of the horizontal plane. Preserve their axes;
+            # check the actual orthonormal frame instead of keyword order.
+            from .pml_parser import native_orientation_basis
+            try:
+                native_orientation_basis(line)
+                if not re.search(r"\bZ\s+IS\b", line, re.I):
+                    raise ValueError("Native primitive must explicitly define Z")
+            except ValueError as error:
+                problems.append(f"L{lineno}: {error}")
             continue
         if block in primitives and not re.match(
             r"^ORI\s+Z\s+IS\b", line, re.IGNORECASE

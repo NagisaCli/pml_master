@@ -1,0 +1,218 @@
+{
+  "status": "OFFLINE_GEOMETRY_PASS_NATIVE_EXECUTION_PENDING",
+  "source_sha256": "c87af66310ac7b74281ad7339f17256ee4b79985c1bbd52a8448b761fe436dc0",
+  "user_correction": "Enclose the derived/exterior platform on its three exposed sides; omit its inner-side railing.",
+  "source_external_beam_bounds_local_mm": [
+    11999.940000000002,
+    1999.9800000000032,
+    12600.019999999997,
+    8800.0
+  ],
+  "derived_platform_layout_envelope_mm": [
+    11100.0,
+    1999.9800000000032,
+    12600.019999999997,
+    8800.0
+  ],
+  "deck_surface": "User-identified existing platform; separate deck slab is not present in the received export; no deck is created.",
+  "retained_outside_change_window_mm": [
+    10000.0,
+    2150.0,
+    12700.0,
+    8750.0
+  ],
+  "all_other_R1_segments_unchanged": true,
+  "inner_open_span_north_mm": [
+    2150.0,
+    8750.0
+  ],
+  "route_points_including_closure": 39,
+  "unfilleted_route_length_mm": 70463.78000000001,
+  "rail_base_owner_elevation_mm": 9700.0,
+  "rail_heights_mm": [
+    1100,
+    550
+  ],
+  "post_spacing_mm": 1200,
+  "minimum_assumed_rail_to_above_floor_section_envelope_mm": 17.0,
+  "tight_clearance_location": "North return passes outboard of /DD4060-ACCESS-R6/P-EL2-N; source axis plus Reference Value envelope, not a native solid clash check.",
+  "reference_values_mm": {
+    "outer_edge_inset": 150,
+    "south_end_inset": 150,
+    "north_end_inset": 50,
+    "rail_envelope_radius": 40,
+    "section_envelope_radius": 125,
+    "fillet_radius": 50
+  },
+  "route_building_xy_mm": [
+    [
+      7790.0,
+      150.0
+    ],
+    [
+      7790.0,
+      990.0
+    ],
+    [
+      6810.0,
+      990.0
+    ],
+    [
+      6810.0,
+      150.0
+    ],
+    [
+      790.0,
+      150.0
+    ],
+    [
+      790.0,
+      990.0
+    ],
+    [
+      150.0,
+      990.0
+    ],
+    [
+      150.0,
+      4278.0
+    ],
+    [
+      790.01,
+      4278.0
+    ],
+    [
+      790.01,
+      7890.0
+    ],
+    [
+      150.0,
+      7890.0
+    ],
+    [
+      150.0,
+      10478.0
+    ],
+    [
+      741.84,
+      10478.0
+    ],
+    [
+      741.84,
+      11158.0
+    ],
+    [
+      150.0,
+      11158.0
+    ],
+    [
+      150.0,
+      13810.0
+    ],
+    [
+      1141.84,
+      13810.0
+    ],
+    [
+      1141.84,
+      14990.0
+    ],
+    [
+      150.0,
+      14990.0
+    ],
+    [
+      150.0,
+      17550.0
+    ],
+    [
+      7450.0,
+      17550.0
+    ],
+    [
+      7450.0,
+      14990.0
+    ],
+    [
+      6461.84,
+      14990.0
+    ],
+    [
+      6461.84,
+      13810.0
+    ],
+    [
+      7789.98,
+      13810.0
+    ],
+    [
+      7789.98,
+      14650.0
+    ],
+    [
+      9701.84,
+      14650.0
+    ],
+    [
+      9701.84,
+      11958.0
+    ],
+    [
+      10950.0,
+      11958.0
+    ],
+    [
+      10950.0,
+      8908.0
+    ],
+    [
+      10309.98,
+      8908.0
+    ],
+    [
+      10309.98,
+      8750.0
+    ],
+    [
+      12450.02,
+      8750.0
+    ],
+    [
+      12450.02,
+      2150.0
+    ],
+    [
+      10950.0,
+      2150.0
+    ],
+    [
+      10950.0,
+      1308.0
+    ],
+    [
+      9701.84,
+      1308.0
+    ],
+    [
+      9701.84,
+      150.0
+    ],
+    [
+      7790.0,
+      150.0
+    ]
+  ],
+  "patch": {
+    "existing_points_repositioned": 37,
+    "points_appended": 2,
+    "deletions": 0,
+    "receiving_host_execution": "PENDING; requires the exact original R1 with 37 points"
+  },
+  "open_acceptance": [
+    "Verify screenshot-to-source exterior-platform identification",
+    "Native patch navigation and full-macro loading",
+    "Actual catalogue clearance, corner posts, embed interfaces and end anchorage",
+    "Platform surface/extent in the live model; source exports only its outboard beam",
+    "Visual acceptance, Save Work and reopen persistence"
+  ]
+}

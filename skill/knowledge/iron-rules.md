@@ -356,8 +356,10 @@ generation at scale, **not** the convention to follow for real equipment.
    creates a massive hemispherical bulge.
 2. Correct uses of `DISH`: vessel heads, end covers, digester top/bottom
    closures, storage chest domes.
-3. For surface subdivision use small `BOX` / `CYLI` slices arrayed along the
-   curve — never a single giant `DISH`.
+3. For surface subdivision choose suitable slices or thin triangular
+   `EXTRUSION` panels along the curve — never a single giant `DISH`. The
+   [composite-surface guidance](detail-and-composite-surfaces.md) describes
+   panel frames, end-plane placement and joint checks (RECOMMENDED practice).
 
 ---
 

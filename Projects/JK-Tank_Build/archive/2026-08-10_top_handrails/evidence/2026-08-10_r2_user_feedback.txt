@@ -4,4 +4,4 @@ Context: user loaded r2 after the F-21 (Cannot create STRU at this level) fix.
 
 User statement, verbatim (Chinese):
 
-保存，并不对，明天继续；没有形成楼梯，放置的位置也不对；应是圆盘底座；
+Save, not correct, continue tomorrow; no handrail formed, wrong position; needs circular disc bases;
